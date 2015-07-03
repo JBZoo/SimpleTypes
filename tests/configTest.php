@@ -14,8 +14,8 @@ class configTest extends PHPUnit
 
     function testEmptyValid()
     {
-        $money = new Money('1 usd', new ConfigTestEmpty());
-        $this->assertEquals('1 usd', $money->dump(false));
+        $money = new Money('1 i', new ConfigTestEmpty());
+        $this->assertEquals('1 i', $money->dump(false));
     }
 
     function testRegisterDefault()
