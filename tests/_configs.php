@@ -7,12 +7,12 @@ require_once realpath(__DIR__ . '/../src/autoload.php');
 
 class ConfigTestEmpty extends Config
 {
-    public $default = 'usd';
-    public $debug = true;
+    public $default = 'i';
+    public $debug = false;
 
     public function getRules()
     {
-        return array('usd' => []);
+        return array('i' => []);
     }
 }
 
