@@ -10,7 +10,6 @@ before_script:
 
 script:
   phpunit --configuration phpunit.xml --coverage-text
-  bin/atoum --test-all
 
 notifications:
   email: false
