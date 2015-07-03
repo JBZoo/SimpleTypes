@@ -1,0 +1,34 @@
+{
+    "name"       : "SmetDenis/SimpleTypes",
+    "type"       : "library",
+    "description": "The universal PHP library to convert any values and measures",
+    "license"    : "GPL v2",
+    "keywords"   : [
+        "converter",
+        "acceleration",
+        "area",
+        "degree",
+        "info",
+        "length",
+        "money",
+        "number",
+        "pressure",
+        "speed",
+        "temp",
+        "time",
+        "volume",
+        "weight"
+    ],
+    "authors"    : [
+        {
+            "name" : "SmetDenis",
+            "email": "admin@jbzoo.com"
+        }
+    ],
+    "require"    : {
+        "php": ">=5.4.1"
+    },
+    "autoload"   : {
+        "files": ["src/autoload.php"]
+    }
+}
