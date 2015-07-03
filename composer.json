@@ -1,5 +1,5 @@
 {
-    "name"       : "SmetDenis/SimpleTypes",
+    "name"       : "smetdenis/simpletypes",
     "type"       : "library",
     "description": "The universal PHP library to convert any values and measures",
     "license"    : "GPL v2",
