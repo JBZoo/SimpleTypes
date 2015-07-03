@@ -28,7 +28,15 @@
     "require"    : {
         "php": ">=5.4.1"
     },
+    "require-dev": {
+        "phpunit/phpunit"          : "4.7.*",
+        "satooshi/php-coveralls"   : "dev-master",
+        "squizlabs/php_codesniffer": "2.*"
+    },
     "autoload"   : {
         "files": ["src/autoload.php"]
+    },
+    "support"    : {
+        "issues": "https://github.com/smetdenis/SimpleTypes/issues"
     }
 }
