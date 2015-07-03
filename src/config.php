@@ -33,6 +33,22 @@ class Config
     public $isDebug = false;
 
     /**
+     * Popular params for most measures
+     * @var array
+     */
+    protected $_defaultParams = array(
+        'simbol'          => '',
+        'round_type'      => Formatter::ROUND_CLASSIC,
+        'round_value'     => Formatter::ROUND_DEFAULT,
+        'num_decimals'    => '2',
+        'decimal_sep'     => '.',
+        'thousands_sep'   => ' ',
+        'format_positive' => '%v %s',
+        'format_negative' => '-%v %s',
+        'rate'            => 1,
+    );
+
+    /**
      * @var array
      */
     static protected $_configs = array();
