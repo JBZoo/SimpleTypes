@@ -31,7 +31,7 @@ class typeTest extends PHPUnit
      * @return Type
      * @throws Exception
      */
-    protected function val($arg = null)
+    public function val($arg = null)
     {
         $configName = $this->_ns . 'Config' . ucfirst($this->_type);
         $className  = $this->_ns . $this->_type;
