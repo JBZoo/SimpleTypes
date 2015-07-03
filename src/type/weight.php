@@ -2,11 +2,11 @@
 /**
  * SimpleTypes
  *
- * Copyright (c) 2015, Denis Smetannikov <smet.denis@gmail.com>.
+ * Copyright (c) 2015, Denis Smetannikov <denis@jbzoo.com>.
  *
  * @package    SimpleTypes
- * @author     Denis Smetannikov <smet.denis@gmail.com>
- * @copyright  2015 Denis Smetannikov <smet.denis@gmail.com>
+ * @author     Denis Smetannikov <denis@jbzoo.com>
+ * @copyright  2015 Denis Smetannikov <denis@jbzoo.com>
  * @license    http://www.gnu.org/licenses/gpl.html GNU/GPL
  * @link       http://github.com/smetdenis/simpletypes
  */
