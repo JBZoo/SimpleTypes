@@ -13,8 +13,6 @@
 
 namespace SmetDenis\SimpleTypes;
 
-require_once 'config.example.php';
-
 /**
  * Class PHPUnit
  * @package SmetDenis\SimpleTypes
@@ -27,7 +25,7 @@ class PHPUnit extends \PHPUnit_Framework_TestCase
      */
     protected function _($arg = null)
     {
-        Config::registerDefault('money', new ConfigExample());
+        Config::registerDefault('money', new ConfigMoney());
 
         return new Money($arg);
     }
