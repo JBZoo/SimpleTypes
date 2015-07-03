@@ -8,7 +8,7 @@ require_once realpath(__DIR__ . '/../src/autoload.php');
 class ConfigTestEmpty extends Config
 {
     public $default = 'i';
-    public $debug = false;
+    public $isDebug = false;
 
     public function getRules()
     {
@@ -19,13 +19,23 @@ class ConfigTestEmpty extends Config
 class ConfigTestWeight extends Config
 {
     public $default = 'gram';
-    public $debug = true;
+    public $isDebug = true;
 
     public function getRules()
     {
         return array(
-            'kg'   => array('rate' => 1000),
-            'gram' => array('rate' => 1)
+            'kg'   => array('rate' => function ($value, $to) {
+
+                if ($to == 'gram') {
+                    return $value * 1000;
+                }
+
+                return $value / 1000;
+            }),
+
+            'gram' => array('rate' => function ($value) {
+                return $value;
+            })
         );
     }
 }
@@ -33,7 +43,7 @@ class ConfigTestWeight extends Config
 class ConfigTestInfo extends Config
 {
     public $default = 'byte';
-    public $debug = true;
+    public $isDebug = true;
 
     public function getRules()
     {
