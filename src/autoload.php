@@ -37,6 +37,10 @@ spl_autoload_register(
                 'time'         => 'type/time.php',
                 'volume'       => 'type/volume.php',
                 'weight'       => 'type/weight.php',
+
+                'configmoney'  => 'config/money.php',
+                'configinfo'   => 'config/info.php',
+                'configtemp'   => 'config/temp.php',
             );
         }
 
