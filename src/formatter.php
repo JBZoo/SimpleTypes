@@ -52,7 +52,7 @@ class Formatter
     protected $_type = null;
 
     /**
-     * @param array $rules
+     * @param array  $rules
      * @param string $type
      */
     public function __construct(array $rules = array(), $type = null)
@@ -96,7 +96,7 @@ class Formatter
     }
 
     /**
-     * @param float $value
+     * @param float  $value
      * @param string $rule
      * @return string
      * @throws Exception
@@ -112,7 +112,7 @@ class Formatter
     }
 
     /**
-     * @param float $value
+     * @param float  $value
      * @param string $rule
      * @return string
      */
@@ -199,10 +199,10 @@ class Formatter
     }
 
     /**
-     * @param $value
-     * @param $rule
+     * @param          $value
+     * @param          $rule
      * @param null|int $roundValue
-     * @param bool $roundType
+     * @param bool     $roundType
      * @return float
      * @throws Exception
      */
@@ -243,7 +243,7 @@ class Formatter
 
     /**
      * Convert value to money format from config
-     * @param float $value
+     * @param float  $value
      * @param string $rule
      * @return float
      */
@@ -266,7 +266,7 @@ class Formatter
 
     /**
      * @param string $rule
-     * @param array $newFormat
+     * @param array  $newFormat
      */
     public function changeRule($rule, array $newFormat)
     {
@@ -277,7 +277,7 @@ class Formatter
 
     /**
      * @param string $rule
-     * @param array $newFormat
+     * @param array  $newFormat
      * @throws Exception
      */
     public function addRule($rule, array $newFormat = array())

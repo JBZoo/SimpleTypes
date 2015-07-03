@@ -42,7 +42,7 @@ class Parser
 
     /**
      * @param string $default
-     * @param array $ruleList
+     * @param array  $ruleList
      */
     function __construct($default = '', array $ruleList)
     {
@@ -51,7 +51,7 @@ class Parser
     }
 
     /**
-     * @param mixed $data
+     * @param mixed  $data
      * @param string $forceRule
      * @return array
      * @throws Exception
