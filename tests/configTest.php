@@ -4,15 +4,14 @@
  *
  * Copyright (c) 2015, Denis Smetannikov <denis@jbzoo.com>.
  *
- * @package    SimpleTypes
- * @author     Denis Smetannikov <denis@jbzoo.com>
- * @copyright  2015 Denis Smetannikov <denis@jbzoo.com>
- * @license    http://www.gnu.org/licenses/gpl.html GNU/GPL
- * @link       http://github.com/smetdenis/simpletypes
+ * @package   SimpleTypes
+ * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @copyright 2015 Denis Smetannikov <denis@jbzoo.com>
+ * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL
+ * @link      http://github.com/smetdenis/simpletypes
  */
 
 namespace SmetDenis\SimpleTypes;
-
 
 /**
  * Class configTest
@@ -21,18 +20,18 @@ namespace SmetDenis\SimpleTypes;
 class configTest extends PHPUnit
 {
 
-    function testEmptyValid()
+    public function testEmptyValid()
     {
         $money = new Money('1 i', new ConfigTestEmpty());
         $this->assertEquals('1 i', $money->dump(false));
     }
 
-    function testRegisterDefault()
+    public function testRegisterDefault()
     {
         Config::registerDefault('weight', new ConfigTestWeight());
         Config::registerDefault('info', new ConfigTestInfo());
 
-        $this->_batchEquals(array(
+        $this->batchEquals(array(
             // weight
             ['1 gram', (new Weight('1gram'))->dump(false)],
             ['1000 gram', (new Weight('1kg'))->convert('gram')->dump(false)],
@@ -42,6 +41,4 @@ class configTest extends PHPUnit
             ['1 kb', (new Info('1024byte'))->convert('kb')->dump(false)],
         ));
     }
-
-
 }

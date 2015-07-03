@@ -4,11 +4,11 @@
  *
  * Copyright (c) 2015, Denis Smetannikov <denis@jbzoo.com>.
  *
- * @package    SimpleTypes
- * @author     Denis Smetannikov <denis@jbzoo.com>
- * @copyright  2015 Denis Smetannikov <denis@jbzoo.com>
- * @license    http://www.gnu.org/licenses/gpl.html GNU/GPL
- * @link       http://github.com/smetdenis/simpletypes
+ * @package   SimpleTypes
+ * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @copyright 2015 Denis Smetannikov <denis@jbzoo.com>
+ * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL
+ * @link      http://github.com/smetdenis/simpletypes
  */
 
 namespace SmetDenis\SimpleTypes;
@@ -19,7 +19,6 @@ namespace SmetDenis\SimpleTypes;
  */
 class Formatter
 {
-
     const ROUND_DEFAULT = 8;
     const ROUND_NONE    = 'none';
     const ROUND_CEIL    = 'ceil';
@@ -29,7 +28,7 @@ class Formatter
     /**
      * @var array
      */
-    protected $_default = array(
+    protected $default = array(
         'symbol'          => '',
         'round_type'      => self::ROUND_NONE,
         'round_value'     => self::ROUND_DEFAULT,
@@ -44,12 +43,12 @@ class Formatter
     /**
      * @var array
      */
-    protected $_rules = array();
+    protected $rules = array();
 
     /**
      * @var array
      */
-    protected $_type = null;
+    protected $type = null;
 
     /**
      * @param array  $rules
@@ -57,14 +56,13 @@ class Formatter
      */
     public function __construct(array $rules = array(), $type = null)
     {
-        // prepare rules
-        $this->_rules = array_change_key_case((array)$rules, CASE_LOWER);
-        foreach ($this->_rules as $name => $rule) {
-            $this->_rules[$name] = array_merge($this->_default, $rule);
-        }
+        $this->type = $type;
 
-        // set type
-        $this->_type = $type;
+        // prepare rules
+        $this->rules = array_change_key_case((array)$rules, CASE_LOWER);
+        foreach ($this->rules as $name => $rule) {
+            $this->rules[$name] = array_merge($this->default, $rule);
+        }
     }
 
     /**
@@ -74,8 +72,8 @@ class Formatter
      */
     public function get($rule)
     {
-        if (isset($this->_rules[$rule])) {
-            return (array)$this->_rules[$rule];
+        if (isset($this->rules[$rule])) {
+            return (array)$this->rules[$rule];
         }
 
         throw new Exception('Undefined rule: "' . $rule . '"');
@@ -88,11 +86,11 @@ class Formatter
     public function getList($keysOnly = false)
     {
         if ($keysOnly) {
-            $keys = array_keys($this->_rules);
+            $keys = array_keys($this->rules);
             return array_combine($keys, $keys);
         }
 
-        return $this->_rules;
+        return $this->rules;
     }
 
     /**
@@ -103,7 +101,7 @@ class Formatter
      */
     public function text($value, $rule)
     {
-        $data  = $this->_format($value, $rule);
+        $data  = $this->format($value, $rule);
         $rData = $this->get($rule);
 
         $result = str_replace(array('%v', '%s'), array($data['value'], $rData['symbol']), $data['template']);
@@ -118,7 +116,7 @@ class Formatter
      */
     public function noStyle($value, $rule)
     {
-        $data = $this->_format($value, $rule);
+        $data = $this->format($value, $rule);
 
         $result = str_replace(array('%v', '%s'), array($data['value'], ''), $data['template']);
         $result = trim($result);
@@ -126,58 +124,83 @@ class Formatter
         return $result;
     }
 
+    /**
+     * @param float  $value
+     * @param string $rule
+     * @param int    $id
+     * @param float  $origValue
+     * @param string $origRule
+     * @return string
+     * @throws Exception
+     */
     public function html($value, $rule, $id, $origValue, $origRule)
     {
-        $data  = $this->_format($value, $rule);
+        $data  = $this->format($value, $rule);
         $rData = $this->get($rule);
 
-        $result = str_replace(array('%v', '%s'), array(
-            '<span class="simpleType-value">' . $data['value'] . "</span>",
-            '<span class="simpleType-symbol">' . $rData['symbol'] . "</span>",
-        ), $data['template']);
+        $result = str_replace(
+            array('%v', '%s'),
+            array(
+                '<span class="simpleType-value">' . $data['value'] . "</span>",
+                '<span class="simpleType-symbol">' . $rData['symbol'] . "</span>",
+            ),
+            $data['template']
+        );
 
-        $result = '<span ' . $this->_htmlAttributes(array(
+        return '<span ' . $this->htmlAttributes(
+            array(
                 'class'                      => array(
                     'simpleType',
                     'simpleType-block',
-                    'simpleType-' . $this->_type,
+                    'simpleType-' . $this->type,
                 ),
                 'data-simpleType-id'         => $id,
                 'data-simpleType-value'      => $value,
                 'data-simpleType-rule'       => $rule,
                 'data-simpleType-orig-value' => $origValue,
                 'data-simpleType-orig-rule'  => $origRule,
-            )) . '>' . $result . '</span>';
-
-        return $result;
+            )
+        ) . '>' . $result . '</span>';
     }
 
+    /**
+     * @param float  $value
+     * @param string $rule
+     * @param int    $id
+     * @param float  $origValue
+     * @param string $origRule
+     * @param string $inputName
+     * @param bool   $formatted
+     * @return string
+     */
     public function htmlInput($value, $rule, $id, $origValue, $origRule, $inputName, $formatted)
     {
         $inputValue = $formatted ? $this->text($value, $rule) : $this->noStyle($value, $rule);
 
-        return '<input ' . $this->_htmlAttributes(array(
-            'value'                      => $inputValue,
-            'name'                       => $inputName,
-            'type'                       => 'text',
-            'class'                      => array(
-                'simpleType',
-                'simpleType-' . $this->_type,
-                'simpleType-input'
-            ),
-            'data-simpleType-id'         => $id,
-            'data-simpleType-value'      => $value,
-            'data-simpleType-rule'       => $rule,
-            'data-simpleType-orig-value' => $origValue,
-            'data-simpleType-orig-rule'  => $origRule,
-        )) . ' />';
+        return '<input ' . $this->htmlAttributes(
+            array(
+                'value'                      => $inputValue,
+                'name'                       => $inputName,
+                'type'                       => 'text',
+                'class'                      => array(
+                    'simpleType',
+                    'simpleType-' . $this->type,
+                    'simpleType-input'
+                ),
+                'data-simpleType-id'         => $id,
+                'data-simpleType-value'      => $value,
+                'data-simpleType-rule'       => $rule,
+                'data-simpleType-orig-value' => $origValue,
+                'data-simpleType-orig-rule'  => $origRule,
+            )
+        ) . ' />';
     }
 
     /**
-     * @param $attributes
-     * @return mixed
+     * @param array $attributes
+     * @return string
      */
-    protected function _htmlAttributes($attributes)
+    public function htmlAttributes($attributes)
     {
         $result = '';
 
@@ -186,7 +209,6 @@ class Formatter
 
         } elseif (!empty($attributes)) {
             foreach ($attributes as $key => $param) {
-
                 $param = (array)$param;
                 $value = implode(' ', $param);
                 $value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
@@ -199,8 +221,8 @@ class Formatter
     }
 
     /**
-     * @param          $value
-     * @param          $rule
+     * @param float    $value
+     * @param string   $rule
      * @param null|int $roundValue
      * @param bool     $roundType
      * @return float
@@ -231,7 +253,7 @@ class Formatter
             $base  = pow(10, $roundValue);
             $value = floor($value * $base) / $base;
 
-        } else if (self::ROUND_NONE == $roundType) {
+        } elseif (self::ROUND_NONE == $roundType) {
             $value = round($value, Formatter::ROUND_DEFAULT); // hack, because 123.400000001 !== 123.4
 
         } else {
@@ -245,17 +267,23 @@ class Formatter
      * Convert value to money format from config
      * @param float  $value
      * @param string $rule
-     * @return float
+     * @return array
      */
-    protected function _format($value, $rule)
+    protected function format($value, $rule)
     {
         $format = (array)$this->get($rule);
         $value  = !empty($value) ? $value : 0.0;
 
         $roundedValue = $this->round($value, $rule);
         $isPositive   = ($value >= 0);
-        $valueStr     = number_format(abs($roundedValue), $format['num_decimals'], $format['decimal_sep'], $format['thousands_sep']);
-        $template     = ($isPositive) ? $format['format_positive'] : $format['format_negative'];
+        $valueStr     = number_format(
+            abs($roundedValue),
+            $format['num_decimals'],
+            $format['decimal_sep'],
+            $format['thousands_sep']
+        );
+
+        $template = ($isPositive) ? $format['format_positive'] : $format['format_negative'];
 
         return array(
             'value'      => $valueStr,
@@ -272,7 +300,7 @@ class Formatter
     {
         $oldFormat = $this->get($rule);
 
-        $this->_rules[$rule] = array_merge($oldFormat, (array)$newFormat);
+        $this->rules[$rule] = array_merge($oldFormat, (array)$newFormat);
     }
 
     /**
@@ -286,11 +314,11 @@ class Formatter
             throw new Exception('Empty rule name');
         }
 
-        if (isset($this->_rules[$rule])) {
+        if (isset($this->rules[$rule])) {
             throw new Exception('Format "' . $rule . '" already exists');
         }
 
-        $this->_rules[$rule] = array_merge($this->_default, (array)$newFormat);
+        $this->rules[$rule] = array_merge($this->default, (array)$newFormat);
     }
 
     /**
@@ -298,10 +326,8 @@ class Formatter
      */
     public function removeRule($rule)
     {
-        if (isset($this->_rules[$rule])) {
-            unset($this->_rules[$rule]);
+        if (isset($this->rules[$rule])) {
+            unset($this->rules[$rule]);
         }
     }
-
-
 }

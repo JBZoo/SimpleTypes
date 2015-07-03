@@ -4,15 +4,14 @@
  *
  * Copyright (c) 2015, Denis Smetannikov <denis@jbzoo.com>.
  *
- * @package    SimpleTypes
- * @author     Denis Smetannikov <denis@jbzoo.com>
- * @copyright  2015 Denis Smetannikov <denis@jbzoo.com>
- * @license    http://www.gnu.org/licenses/gpl.html GNU/GPL
- * @link       http://github.com/smetdenis/simpletypes
+ * @package   SimpleTypes
+ * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @copyright 2015 Denis Smetannikov <denis@jbzoo.com>
+ * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL
+ * @link      http://github.com/smetdenis/simpletypes
  */
 
 namespace SmetDenis\SimpleTypes;
-
 
 /**
  * Class ConfigTemp
@@ -23,12 +22,16 @@ class ConfigTemp extends Config
     public $default = 'k';
     public $isDebug = true;
 
+    /**
+     * List of rules
+     * @return array
+     */
     public function getRules()
     {
         return array(
 
             // Celsius
-            'C' => array_merge($this->_defaultParams, array(
+            'C' => array_merge($this->defaultParams, array(
                 'symbol' => '°C',
                 'rate'   => function ($value, $to) {
 
@@ -43,7 +46,7 @@ class ConfigTemp extends Config
             )),
 
             // Fahrenheit
-            'F' => array_merge($this->_defaultParams, array(
+            'F' => array_merge($this->defaultParams, array(
                 'symbol' => '°F',
                 'rate'   => function ($value, $to) {
 
@@ -58,7 +61,7 @@ class ConfigTemp extends Config
             )),
 
             // Rankine
-            'R' => array_merge($this->_defaultParams, array(
+            'R' => array_merge($this->defaultParams, array(
                 'symbol' => '°R',
                 'rate'   => function ($value, $to) {
 
@@ -73,14 +76,12 @@ class ConfigTemp extends Config
             )),
 
             // Kelvin
-            'K' => array_merge($this->_defaultParams, array(
+            'K' => array_merge($this->defaultParams, array(
                 'symbol' => 'K',
                 'rate'   => function ($value) {
                     return $value;
                 },
             )),
         );
-
     }
-
 }

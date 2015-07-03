@@ -4,15 +4,14 @@
  *
  * Copyright (c) 2015, Denis Smetannikov <denis@jbzoo.com>.
  *
- * @package    SimpleTypes
- * @author     Denis Smetannikov <denis@jbzoo.com>
- * @copyright  2015 Denis Smetannikov <denis@jbzoo.com>
- * @license    http://www.gnu.org/licenses/gpl.html GNU/GPL
- * @link       http://github.com/smetdenis/simpletypes
+ * @package   SimpleTypes
+ * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @copyright 2015 Denis Smetannikov <denis@jbzoo.com>
+ * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL
+ * @link      http://github.com/smetdenis/simpletypes
  */
 
 namespace SmetDenis\SimpleTypes;
-
 
 /**
  * Class formatterTest
@@ -21,19 +20,19 @@ namespace SmetDenis\SimpleTypes;
 class formatterTest extends PHPUnit
 {
 
-    function testChange()
+    public function testChange()
     {
-        $val1 = $this->_('50000.789 usd');
+        $val1 = $this->val('50000.789 usd');
 
-        $this->_batchEquals(array(
+        $this->batchEquals(array(
             ['$50 000.79', $val1->text()],
             ['50 000.79$', $val1->changeRule('usd', array('format_positive' => '%v%s'))->text()],
         ));
     }
 
-    function testAdd()
+    public function testAdd()
     {
-        $val = $this->_('50000 usd');
+        $val = $this->val('50000 usd');
 
         $val->addRule('qwe', array(
             'symbol'          => 'Q',
@@ -52,17 +51,17 @@ class formatterTest extends PHPUnit
     /**
      * @expectedException \SmetDenis\SimpleTypes\Exception
      */
-    function testRemove()
+    public function testRemove()
     {
-        $this->_('50000 usd')
+        $this->val('50000 usd')
             ->removeRule('rub')
             ->convert('rub'); // Exception!
     }
 
-    function testDependenceChanges()
+    public function testDependenceChanges()
     {
-        $val1 = $this->_('usd')->changeRule('usd', array('format_positive' => '%v%s'));
-        $val2 = $this->_('usd');
+        $val1 = $this->val('usd')->changeRule('usd', array('format_positive' => '%v%s'));
+        $val2 = $this->val('usd');
 
         $this->assertEquals('0.00$', $val1->text());
         $this->assertEquals('$0.00', $val2->text());
@@ -71,15 +70,15 @@ class formatterTest extends PHPUnit
     /**
      * @expectedException \SmetDenis\SimpleTypes\Exception
      */
-    function testDependenceAdd()
+    public function testDependenceAdd()
     {
-        $this->_('1 usd')->addRule('qwe', array())->convert('qwe');
-        $this->_('1 usd')->convert('qwe');
+        $this->val('1 usd')->addRule('qwe', array())->convert('qwe');
+        $this->val('1 usd')->convert('qwe');
     }
 
-    function testDependenceRemove()
+    public function testDependenceRemove()
     {
-        $this->_('1 usd')->removeRule('rub');
-        $this->assertEquals('25 rub', $this->_('1 usd')->convert('rub')->dump(false));
+        $this->val('1 usd')->removeRule('rub');
+        $this->assertEquals('25 rub', $this->val('1 usd')->convert('rub')->dump(false));
     }
 }

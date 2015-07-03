@@ -4,15 +4,14 @@
  *
  * Copyright (c) 2015, Denis Smetannikov <denis@jbzoo.com>.
  *
- * @package    SimpleTypes
- * @author     Denis Smetannikov <denis@jbzoo.com>
- * @copyright  2015 Denis Smetannikov <denis@jbzoo.com>
- * @license    http://www.gnu.org/licenses/gpl.html GNU/GPL
- * @link       http://github.com/smetdenis/simpletypes
+ * @package   SimpleTypes
+ * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @copyright 2015 Denis Smetannikov <denis@jbzoo.com>
+ * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL
+ * @link      http://github.com/smetdenis/simpletypes
  */
 
 namespace SmetDenis\SimpleTypes;
-
 
 /**
  * Class magicTest
@@ -21,58 +20,57 @@ namespace SmetDenis\SimpleTypes;
 class magicTest extends PHPUnit
 {
 
-    function testSerializing()
+    public function testSerializing()
     {
-        $valBefore = $this->_('500 usd');
+        $valBefore = $this->val('500 usd');
         $valString = serialize($valBefore);
         $valAfter  = unserialize($valString)->convert('eur');
 
-        $this->_batchEquals(array(
+        $this->batchEquals(array(
             ['500 usd', $valBefore->dump(false)],
             ['250 eur', $valAfter->dump(false)],
             [true, $valBefore->compare($valAfter)],
         ));
-
     }
 
-    function testClone()
+    public function testClone()
     {
-        $original = $this->_('500 usd');
+        $original = $this->val('500 usd');
         $clone    = clone $original;
         $clone->convert('eur');
 
-        $this->_batchEquals(array(
+        $this->batchEquals(array(
             ['500 usd', $original->dump(false)],
             ['250 eur', $clone->dump(false)],
             [true, $original->compare($clone)],
         ));
     }
 
-    function testString()
+    public function testString()
     {
-        $val = $this->_('500 usd');
+        $val = $this->val('500 usd');
 
-        $this->_batchEquals(array(
+        $this->batchEquals(array(
             ['$500.00', (string)$val],
             ['$500.00', '' . $val],
             ['$500.00', $val->__toString()],
         ));
     }
 
-    function testGet()
+    public function testGet()
     {
-        $val = $this->_('500 usd');
+        $val = $this->val('500 usd');
 
-        $this->_batchEquals(array(
+        $this->batchEquals(array(
             [null, $val->someUndefinedProp],
             [500.0, $val->value],
             ['usd', $val->rule],
         ));
     }
 
-    function testSet()
+    public function testSet()
     {
-        $val = $this->_('500 usd');
+        $val = $this->val('500 usd');
 
         $val->someUndefined = 100;
         $this->assertEquals('500 usd', $val->dump(false));
@@ -90,41 +88,39 @@ class magicTest extends PHPUnit
         $this->assertEquals('2 eur', $val->dump(false));
     }
 
-    function testCall()
+    public function testCall()
     {
-        $val = $this->_('1 eur');
+        $val = $this->val('1 eur');
         $this->assertEquals($val->val('rub'), $val->value('rub'));
     }
 
-    function testInvoke()
+    public function testInvoke()
     {
-        $val = $this->_('1 eur');
+        $val = $this->val('1 eur');
 
-        $this->_batchEquals(array(
+        $this->batchEquals(array(
             ['2 usd', $val('usd')->dump(false)],
             ['50 eur', $val('50')->dump(false)],
             ['100 rub', $val('100 rub')->dump(false)],
             ['100 uah', $val('100', 'uah')->dump(false)],
         ));
-
     }
 
     /**
      * @expectedException \SmetDenis\SimpleTypes\Exception
      */
-    function testInvokeErrorNoArgs()
+    public function testInvokeErrorNoArgs()
     {
-        $val = $this->_('1 eur');
+        $val = $this->val('1 eur');
         $val();
     }
 
     /**
      * @expectedException \SmetDenis\SimpleTypes\Exception
      */
-    function testInvokeErrorTooManyArgs()
+    public function testInvokeErrorTooManyArgs()
     {
-        $val = $this->_('1 eur');
+        $val = $this->val('1 eur');
         $val(1, 2, 3);
     }
-
 }

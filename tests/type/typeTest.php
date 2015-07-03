@@ -4,15 +4,14 @@
  *
  * Copyright (c) 2015, Denis Smetannikov <denis@jbzoo.com>.
  *
- * @package    SimpleTypes
- * @author     Denis Smetannikov <denis@jbzoo.com>
- * @copyright  2015 Denis Smetannikov <denis@jbzoo.com>
- * @license    http://www.gnu.org/licenses/gpl.html GNU/GPL
- * @link       http://github.com/smetdenis/simpletypes
+ * @package   SimpleTypes
+ * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @copyright 2015 Denis Smetannikov <denis@jbzoo.com>
+ * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL
+ * @link      http://github.com/smetdenis/simpletypes
  */
 
 namespace SmetDenis\SimpleTypes;
-
 
 /**
  * Class infoTypeTest
@@ -32,7 +31,7 @@ class typeTest extends PHPUnit
      * @return Type
      * @throws Exception
      */
-    protected function _($arg = null)
+    protected function val($arg = null)
     {
         $configName = $this->_ns . 'Config' . ucfirst($this->_type);
         $className  = $this->_ns . $this->_type;
@@ -41,15 +40,12 @@ class typeTest extends PHPUnit
         return new $className($arg);
     }
 
-
-    function testCreate()
+    public function testCreate()
     {
         $config = new ConfigTestEmpty();
-
-        $files = scandir(realpath(__DIR__ . '/../../src/type'));
+        $files  = scandir(realpath(__DIR__ . '/../../src/type'));
 
         foreach ($files as $file) {
-
             if ($file == '.' || $file == '..' || strpos($file, '.php') === false) {
                 continue;
             }

@@ -4,11 +4,11 @@
  *
  * Copyright (c) 2015, Denis Smetannikov <denis@jbzoo.com>.
  *
- * @package    SimpleTypes
- * @author     Denis Smetannikov <denis@jbzoo.com>
- * @copyright  2015 Denis Smetannikov <denis@jbzoo.com>
- * @license    http://www.gnu.org/licenses/gpl.html GNU/GPL
- * @link       http://github.com/smetdenis/simpletypes
+ * @package   SimpleTypes
+ * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @copyright 2015 Denis Smetannikov <denis@jbzoo.com>
+ * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL
+ * @link      http://github.com/smetdenis/simpletypes
  */
 
 namespace SmetDenis\SimpleTypes;
@@ -26,17 +26,17 @@ class Parser
     /**
      * @var string
      */
-    protected $_default = '';
+    protected $default = '';
 
     /**
      * @var array
      */
-    protected $_rules = array();
+    protected $rules = array();
 
     /**
      * @var array
      */
-    protected $_config = array(
+    protected $config = array(
         'error_mode' => self::ERROR_FATAL
     );
 
@@ -44,10 +44,10 @@ class Parser
      * @param string $default
      * @param array  $ruleList
      */
-    function __construct($default = '', array $ruleList)
+    public function __construct($default = '', array $ruleList = array())
     {
-        $this->_rules   = $ruleList;
-        $this->_default = $default;
+        $this->rules   = $ruleList;
+        $this->default = $default;
     }
 
     /**
@@ -68,14 +68,14 @@ class Parser
 
         } else {
             $data = trim($data);
-            $reg  = '#(.*)(' . implode('|', $this->_getCodeList()) . ')(.*)#iu';
+            $reg  = '#(.*)(' . implode('|', $this->getCodeList()) . ')(.*)#iu';
 
             if (preg_match($reg, $data, $matches)) {
                 $rule  = $matches[2];
                 $value = 0;
                 if (!empty($matches[1])) {
                     $value = $matches[1];
-                } else if (!empty($matches[3])) {
+                } elseif (!empty($matches[3])) {
                     $value = $matches[3];
                 }
             }
@@ -93,7 +93,7 @@ class Parser
         }
 
         if (empty($rule)) {
-            $rule = $this->_default;
+            $rule = $this->default;
         }
 
         return array($value, $rule);
@@ -102,9 +102,9 @@ class Parser
     /**
      * @return array
      */
-    protected function _getCodeList()
+    public function getCodeList()
     {
-        return array_keys($this->_rules);
+        return array_keys($this->rules);
     }
 
     /**
@@ -137,23 +137,22 @@ class Parser
         $rule = strtolower(trim($rule));
 
         if (empty($rule)) {
-            return $this->_default;
+            return $this->default;
         }
 
-        if (isset($this->_rules[$rule])) {
+        if (isset($this->rules[$rule])) {
             return $rule;
         }
 
         if ($rule) {
-
-            if ($this->_config['error_mode'] == self::ERROR_FATAL) {
+            if ($this->config['error_mode'] == self::ERROR_FATAL) {
                 throw new Exception('Undefined rule: ' . $rule);
 
-            } else if ($this->_config['error_mode'] == self::ERROR_NOTICE) {
+            } elseif ($this->config['error_mode'] == self::ERROR_NOTICE) {
                 trigger_error('Undefined currency: ' . $rule, E_USER_NOTICE);
             }
 
-            return isset($this->_rules[$this->_default]) ? $this->_default : '';
+            return isset($this->rules[$this->default]) ? $this->default : '';
         }
 
         return false;
@@ -164,7 +163,7 @@ class Parser
      */
     public function addRule($newRule)
     {
-        $this->_rules[$newRule] = $newRule;
+        $this->rules[$newRule] = $newRule;
     }
 
     /**
@@ -172,8 +171,8 @@ class Parser
      */
     public function removeRule($rule)
     {
-        if (isset($this->_rules[$rule])) {
-            unset($this->_rules[$rule]);
+        if (isset($this->rules[$rule])) {
+            unset($this->rules[$rule]);
         }
     }
 }

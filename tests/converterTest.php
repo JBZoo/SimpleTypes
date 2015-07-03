@@ -4,15 +4,14 @@
  *
  * Copyright (c) 2015, Denis Smetannikov <denis@jbzoo.com>.
  *
- * @package    SimpleTypes
- * @author     Denis Smetannikov <denis@jbzoo.com>
- * @copyright  2015 Denis Smetannikov <denis@jbzoo.com>
- * @license    http://www.gnu.org/licenses/gpl.html GNU/GPL
- * @link       http://github.com/smetdenis/simpletypes
+ * @package   SimpleTypes
+ * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @copyright 2015 Denis Smetannikov <denis@jbzoo.com>
+ * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL
+ * @link      http://github.com/smetdenis/simpletypes
  */
 
 namespace SmetDenis\SimpleTypes;
-
 
 /**
  * Class converterTest
@@ -21,24 +20,24 @@ namespace SmetDenis\SimpleTypes;
 class converterTest extends PHPUnit
 {
 
-    function testCheckExists()
+    public function testCheckExists()
     {
-        $this->_batchEqualDumps(array(
-            ['1 eur', $this->_('1')->dump(false)], // eur is default
-            ['1 eur', $this->_('1 eur')->dump(false)],
-            ['1 usd', $this->_('1 usd')->dump(false)],
-            ['1 rub', $this->_('1 rub')->dump(false)],
-            ['1 uah', $this->_('1 uah')->dump(false)],
-            ['1 byr', $this->_('1 byr')->dump(false)],
+        $this->batchEqualDumps(array(
+            ['1 eur', $this->val('1')->dump(false)], // eur is default
+            ['1 eur', $this->val('1 eur')->dump(false)],
+            ['1 usd', $this->val('1 usd')->dump(false)],
+            ['1 rub', $this->val('1 rub')->dump(false)],
+            ['1 uah', $this->val('1 uah')->dump(false)],
+            ['1 byr', $this->val('1 byr')->dump(false)],
         ));
 
     }
 
-    function testSimple()
+    public function testSimple()
     {
-        $val = $this->_('1.25 usd');
+        $val = $this->val('1.25 usd');
 
-        $this->_batchEquals(array(
+        $this->batchEquals(array(
             [0.625, $val->val('eur')],
             [1.25, $val->val('usd')],
             ['0.625 eur', $val->convert('eur')->dump(false)],
@@ -51,17 +50,16 @@ class converterTest extends PHPUnit
         ));
     }
 
-    function testUndefinedRuleSilent()
+    public function testUndefinedRuleSilent()
     {
-        $this->assertEquals('1.25 eur', $this->_('1.25 qwe')->dump(false));
+        $this->assertEquals('1.25 eur', $this->val('1.25 qwe')->dump(false));
     }
 
     /**
      * @expectedException \SmetDenis\SimpleTypes\Exception
      */
-    function testUndefinedRuleFatal()
+    public function testUndefinedRuleFatal()
     {
-        $this->_('1.25 usd')->convert('qwerty');
+        $this->val('1.25 usd')->convert('qwerty');
     }
-
 }

@@ -4,15 +4,14 @@
  *
  * Copyright (c) 2015, Denis Smetannikov <denis@jbzoo.com>.
  *
- * @package    SimpleTypes
- * @author     Denis Smetannikov <denis@jbzoo.com>
- * @copyright  2015 Denis Smetannikov <denis@jbzoo.com>
- * @license    http://www.gnu.org/licenses/gpl.html GNU/GPL
- * @link       http://github.com/smetdenis/simpletypes
+ * @package   SimpleTypes
+ * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @copyright 2015 Denis Smetannikov <denis@jbzoo.com>
+ * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL
+ * @link      http://github.com/smetdenis/simpletypes
  */
 
 namespace SmetDenis\SimpleTypes;
-
 
 /**
  * Class Config
@@ -36,8 +35,8 @@ class Config
      * Popular params for most measures
      * @var array
      */
-    protected $_defaultParams = array(
-        'simbol'          => '',
+    public $defaultParams = array(
+        'symbol'          => '',
         'round_type'      => Formatter::ROUND_CLASSIC,
         'round_value'     => Formatter::ROUND_DEFAULT,
         'num_decimals'    => '2',
@@ -51,10 +50,10 @@ class Config
     /**
      * @var array
      */
-    static protected $_configs = array();
+    static protected $configs = array();
 
     /**
-     * Rule list
+     * List of rules
      * @return array
      */
     public function getRules()
@@ -67,28 +66,27 @@ class Config
      * @param Config $config
      * @throws Exception
      */
-    static function registerDefault($type, Config $config)
+    public static function registerDefault($type, Config $config)
     {
         $type = trim(strtolower($type));
         if (!$config) {
             throw new Exception("You can't register empty config");
         }
 
-        self::$_configs[$type] = $config;
+        self::$configs[$type] = $config;
     }
 
     /**
      * @param string $type
      * @return Config
      */
-    static function getDefault($type)
+    public static function getDefault($type)
     {
         $type = trim(strtolower($type));
-        if (isset(self::$_configs[$type])) {
-            return self::$_configs[$type];
+        if (isset(self::$configs[$type])) {
+            return self::$configs[$type];
         }
 
         return null;
     }
-
 }

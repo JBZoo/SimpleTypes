@@ -4,28 +4,26 @@
  *
  * Copyright (c) 2015, Denis Smetannikov <denis@jbzoo.com>.
  *
- * @package    SimpleTypes
- * @author     Denis Smetannikov <denis@jbzoo.com>
- * @copyright  2015 Denis Smetannikov <denis@jbzoo.com>
- * @license    http://www.gnu.org/licenses/gpl.html GNU/GPL
- * @link       http://github.com/smetdenis/simpletypes
+ * @package   SimpleTypes
+ * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @copyright 2015 Denis Smetannikov <denis@jbzoo.com>
+ * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL
+ * @link      http://github.com/smetdenis/simpletypes
  */
 
 namespace SmetDenis\SimpleTypes;
 
-
 /**
- * Class calculateTest
+ * Class calcTest
  * @package SmetDenis\SimpleTypes
  */
-class calculateTest extends PHPUnit
+class calcTest extends PHPUnit
 {
-
-    function testAdd()
+    public function testAdd()
     {
-        $val = $this->_();
+        $val = $this->val();
 
-        $this->_batchEqualDumps(array(
+        $this->batchEqualDumps(array(
             ['0 eur', $val->dump(false)],
             ['1 eur', $val->add('1')->dump(false)],
             ['0 eur', $val->add('-1')->dump(false)],
@@ -38,11 +36,11 @@ class calculateTest extends PHPUnit
         ));
     }
 
-    function testSubtract()
+    public function testSubtract()
     {
-        $val = $this->_();
+        $val = $this->val();
 
-        $this->_batchEqualDumps(array(
+        $this->batchEqualDumps(array(
             ['0 eur', $val->dump(false)],
             ['-1 eur', $val->subtract('1')->dump(false)],
             ['0 eur', $val->subtract('-1')->dump(false)],
@@ -55,11 +53,11 @@ class calculateTest extends PHPUnit
         ));
     }
 
-    function testPercentAddAndSubtract()
+    public function testPercentAddAndSubtract()
     {
-        $val = $this->_(100);
+        $val = $this->val(100);
 
-        $this->_batchEqualDumps(array(
+        $this->batchEqualDumps(array(
             ['100 eur', $val->dump(false)],
 
             // plus
@@ -73,44 +71,44 @@ class calculateTest extends PHPUnit
         ));
     }
 
-    function testAddAndSubtract()
+    public function testAddAndSubtract()
     {
-        $val = $this->_('100 eur');
+        $val = $this->val('100 eur');
 
         $val
             ->add(-10)
             ->add('50%')
             ->subtract(200)
             ->add('-50%')
-            ->add($this->_('100 eur'))
+            ->add($this->val('100 eur'))
             ->add(-10)
             ->subtract(-200);
 
         $this->assertEquals($val->dump(false), '257.5 eur');
     }
 
-    function testInvert()
+    public function testInvert()
     {
-        $val = $this->_('1 eur');
+        $val = $this->val('1 eur');
 
-        $this->_batchEqualDumps(array(
+        $this->batchEqualDumps(array(
             ['-1 eur', $val->invert()->dump(false)],
             ['1 eur', $val->invert()->dump(false)],
         ));
 
-        $val = $this->_();
+        $val = $this->val();
 
-        $this->_batchEqualDumps(array(
+        $this->batchEqualDumps(array(
             ['0 eur', $val->invert()->dump(false)],
             ['0 eur', $val->invert()->dump(false)],
         ));
     }
 
-    function testPositiveAndNegative()
+    public function testPositiveAndNegative()
     {
-        $val = $this->_('1 eur');
+        $val = $this->val('1 eur');
 
-        $this->_batchEqualDumps(array(
+        $this->batchEqualDumps(array(
             ['1 eur', $val->positive()->dump(false)],
             ['-1 eur', $val->negative()->dump(false)],
             ['-1 eur', $val->negative()->dump(false)],
@@ -118,11 +116,11 @@ class calculateTest extends PHPUnit
         ));
     }
 
-    function testMultiply()
+    public function testMultiply()
     {
-        $val = $this->_('1 eur');
+        $val = $this->val('1 eur');
 
-        $this->_batchEqualDumps(array(
+        $this->batchEqualDumps(array(
             ['1 eur', $val->multiply('1')->dump(false)],
             ['10 eur', $val->multiply('10')->dump(false)],
             ['-10 eur', $val->multiply('-1')->dump(false)],
@@ -130,30 +128,30 @@ class calculateTest extends PHPUnit
         ));
     }
 
-    function testDivision()
+    public function testDivision()
     {
-        $val = $this->_('360 eur');
+        $val = $this->val('360 eur');
 
-        $this->_batchEqualDumps(array(
+        $this->batchEqualDumps(array(
             ['3000 eur', $val->division(.12)->dump(false)],
             ['100 eur', $val->division(30)->dump(false)],
         ));
     }
 
-    function testPercent()
+    public function testPercent()
     {
-        $discountSave = $this->_('20 eur');
-        $itemPrice    = $this->_('100 eur');
+        $discountSave = $this->val('20 eur');
+        $itemPrice    = $this->val('100 eur');
 
-        $this->_batchEqualDumps(array(
+        $this->batchEqualDumps(array(
             ['20 %', $discountSave->percent($itemPrice)->dump(false)],
-            ['40 %', $this->_('10 eur')->percent('50 usd')->dump(false)],
+            ['40 %', $this->val('10 eur')->percent('50 usd')->dump(false)],
         ));
     }
 
-    function testFunction()
+    public function testFunction()
     {
-        $val = $this->_('100 eur');
+        $val = $this->val('100 eur');
 
         $val
             ->customFunc(function ($value) {
@@ -170,6 +168,4 @@ class calculateTest extends PHPUnit
 
         $this->assertEquals('20650000 byr', $val->dump(false));
     }
-
-
 }

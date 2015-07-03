@@ -4,15 +4,14 @@
  *
  * Copyright (c) 2015, Denis Smetannikov <denis@jbzoo.com>.
  *
- * @package    SimpleTypes
- * @author     Denis Smetannikov <denis@jbzoo.com>
- * @copyright  2015 Denis Smetannikov <denis@jbzoo.com>
- * @license    http://www.gnu.org/licenses/gpl.html GNU/GPL
- * @link       http://github.com/smetdenis/simpletypes
+ * @package   SimpleTypes
+ * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @copyright 2015 Denis Smetannikov <denis@jbzoo.com>
+ * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL
+ * @link      http://github.com/smetdenis/simpletypes
  */
 
 namespace SmetDenis\SimpleTypes;
-
 
 /**
  * Class compareTest
@@ -21,28 +20,28 @@ namespace SmetDenis\SimpleTypes;
 class compareTest extends PHPUnit
 {
 
-    function testSimple()
+    public function testSimple()
     {
-        $this->_batchEquals(array(
-            [true, $this->_(1)->compare(1, '=')],
-            [true, $this->_(1)->compare(1, '==')],
-            [true, $this->_(1)->compare(1, '===')],
-            [true, $this->_(1)->compare(1, '>=')],
-            [true, $this->_(1)->compare(1, '<=')],
+        $this->batchEquals(array(
+            [true, $this->val(1)->compare(1, '=')],
+            [true, $this->val(1)->compare(1, '==')],
+            [true, $this->val(1)->compare(1, '===')],
+            [true, $this->val(1)->compare(1, '>=')],
+            [true, $this->val(1)->compare(1, '<=')],
 
-            [false, $this->_(1)->compare(1, '<')],
-            [false, $this->_(1)->compare(1, '!=')],
-            [false, $this->_(1)->compare(1, '!==')],
-            [false, $this->_(1)->compare(1, '>')],
+            [false, $this->val(1)->compare(1, '<')],
+            [false, $this->val(1)->compare(1, '!=')],
+            [false, $this->val(1)->compare(1, '!==')],
+            [false, $this->val(1)->compare(1, '>')],
         ));
     }
 
-    function testComplex()
+    public function testComplex()
     {
-        $v1 = $this->_(1.5);
-        $v2 = $this->_('5.6');
+        $v1 = $this->val(1.5);
+        $v2 = $this->val('5.6');
 
-        $this->_batchEquals(array(
+        $this->batchEquals(array(
             [false, $v1->compare($v2, '=')],
             [true, $v1->compare($v2, '<')],
             [true, $v1->compare($v2, '<=')],
@@ -51,12 +50,12 @@ class compareTest extends PHPUnit
         ));
     }
 
-    function testRules()
+    public function testRules()
     {
-        $usd = $this->_('1 usd');
-        $eur = $this->_('1 eur');
+        $usd = $this->val('1 usd');
+        $eur = $this->val('1 eur');
 
-        $this->_batchEquals(array(
+        $this->batchEquals(array(
             [false, $usd->compare($eur, '=')],
             [true, $usd->compare($eur, '!=')],
             [true, $usd->compare($eur, '<')],
@@ -69,7 +68,7 @@ class compareTest extends PHPUnit
         $eur->convert('usd');
         $usd->convert('eur');
 
-        $this->_batchEquals(array(
+        $this->batchEquals(array(
             [false, $usd->compare($eur, '==')],
             [true, $usd->compare($eur, '!==')],
             [true, $usd->compare($eur, '<')],

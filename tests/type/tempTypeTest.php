@@ -4,15 +4,14 @@
  *
  * Copyright (c) 2015, Denis Smetannikov <denis@jbzoo.com>.
  *
- * @package    SimpleTypes
- * @author     Denis Smetannikov <denis@jbzoo.com>
- * @copyright  2015 Denis Smetannikov <denis@jbzoo.com>
- * @license    http://www.gnu.org/licenses/gpl.html GNU/GPL
- * @link       http://github.com/smetdenis/simpletypes
+ * @package   SimpleTypes
+ * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @copyright 2015 Denis Smetannikov <denis@jbzoo.com>
+ * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL
+ * @link      http://github.com/smetdenis/simpletypes
  */
 
 namespace SmetDenis\SimpleTypes;
-
 
 /**
  * Class tempTypeTest
@@ -23,29 +22,24 @@ class tempTypeTest extends typeTest
 
     protected $_type = 'temp';
 
-
-    function testCreate()
+    public function testCreate()
     {
-        $this->_batchEquals(array(
-            ['0 k', $this->_('K')->dump(false)],
-            ['0 c', $this->_('C')->dump(false)],
-            ['0 f', $this->_('F')->dump(false)],
-            ['0 r', $this->_('R')->dump(false)],
+        $this->batchEquals(array(
+            ['0 k', $this->val('K')->dump(false)],
+            ['0 c', $this->val('C')->dump(false)],
+            ['0 f', $this->val('F')->dump(false)],
+            ['0 r', $this->val('R')->dump(false)],
         ));
-
     }
 
-    function testConvert()
+    public function testConvert()
     {
-        $val = $this->_('k');
+        $val = $this->val('k');
 
-        $this->_batchEquals(array(
+        $this->batchEquals(array(
             ['-273.15 c', $val->convert('C')->dump(false)],
             ['-459.67 f', $val->convert('F')->dump(false)],
             ['0 k', $val->convert('K')->dump(false)],
         ));
-
     }
-
-
 }

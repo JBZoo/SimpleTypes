@@ -4,11 +4,11 @@
  *
  * Copyright (c) 2015, Denis Smetannikov <denis@jbzoo.com>.
  *
- * @package    SimpleTypes
- * @author     Denis Smetannikov <denis@jbzoo.com>
- * @copyright  2015 Denis Smetannikov <denis@jbzoo.com>
- * @license    http://www.gnu.org/licenses/gpl.html GNU/GPL
- * @link       http://github.com/smetdenis/simpletypes
+ * @package   SimpleTypes
+ * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @copyright 2015 Denis Smetannikov <denis@jbzoo.com>
+ * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL
+ * @link      http://github.com/smetdenis/simpletypes
  */
 
 namespace SmetDenis\SimpleTypes;
@@ -19,14 +19,14 @@ namespace SmetDenis\SimpleTypes;
  */
 class PHPUnit extends \PHPUnit_Framework_TestCase
 {
-    public static $_times = array();
-    public static $_memories = array();
+    protected static $times = array();
+    protected static $memories = array();
 
     /**
      * @param mixed $arg
      * @return Money
      */
-    protected function _($arg = null)
+    public function val($arg = null)
     {
         Config::registerDefault('money', new ConfigMoney());
 
@@ -36,19 +36,19 @@ class PHPUnit extends \PHPUnit_Framework_TestCase
     /**
      * @param $testList
      */
-    protected function _batchEqualDumps($testList)
+    public function batchEqualDumps($testList)
     {
         foreach ($testList as $test) {
             $result = isset($test[0]) ? $test[0] : null;
             $arg    = isset($test[1]) ? $test[1] : null;
-            $this->assertEquals($this->_($arg)->dump(false), $result);
+            $this->assertEquals($this->val($arg)->dump(false), $result);
         }
     }
 
     /**
      * @param $testList
      */
-    protected function _batchEquals($testList)
+    public function batchEquals($testList)
     {
         foreach ($testList as $test) {
             $this->assertEquals($test[0], $test[1]);
@@ -58,26 +58,26 @@ class PHPUnit extends \PHPUnit_Framework_TestCase
     /**
      *
      */
-    protected function _startProfiler()
+    public function startProfiler()
     {
-        array_push(self::$_times, microtime(true));
-        array_push(self::$_memories, memory_get_usage(false));
+        array_push(self::$times, microtime(true));
+        array_push(self::$memories, memory_get_usage(false));
     }
 
     /**
      * @param int $count
      * @return array
      */
-    protected function _markProfiler($count = 1, $measure = null)
+    public function markProfiler($count = 1, $measure = null)
     {
         $time   = microtime(true);
         $memory = memory_get_usage(false);
 
-        $timeDiff   = $time - end(self::$_times);
-        $memoryDiff = $memory - end(self::$_memories);
+        $timeDiff   = $time - end(self::$times);
+        $memoryDiff = $memory - end(self::$memories);
 
-        array_push(self::$_times, $time);
-        array_push(self::$_memories, $memory);
+        array_push(self::$times, $time);
+        array_push(self::$memories, $memory);
 
         // build report
         $count  = (int)abs($count);
@@ -105,10 +105,8 @@ class PHPUnit extends \PHPUnit_Framework_TestCase
      * @param $message
      * @return int
      */
-    protected function _cliMessage($message)
+    public function cliMessage($message)
     {
         fwrite(STDERR, $message . "\n");
     }
-
 }
-

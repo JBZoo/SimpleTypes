@@ -4,15 +4,14 @@
  *
  * Copyright (c) 2015, Denis Smetannikov <denis@jbzoo.com>.
  *
- * @package    SimpleTypes
- * @author     Denis Smetannikov <denis@jbzoo.com>
- * @copyright  2015 Denis Smetannikov <denis@jbzoo.com>
- * @license    http://www.gnu.org/licenses/gpl.html GNU/GPL
- * @link       http://github.com/smetdenis/simpletypes
+ * @package   SimpleTypes
+ * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @copyright 2015 Denis Smetannikov <denis@jbzoo.com>
+ * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL
+ * @link      http://github.com/smetdenis/simpletypes
  */
 
 namespace SmetDenis\SimpleTypes;
-
 
 /**
  * Class parserTest
@@ -21,11 +20,11 @@ namespace SmetDenis\SimpleTypes;
 class parserTest extends PHPUnit
 {
 
-    function testEmpty()
+    public function testEmpty()
     {
         $empty = '0 eur';
 
-        $this->_batchEqualDumps(array(
+        $this->batchEqualDumps(array(
             // empty
             [$empty],
             [$empty, null],
@@ -51,10 +50,9 @@ class parserTest extends PHPUnit
         ));
     }
 
-
-    function testSimple()
+    public function testSimple()
     {
-        $this->_batchEqualDumps(array(
+        $this->batchEqualDumps(array(
             // int
             ['1 eur', 1],
             ['-1 eur', -1],
@@ -75,10 +73,9 @@ class parserTest extends PHPUnit
         ));
     }
 
-
-    function testRule()
+    public function testRule()
     {
-        $this->_batchEqualDumps(array(
+        $this->batchEqualDumps(array(
             ['0 eur', 'eur'],
             ['1 eur', '1eur'],
             ['1 eur', '1EUR'],
@@ -99,9 +96,9 @@ class parserTest extends PHPUnit
         ));
     }
 
-    function testRound()
+    public function testRound()
     {
-        $this->_batchEqualDumps(array(
+        $this->batchEqualDumps(array(
             ['0.1 eur', '.1'],
             ['0.01 eur', '.01'],
             ['0.001 eur', '.001'],
@@ -118,9 +115,9 @@ class parserTest extends PHPUnit
         ));
     }
 
-    function testComplex()
+    public function testComplex()
     {
-        $this->_batchEqualDumps(array(
+        $this->batchEqualDumps(array(
             ['-123.456 usd', ' - 1 2 3 . 4 5 6 usd '],
             ['-123.456 usd', [' - 1 2 3 , 4 5 6 eur', 'usd']],
             ['-123.456 usd', [' - 1 2 3 . 4 5 6 eur', 'usd']],
@@ -129,5 +126,4 @@ class parserTest extends PHPUnit
             ['-987654321.12346 eur', 'some number - 9 8 7 6 5 4 3 2 1,      1  2 3    4   5 6 7    8  9 eur '],
         ));
     }
-
 }
