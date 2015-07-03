@@ -76,7 +76,7 @@ abstract class Type
     static public $_globalConfig = array();
 
     /**
-     * @param mixed $value
+     * @param mixed  $value
      * @param Config $config
      */
     public function __construct($value = null, Config $config = null)
@@ -269,7 +269,7 @@ abstract class Type
 
     /**
      * @param string $rule
-     * @param bool $addToLog
+     * @param bool   $addToLog
      * @return float
      */
     protected function _convert($rule, $addToLog = false)
@@ -294,20 +294,36 @@ abstract class Type
         $result = $this->_value;
         if ($from != $to) {
 
-            if (is_callable($ruleTo['rate'])) {
-                $result  = $ruleTo['rate']($this->_value, $from, $to);
-                $rateLog = 'func()';
+            if (is_callable($ruleTo['rate']) || is_callable($ruleFrom['rate'])) {
+
+                if (is_callable($ruleFrom['rate'])) {
+                    $defNorm = $ruleFrom['rate']($this->_value, $this->_default, $from);
+                } else {
+                    $defNorm = $this->_value * $ruleFrom['rate'] * $ruleDef['rate'];
+                }
+
+                if (is_callable($ruleTo['rate'])) {
+                    $result = $ruleTo['rate']($defNorm, $to, $this->_default);
+                } else {
+                    $result = $defNorm / $ruleTo['rate'];
+                }
+
             } else {
-
-                $defaultNorm = round($this->_value * $ruleFrom['rate'] * $ruleDef['rate'], Formatter::ROUND_DEFAULT);
-                $result      = $defaultNorm / $ruleTo['rate'];
-
-                $rateLog = $ruleTo['rate'] . ' ' . $to;
+                $defNorm = $this->_value * $ruleFrom['rate'] * $ruleDef['rate'];
+                $result  = $defNorm / $ruleTo['rate'];
             }
 
-            if ($addToLog) {
-                $this->_log('Converted ' . $log . '; New value = "' . $result . ' ' . $to .
-                    '"; "' . ($ruleDef['rate'] / $ruleFrom['rate'] ) .' '. $from . '" = "' . $rateLog . '"');
+            if ($this->_isDebug && $addToLog) {
+
+                $message = array(
+                    'Converted ' . $log . ';',
+                    'New value = "' . $result . ' ' . $to . '";',
+                    is_callable($ruleTo['rate']) ? 'func(' . $from . ')' : $ruleTo['rate'] . ' ' . $from,
+                    '=',
+                    is_callable($ruleFrom['rate']) ? 'func(' . $to . ')' : $ruleFrom['rate'] . ' ' . $to,
+                );
+
+                $this->_log(implode(' ', $message));
             }
         }
 
@@ -316,8 +332,8 @@ abstract class Type
 
     /**
      * @param Type|string $value
-     * @param string $mode
-     * @param integer $round
+     * @param string      $mode
+     * @param integer     $round
      * @return bool
      */
     public function compare($value, $mode = '==', $round = Formatter::ROUND_DEFAULT)
@@ -387,7 +403,7 @@ abstract class Type
 
     /**
      * @param string $newRule
-     * @param bool $getClone
+     * @param bool   $getClone
      * @return $this
      */
     public function convert($newRule, $getClone = false)
@@ -455,15 +471,28 @@ abstract class Type
 
     /**
      * @param float $number
-     * @param bool $getClone
+     * @param bool  $getClone
      * @return Type
      */
     public function multiply($number, $getClone = false)
     {
-        $multi    = $this->_parser->clean($number);
-        $newValue = $multi * $this->_value;
+        $multiplier = $this->_parser->clean($number);
+        $newValue   = $this->_value * $multiplier;
 
-        return $this->_modifer($newValue, 'Multiply with "' . $multi . '"', $getClone);
+        return $this->_modifer($newValue, 'Multiply with "' . $multiplier . '"', $getClone);
+    }
+
+    /**
+     * @param float $number
+     * @param bool  $getClone
+     * @return Type
+     */
+    public function division($number, $getClone = false)
+    {
+        $divider  = $this->_parser->clean($number);
+        $newValue = $this->_value / $divider;
+
+        return $this->_modifer($newValue, 'Division with "' . $divider . '"', $getClone);
     }
 
     /**
@@ -487,7 +516,7 @@ abstract class Type
 
     /**
      * @param \Closure $function
-     * @param bool $getClone
+     * @param bool     $getClone
      * @return Type
      * @throws Exception
      */
@@ -505,7 +534,7 @@ abstract class Type
 
     /**
      * @param mixed $value
-     * @param bool $getClone
+     * @param bool  $getClone
      * @return Type
      */
     public function set($value, $getClone = false)
@@ -520,8 +549,8 @@ abstract class Type
 
     /**
      * @param mixed $value
-     * @param bool $getClone
-     * @param bool $isSubtract
+     * @param bool  $getClone
+     * @param bool  $isSubtract
      * @return $this
      * @throws Exception
      */
@@ -560,8 +589,8 @@ abstract class Type
 
     /**
      * @param mixed $newValue
-     * @param null $logMessage
-     * @param bool $getClone
+     * @param null  $logMessage
+     * @param bool  $getClone
      * @return Type
      */
     protected function _modifer($newValue, $logMessage = null, $getClone = false)
@@ -583,7 +612,7 @@ abstract class Type
     }
 
     /**
-     * @param int $roundValue
+     * @param int    $roundValue
      * @param string $mode
      * @return $this
      */
@@ -752,7 +781,7 @@ abstract class Type
     /**
      * Experimental! Methods aliases
      * @param string $name
-     * @param array $arguments
+     * @param array  $arguments
      * @return Type|mixed
      */
     function __call($name, $arguments)
@@ -802,7 +831,7 @@ abstract class Type
     }
 
     /**
-     * @param array $newFormat
+     * @param array  $newFormat
      * @param string $rule
      * @return $this
      */
@@ -816,7 +845,7 @@ abstract class Type
     }
 
     /**
-     * @param array $newFormat
+     * @param array  $newFormat
      * @param string $rule
      * @return $this
      */
