@@ -9,7 +9,7 @@ before_script:
   - composer self-update
 
 script:
-  phpunit --configuration phpunit.xml --coverage-text
+  - phpunit --configuration phpunit.xml --coverage-text
 
 notifications:
   email: false
