@@ -75,7 +75,9 @@ class ConfigTemp extends Config
             // Kelvin
             'K' => array_merge($this->_defaultParams, array(
                 'symbol' => 'K',
-                'rate'   => 1,
+                'rate'   => function ($value) {
+                    return $value;
+                },
             )),
         );
 
