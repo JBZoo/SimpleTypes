@@ -121,6 +121,16 @@ class calculateTest extends PHPUnit
         ));
     }
 
+    function testDivision()
+    {
+        $val = $this->_('360 eur');
+
+        $this->_batchEqualDumps(array(
+            ['3000 eur', $val->division(.12)->dump(false)],
+            ['100 eur', $val->division(30)->dump(false)],
+        ));
+    }
+
     function testPercent()
     {
         $discountSave = $this->_('20 eur');
