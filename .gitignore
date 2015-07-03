@@ -1,1 +1,6 @@
-/.idea
+.DS_Store
+.idea
+.reports
+vendor/*
+composer.phar
+composer.lock
