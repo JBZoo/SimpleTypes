@@ -21,6 +21,11 @@ class performanceTest extends PHPUnit
 {
     protected $max = 1000;
 
+    protected $minCreateTime     = 0.002; // for really(!!!) slow or old hardware. Normal value is 0.0005 !
+    protected $minCreateMem      = 512;
+    protected $maxObjectMem      = 8192;
+    protected $maxObjectMemUnset = 256;
+
     /**
      * Only for full bootstrap
      */
@@ -41,10 +46,8 @@ class performanceTest extends PHPUnit
         }
         $result = $this->markProfiler($this->max);
 
-        $this->cliMessage('Create time (on ' . $this->max . '): ' . $result['timeF'] . ' / ' . $result['timeOneF']);
-        $this->markTestSkipped();
-
-        $this->assertLessThan(0.0005, $result['timeOne'], 'Constructor is too slow!; ' . $result['timeOneF']);
+        //$this->cliMessage('Create time (on ' . $this->max . '): ' . $result['timeF'] . ' / ' . $result['timeOneF']);
+        $this->assertLessThan($this->minCreateTime, $result['timeOne'], 'Constructor is too slow!; ' . $result['timeOneF']);
     }
 
     public function testMemoryLeak()
@@ -55,26 +58,22 @@ class performanceTest extends PHPUnit
         }
         $result = $this->markProfiler($this->max);
 
-        $this->cliMessage('Memory leak (on ' . $this->max . '): ' . $result['memory'] . ' / ' . $result['memoryOneF']);
-        $this->markTestSkipped();
-
-        $this->assertLessThan(1, $result['memoryOne'], 'Memory leak gets a lot of memory!; ' . $result['memoryOneF']);
+        //$this->cliMessage('Memory leak (on ' . $this->max . '): ' . $result['memory'] . ' / ' . $result['memoryF']);
+        $this->assertLessThan($this->minCreateMem, $result['memory'], 'Memory leak gets a lot of memory!; ' . $result['memoryF']);
     }
 
     public function testSizeOneObject()
     {
         $this->startProfiler();
-        $val = new Number(0, new ConfigTestEmpty());
+        $val = new Number(1, new ConfigTestEmpty());
 
         $before = $this->markProfiler(1, 'memory');
         unset($val);
 
         $after = $this->markProfiler(1, 'memory');
 
-        $this->cliMessage('SizeOneObject = ' . $before . ' / ' . $after);
-        $this->markTestSkipped();
-
-        $this->assertLessThan(4096, $before, 'Too big object!');
-        $this->assertLessThan(256, $after, 'Too big object!');
+        //$this->cliMessage('SizeOneObject = ' . $before . ' / ' . $after);
+        $this->assertLessThan($this->maxObjectMem, $before, 'Too big object!');
+        $this->assertLessThan($this->maxObjectMemUnset, $after, 'Too big object!');
     }
 }
