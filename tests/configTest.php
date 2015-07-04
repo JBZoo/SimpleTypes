@@ -41,4 +41,11 @@ class configTest extends PHPUnit
             ['1 kb', (new Info('1024byte'))->convert('kb')->dump(false)],
         ));
     }
+
+    public function testEmptyDefault()
+    {
+        $this->assertEquals(null, Config::getDefault('undefined'));
+    }
+
+
 }

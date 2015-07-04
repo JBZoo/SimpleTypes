@@ -54,8 +54,49 @@ class formatterTest extends PHPUnit
     public function testRemove()
     {
         $this->val('50000 usd')
-            ->removeRule('rub')
-            ->convert('rub'); // Exception!
+             ->removeRule('rub')
+             ->convert('rub'); // Exception!
+    }
+
+    /**
+     * @expectedException \SmetDenis\SimpleTypes\Exception
+     */
+    public function testSetEmptyRule()
+    {
+        $this->val('50000 usd')
+             ->addRule(' '); // Exception!
+    }
+
+    /**
+     * @expectedException \SmetDenis\SimpleTypes\Exception
+     */
+    public function testAddExists()
+    {
+        $this->val('50000 usd')
+             ->addRule('rub', array()); // Exception!
+    }
+
+    public function testGetRule()
+    {
+        $rule = $this->val('50000 rub')->getRule('usd');
+        $this->assertEquals('$', $rule['symbol']);
+    }
+
+    /**
+     * @expectedException \SmetDenis\SimpleTypes\Exception
+     */
+    public function testGetRuleUndefined()
+    {
+        $this->val('50000 rub')->getRule('undefined');
+    }
+
+    /**
+     * @expectedException \SmetDenis\SimpleTypes\Exception
+     */
+    public function testChangeUndefined()
+    {
+        $this->val('50000 usd')
+             ->changeRule('undefined', array()); // Exception!
     }
 
     public function testDependenceChanges()

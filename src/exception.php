@@ -19,18 +19,4 @@ namespace SmetDenis\SimpleTypes;
  */
 class Exception extends \Exception
 {
-    /**
-     * @param string     $message
-     * @param int        $code
-     * @param \Exception $previous
-     */
-    public function __construct($message = "", $code = 0, \Exception $previous = null)
-    {
-        $trace = debug_backtrace();
-        if (isset($trace[1])) {
-            $message = $trace[1]['class'] . ' -> ' . $trace[1]['function'] . '(); ' . $message;
-        }
-
-        parent::__construct($message, $code, $previous);
-    }
 }

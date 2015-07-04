@@ -17,7 +17,7 @@ namespace SmetDenis\SimpleTypes;
  * Class Config
  * @package SmetDenis\SimpleTypes
  */
-class Config
+abstract class Config
 {
     /**
      * Base for all converting
@@ -56,10 +56,7 @@ class Config
      * List of rules
      * @return array
      */
-    public function getRules()
-    {
-        return array();
-    }
+    abstract public function getRules();
 
     /**
      * @param string $type
@@ -69,9 +66,6 @@ class Config
     public static function registerDefault($type, Config $config)
     {
         $type = trim(strtolower($type));
-        if (!$config) {
-            throw new Exception("You can't register empty config");
-        }
 
         self::$configs[$type] = $config;
     }

@@ -871,9 +871,9 @@ abstract class Type
     }
 
     /**
-     * @param array  $newFormat
      * @param string $rule
-     * @return $this
+     * @param array  $newFormat
+     * @return Type
      */
     public function addRule($rule, array $newFormat = array())
     {
@@ -887,7 +887,7 @@ abstract class Type
 
     /**
      * @param string $rule
-     * @return $this
+     * @return Type
      */
     public function removeRule($rule)
     {
@@ -897,5 +897,15 @@ abstract class Type
         $this->log('Rule "' . $rule . '" removed');
 
         return $this;
+    }
+
+    /**
+     * @param string $rule
+     * @return array
+     */
+    public function getRule($rule)
+    {
+        $rule = $this->parser->cleanRule($rule);
+        return $this->formatter->get($rule);
     }
 }
