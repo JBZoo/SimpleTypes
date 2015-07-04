@@ -19,7 +19,7 @@ namespace SmetDenis\SimpleTypes;
  */
 class performanceTest extends PHPUnit
 {
-    protected $_max = 1000;
+    protected $max = 1000;
 
     /**
      * Only for full bootstrap
@@ -36,24 +36,24 @@ class performanceTest extends PHPUnit
     public function testCreateTime()
     {
         $this->startProfiler();
-        for ($i = 0; $i < $this->_max; $i++) {
+        for ($i = 0; $i < $this->max; $i++) {
             new Money(rand(-100, 100) . ' usd', new ConfigMoney());
         }
-        $result = $this->markProfiler($this->_max);
+        $result = $this->markProfiler($this->max);
 
-        $this->markTestSkipped('Create time (on ' . $this->_max . '): ' . $result['timeF'] . ' / ' . $result['timeOneF']);
+        $this->markTestSkipped('Create time (on ' . $this->max . '): ' . $result['timeF'] . ' / ' . $result['timeOneF']);
         $this->assertLessThan(0.0005, $result['timeOne'], 'Constructor is too slow!; ' . $result['timeOneF']);
     }
 
     public function testMemoryLeak()
     {
         $this->startProfiler();
-        for ($i = 0; $i < $this->_max; $i++) {
+        for ($i = 0; $i < $this->max; $i++) {
             new Money(rand(-100, 100) . ' usd', new ConfigMoney());
         }
-        $result = $this->markProfiler($this->_max);
+        $result = $this->markProfiler($this->max);
 
-        $this->markTestSkipped('Memory leak (on ' . $this->_max . '): ' . $result['memory'] . ' / ' . $result['memoryOneF']);
+        $this->markTestSkipped('Memory leak (on ' . $this->max . '): ' . $result['memory'] . ' / ' . $result['memoryOneF']);
         $this->assertLessThan(1, $result['memoryOne'], 'Memory leak gets a lot of memory!; ' . $result['memoryOneF']);
     }
 

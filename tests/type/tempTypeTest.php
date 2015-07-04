@@ -20,7 +20,7 @@ namespace SmetDenis\SimpleTypes;
 class tempTypeTest extends typeTest
 {
 
-    protected $_type = 'temp';
+    protected $type = 'temp';
 
     public function testCreate()
     {

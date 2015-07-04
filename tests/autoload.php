@@ -16,7 +16,6 @@
 
 // main autoload
 require_once 'src/autoload.php';
-require_once 'vendor/autoload.php';
 
 // test tools
 require_once 'configs.php';

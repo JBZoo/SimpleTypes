@@ -100,7 +100,7 @@ abstract class Type
         $this->parser = new Parser($this->default, $rules);
 
         // parse data
-        list($this->_value, $this->_rule) = $this->parser->parse($value);
+        list($this->value, $this->rule) = $this->parser->parse($value);
 
         // count unique id
         self::$counter++;

@@ -22,9 +22,7 @@ namespace SmetDenis\SimpleTypes;
 class typeTest extends PHPUnit
 {
 
-    protected $_type = '';
-
-    protected $_ns = '\\SmetDenis\\SimpleTypes\\';
+    protected $type = '';
 
     /**
      * @param null $arg
@@ -33,9 +31,9 @@ class typeTest extends PHPUnit
      */
     public function val($arg = null)
     {
-        $configName = $this->_ns . 'Config' . ucfirst($this->_type);
-        $className  = $this->_ns . $this->_type;
-        Config::registerDefault($this->_type, new $configName);
+        $configName = $this->ns . 'Config' . ucfirst($this->type);
+        $className  = $this->ns . $this->type;
+        Config::registerDefault($this->type, new $configName);
 
         return new $className($arg);
     }

@@ -28,12 +28,6 @@
     "require"    : {
         "php": ">=5.4.1"
     },
-    "require-dev": {
-        "phpunit/phpunit"          : "4.7.*",
-        "smetdenis/jbdump"         : "dev-master",
-        "satooshi/php-coveralls"   : "dev-master",
-        "squizlabs/php_codesniffer": "2.*"
-    },
     "autoload"   : {
         "files": ["src/autoload.php"]
     },
