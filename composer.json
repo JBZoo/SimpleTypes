@@ -3,6 +3,7 @@
     "type"       : "library",
     "description": "The universal PHP library to convert any values and measures",
     "license"    : "GPL v2",
+    "version"    : "1.2.1",
     "keywords"   : [
         "converter",
         "acceleration",
