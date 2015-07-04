@@ -66,8 +66,8 @@ class Formatter
     }
 
     /**
-     * @param $rule
-     * @return array|null
+     * @param string $rule
+     * @return array
      * @throws Exception
      */
     public function get($rule)

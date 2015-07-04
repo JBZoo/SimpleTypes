@@ -134,7 +134,7 @@ abstract class Type
     }
 
     /**
-     * @param null $rule
+     * @param string $rule
      * @return float
      */
     public function val($rule = null)
@@ -592,9 +592,9 @@ abstract class Type
     }
 
     /**
-     * @param mixed $newValue
-     * @param null  $logMessage
-     * @param bool  $getClone
+     * @param mixed  $newValue
+     * @param string $logMessage
+     * @param bool   $getClone
      * @return Type
      */
     protected function modifer($newValue, $logMessage = null, $getClone = false)
@@ -696,7 +696,7 @@ abstract class Type
     }
 
     /**
-     * @return null|string
+     * @return string
      */
     public function __toString()
     {
@@ -812,7 +812,7 @@ abstract class Type
     }
 
     /**
-     * @return mixed
+     * @return Type
      * @throws Exception
      */
     public function __invoke()
