@@ -139,6 +139,8 @@ abstract class Type
      */
     public function val($rule = null)
     {
+        $rule = $this->parser->cleanRule($rule);
+
         if ($rule && $rule != $this->rule) {
             return $this->customConvert($rule);
         }
@@ -209,7 +211,7 @@ abstract class Type
     public function isRule($rule)
     {
         $rule = $this->parser->checkRule($rule);
-        return $rule == $this->rule;
+        return $rule === $this->rule;
     }
 
     /**
@@ -479,7 +481,7 @@ abstract class Type
      */
     public function multiply($number, $getClone = false)
     {
-        $multiplier = $this->parser->clean($number);
+        $multiplier = $this->parser->cleanValue($number);
         $newValue   = $this->value * $multiplier;
 
         return $this->modifer($newValue, 'Multiply with "' . $multiplier . '"', $getClone);
@@ -492,7 +494,7 @@ abstract class Type
      */
     public function division($number, $getClone = false)
     {
-        $divider  = $this->parser->clean($number);
+        $divider  = $this->parser->cleanValue($number);
         $newValue = $this->value / $divider;
 
         return $this->modifer($newValue, 'Division with "' . $divider . '"', $getClone);
@@ -847,7 +849,7 @@ abstract class Type
      */
     public function changeRule($rule, array $newFormat)
     {
-        $rule = trim(strtolower($rule));
+        $rule = $this->parser->cleanRule($rule);
         $this->formatter->changeRule($rule, $newFormat);
         $this->log('Rule "' . $rule . '" changed');
 
@@ -861,7 +863,7 @@ abstract class Type
      */
     public function addRule($rule, array $newFormat = array())
     {
-        $rule = trim(strtolower($rule));
+        $rule = $this->parser->cleanRule($rule);
         $this->formatter->addRule($rule, $newFormat);
         $this->parser->addRule($rule);
         $this->log('New rule "' . $rule . '" added');
@@ -875,7 +877,7 @@ abstract class Type
      */
     public function removeRule($rule)
     {
-        $rule = trim(strtolower($rule));
+        $rule = $this->parser->cleanRule($rule);
         $this->formatter->removeRule($rule);
         $this->parser->removeRule($rule);
         $this->log('Rule "' . $rule . '" removed');

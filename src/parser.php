@@ -74,7 +74,7 @@ class Parser
             $value = $data;
         }
 
-        $value = $this->clean($value);
+        $value = $this->cleanValue($value);
         $rule  = $this->checkRule($rule);
 
         if ($forceRule) {
@@ -100,11 +100,12 @@ class Parser
      * @param string $value
      * @return float
      */
-    public function clean($value)
+    public function cleanValue($value)
     {
         $value = trim($value);
 
         $value = preg_replace("#[^0-9-+eE,.]#", '', $value);
+
         if (!preg_match('#\d[eE][-+]\d#', $value)) { // remove exponential format
             $value = str_replace(array('e', 'E'), '', $value);
         }
@@ -119,11 +120,24 @@ class Parser
     /**
      * @param string $rule
      * @return string
+     */
+    public function cleanRule($rule)
+    {
+        $rule = strtolower($rule);
+        $rule = trim($rule);
+
+        return $rule;
+    }
+
+
+    /**
+     * @param string $rule
+     * @return string
      * @throws Exception
      */
     public function checkRule($rule)
     {
-        $rule = strtolower(trim($rule));
+        $rule = $this->cleanRule($rule);
 
         if (empty($rule)) {
             return $this->default;
