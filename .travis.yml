@@ -13,13 +13,24 @@ matrix:
     - php: hhvm
 
 before_script:
+  # PHPCS
+  - pyrus install pear/PHP_CodeSniffer
   # Composer
-  - composer self-update
+  - wget -nc http://getcomposer.org/composer.phar
+  - php composer.phar install --dev --no-interaction
+
+  # Dirs
+  - mkdir -p build/logs
+  - mkdir -p .reports
+
+  - phpenv rehash
 
 script:
-  - mkdir .reports
   # PHPUnit tests
   - phpunit --configuration phpunit.xml --coverage-text --coverage-clover=.reports/clover.xml
+
+after_script:
+  - php vendor/bin/coveralls
 
 notifications:
   email: false
