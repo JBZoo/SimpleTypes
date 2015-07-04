@@ -15,7 +15,11 @@
 // @codeCoverageIgnoreStart
 
 // main autoload
-require_once 'src/autoload.php';
+if (file_exists('src/autoload.php')) {
+    require_once 'src/autoload.php';
+} else {
+    require_once '../src/autoload.php';
+}
 
 // test tools
 require_once 'configs.php';

@@ -41,7 +41,9 @@ class performanceTest extends PHPUnit
         }
         $result = $this->markProfiler($this->max);
 
-        $this->markTestSkipped('Create time (on ' . $this->max . '): ' . $result['timeF'] . ' / ' . $result['timeOneF']);
+        $this->cliMessage('Create time (on ' . $this->max . '): ' . $result['timeF'] . ' / ' . $result['timeOneF']);
+        $this->markTestSkipped();
+
         $this->assertLessThan(0.0005, $result['timeOne'], 'Constructor is too slow!; ' . $result['timeOneF']);
     }
 
@@ -53,7 +55,9 @@ class performanceTest extends PHPUnit
         }
         $result = $this->markProfiler($this->max);
 
-        $this->markTestSkipped('Memory leak (on ' . $this->max . '): ' . $result['memory'] . ' / ' . $result['memoryOneF']);
+        $this->cliMessage('Memory leak (on ' . $this->max . '): ' . $result['memory'] . ' / ' . $result['memoryOneF']);
+        $this->markTestSkipped();
+
         $this->assertLessThan(1, $result['memoryOne'], 'Memory leak gets a lot of memory!; ' . $result['memoryOneF']);
     }
 
@@ -67,7 +71,9 @@ class performanceTest extends PHPUnit
 
         $after = $this->markProfiler(1, 'memory');
 
-        $this->markTestSkipped('SizeOneObject = ' . $before . ' / ' . $after);
+        $this->cliMessage('SizeOneObject = ' . $before . ' / ' . $after);
+        $this->markTestSkipped();
+
         $this->assertLessThan(4096, $before, 'Too big object!');
         $this->assertLessThan(256, $after, 'Too big object!');
     }

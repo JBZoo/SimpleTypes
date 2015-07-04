@@ -62,7 +62,6 @@ class magicTest extends PHPUnit
         $val = $this->val('500 usd');
 
         $this->batchEquals(array(
-            [null, $val->someUndefinedProp],
             [500.0, $val->value],
             ['usd', $val->rule],
         ));
@@ -71,9 +70,6 @@ class magicTest extends PHPUnit
     public function testSet()
     {
         $val = $this->val('500 usd');
-
-        $val->someUndefined = 100;
-        $this->assertEquals('500 usd', $val->dump(false));
 
         $val->VALUE = 100;
         $this->assertEquals('100 eur', $val->dump(false));
@@ -86,6 +82,26 @@ class magicTest extends PHPUnit
 
         $val->rule = 'eur';
         $this->assertEquals('2 eur', $val->dump(false));
+    }
+
+    /**
+     * @expectedException \SmetDenis\SimpleTypes\Exception
+     */
+    public function testSetUndefined()
+    {
+        $val = $this->val('500 usd');
+
+        $val->someUndefined = 100;
+        $this->assertEquals('500 usd', $val->dump(false));
+    }
+
+    /**
+     * @expectedException \SmetDenis\SimpleTypes\Exception
+     */
+    public function testGetUndefined()
+    {
+        $val  = $this->val('500 usd');
+        $prop = $val->someUndefined;
     }
 
     public function testCall()

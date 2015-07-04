@@ -288,11 +288,11 @@ abstract class Type
 
         $log = '"' . $from . '"=>"' . $to . '"';
 
-        if (empty($to) || !$ruleTo) {
+        if (empty($to) || empty($ruleTo)) {
             $this->error('Converter - undefined target rule: ' . $log);
         }
 
-        if (!$ruleFrom) {
+        if (empty($ruleFrom)) {
             $this->error('Converter - undefined source rule: ' . $log);
         }
 
@@ -704,7 +704,13 @@ abstract class Type
     {
         $this->log('__toString() called');
 
-        return $this->text();
+        try {
+            return $this->text();
+        } catch (Exception $exception) {
+            $this->log('Faild __toString() with: ' . $exception->getMessage());
+            return $exception->getMessage();
+        }
+
     }
 
     /**
@@ -756,12 +762,12 @@ abstract class Type
     }
 
     /**
-     * @param $name
-     * @return float|null|string
+     * @param string $name
+     * @return float|string
+     * @throws Exception
      */
     public function __get($name)
     {
-        //$this->_log('__get() called: "' . $name . '"');
         $name = strtolower($name);
 
         if ($name == 'value') {
@@ -771,23 +777,31 @@ abstract class Type
             return $this->rule();
         }
 
+        $this->error('Undefined __get() called: "' . $name . '"');
+
         return null;
     }
 
     /**
-     * @param $name
-     * @param $value
+     * @param string $name
+     * @param mixed  $value
+     * @return Type
+     * @throws Exception
      */
     public function __set($name, $value)
     {
-        //$this->_log('__set() called: "' . $name . '" = "' . $value . '"');
         $name = strtolower($name);
+
         if ($name == 'value') {
-            $this->set(array($value));
+            return $this->set(array($value));
 
         } elseif ($name == 'rule') {
-            $this->convert($value);
+            return $this->convert($value);
         }
+
+        $this->error('Undefined __set() called: "' . $name . '" = "' . print_r($value, true) . '"');
+
+        return null;
     }
 
     /**

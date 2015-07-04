@@ -224,15 +224,15 @@ class Formatter
      * @param float    $value
      * @param string   $rule
      * @param null|int $roundValue
-     * @param bool     $roundType
+     * @param string   $roundType
      * @return float
      * @throws Exception
      */
-    public function round($value, $rule, $roundValue = null, $roundType = false)
+    public function round($value, $rule, $roundValue = null, $roundType = null)
     {
         $format = $this->get($rule);
 
-        if (!$roundType) {
+        if (empty($roundType)) {
             $roundType = isset($format['round_type']) ? $format['round_type'] : self::ROUND_NONE;
         }
 
