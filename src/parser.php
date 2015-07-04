@@ -166,9 +166,6 @@ class Parser
     {
         if (isset($this->rules[$rule])) {
             unset($this->rules[$rule]);
-            return true;
         }
-
-        return false;
     }
 }

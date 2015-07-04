@@ -53,9 +53,9 @@ class formatterTest extends PHPUnit
      */
     public function testRemove()
     {
-        $this->val('50000 usd')
-             ->removeRule('rub')
-             ->convert('rub'); // Exception!
+        $val = $this->val('50000 usd');
+        $val->removeRule('rub');
+        $val->convert('rub'); // Exception!
     }
 
     /**
@@ -72,8 +72,7 @@ class formatterTest extends PHPUnit
      */
     public function testAddExists()
     {
-        $this->val('50000 usd')
-             ->addRule('rub', array()); // Exception!
+        $this->val('50000 usd')->addRule('rub');
     }
 
     public function testGetRule()

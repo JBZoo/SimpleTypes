@@ -315,6 +315,7 @@ class Formatter
 
     /**
      * @param string $rule
+     * @return bool
      */
     public function removeRule($rule)
     {
