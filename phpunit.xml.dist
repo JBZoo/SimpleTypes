@@ -14,17 +14,8 @@
         </testsuite>
     </testsuites>
 
-    <filter>
-        <whitelist>
-            <directory>./src</directory>
-            <exclude>
-                <file>test-bootstrap.php</file>
-            </exclude>
-        </whitelist>
-    </filter>
-
     <logging>
-        <log type="coverage-clover" target="./reports/clover.xml"/>
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
     </logging>
 
 </phpunit>
