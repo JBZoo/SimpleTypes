@@ -110,6 +110,26 @@ class magicTest extends PHPUnit
         $this->assertEquals($val->val('rub'), $val->value('rub'));
     }
 
+    public function testCallAddAlias()
+    {
+        $val = $this->val('1 eur')->plus('2 eur');
+        $this->assertEquals('3 eur', $val->dump(false));
+    }
+
+    public function testCallSubtractAlias()
+    {
+        $val = $this->val('1 eur')->minus('2 eur');
+        $this->assertEquals('-1 eur', $val->dump(false));
+    }
+
+    /**
+     * @expectedException \SmetDenis\SimpleTypes\Exception
+     */
+    public function testCallUndefined()
+    {
+        $this->val('1 eur')->undefined();
+    }
+
     public function testInvoke()
     {
         $val = $this->val('1 eur');
@@ -138,5 +158,18 @@ class magicTest extends PHPUnit
     {
         $val = $this->val('1 eur');
         $val(1, 2, 3);
+    }
+
+    public function testGetCloneAfterCalc()
+    {
+        $val1 = $this->val(1);
+        $val2 = $val1->add(2, true);
+
+        $this->assertEquals(true, $val1->id() !== $val2->id());
+
+        $val1 = $this->val(1);
+        $val2 = $val1->add(2, false);
+
+        $this->assertEquals(true, $val1->id() === $val2->id());
     }
 }

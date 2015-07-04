@@ -107,4 +107,16 @@ class outputTest extends PHPUnit
 
         $this->assertRegExp('#<input\s#', $html);
     }
+
+    public function testGetId()
+    {
+        $this->assertGreaterThan(0, $this->val()->id());
+    }
+
+    public function testGetLogs()
+    {
+        $logs = $this->val()->logs();
+        $this->assertTrue(true, is_array($logs));
+    }
+
 }

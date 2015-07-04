@@ -121,4 +121,26 @@ class formatterTest extends PHPUnit
         $this->val('1 usd')->removeRule('rub');
         $this->assertEquals('25 rub', $this->val('1 usd')->convert('rub')->dump(false));
     }
+
+    public function testIsRule()
+    {
+        $val = $this->val('1 usd');
+
+        $this->assertEquals(true, $val->isRule('USD'));
+
+        $val->convert('RUB');
+        $this->assertEquals(false, $val->isRule('USD'));
+
+    }
+
+    public function testGetRules()
+    {
+        $val = $this->val();
+        $this->assertArrayHasKey('rub', $val->getRules());
+        $this->assertArrayHasKey('usd', $val->getRules());
+        $this->assertArrayHasKey('uah', $val->getRules());
+        $this->assertArrayHasKey('eur', $val->getRules());
+        $this->assertArrayHasKey('byr', $val->getRules());
+    }
+
 }

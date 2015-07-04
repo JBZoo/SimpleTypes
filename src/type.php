@@ -117,9 +117,12 @@ abstract class Type
      */
     protected function getConfig(Config $config = null)
     {
-        $config = $config ? $config : Config::getDefault($this->type);
-        if (!$config) {
-            $this->error('Undefined config for "' . $this->type . '"');
+        $defaultConfig = Config::getDefault($this->type);
+        $config        = $config ? $config : $defaultConfig;
+
+        // Hack for getValidValue()
+        if (empty($defaultConfig) && $config) {
+            Config::registerDefault($this->type, $config);
         }
 
         return $config;
@@ -249,7 +252,7 @@ abstract class Type
     /**
      * @return array
      */
-    public function rules()
+    public function getRules()
     {
         return $this->formatter->getList();
     }
@@ -287,14 +290,6 @@ abstract class Type
         $ruleDef  = $this->formatter->get($this->default);
 
         $log = '"' . $from . '"=>"' . $to . '"';
-
-        if (empty($to) || empty($ruleTo)) {
-            $this->error('Converter - undefined target rule: ' . $log);
-        }
-
-        if (empty($ruleFrom)) {
-            $this->error('Converter - undefined source rule: ' . $log);
-        }
 
         $result = $this->value;
         if ($from != $to) {
@@ -343,7 +338,9 @@ abstract class Type
         // prepare value
         $value = $this->getValidValue($value);
 
-        $mode  = in_array($mode, array('=', '==', '===')) ? '==' : $mode;
+        $mode = trim($mode);
+        $mode = in_array($mode, array('=', '==', '===')) ? '==' : $mode;
+
         $round = (is_null($round)) ? Formatter::ROUND_DEFAULT : ((int)$round);
         $val1  = round((float)$this->val($this->rule), $round);
         $val2  = round((float)$value->val($this->rule), $round);
@@ -373,8 +370,6 @@ abstract class Type
         }
 
         $this->error('Undefined compare mode: ' . $mode);
-
-        return false;
     }
 
     /**
@@ -414,6 +409,11 @@ abstract class Type
     public function convert($newRule, $getClone = false)
     {
         if (empty($newRule)) {
+
+            if ($getClone) {
+                return $this->getClone();
+            }
+
             return $this;
         }
 
@@ -494,10 +494,9 @@ abstract class Type
      */
     public function division($number, $getClone = false)
     {
-        $divider  = $this->parser->cleanValue($number);
-        $newValue = $this->value / $divider;
+        $divider = $this->parser->cleanValue($number);
 
-        return $this->modifer($newValue, 'Division with "' . $divider . '"', $getClone);
+        return $this->modifer($this->value / $divider, 'Division with "' . $divider . '"', $getClone);
     }
 
     /**
@@ -533,8 +532,6 @@ abstract class Type
         if (is_callable($function)) {
             $this->log('--> Function start');
             $function($this);
-        } else {
-            $this->error('Function is not callable!');
         }
 
         return $this->modifer($this->value, '<-- Function finished', $getClone);
@@ -704,13 +701,7 @@ abstract class Type
     {
         $this->log('__toString() called');
 
-        try {
-            return $this->text();
-        } catch (Exception $exception) {
-            $this->log('Faild __toString() with: ' . $exception->getMessage());
-            return $exception->getMessage();
-        }
-
+        return $this->text();
     }
 
     /**
@@ -778,8 +769,6 @@ abstract class Type
         }
 
         $this->error('Undefined __get() called: "' . $name . '"');
-
-        return null;
     }
 
     /**
@@ -800,8 +789,6 @@ abstract class Type
         }
 
         $this->error('Undefined __set() called: "' . $name . '" = "' . print_r($value, true) . '"');
-
-        return null;
     }
 
     /**
@@ -824,7 +811,6 @@ abstract class Type
         }
 
         $this->error('Called undefined method: "' . $name . '"');
-        return null;
     }
 
     /**
@@ -853,7 +839,6 @@ abstract class Type
         }
 
         $this->error('Too many arguments');
-        return $this;
     }
 
     /**

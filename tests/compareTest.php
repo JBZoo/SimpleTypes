@@ -42,10 +42,10 @@ class compareTest extends PHPUnit
         $v2 = $this->val('5.6');
 
         $this->batchEquals(array(
-            [false, $v1->compare($v2, '=')],
-            [true, $v1->compare($v2, '<')],
-            [true, $v1->compare($v2, '<=')],
-            [false, $v1->compare($v2, '>=')],
+            [false, $v1->compare($v2, ' =')],
+            [true, $v1->compare($v2, '< ')],
+            [true, $v1->compare($v2, ' <= ')],
+            [false, $v1->compare($v2, ' >= ')],
             [false, $v1->compare($v2, '>')],
         ));
     }
@@ -77,4 +77,13 @@ class compareTest extends PHPUnit
             [false, $usd->compare($eur, '>=')],
         ));
     }
+
+    /**
+     * @expectedException \SmetDenis\SimpleTypes\Exception
+     */
+    public function testUndefined()
+    {
+        $this->val('usd')->compare(0, 'undefined');
+    }
+
 }

@@ -85,7 +85,10 @@ class calcTest extends PHPUnit
             ->subtract(-200);
 
         $this->assertEquals($val->dump(false), '257.5 eur');
+
+        $this->assertEquals('3 %', $this->val('1%')->add('2%')->dump(false));
     }
+
 
     public function testInvert()
     {
@@ -168,4 +171,49 @@ class calcTest extends PHPUnit
 
         $this->assertEquals('20650000 byr', $val->dump(false));
     }
+
+    public function testChecks()
+    {
+        $val = $this->val('-1 usd');
+
+        $this->assertEquals(true, $val->isNegative());
+        $this->assertEquals(false, $val->isPositive());
+        $this->assertEquals(false, $val->isEmpty());
+
+        $val->set(1);
+        $this->assertEquals(false, $val->isNegative());
+        $this->assertEquals(true, $val->isPositive());
+        $this->assertEquals(false, $val->isEmpty());
+
+        $val->setEmpty();
+        $this->assertEquals(false, $val->isNegative());
+        $this->assertEquals(false, $val->isPositive());
+        $this->assertEquals(true, $val->isEmpty());
+    }
+
+    public function testAbs()
+    {
+        $this->assertEquals('1 eur', $this->val('-1 eur')->abs()->dump(false));
+        $this->assertEquals('1 eur', $this->val('1 eur')->abs()->dump(false));
+        $this->assertEquals('0 eur', $this->val('0 eur')->abs()->dump(false));
+    }
+
+    /**
+     * @expectedException \SmetDenis\SimpleTypes\Exception
+     */
+    public function testImpossibleAdd_1()
+    {
+        $this->val('1 %')->add('1 usd');
+    }
+
+    /**
+     * @expectedException \SmetDenis\SimpleTypes\Exception
+     */
+    public function testNoValidTypes()
+    {
+        $money  = new Money('1 usd', new ConfigMoney());
+        $weight = new Weight('1 kg', new ConfigTestWeight());
+        $money->add($weight);
+    }
+
 }

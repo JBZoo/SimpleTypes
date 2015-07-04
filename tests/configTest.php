@@ -47,5 +47,12 @@ class configTest extends PHPUnit
         $this->assertEquals(null, Config::getDefault('undefined'));
     }
 
+    /**
+     * @expectedException \SmetDenis\SimpleTypes\Exception
+     */
+    public function testWrongDefault()
+    {
+        new Money(null, new ConfigTestWrong());
+    }
 
 }

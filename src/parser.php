@@ -81,10 +81,6 @@ class Parser
             $rule = $forceRule;
         }
 
-        if (empty($rule)) {
-            $rule = $this->default;
-        }
-
         return array($value, $rule);
     }
 
@@ -128,7 +124,6 @@ class Parser
 
         return $rule;
     }
-
 
     /**
      * @param string $rule

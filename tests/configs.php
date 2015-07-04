@@ -80,4 +80,23 @@ class ConfigTestInfo extends Config
     }
 }
 
+/**
+ * Class ConfigTestWrong
+ * @package SmetDenis\SimpleTypes
+ * @codeCoverageIgnore
+ */
+class ConfigTestWrong extends Config
+{
+    public $default = 'undefined';
+    public $isDebug = true;
+
+    public function getRules()
+    {
+        return array(
+            'byte' => array('rate' => 1),
+            'kb'   => array('rate' => 1024)
+        );
+    }
+}
+
 // @codeCoverageIgnoreEnd

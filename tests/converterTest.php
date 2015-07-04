@@ -62,4 +62,10 @@ class converterTest extends PHPUnit
     {
         $this->val('1.25 usd')->convert('qwerty');
     }
+
+    public function testEmptyRule()
+    {
+        $this->assertEquals(true, $this->val('1.25 usd')->convert('')->isRule('usd'));
+    }
+
 }

@@ -196,13 +196,9 @@ class Formatter
     {
         $result = '';
 
-        if (is_string($attributes)) {
-            $result .= $attributes;
-
-        } elseif (!empty($attributes)) {
+        if (!empty($attributes)) {
             foreach ($attributes as $key => $param) {
-                $param = (array)$param;
-                $value = implode(' ', $param);
+                $value = implode(' ', (array)$param);
                 $value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
                 $value = trim($value);
                 $result .= ' ' . $key . '="' . $value . '"';
