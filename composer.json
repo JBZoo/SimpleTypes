@@ -28,9 +28,6 @@
     "require"    : {
         "php": ">=5.4.1"
     },
-    "require-dev": {
-        "satooshi/php-coveralls": "dev-master"
-    },
     "autoload"   : {
         "files": ["src/autoload.php"]
     },
