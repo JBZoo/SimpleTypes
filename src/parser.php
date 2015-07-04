@@ -19,10 +19,6 @@ namespace SmetDenis\SimpleTypes;
  */
 class Parser
 {
-    const ERROR_FATAL   = 1;
-    const ERROR_NOTICE  = 2;
-    const ERROR_DEFAULT = 3;
-
     /**
      * @var string
      */
@@ -32,13 +28,6 @@ class Parser
      * @var array
      */
     protected $rules = array();
-
-    /**
-     * @var array
-     */
-    protected $config = array(
-        'error_mode' => self::ERROR_FATAL
-    );
 
     /**
      * @param string $default
@@ -108,8 +97,8 @@ class Parser
     }
 
     /**
-     * @param $value
-     * @return float|string
+     * @param string $value
+     * @return float
      */
     public function clean($value)
     {
@@ -129,7 +118,7 @@ class Parser
 
     /**
      * @param string $rule
-     * @return bool|string
+     * @return string
      * @throws Exception
      */
     public function checkRule($rule)
@@ -144,22 +133,11 @@ class Parser
             return $rule;
         }
 
-        if ($rule) {
-            if ($this->config['error_mode'] == self::ERROR_FATAL) {
-                throw new Exception('Undefined rule: ' . $rule);
-
-            } elseif ($this->config['error_mode'] == self::ERROR_NOTICE) {
-                trigger_error('Undefined currency: ' . $rule, E_USER_NOTICE);
-            }
-
-            return isset($this->rules[$this->default]) ? $this->default : '';
-        }
-
-        return false;
+        throw new Exception('Undefined rule: ' . $rule);
     }
 
     /**
-     * @param $newRule
+     * @param string $newRule
      */
     public function addRule($newRule)
     {
@@ -168,11 +146,15 @@ class Parser
 
     /**
      * @param string $rule
+     * @return bool
      */
     public function removeRule($rule)
     {
         if (isset($this->rules[$rule])) {
             unset($this->rules[$rule]);
+            return true;
         }
+
+        return false;
     }
 }
