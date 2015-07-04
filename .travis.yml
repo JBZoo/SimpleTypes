@@ -12,7 +12,7 @@ matrix:
 
 before_script:
   # PHPCS
-  - pyrus install pear/PHP_CodeSniffer
+  # - pyrus install pear/PHP_CodeSniffer
 
   # Composer
   - wget -nc http://getcomposer.org/composer.phar
