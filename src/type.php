@@ -7,7 +7,6 @@
  * @package   SimpleTypes
  * @author    Denis Smetannikov <denis@jbzoo.com>
  * @copyright 2015 Denis Smetannikov <denis@jbzoo.com>
- * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL
  * @link      http://github.com/smetdenis/simpletypes
  */
 
@@ -710,7 +709,7 @@ abstract class Type
         $propList = $reflect->getProperties();
 
         foreach ($propList as $prop) {
-            if ($prop->isStatic() == true) {
+            if ($prop->isStatic() === true) {
                 continue;
             }
             $result[] = $prop->name;
