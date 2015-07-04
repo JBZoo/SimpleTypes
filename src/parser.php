@@ -77,7 +77,7 @@ class Parser
         $value = $this->cleanValue($value);
         $rule  = $this->checkRule($rule);
 
-        if ($forceRule) {
+        if (!empty($forceRule)) {
             $rule = $forceRule;
         }
 

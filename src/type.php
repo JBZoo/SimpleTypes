@@ -167,7 +167,7 @@ abstract class Type
     {
         $rule = $rule ? $this->parser->checkRule($rule) : $this->rule;
         $this->log('Formatted output in "' . $rule . '" as "noStyle"');
-        return $this->formatter->noStyle($this->val($rule), $rule);
+        return $this->formatter->text($this->val($rule), $rule, false);
     }
 
     /**
@@ -482,7 +482,7 @@ abstract class Type
     public function multiply($number, $getClone = false)
     {
         $multiplier = $this->parser->cleanValue($number);
-        $newValue   = $this->value * $multiplier;
+        $newValue   = $multiplier * $this->value;
 
         return $this->modifer($newValue, 'Multiply with "' . $multiplier . '"', $getClone);
     }

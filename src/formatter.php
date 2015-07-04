@@ -46,7 +46,7 @@ class Formatter
     protected $rules = array();
 
     /**
-     * @var array
+     * @var string
      */
     protected $type = null;
 
@@ -99,26 +99,18 @@ class Formatter
      * @return string
      * @throws Exception
      */
-    public function text($value, $rule)
+    public function text($value, $rule, $showSymbol = true)
     {
         $data  = $this->format($value, $rule);
         $rData = $this->get($rule);
+        $symbol = $showSymbol ? $rData['symbol'] : '';
 
-        $result = str_replace(array('%v', '%s'), array($data['value'], $rData['symbol']), $data['template']);
+        $result = str_replace(
+            array('%v', '%s'),
+            array($data['value'], $symbol),
+            $data['template']
+        );
 
-        return $result;
-    }
-
-    /**
-     * @param float  $value
-     * @param string $rule
-     * @return string
-     */
-    public function noStyle($value, $rule)
-    {
-        $data = $this->format($value, $rule);
-
-        $result = str_replace(array('%v', '%s'), array($data['value'], ''), $data['template']);
         $result = trim($result);
 
         return $result;
