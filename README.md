@@ -4,5 +4,3 @@
 The universal PHP library to convert any values and measures
 
 
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/smetdenis/simpletypes/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
