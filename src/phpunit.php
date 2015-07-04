@@ -84,17 +84,16 @@ class PHPUnit extends \PHPUnit_Framework_TestCase
         // build report
         $count  = (int)abs($count);
         $result = array(
-            'count'   => $count,
-            'time'    => $timeDiff,
-            'memory'  => $memoryDiff,
-            'timeF'   => number_format($timeDiff * 1000, 2, '.', ' ') . ' ms',
-            'memoryF' => number_format($memoryDiff / 1024, 2, '.', ' ') . ' KB'
+            'count'      => $count,
+            'time'       => $timeDiff,
+            'memory'     => $memoryDiff,
+            'timeOne'    => $timeDiff / $count,
+            'memoryOne'  => $memoryDiff / $count,
+            'timeF'      => number_format($timeDiff * 1000, 2, '.', ' ') . ' ms',
+            'memoryF'    => number_format($memoryDiff / 1024, 2, '.', ' ') . ' KB',
+            'timeOneF'   => number_format($timeDiff * 1000 / $count, 2, '.', ' ') . ' ms',
+            'memoryOneF' => number_format($memoryDiff / 1024 / $count, 2, '.', ' ') . ' KB',
         );
-
-        $result['timeOne']    = $timeDiff / $count;
-        $result['memoryOne']  = $memoryDiff / $count;
-        $result['timeOneF']   = number_format($timeDiff * 1000 / $count, 2, '.', ' ') . ' ms';
-        $result['memoryOneF'] = number_format($memoryDiff / 1024 / $count, 2, '.', ' ') . ' KB';
 
         if ($measure && isset($result[$measure])) {
             return $result[$measure];
