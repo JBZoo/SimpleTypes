@@ -74,4 +74,37 @@ class outputTest extends PHPUnit
             ['10 000,67', $this->val('10000.666 uah')->noStyle()],
         ));
     }
+
+    public function testHtmlSpan()
+    {
+        $html = $this->val('100.50 uah')->html('usd');
+
+        // check tag
+        $this->assertRegExp('#<span\s#', $html);
+
+        // check important classes
+        $this->assertRegExp('#simpleType#', $html);
+        $this->assertRegExp('#simpleType-block#', $html);
+        $this->assertRegExp('#simpleType-symbol#', $html);
+        $this->assertRegExp('#simpleType-value#', $html);
+        $this->assertRegExp('#simpleType-money#', $html);
+
+        // attributes
+        $this->assertRegExp('#data-simpleType-id="\d*"#', $html);
+        $this->assertRegExp('#data-simpleType-value="8\.04"#', $html);
+        $this->assertRegExp('#data-simpleType-rule="usd"#', $html);
+        $this->assertRegExp('#data-simpleType-orig-value="100\.5"#', $html);
+        $this->assertRegExp('#data-simpleType-orig-rule="uah"#', $html);
+
+        // html
+        $this->assertRegExp('#<span class="simpleType-symbol">\$</span>#', $html);
+        $this->assertRegExp('#<span class="simpleType-value">8\.04</span>#', $html);
+    }
+
+    public function testHtmlInput()
+    {
+        $html = $this->val('10000.666 uah')->htmlInput('usd');
+
+        $this->assertRegExp('#<input\s#', $html);
+    }
 }

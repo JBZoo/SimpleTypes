@@ -167,7 +167,7 @@ class Formatter
      */
     public function htmlInput($value, $rule, $id, $origValue, $origRule, $inputName, $formatted)
     {
-        $inputValue = $formatted ? $this->text($value, $rule) : $this->noStyle($value, $rule);
+        $inputValue = $formatted ? $this->text($value, $rule) : $this->text($value, $rule, false);
 
         return '<input ' . $this->htmlAttributes(
             array(
