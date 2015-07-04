@@ -120,7 +120,7 @@ abstract class Type
         $defaultConfig = Config::getDefault($this->type);
         $config        = $config ? $config : $defaultConfig;
 
-        // Hack for getValidValue()
+        // Hack for getValidValue method
         if (empty($defaultConfig) && $config) {
             Config::registerDefault($this->type, $config);
         }
@@ -409,12 +409,7 @@ abstract class Type
     public function convert($newRule, $getClone = false)
     {
         if (empty($newRule)) {
-
-            if ($getClone) {
-                return $this->getClone();
-            }
-
-            return $this;
+            $newRule = $this->rule;
         }
 
         $newRule = $this->parser->checkRule($newRule);
