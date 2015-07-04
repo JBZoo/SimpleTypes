@@ -7,11 +7,24 @@
          stopOnFailures="false"
          syntaxCheck="true"
         >
+
     <testsuites>
-
-        <testsuite name="Complex tests">
-            <directory suffix="Test.php">tests</directory>
+        <testsuite name="Tests suite">
+            <directory suffix="Test.php">./tests</directory>
         </testsuite>
-
     </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory>./src</directory>
+            <exclude>
+                <file>test-bootstrap.php</file>
+            </exclude>
+        </whitelist>
+    </filter>
+
+    <logging>
+        <log type="coverage-clover" target="./reports/clover.xml"/>
+    </logging>
+
 </phpunit>
