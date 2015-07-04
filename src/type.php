@@ -93,7 +93,7 @@ abstract class Type
         // check that default rule
         $rules = $this->formatter->getList(true);
         if (!isset($rules[$this->default])) {
-            $this->error('Default rule not found!');
+            throw new Exception($this->type . ': Default rule not found!');
         }
 
         // create parser helper
@@ -369,7 +369,7 @@ abstract class Type
             return $val1 >= $val2;
         }
 
-        $this->error('Undefined compare mode: ' . $mode);
+        throw new Exception($this->type . ': Undefined compare mode: ' . $mode);
     }
 
     /**
@@ -645,7 +645,7 @@ abstract class Type
             $thisClass = strtolower(get_class($this));
             $valClass  = strtolower(get_class($value));
             if ($thisClass !== $valClass) {
-                $this->error('No valid object type given: ' . $valClass);
+                throw new Exception($this->type . ': No valid object type given: ' . $valClass);
             }
 
         } else {
@@ -663,7 +663,7 @@ abstract class Type
     public function error($message)
     {
         $this->log($message);
-        throw new Exception(get_class($this) . ': ' . $message);
+        throw new Exception($this->type . ': ' . $message);
     }
 
     /**
@@ -768,7 +768,7 @@ abstract class Type
             return $this->rule();
         }
 
-        $this->error('Undefined __get() called: "' . $name . '"');
+        throw new Exception($this->type . ': Undefined __get() called: "' . $name . '"');
     }
 
     /**
@@ -788,7 +788,7 @@ abstract class Type
             return $this->convert($value);
         }
 
-        $this->error('Undefined __set() called: "' . $name . '" = "' . print_r($value, true) . '"');
+        throw new Exception($this->type . ': Undefined __set() called: "' . $name . '" = "' . print_r($value, true) . '"');
     }
 
     /**
@@ -796,6 +796,7 @@ abstract class Type
      * @param string $name
      * @param array  $arguments
      * @return Type|mixed
+     * @throws Exception
      */
     public function __call($name, $arguments)
     {
@@ -810,7 +811,7 @@ abstract class Type
             return call_user_func_array(array($this, 'subtract'), $arguments);
         }
 
-        $this->error('Called undefined method: "' . $name . '"');
+        throw new Exception($this->type . ': Called undefined method: "' . $name . '"');
     }
 
     /**
@@ -838,7 +839,7 @@ abstract class Type
             return $this->set(array($args[0], $args[1]));
         }
 
-        $this->error('Too many arguments');
+        throw new Exception($this->type . ': Too many arguments');
     }
 
     /**

@@ -41,6 +41,8 @@ class tempTypeTest extends typeTest
             ['-459.67 f', $val->convert('F')->dump(false)],
             ['0 k', $val->convert('K')->dump(false)],
             ['0 r', $val->convert('R')->dump(false)],
+            ['-273.15 c', $val->convert('C')->dump(false)],
+            ['0 r', $val->convert('R')->dump(false)],
         ));
     }
 }

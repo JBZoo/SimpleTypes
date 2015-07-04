@@ -66,6 +66,7 @@ class converterTest extends PHPUnit
     public function testEmptyRule()
     {
         $this->assertEquals(true, $this->val('1.25 usd')->convert('')->isRule('usd'));
+        $this->assertEquals(true, $this->val('1.25 usd')->convert('', true)->isRule('usd'));
     }
 
 }
