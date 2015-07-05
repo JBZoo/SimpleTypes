@@ -16,7 +16,7 @@ namespace SmetDenis\SimpleTypes;
  * Class outputTest
  * @package SmetDenis\SimpleTypes
  */
-class outputTest extends PHPUnit
+class OutputTest extends PHPUnit
 {
 
     public function testText()
@@ -117,5 +117,4 @@ class outputTest extends PHPUnit
         $logs = $this->val()->logs();
         $this->assertTrue(true, is_array($logs));
     }
-
 }

@@ -16,7 +16,7 @@ namespace SmetDenis\SimpleTypes;
  * Class converterTest
  * @package SmetDenis\SimpleTypes
  */
-class converterTest extends PHPUnit
+class ConverterTest extends PHPUnit
 {
 
     public function testCheckExists()
@@ -67,5 +67,4 @@ class converterTest extends PHPUnit
         $this->assertEquals(true, $this->val('1.25 usd')->convert('')->isRule('usd'));
         $this->assertEquals(true, $this->val('1.25 usd')->convert('', true)->isRule('usd'));
     }
-
 }

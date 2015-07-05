@@ -16,7 +16,7 @@ namespace SmetDenis\SimpleTypes;
  * Class magicTest
  * @package SmetDenis\SimpleTypes
  */
-class magicTest extends PHPUnit
+class MagicTest extends PHPUnit
 {
 
     public function testSerializing()

@@ -16,7 +16,7 @@ namespace SmetDenis\SimpleTypes;
  * Class performanceTest
  * @package SmetDenis\SimpleTypes
  */
-class performanceTest extends PHPUnit
+class PerformanceTest extends PHPUnit
 {
     protected $max = 1000;
 
@@ -46,7 +46,8 @@ class performanceTest extends PHPUnit
         $result = $this->markProfiler($this->max);
 
         //$this->cliMessage('Create time (on ' . $this->max . '): ' . $result['timeF'] . ' / ' . $result['timeOneF']);
-        $this->assertLessThan($this->minCreateTime, $result['timeOne'], 'Constructor is too slow!; ' . $result['timeOneF']);
+        $message = 'Constructor is too slow!; ' . $result['timeOneF'];
+        $this->assertLessThan($this->minCreateTime, $result['timeOne'], $message);
     }
 
     public function testMemoryLeak()
@@ -58,7 +59,8 @@ class performanceTest extends PHPUnit
         $result = $this->markProfiler($this->max);
 
         //$this->cliMessage('Memory leak (on ' . $this->max . '): ' . $result['memory'] . ' / ' . $result['memoryF']);
-        $this->assertLessThan($this->minCreateMem, $result['memory'], 'Memory leak gets a lot of memory!; ' . $result['memoryF']);
+        $msaage = 'Memory leak gets a lot of memory!; ' . $result['memoryF'];
+        $this->assertLessThan($this->minCreateMem, $result['memory'], $msaage);
     }
 
     public function testSizeOneObject()

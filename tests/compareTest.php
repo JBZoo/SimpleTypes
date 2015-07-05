@@ -16,7 +16,7 @@ namespace SmetDenis\SimpleTypes;
  * Class compareTest
  * @package SmetDenis\SimpleTypes
  */
-class compareTest extends PHPUnit
+class CompareTest extends PHPUnit
 {
 
     public function testSimple()
@@ -84,5 +84,4 @@ class compareTest extends PHPUnit
     {
         $this->val('usd')->compare(0, 'undefined');
     }
-
 }

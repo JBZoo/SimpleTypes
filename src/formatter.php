@@ -270,7 +270,7 @@ class Formatter
             $format['thousands_sep']
         );
 
-        $template = ($isPositive) ? $format['format_positive'] : $format['format_negative'];
+        $template = $isPositive ? $format['format_positive'] : $format['format_negative'];
 
         return array(
             'value'      => $valueStr,

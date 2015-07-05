@@ -782,7 +782,8 @@ abstract class Type
             return $this->convert($value);
         }
 
-        throw new Exception($this->type . ': Undefined __set() called: "' . $name . '" = "' . print_r($value, true) . '"');
+        $value = print_r($value, true);
+        throw new Exception($this->type . ': Undefined __set() called: "' . $name . '" = "' . $value . '"');
     }
 
     /**

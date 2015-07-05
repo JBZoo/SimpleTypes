@@ -18,7 +18,7 @@ namespace SmetDenis\SimpleTypes;
  *
  * @codeCoverageIgnore
  */
-class typeTest extends PHPUnit
+class TypeTest extends PHPUnit
 {
 
     protected $type = '';

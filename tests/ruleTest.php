@@ -16,7 +16,7 @@ namespace SmetDenis\SimpleTypes;
  * Class formatterTest
  * @package SmetDenis\SimpleTypes
  */
-class formatterTest extends PHPUnit
+class FormatterTest extends PHPUnit
 {
 
     public function testChange()
@@ -141,5 +141,4 @@ class formatterTest extends PHPUnit
         $this->assertArrayHasKey('eur', $val->getRules());
         $this->assertArrayHasKey('byr', $val->getRules());
     }
-
 }

@@ -16,10 +16,8 @@ namespace SmetDenis\SimpleTypes;
  * Class parserTest
  * @package SmetDenis\SimpleTypes
  */
-class parserTest extends PHPUnit
+class ParserTest extends PHPUnit
 {
-
-
     public function testEmpty()
     {
         $empty = '0 eur';

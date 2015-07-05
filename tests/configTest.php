@@ -16,7 +16,7 @@ namespace SmetDenis\SimpleTypes;
  * Class configTest
  * @package SmetDenis\SimpleTypes
  */
-class configTest extends PHPUnit
+class ConfigTest extends PHPUnit
 {
 
     public function testEmptyValid()
@@ -53,5 +53,4 @@ class configTest extends PHPUnit
     {
         new Money(null, new ConfigTestWrong());
     }
-
 }

@@ -16,7 +16,7 @@ namespace SmetDenis\SimpleTypes;
  * Class calcTest
  * @package SmetDenis\SimpleTypes
  */
-class calcTest extends PHPUnit
+class CalcTest extends PHPUnit
 {
     public function testAdd()
     {
@@ -200,7 +200,7 @@ class calcTest extends PHPUnit
     /**
      * @expectedException \SmetDenis\SimpleTypes\Exception
      */
-    public function testImpossibleAdd_1()
+    public function testImpossibleAdd1()
     {
         $this->val('1 %')->add('1 usd');
     }
@@ -214,5 +214,4 @@ class calcTest extends PHPUnit
         $weight = new Weight('1 kg', new ConfigTestWeight());
         $money->add($weight);
     }
-
 }

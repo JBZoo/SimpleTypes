@@ -16,7 +16,7 @@ namespace SmetDenis\SimpleTypes;
  * Class tempTypeTest
  * @package SmetDenis\SimpleTypes
  */
-class tempTypeTest extends typeTest
+class TempTypeTest extends typeTest
 {
 
     protected $type = 'temp';

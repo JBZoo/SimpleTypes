@@ -16,7 +16,7 @@ namespace SmetDenis\SimpleTypes;
  * Class roundTest
  * @package SmetDenis\SimpleTypes
  */
-class roundTest extends PHPUnit
+class RoundTest extends PHPUnit
 {
 
     public function testNone()
