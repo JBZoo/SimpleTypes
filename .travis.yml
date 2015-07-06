@@ -7,10 +7,6 @@ php:
   - nightly
   - hhvm
 
-matrix:
-  allow_failures:
-    - php: hhvm
-
 before_script:
   # PHPCS
   - curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
