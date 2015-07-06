@@ -24,18 +24,18 @@ class InfoTypeTest extends typeTest
     public function testSimple()
     {
         $this->batchEquals(array(
-            ['1 KB', $this->val('1024 byte')->text('KB')],
-            ['1 KB', $this->val('8192 bit')->text('KB')],
-            ['4 GB', $this->val('4294967296 byte')->text('GB')],
-            ['32 B', $this->val('256 bit')->text('Byte')],
+            array('1 KB', $this->val('1024 byte')->text('KB')),
+            array('1 KB', $this->val('8192 bit')->text('KB')),
+            array('4 GB', $this->val('4294967296 byte')->text('GB')),
+            array('32 B', $this->val('256 bit')->text('Byte')),
         ));
     }
 
     public function testConvert()
     {
         $this->batchEquals(array(
-            ['81920 bit', $this->val('10Kb')->convert('bit')->dump(false)],
-            ['10 kb', $this->val('81920bit')->convert('mb')->convert('kb')->dump(false)]
+            array('81920 bit', $this->val('10Kb')->convert('bit')->dump(false)),
+            array('10 kb', $this->val('81920bit')->convert('mb')->convert('kb')->dump(false))
         ));
     }
 

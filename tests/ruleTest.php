@@ -24,8 +24,8 @@ class FormatterTest extends PHPUnit
         $val1 = $this->val('50000.789 usd');
 
         $this->batchEquals(array(
-            ['$50 000.79', $val1->text()],
-            ['50 000.79$', $val1->changeRule('usd', array('format_positive' => '%v%s'))->text()],
+            array('$50 000.79', $val1->text()),
+            array('50 000.79$', $val1->changeRule('usd', array('format_positive' => '%v%s'))->text()),
         ));
     }
 

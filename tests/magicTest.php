@@ -26,9 +26,9 @@ class MagicTest extends PHPUnit
         $valAfter  = unserialize($valString)->convert('eur');
 
         $this->batchEquals(array(
-            ['500 usd', $valBefore->dump(false)],
-            ['250 eur', $valAfter->dump(false)],
-            [true, $valBefore->compare($valAfter)],
+            array('500 usd', $valBefore->dump(false)),
+            array('250 eur', $valAfter->dump(false)),
+            array(true, $valBefore->compare($valAfter)),
         ));
     }
 
@@ -39,9 +39,9 @@ class MagicTest extends PHPUnit
         $clone->convert('eur');
 
         $this->batchEquals(array(
-            ['500 usd', $original->dump(false)],
-            ['250 eur', $clone->dump(false)],
-            [true, $original->compare($clone)],
+            array('500 usd', $original->dump(false)),
+            array('250 eur', $clone->dump(false)),
+            array(true, $original->compare($clone)),
         ));
     }
 
@@ -50,9 +50,9 @@ class MagicTest extends PHPUnit
         $val = $this->val('500 usd');
 
         $this->batchEquals(array(
-            ['$500.00', (string)$val],
-            ['$500.00', '' . $val],
-            ['$500.00', $val->__toString()],
+            array('$500.00', (string)$val),
+            array('$500.00', '' . $val),
+            array('$500.00', $val->__toString()),
         ));
     }
 
@@ -61,8 +61,8 @@ class MagicTest extends PHPUnit
         $val = $this->val('500 usd');
 
         $this->batchEquals(array(
-            [500.0, $val->value],
-            ['usd', $val->rule],
+            array(500.0, $val->value),
+            array('usd', $val->rule),
         ));
     }
 
@@ -76,7 +76,7 @@ class MagicTest extends PHPUnit
         $val->value = '100usd';
         $this->assertEquals('100 usd', $val->dump(false));
 
-        $val->value = [100, 'rub'];
+        $val->value = array(100, 'rub');
         $this->assertEquals('100 rub', $val->dump(false));
 
         $val->rule = 'eur';
@@ -134,10 +134,10 @@ class MagicTest extends PHPUnit
         $val = $this->val('1 eur');
 
         $this->batchEquals(array(
-            ['2 usd', $val('usd')->dump(false)],
-            ['50 eur', $val('50')->dump(false)],
-            ['100 rub', $val('100 rub')->dump(false)],
-            ['100 uah', $val('100', 'uah')->dump(false)],
+            array('2 usd', $val('usd')->dump(false)),
+            array('50 eur', $val('50')->dump(false)),
+            array('100 rub', $val('100 rub')->dump(false)),
+            array('100 uah', $val('100', 'uah')->dump(false)),
         ));
     }
 

@@ -23,15 +23,15 @@ class CalcTest extends PHPUnit
         $val = $this->val();
 
         $this->batchEqualDumps(array(
-            ['0 eur', $val->dump(false)],
-            ['1 eur', $val->add('1')->dump(false)],
-            ['0 eur', $val->add('-1')->dump(false)],
-            ['10 eur', $val->add('10')->dump(false)],
-            ['15 eur', $val->add('10 usd')->dump(false)],
-            ['16 eur', $val->add(1)->dump(false)],
-            ['15 eur', $val->add(-1)->dump(false)],
-            ['15.56 eur', $val->add(0.56)->dump(false)],
-            ['14.99 eur', $val->add(-0.57)->dump(false)],
+            array('0 eur', $val->dump(false)),
+            array('1 eur', $val->add('1')->dump(false)),
+            array('0 eur', $val->add('-1')->dump(false)),
+            array('10 eur', $val->add('10')->dump(false)),
+            array('15 eur', $val->add('10 usd')->dump(false)),
+            array('16 eur', $val->add(1)->dump(false)),
+            array('15 eur', $val->add(-1)->dump(false)),
+            array('15.56 eur', $val->add(0.56)->dump(false)),
+            array('14.99 eur', $val->add(-0.57)->dump(false)),
         ));
     }
 
@@ -40,15 +40,15 @@ class CalcTest extends PHPUnit
         $val = $this->val();
 
         $this->batchEqualDumps(array(
-            ['0 eur', $val->dump(false)],
-            ['-1 eur', $val->subtract('1')->dump(false)],
-            ['0 eur', $val->subtract('-1')->dump(false)],
-            ['-10 eur', $val->subtract('10')->dump(false)],
-            ['-15 eur', $val->subtract('10 usd')->dump(false)],
-            ['-16 eur', $val->subtract(1)->dump(false)],
-            ['-15 eur', $val->subtract(-1)->dump(false)],
-            ['-15.56 eur', $val->subtract(0.56)->dump(false)],
-            ['-16.13 eur', $val->subtract(0.57)->dump(false)],
+            array('0 eur', $val->dump(false)),
+            array('-1 eur', $val->subtract('1')->dump(false)),
+            array('0 eur', $val->subtract('-1')->dump(false)),
+            array('-10 eur', $val->subtract('10')->dump(false)),
+            array('-15 eur', $val->subtract('10 usd')->dump(false)),
+            array('-16 eur', $val->subtract(1)->dump(false)),
+            array('-15 eur', $val->subtract(-1)->dump(false)),
+            array('-15.56 eur', $val->subtract(0.56)->dump(false)),
+            array('-16.13 eur', $val->subtract(0.57)->dump(false)),
         ));
     }
 
@@ -57,16 +57,16 @@ class CalcTest extends PHPUnit
         $val = $this->val(100);
 
         $this->batchEqualDumps(array(
-            ['100 eur', $val->dump(false)],
+            array('100 eur', $val->dump(false)),
 
             // plus
-            ['110 eur', $val->add('10%')->dump(false)],
-            ['99 eur', $val->add('-10%')->dump(false)],
-            ['108.9 eur', $val->add('+10%')->dump(false)],
+            array('110 eur', $val->add('10%')->dump(false)),
+            array('99 eur', $val->add('-10%')->dump(false)),
+            array('108.9 eur', $val->add('+10%')->dump(false)),
 
             // minus
-            ['-980.1 eur', $val->subtract('+1000%')->dump(false)],
-            ['-2411.046 eur', $val->add('146%')->dump(false)],
+            array('-980.1 eur', $val->subtract('+1000%')->dump(false)),
+            array('-2411.046 eur', $val->add('146%')->dump(false)),
         ));
     }
 
@@ -94,15 +94,15 @@ class CalcTest extends PHPUnit
         $val = $this->val('1 eur');
 
         $this->batchEqualDumps(array(
-            ['-1 eur', $val->invert()->dump(false)],
-            ['1 eur', $val->invert()->dump(false)],
+            array('-1 eur', $val->invert()->dump(false)),
+            array('1 eur', $val->invert()->dump(false)),
         ));
 
         $val = $this->val();
 
         $this->batchEqualDumps(array(
-            ['0 eur', $val->invert()->dump(false)],
-            ['0 eur', $val->invert()->dump(false)],
+            array('0 eur', $val->invert()->dump(false)),
+            array('0 eur', $val->invert()->dump(false)),
         ));
     }
 
@@ -111,10 +111,10 @@ class CalcTest extends PHPUnit
         $val = $this->val('1 eur');
 
         $this->batchEqualDumps(array(
-            ['1 eur', $val->positive()->dump(false)],
-            ['-1 eur', $val->negative()->dump(false)],
-            ['-1 eur', $val->negative()->dump(false)],
-            ['1 eur', $val->positive()->dump(false)],
+            array('1 eur', $val->positive()->dump(false)),
+            array('-1 eur', $val->negative()->dump(false)),
+            array('-1 eur', $val->negative()->dump(false)),
+            array('1 eur', $val->positive()->dump(false)),
         ));
     }
 
@@ -123,10 +123,10 @@ class CalcTest extends PHPUnit
         $val = $this->val('1 eur');
 
         $this->batchEqualDumps(array(
-            ['1 eur', $val->multiply('1')->dump(false)],
-            ['10 eur', $val->multiply('10')->dump(false)],
-            ['-10 eur', $val->multiply('-1')->dump(false)],
-            ['5.6 eur', $val->multiply('-.56')->dump(false)],
+            array('1 eur', $val->multiply('1')->dump(false)),
+            array('10 eur', $val->multiply('10')->dump(false)),
+            array('-10 eur', $val->multiply('-1')->dump(false)),
+            array('5.6 eur', $val->multiply('-.56')->dump(false)),
         ));
     }
 
@@ -135,8 +135,8 @@ class CalcTest extends PHPUnit
         $val = $this->val('360 eur');
 
         $this->batchEqualDumps(array(
-            ['3000 eur', $val->division(.12)->dump(false)],
-            ['100 eur', $val->division(30)->dump(false)],
+            array('3000 eur', $val->division(.12)->dump(false)),
+            array('100 eur', $val->division(30)->dump(false)),
         ));
     }
 
@@ -146,8 +146,8 @@ class CalcTest extends PHPUnit
         $itemPrice    = $this->val('100 eur');
 
         $this->batchEqualDumps(array(
-            ['20 %', $discountSave->percent($itemPrice)->dump(false)],
-            ['40 %', $this->val('10 eur')->percent('50 usd')->dump(false)],
+            array('20 %', $discountSave->percent($itemPrice)->dump(false)),
+            array('40 %', $this->val('10 eur')->percent('50 usd')->dump(false)),
         ));
     }
 
@@ -164,7 +164,7 @@ class CalcTest extends PHPUnit
             })
             ->customFunc(function ($value) {
                 $value
-                    ->add([50, 'usd'])
+                    ->add(array(50, 'usd'))
                     ->convert('byr');
             });
 

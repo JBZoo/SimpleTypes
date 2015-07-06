@@ -22,16 +22,16 @@ class CompareTest extends PHPUnit
     public function testSimple()
     {
         $this->batchEquals(array(
-            [true, $this->val(1)->compare(1, '=')],
-            [true, $this->val(1)->compare(1, '==')],
-            [true, $this->val(1)->compare(1, '===')],
-            [true, $this->val(1)->compare(1, '>=')],
-            [true, $this->val(1)->compare(1, '<=')],
+            array(true, $this->val(1)->compare(1, '=')),
+            array(true, $this->val(1)->compare(1, '==')),
+            array(true, $this->val(1)->compare(1, '===')),
+            array(true, $this->val(1)->compare(1, '>=')),
+            array(true, $this->val(1)->compare(1, '<=')),
 
-            [false, $this->val(1)->compare(1, '<')],
-            [false, $this->val(1)->compare(1, '!=')],
-            [false, $this->val(1)->compare(1, '!==')],
-            [false, $this->val(1)->compare(1, '>')],
+            array(false, $this->val(1)->compare(1, '<')),
+            array(false, $this->val(1)->compare(1, '!=')),
+            array(false, $this->val(1)->compare(1, '!==')),
+            array(false, $this->val(1)->compare(1, '>')),
         ));
     }
 
@@ -41,11 +41,11 @@ class CompareTest extends PHPUnit
         $v2 = $this->val('5.6');
 
         $this->batchEquals(array(
-            [false, $v1->compare($v2, ' =')],
-            [true, $v1->compare($v2, '< ')],
-            [true, $v1->compare($v2, ' <= ')],
-            [false, $v1->compare($v2, ' >= ')],
-            [false, $v1->compare($v2, '>')],
+            array(false, $v1->compare($v2, ' =')),
+            array(true, $v1->compare($v2, '< ')),
+            array(true, $v1->compare($v2, ' <= ')),
+            array(false, $v1->compare($v2, ' >= ')),
+            array(false, $v1->compare($v2, '>')),
         ));
     }
 
@@ -55,12 +55,12 @@ class CompareTest extends PHPUnit
         $eur = $this->val('1 eur');
 
         $this->batchEquals(array(
-            [false, $usd->compare($eur, '=')],
-            [true, $usd->compare($eur, '!=')],
-            [true, $usd->compare($eur, '<')],
-            [true, $usd->compare($eur, '<=')],
-            [false, $usd->compare($eur, '>')],
-            [false, $usd->compare($eur, '>=')],
+            array(false, $usd->compare($eur, '=')),
+            array(true, $usd->compare($eur, '!=')),
+            array(true, $usd->compare($eur, '<')),
+            array(true, $usd->compare($eur, '<=')),
+            array(false, $usd->compare($eur, '>')),
+            array(false, $usd->compare($eur, '>=')),
         ));
 
         // after convert
@@ -68,12 +68,12 @@ class CompareTest extends PHPUnit
         $usd->convert('eur');
 
         $this->batchEquals(array(
-            [false, $usd->compare($eur, '==')],
-            [true, $usd->compare($eur, '!==')],
-            [true, $usd->compare($eur, '<')],
-            [true, $usd->compare($eur, '<=')],
-            [false, $usd->compare($eur, '>')],
-            [false, $usd->compare($eur, '>=')],
+            array(false, $usd->compare($eur, '==')),
+            array(true, $usd->compare($eur, '!==')),
+            array(true, $usd->compare($eur, '<')),
+            array(true, $usd->compare($eur, '<=')),
+            array(false, $usd->compare($eur, '>')),
+            array(false, $usd->compare($eur, '>=')),
         ));
     }
 

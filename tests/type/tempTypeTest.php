@@ -24,10 +24,10 @@ class TempTypeTest extends typeTest
     public function testCreate()
     {
         $this->batchEquals(array(
-            ['0 k', $this->val('K')->dump(false)],
-            ['0 c', $this->val('C')->dump(false)],
-            ['0 f', $this->val('F')->dump(false)],
-            ['0 r', $this->val('R')->dump(false)],
+            array('0 k', $this->val('K')->dump(false)),
+            array('0 c', $this->val('C')->dump(false)),
+            array('0 f', $this->val('F')->dump(false)),
+            array('0 r', $this->val('R')->dump(false)),
         ));
     }
 
@@ -36,12 +36,12 @@ class TempTypeTest extends typeTest
         $val = $this->val('k');
 
         $this->batchEquals(array(
-            ['-273.15 c', $val->convert('C')->dump(false)],
-            ['-459.67 f', $val->convert('F')->dump(false)],
-            ['0 k', $val->convert('K')->dump(false)],
-            ['0 r', $val->convert('R')->dump(false)],
-            ['-273.15 c', $val->convert('C')->dump(false)],
-            ['0 r', $val->convert('R')->dump(false)],
+            array('-273.15 c', $val->convert('C')->dump(false)),
+            array('-459.67 f', $val->convert('F')->dump(false)),
+            array('0 k', $val->convert('K')->dump(false)),
+            array('0 r', $val->convert('R')->dump(false)),
+            array('-273.15 c', $val->convert('C')->dump(false)),
+            array('0 r', $val->convert('R')->dump(false)),
         ));
     }
 }

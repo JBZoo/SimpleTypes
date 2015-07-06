@@ -22,12 +22,12 @@ class ConverterTest extends PHPUnit
     public function testCheckExists()
     {
         $this->batchEqualDumps(array(
-            ['1 eur', $this->val('1')->dump(false)], // eur is default
-            ['1 eur', $this->val('1 eur')->dump(false)],
-            ['1 usd', $this->val('1 usd')->dump(false)],
-            ['1 rub', $this->val('1 rub')->dump(false)],
-            ['1 uah', $this->val('1 uah')->dump(false)],
-            ['1 byr', $this->val('1 byr')->dump(false)],
+            array('1 eur', $this->val('1')->dump(false)), // eur is default
+            array('1 eur', $this->val('1 eur')->dump(false)),
+            array('1 usd', $this->val('1 usd')->dump(false)),
+            array('1 rub', $this->val('1 rub')->dump(false)),
+            array('1 uah', $this->val('1 uah')->dump(false)),
+            array('1 byr', $this->val('1 byr')->dump(false)),
         ));
 
     }
@@ -37,15 +37,15 @@ class ConverterTest extends PHPUnit
         $val = $this->val('1.25 usd');
 
         $this->batchEquals(array(
-            [0.625, $val->val('eur')],
-            [1.25, $val->val('usd')],
-            ['0.625 eur', $val->convert('eur')->dump(false)],
-            ['1.25 usd', $val->convert('usd')->dump(false)],
-            ['12500 byr', $val->convert('byr')->dump(false)],
-            ['31.25 rub', $val->convert('rub')->dump(false)],
-            ['0.625 eur', $val->convert('eur')->dump(false)],
-            ['1.25 usd', $val->convert('usd')->dump(false)],
-            ['1.25 usd', $val->convert('usd')->dump(false)],
+            array(0.625, $val->val('eur')),
+            array(1.25, $val->val('usd')),
+            array('0.625 eur', $val->convert('eur')->dump(false)),
+            array('1.25 usd', $val->convert('usd')->dump(false)),
+            array('12500 byr', $val->convert('byr')->dump(false)),
+            array('31.25 rub', $val->convert('rub')->dump(false)),
+            array('0.625 eur', $val->convert('eur')->dump(false)),
+            array('1.25 usd', $val->convert('usd')->dump(false)),
+            array('1.25 usd', $val->convert('usd')->dump(false)),
         ));
     }
 

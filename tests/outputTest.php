@@ -23,54 +23,54 @@ class OutputTest extends PHPUnit
     {
         $this->batchEquals(array(
             // eur
-            ['10 000.67 €', $this->val('10000.666 eur')->text()],
-            ['-10 000.67 €', $this->val('-10000.666 eur')->text()],
+            array('10 000.67 €', $this->val('10000.666 eur')->text()),
+            array('-10 000.67 €', $this->val('-10000.666 eur')->text()),
 
             // usd
-            ['$10 000.67', $this->val('10000.666 usd')->text()],
-            ['-$10 000.67', $this->val('-10000.666 usd')->text()],
+            array('$10 000.67', $this->val('10000.666 usd')->text()),
+            array('-$10 000.67', $this->val('-10000.666 usd')->text()),
 
             // rub
-            ['10 000,67 руб.', $this->val('10000.666 rub')->text()],
-            ['-10 000,67 руб.', $this->val('-10000.666 rub')->text()],
+            array('10 000,67 руб.', $this->val('10000.666 rub')->text()),
+            array('-10 000,67 руб.', $this->val('-10000.666 rub')->text()),
 
             // uah
-            ['10 000,67 грн.', $this->val('10000.666 uah')->text()],
-            ['-10 000,67 грн.', $this->val('-10000.666 uah')->text()],
+            array('10 000,67 грн.', $this->val('10000.666 uah')->text()),
+            array('-10 000,67 грн.', $this->val('-10000.666 uah')->text()),
 
             // byr
-            ['10 100 Br', $this->val('10000.666 byr')->text()],
-            ['-10 000 Br', $this->val('-10000.666 byr')->text()],
+            array('10 100 Br', $this->val('10000.666 byr')->text()),
+            array('-10 000 Br', $this->val('-10000.666 byr')->text()),
 
             // %
-            ['10.67%', $this->val('10.666 %')->text()],
-            ['-10.67%', $this->val('-10.666 %')->text()],
+            array('10.67%', $this->val('10.666 %')->text()),
+            array('-10.67%', $this->val('-10.666 %')->text()),
 
             // with converting
-            ['$2.00', $this->val('1 eur')->text('usd')],
-            ['0.50 €', $this->val('1 usd')->text('eur')],
+            array('$2.00', $this->val('1 eur')->text('usd')),
+            array('0.50 €', $this->val('1 usd')->text('eur')),
         ));
     }
 
     public function testDump()
     {
-        $this->assertRegExp('#10000.66666667 uah; id=[0-9]*#i', $this->val('10000.666666666 uah')->dump());
+        $this->assertRegExp('#10000\.666666\d* uah; id=[0-9]*#i', $this->val('10000.666666666 uah')->dump());
         $this->assertEquals('10000.666 uah', $this->val('10000.666 uah')->dump(false));
     }
 
     public function testData()
     {
         $this->batchEquals(array(
-            [['10000.666', 'uah'], $this->val('10000.666 uah')->data()],
-            [['10000.666', 'uah'], $this->val('10000.666 uah')->data(false)],
-            ['10000.666 uah', $this->val('10000.666 uah')->data(true)],
+            array(array('10000.666', 'uah'), $this->val('10000.666 uah')->data()),
+            array(array('10000.666', 'uah'), $this->val('10000.666 uah')->data(false)),
+            array('10000.666 uah', $this->val('10000.666 uah')->data(true)),
         ));
     }
 
     public function testNoStyle()
     {
         $this->batchEquals(array(
-            ['10 000,67', $this->val('10000.666 uah')->noStyle()],
+            array('10 000,67', $this->val('10000.666 uah')->noStyle()),
         ));
     }
 

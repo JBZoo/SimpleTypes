@@ -30,14 +30,23 @@ class ConfigTest extends PHPUnit
         Config::registerDefault('weight', new ConfigTestWeight());
         Config::registerDefault('info', new ConfigTestInfo());
 
-        $this->batchEquals(array(
-            // weight
-            ['1 gram', (new Weight('1gram'))->dump(false)],
-            ['1000 gram', (new Weight('1kg'))->convert('gram')->dump(false)],
+        // weight
+        $weight1 = new Weight('1gram');
+        $weight2 = new Weight('1kg');
 
-            // info
-            ['1 byte', (new Info('1'))->dump(false)],
-            ['1 kb', (new Info('1024byte'))->convert('kb')->dump(false)],
+        $this->batchEquals(array(
+
+            array('1 gram', $weight1->dump(false)),
+            array('1000 gram', $weight2->convert('gram')->dump(false)),
+        ));
+
+        // info
+        $info1 = new Info(1);
+        $info2 = new Info('1024byte');
+
+        $this->batchEquals(array(
+            array('1 byte', $info1->dump(false)),
+            array('1 kb', $info2->convert('kb')->dump(false)),
         ));
     }
 

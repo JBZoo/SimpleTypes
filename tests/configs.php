@@ -27,7 +27,7 @@ class ConfigTestEmpty extends Config
 
     public function getRules()
     {
-        return array('i' => []);
+        return array('i' => array());
     }
 }
 

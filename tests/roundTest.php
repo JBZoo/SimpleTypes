@@ -25,13 +25,13 @@ class RoundTest extends PHPUnit
         $rType = Formatter::ROUND_NONE;
 
         $this->batchEquals(array(
-            ['123.456789 eur', $this->val($value)->round(-3, $rType)->dump(false)],
-            ['123.456789 eur', $this->val($value)->round(-2, $rType)->dump(false)],
-            ['123.456789 eur', $this->val($value)->round(-1, $rType)->dump(false)],
-            ['123.456789 eur', $this->val($value)->round(0, $rType)->dump(false)],
-            ['123.456789 eur', $this->val($value)->round(1, $rType)->dump(false)],
-            ['123.456789 eur', $this->val($value)->round(2, $rType)->dump(false)],
-            ['123.456789 eur', $this->val($value)->round(3, $rType)->dump(false)],
+            array('123.456789 eur', $this->val($value)->round(-3, $rType)->dump(false)),
+            array('123.456789 eur', $this->val($value)->round(-2, $rType)->dump(false)),
+            array('123.456789 eur', $this->val($value)->round(-1, $rType)->dump(false)),
+            array('123.456789 eur', $this->val($value)->round(0, $rType)->dump(false)),
+            array('123.456789 eur', $this->val($value)->round(1, $rType)->dump(false)),
+            array('123.456789 eur', $this->val($value)->round(2, $rType)->dump(false)),
+            array('123.456789 eur', $this->val($value)->round(3, $rType)->dump(false)),
         ));
     }
 
@@ -41,13 +41,13 @@ class RoundTest extends PHPUnit
         $rType = Formatter::ROUND_CLASSIC;
 
         $this->batchEquals(array(
-            ['0 eur', $this->val($value)->round(-3, $rType)->dump(false)],
-            ['100 eur', $this->val($value)->round(-2, $rType)->dump(false)],
-            ['120 eur', $this->val($value)->round(-1, $rType)->dump(false)],
-            ['123 eur', $this->val($value)->round(0, $rType)->dump(false)],
-            ['123.5 eur', $this->val($value)->round(1, $rType)->dump(false)],
-            ['123.46 eur', $this->val($value)->round(2, $rType)->dump(false)],
-            ['123.457 eur', $this->val($value)->round(3, $rType)->dump(false)],
+            array('0 eur', $this->val($value)->round(-3, $rType)->dump(false)),
+            array('100 eur', $this->val($value)->round(-2, $rType)->dump(false)),
+            array('120 eur', $this->val($value)->round(-1, $rType)->dump(false)),
+            array('123 eur', $this->val($value)->round(0, $rType)->dump(false)),
+            array('123.5 eur', $this->val($value)->round(1, $rType)->dump(false)),
+            array('123.46 eur', $this->val($value)->round(2, $rType)->dump(false)),
+            array('123.457 eur', $this->val($value)->round(3, $rType)->dump(false)),
         ));
     }
 
@@ -57,13 +57,13 @@ class RoundTest extends PHPUnit
         $rType = Formatter::ROUND_CEIL;
 
         $this->batchEquals(array(
-            ['1000 eur', $this->val($value)->round(-3, $rType)->dump(false)],
-            ['200 eur', $this->val($value)->round(-2, $rType)->dump(false)],
-            ['120 eur', $this->val($value)->round(-1, $rType)->dump(false)],
-            ['112 eur', $this->val($value)->round(0, $rType)->dump(false)],
-            ['111.2 eur', $this->val($value)->round(1, $rType)->dump(false)],
-            ['111.12 eur', $this->val($value)->round(2, $rType)->dump(false)],
-            ['111.112 eur', $this->val($value)->round(3, $rType)->dump(false)],
+            array('1000 eur', $this->val($value)->round(-3, $rType)->dump(false)),
+            array('200 eur', $this->val($value)->round(-2, $rType)->dump(false)),
+            array('120 eur', $this->val($value)->round(-1, $rType)->dump(false)),
+            array('112 eur', $this->val($value)->round(0, $rType)->dump(false)),
+            array('111.2 eur', $this->val($value)->round(1, $rType)->dump(false)),
+            array('111.12 eur', $this->val($value)->round(2, $rType)->dump(false)),
+            array('111.112 eur', $this->val($value)->round(3, $rType)->dump(false)),
         ));
     }
 
@@ -73,13 +73,13 @@ class RoundTest extends PHPUnit
         $rType = Formatter::ROUND_FLOOR;
 
         $this->batchEquals(array(
-            ['0 eur', $this->val($value)->round(-3, $rType)->dump(false)],
-            ['900 eur', $this->val($value)->round(-2, $rType)->dump(false)],
-            ['990 eur', $this->val($value)->round(-1, $rType)->dump(false)],
-            ['999 eur', $this->val($value)->round(0, $rType)->dump(false)],
-            ['999.9 eur', $this->val($value)->round(1, $rType)->dump(false)],
-            ['999.99 eur', $this->val($value)->round(2, $rType)->dump(false)],
-            ['999.999 eur', $this->val($value)->round(3, $rType)->dump(false)],
+            array('0 eur', $this->val($value)->round(-3, $rType)->dump(false)),
+            array('900 eur', $this->val($value)->round(-2, $rType)->dump(false)),
+            array('990 eur', $this->val($value)->round(-1, $rType)->dump(false)),
+            array('999 eur', $this->val($value)->round(0, $rType)->dump(false)),
+            array('999.9 eur', $this->val($value)->round(1, $rType)->dump(false)),
+            array('999.99 eur', $this->val($value)->round(2, $rType)->dump(false)),
+            array('999.999 eur', $this->val($value)->round(3, $rType)->dump(false)),
         ));
     }
 
