@@ -8,14 +8,14 @@ php:
   - hhvm
 
 before_script:
-  # PHPCS
-  - curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
-
   # Composer
   - wget -nc http://getcomposer.org/composer.phar
   - php composer.phar install --dev --no-interaction
   - composer update
+
+  # Tools
   - composer require satooshi/php-coveralls
+  - composer require squizlabs/php_codesniffer
 
   # Dirs
   - mkdir -p build/logs
@@ -25,13 +25,13 @@ before_script:
 script:
   # PHPUnit tests
   - phpunit --configuration phpunit.xml.dist --coverage-text --coverage-clover build/logs/clover.xml
-  - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then php phpcs.phar ./src --standard=PSR1 --encoding=utf-8 --report=summary -v; fi;'
-  - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then php phpcs.phar ./src --standard=PSR2 --encoding=utf-8 --report=summary -v; fi;'
-  - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then php phpcs.phar ./tests --standard=PSR2 --encoding=utf-8 --report=summary -v; fi;'
+  - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then php vendor/bin/phpcs ./src --standard=PSR1 --encoding=utf-8 --report=summary -v; fi;'
+  - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then php vendor/bin/phpcs ./src --standard=PSR2 --encoding=utf-8 --report=summary -v; fi;'
+  - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then php vendor/bin/phpcs ./tests --standard=PSR2 --encoding=utf-8 --report=summary -v; fi;'
 
 after_script:
   - php vendor/bin/coveralls -v
-  - sh -c 'if [ "$TRAVIS_PHP_VERSION" == "5.4" ]; then php vendor/bin/coveralls -v; fi;'
+  - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then php vendor/bin/coveralls -v; fi;'
 
 notifications:
   email: false
