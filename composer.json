@@ -27,7 +27,7 @@
         }
     ],
     "require"          : {
-        "php": ">=5.4.1"
+        "php": ">=5.3.27"
     },
     "autoload"         : {
         "files": ["src/autoload.php"]
