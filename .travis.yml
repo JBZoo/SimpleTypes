@@ -9,7 +9,6 @@ php:
 
 matrix:
   allow_failures:
-    - php: nightly
     - php: hhvm
 
 before_script:
@@ -30,9 +29,9 @@ before_script:
 script:
   # PHPUnit tests
   - phpunit --configuration phpunit.xml.dist --coverage-text --coverage-clover build/logs/clover.xml
-  - php phpcs.phar ./src --standard=PSR1 --encoding=utf-8 --report=summary
-  - php phpcs.phar ./src --standard=PSR2 --encoding=utf-8 --report=summary
-  - php phpcs.phar ./tests --standard=PSR2 --encoding=utf-8 --report=summary
+  - php phpcs.phar ./src --standard=PSR1 --encoding=utf-8 -v
+  - php phpcs.phar ./src --standard=PSR2 --encoding=utf-8 -v
+  - php phpcs.phar ./tests --standard=PSR2 --encoding=utf-8 -v
 
 after_script:
   - php vendor/bin/coveralls -v
