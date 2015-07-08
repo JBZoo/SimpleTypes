@@ -35,7 +35,6 @@ class Degree extends Type
         }
 
         if ($devider) {
-
             if ($this->value <= (-1 * $devider)) {
                 $this->value = fmod($this->value, $devider);
             } elseif ($this->value >= $devider) {
