@@ -11,10 +11,10 @@
 namespace SmetDenis\SimpleTypes;
 
 /**
- * Class degreeTypeTest
+ * Class DegreeTypeTest
  * @package SmetDenis\SimpleTypes
  */
-class degreeTypeTest extends TypeTest
+class DegreeTypeTest extends TypeTest
 {
 
     protected $type = 'degree';
@@ -64,5 +64,4 @@ class degreeTypeTest extends TypeTest
     {
         $this->assertEquals('-1 r', $this->val('-5 r')->removeCircles()->dump(false));
     }
-
 }
