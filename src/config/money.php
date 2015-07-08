@@ -19,7 +19,6 @@ namespace SmetDenis\SimpleTypes;
 class ConfigMoney extends Config
 {
     public $default = 'eur';
-    public $isDebug = true;
 
     /**
      * List of rules

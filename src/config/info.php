@@ -19,7 +19,6 @@ namespace SmetDenis\SimpleTypes;
 class ConfigInfo extends Config
 {
     public $default = 'byte';
-    public $isDebug = true;
 
     /**
      * List of rules
@@ -33,44 +32,43 @@ class ConfigInfo extends Config
         $this->defaultParams['round_type']   = Formatter::ROUND_NONE;
 
         return array(
-            'byte' => array_merge($this->defaultParams, array(
+            'byte' => array(
                 'symbol' => 'B',
                 'rate'   => 1,
-            )),
-            'kb'   => array_merge($this->defaultParams, array(
+            ),
+            'kb'   => array(
                 'symbol' => 'KB',
                 'rate'   => pow($base, 1),
-            )),
-            'mb'   => array_merge($this->defaultParams, array(
+            ),
+            'mb'   => array(
                 'symbol' => 'MB',
                 'rate'   => pow($base, 2),
-            )),
-            'gb'   => array_merge($this->defaultParams, array(
+            ),
+            'gb'   => array(
                 'symbol' => 'GB',
                 'rate'   => pow($base, 3),
-            )),
-            'tb'   => array_merge($this->defaultParams, array(
+            ),
+            'tb'   => array(
                 'symbol' => 'TB',
                 'rate'   => pow($base, 4),
-            )),
-            'pb'   => array_merge($this->defaultParams, array(
+            ),
+            'pb'   => array(
                 'symbol' => 'PB',
                 'rate'   => pow($base, 5),
-            )),
-            'eb'   => array_merge($this->defaultParams, array(
+            ),
+            'eb'   => array(
                 'symbol' => 'EB',
                 'rate'   => pow($base, 6),
-            )),
-            'zb'   => array_merge($this->defaultParams, array(
+            ),
+            'zb'   => array(
                 'symbol' => 'ZB',
                 'rate'   => pow($base, 7),
-            )),
-            'yb'   => array_merge($this->defaultParams, array(
+            ),
+            'yb'   => array(
                 'symbol' => 'YB',
                 'rate'   => pow($base, 8),
-            )),
-
-            'bit'  => array_merge($this->defaultParams, array(
+            ),
+            'bit'  => array(
                 'symbol' => 'Bit',
                 'rate'   => function ($value, $to) {
 
@@ -82,8 +80,7 @@ class ConfigInfo extends Config
 
                     return $value;
                 },
-            )),
+            ),
         );
-
     }
 }

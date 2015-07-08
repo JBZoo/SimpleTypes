@@ -19,7 +19,6 @@ namespace SmetDenis\SimpleTypes;
 class ConfigTemp extends Config
 {
     public $default = 'k';
-    public $isDebug = true;
 
     /**
      * List of rules
@@ -27,10 +26,13 @@ class ConfigTemp extends Config
      */
     public function getRules()
     {
+        $this->defaultParams ['format_positive'] = '%v%s';
+        $this->defaultParams ['format_negative'] = '-%v%s';
+
         return array(
 
             // Celsius
-            'C' => array_merge($this->defaultParams, array(
+            'C' => array(
                 'symbol' => '°C',
                 'rate'   => function ($value, $to) {
 
@@ -42,10 +44,10 @@ class ConfigTemp extends Config
 
                     return $value;
                 },
-            )),
+            ),
 
             // Fahrenheit
-            'F' => array_merge($this->defaultParams, array(
+            'F' => array(
                 'symbol' => '°F',
                 'rate'   => function ($value, $to) {
 
@@ -57,10 +59,10 @@ class ConfigTemp extends Config
 
                     return $value;
                 },
-            )),
+            ),
 
             // Rankine
-            'R' => array_merge($this->defaultParams, array(
+            'R' => array(
                 'symbol' => '°R',
                 'rate'   => function ($value, $to) {
 
@@ -72,15 +74,15 @@ class ConfigTemp extends Config
 
                     return $value;
                 },
-            )),
+            ),
 
             // Kelvin
-            'K' => array_merge($this->defaultParams, array(
+            'K' => array(
                 'symbol' => 'K',
                 'rate'   => function ($value) {
                     return $value;
                 },
-            )),
+            ),
         );
     }
 }
