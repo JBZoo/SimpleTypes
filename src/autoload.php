@@ -49,9 +49,15 @@ spl_autoload_register(
                 'volume'       => 'type/volume.php',
                 'weight'       => 'type/weight.php',
 
-                'configmoney'  => 'config/money.php',
+                'configarea'   => 'config/area.php',
+                'configdegree' => 'config/degree.php',
                 'configinfo'   => 'config/info.php',
+                'configlength' => 'config/length.php',
+                'configmoney'  => 'config/money.php',
                 'configtemp'   => 'config/temp.php',
+                'configtime'   => 'config/time.php',
+                'configvolume' => 'config/volume.php',
+                'configweight' => 'config/weight.php',
             );
         }
 

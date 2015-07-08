@@ -27,21 +27,6 @@ class Formatter
     /**
      * @var array
      */
-    protected $default = array(
-        'symbol'          => '',
-        'round_type'      => self::ROUND_NONE,
-        'round_value'     => self::ROUND_DEFAULT,
-        'num_decimals'    => '2',
-        'decimal_sep'     => '.',
-        'thousands_sep'   => ' ',
-        'format_positive' => '%v %s',
-        'format_negative' => '-%v %s',
-        'rate'            => 1,
-    );
-
-    /**
-     * @var array
-     */
     protected $rules = array();
 
     /**
@@ -50,12 +35,19 @@ class Formatter
     protected $type = null;
 
     /**
+     * @var array
+     */
+    protected $default = array();
+
+    /**
      * @param array  $rules
+     * @param array  $default
      * @param string $type
      */
-    public function __construct(array $rules = array(), $type = null)
+    public function __construct(array $rules = array(), array $default = array(), $type = null)
     {
-        $this->type = $type;
+        $this->type    = $type;
+        $this->default = $default;
 
         // prepare rules
         $this->rules = array_change_key_case((array)$rules, CASE_LOWER);
@@ -100,8 +92,8 @@ class Formatter
      */
     public function text($value, $rule, $showSymbol = true)
     {
-        $data  = $this->format($value, $rule);
-        $rData = $this->get($rule);
+        $data   = $this->format($value, $rule);
+        $rData  = $this->get($rule);
         $symbol = $showSymbol ? $rData['symbol'] : '';
 
         $result = str_replace(
