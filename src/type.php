@@ -56,12 +56,12 @@ abstract class Type
     /**
      * @var array
      */
-    protected $logs = null;
+    protected $logs = array();
 
     /**
      * @var bool
      */
-    protected $isDebug = true;
+    protected $isDebug = false;
 
     /**
      * @type int
@@ -69,8 +69,9 @@ abstract class Type
     static protected $counter = 0;
 
     /**
-     * @param mixed  $value
+     * @param string $value
      * @param Config $config
+     * @throws Exception
      */
     public function __construct($value = null, Config $config = null)
     {
@@ -87,7 +88,7 @@ abstract class Type
         !$this->default && $this->error('Default rule cannot be empty!');
 
         // create formatter helper
-        $this->formatter = new Formatter($config->getRules(), $this->type);
+        $this->formatter = new Formatter($config->getRules(), $config->defaultParams, $this->type);
 
         // check that default rule
         $rules = $this->formatter->getList(true);
@@ -327,10 +328,11 @@ abstract class Type
     }
 
     /**
-     * @param Type|string $value
-     * @param string      $mode
-     * @param integer     $round
+     * @param mixed   $value
+     * @param string  $mode
+     * @param integer $round
      * @return bool
+     * @throws Exception
      */
     public function compare($value, $mode = '==', $round = Formatter::ROUND_DEFAULT)
     {
