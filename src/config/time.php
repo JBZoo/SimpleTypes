@@ -51,7 +51,7 @@ class ConfigTime extends Config
             ),
             'q'  => array(
                 'symbol' => 'Quarter', // 3 months
-                'rate'   => 23328000,
+                'rate'   => 7776000,
             ),
             'y'  => array(
                 'symbol' => 'Year', // 365.25 days
