@@ -11,12 +11,12 @@
 namespace SmetDenis\SimpleTypes;
 
 /**
- * Class ConfigVolume
+ * Class ConfigArea
  * @package SmetDenis\SimpleTypes
  */
-class ConfigVolume extends Config
+class ConfigArea extends Config
 {
-    public $default = 'l';
+    public $default = 'm2';
 
     /**
      * List of rules
@@ -26,59 +26,43 @@ class ConfigVolume extends Config
     {
         return array(
             // SI
-            'ml'      => array(
-                'symbol' => 'mL',
-                'rate'   => 0.001,
+            'mm2' => array(
+                'symbol' => 'mm2',
+                'rate'   => 1000000,
             ),
-            'cm3'     => array(
-                'symbol' => 'cm3',
-                'rate'   => 0.1,
+            'cm2' => array(
+                'symbol' => 'cm2',
+                'rate'   => 10000,
             ),
-            'l'       => array(
-                'symbol' => 'L',
+            'm2'  => array(
+                'symbol' => 'm2',
                 'rate'   => 1,
             ),
-            'm3'      => array(
-                'symbol' => 'm3',
-                'rate'   => 1000,
+            'km2' => array(
+                'symbol' => 'km2',
+                'rate'   => 1000000,
             ),
 
             // other
-            'quart'   => array(
-                'symbol' => 'Quart',
-                'rate'   => 1.1365225,
+            'ft2' => array(
+                'symbol' => 'sq ft',
+                'rate'   => 0.09290341,
             ),
-            'f-quart' => array(
-                'symbol' => 'Fluid Quart',
-                'rate'   => 0.946352946,
+            'ch2' => array(
+                'symbol' => 'sq ch',
+                'rate'   => 404.6873,
             ),
-            'pint'    => array(
-                'symbol' => 'Pint',
-                'rate'   => 0.56826125,
+            'acr' => array(
+                'symbol' => 'Acre',
+                'rate'   => 4046.873,
             ),
-            'f-pint'  => array(
-                'symbol' => 'Fluid Pint',
-                'rate'   => 0.473176473,
+            'ar'  => array(
+                'symbol' => 'Ar', // "Sotka"
+                'rate'   => 100,
             ),
-            'gal'     => array(
-                'symbol' => 'Gallon',
-                'rate'   => 4.54609,
-            ),
-            'l-gal'   => array(
-                'symbol' => 'L.Gallon',
-                'rate'   => 3.785411784,
-            ),
-            'ft3'     => array(
-                'symbol' => 'Cubic ft.',
-                'rate'   => 28.316846592,
-            ),
-            'in3'     => array(
-                'symbol' => 'Cubic in.',
-                'rate'   => 0.016387064,
-            ),
-            'f-ounce' => array(
-                'symbol' => 'Fluid oz.',
-                'rate'   => 28.4130625,
+            'ga'  => array(
+                'symbol' => 'Ga',
+                'rate'   => 10000,
             ),
         );
     }

@@ -11,58 +11,54 @@
 namespace SmetDenis\SimpleTypes;
 
 /**
- * Class ConfigArea
+ * Class ConfigVolume
  * @package SmetDenis\SimpleTypes
  */
-class ConfigArea extends Config
+class ConfigVolume extends Config
 {
-    public $default = 'm2';
+    public $default = 'lit';
 
     /**
      * List of rules
+     * @link https://en.wikipedia.org/wiki/United_States_customary_units
      * @return array
      */
     public function getRules()
     {
         return array(
             // SI
-            'mm2' => array(
-                'symbol' => 'mm2',
-                'rate'   => 1000000,
+            'ml'  => array(
+                'symbol' => 'mL',
+                'rate'   => 0.001,
             ),
-            'cm2' => array(
-                'symbol' => 'cm2',
-                'rate'   => 10000,
+            'cm3' => array(
+                'symbol' => 'cm3',
+                'rate'   => 0.1,
             ),
-            'm2'  => array(
-                'symbol' => 'm2',
+            'm3'  => array(
+                'symbol' => 'm3',
+                'rate'   => 1000,
+            ),
+            'lit' => array(
+                'symbol' => 'L',
                 'rate'   => 1,
             ),
-            'km2' => array(
-                'symbol' => 'km2',
-                'rate'   => 1000000,
-            ),
-
             // other
-            'ft2' => array(
-                'symbol' => 'sq ft',
-                'rate'   => 0.09290341,
+            'qt'  => array(
+                'symbol' => 'US quart',
+                'rate'   => 0.946352946,
             ),
-            'ch2' => array(
-                'symbol' => 'sq ch',
-                'rate'   => 404.6873,
+            'pt'  => array(
+                'symbol' => 'US pint',
+                'rate'   => 0.56826125,
             ),
-            'acr' => array(
-                'symbol' => 'Acre',
-                'rate'   => 4046.873,
+            'gal' => array(
+                'symbol' => 'US gallon',
+                'rate'   => 3.785411784,
             ),
-            'ar'  => array(
-                'symbol' => 'Ar', // Sotka
-                'rate'   => 100,
-            ),
-            'ga'  => array(
-                'symbol' => 'Ga',
-                'rate'   => 10000,
+            'bbl' => array(
+                'symbol' => 'Barrel',
+                'rate'   => 119.240471196,
             ),
         );
     }
