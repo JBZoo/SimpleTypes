@@ -26,74 +26,49 @@ class ConfigMoney extends Config
      */
     public function getRules()
     {
+        $this->defaultParams['num_decimals']    = 2;
+        $this->defaultParams['num_decimals']    = 2;
+        $this->defaultParams['round_type']      = Formatter::ROUND_CLASSIC;
+        $this->defaultParams['decimal_sep']     = '.';
+        $this->defaultParams['thousands_sep']   = ' ';
+        $this->defaultParams['format_positive'] = '%v %s';
+        $this->defaultParams['format_negative'] = '-%v %s';
+
         return array(
             'eur' => array(
-                'symbol'          => '€',
-                'round_type'      => Formatter::ROUND_CLASSIC,
-                'round_value'     => '2',
-                'num_decimals'    => '2',
-                'decimal_sep'     => '.',
-                'thousands_sep'   => ' ',
-                'format_positive' => '%v %s',
-                'format_negative' => '-%v %s',
-                'rate'            => 1,
+                'symbol' => '€',
+                'rate'   => 1,
             ),
 
             'usd' => array(
                 'symbol'          => '$',
-                'round_type'      => Formatter::ROUND_CLASSIC,
-                'round_value'     => '2',
-                'num_decimals'    => '2',
-                'decimal_sep'     => '.',
-                'thousands_sep'   => ' ',
                 'format_positive' => '%s%v',
                 'format_negative' => '-%s%v',
                 'rate'            => 0.5,
             ),
 
             'rub' => array(
-                'symbol'          => 'руб.',
-                'round_type'      => Formatter::ROUND_CLASSIC,
-                'round_value'     => '2',
-                'num_decimals'    => '2',
-                'decimal_sep'     => ',',
-                'thousands_sep'   => ' ',
-                'format_positive' => '%v %s',
-                'format_negative' => '-%v %s',
-                'rate'            => 0.02,
+                'symbol'      => 'руб.',
+                'decimal_sep' => ',',
+                'rate'        => 0.02,
             ),
 
             'uah' => array(
-                'symbol'          => 'грн.',
-                'round_type'      => Formatter::ROUND_CLASSIC,
-                'round_value'     => '2',
-                'num_decimals'    => '2',
-                'decimal_sep'     => ',',
-                'thousands_sep'   => ' ',
-                'format_positive' => '%v %s',
-                'format_negative' => '-%v %s',
-                'rate'            => 0.04,
+                'symbol'      => 'грн.',
+                'decimal_sep' => ',',
+                'rate'        => 0.04,
             ),
 
             'byr' => array(
-                'symbol'          => 'Br',
-                'round_type'      => Formatter::ROUND_CEIL,
-                'round_value'     => '-2',
-                'num_decimals'    => '0',
-                'decimal_sep'     => '.',
-                'thousands_sep'   => ' ',
-                'format_positive' => '%v %s',
-                'format_negative' => '-%v %s',
-                'rate'            => 0.00005,
+                'symbol'       => 'Br',
+                'round_type'   => Formatter::ROUND_CEIL,
+                'round_value'  => '-2',
+                'num_decimals' => '0',
+                'rate'         => 0.00005,
             ),
 
             '%'   => array(
                 'symbol'          => '%',
-                'round_type'      => Formatter::ROUND_CLASSIC,
-                'round_value'     => '2',
-                'num_decimals'    => '2',
-                'decimal_sep'     => '.',
-                'thousands_sep'   => ' ',
                 'format_positive' => '%v%s',
                 'format_negative' => '-%v%s',
             )
