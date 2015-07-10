@@ -1,7 +1,9 @@
 <?php
 /**
  * SimpleTypes
+ *
  * Copyright (c) 2015, Denis Smetannikov <denis@jbzoo.com>.
+ *
  * @package   SimpleTypes
  * @author    Denis Smetannikov <denis@jbzoo.com>
  * @copyright 2015 Denis Smetannikov <denis@jbzoo.com>
@@ -26,59 +28,51 @@ class ConfigLength extends Config
     {
         return array(
             // SI
-            'mm'  => array(
+            'mm' => array(
                 'symbol' => 'mm',
                 'rate'   => 0.001,
             ),
-            'cm'  => array(
+            'cm' => array(
                 'symbol' => 'cm',
                 'rate'   => 0.01,
             ),
-            'dm'  => array(
+            'dm' => array(
                 'symbol' => 'dm',
                 'rate'   => 0.1,
             ),
-            'm'   => array(
+            'm'  => array(
                 'symbol' => 'm',
                 'rate'   => 1,
             ),
-            'km'  => array(
+            'km' => array(
                 'symbol' => 'km',
                 'rate'   => 1000,
             ),
 
             // others
-            'p'   => array(
+            'p'  => array(
                 'symbol' => 'Point',
                 'rate'   => 0.000352777778,
             ),
-            'li'  => array(
+            'li' => array(
                 'symbol' => 'Link',
                 'rate'   => 0.2012,
             ),
-            'in'  => array(
+            'in' => array(
                 'symbol' => 'Inches',
                 'rate'   => 0.0254,
             ),
-            'ft'  => array(
+            'ft' => array(
                 'symbol' => 'Foot',
                 'rate'   => 0.3048,
             ),
-            'yd'  => array(
+            'yd' => array(
                 'symbol' => 'Yard',
                 'rate'   => 0.9144,
             ),
-            'mi'  => array(
+            'mi' => array(
                 'symbol' => 'Mile',
                 'rate'   => 1609.344,
-            ),
-            'nmi' => array(
-                'symbol' => 'N.Mile',
-                'rate'   => 1852,
-            ),
-            'nm'  => array(
-                'symbol' => 'N.Mile',
-                'rate'   => 1852,
             ),
         );
     }
