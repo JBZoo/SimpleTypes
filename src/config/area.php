@@ -1,7 +1,9 @@
 <?php
 /**
  * SimpleTypes
+ *
  * Copyright (c) 2015, Denis Smetannikov <denis@jbzoo.com>.
+ *
  * @package   SimpleTypes
  * @author    Denis Smetannikov <denis@jbzoo.com>
  * @copyright 2015 Denis Smetannikov <denis@jbzoo.com>
@@ -28,11 +30,11 @@ class ConfigArea extends Config
             // SI
             'mm2' => array(
                 'symbol' => 'mm2',
-                'rate'   => 1000000,
+                'rate'   => 0.000001,
             ),
             'cm2' => array(
                 'symbol' => 'cm2',
-                'rate'   => 10000,
+                'rate'   => 0.0001,
             ),
             'm2'  => array(
                 'symbol' => 'm2',
