@@ -21,7 +21,7 @@ abstract class Type
     /**
      * @var int
      */
-    protected $id = 0;
+    protected $uniqueId = 0;
 
     /**
      * @var string
@@ -104,10 +104,10 @@ abstract class Type
 
         // count unique id
         self::$counter++;
-        $this->id = self::$counter;
+        $this->uniqueId = self::$counter;
 
         // success log
-        $this->log('Id=' . $this->id . ' has just created; dump="' . $this->dump(false) . '"');
+        $this->log('Id=' . $this->uniqueId . ' has just created; dump="' . $this->dump(false) . '"');
     }
 
     /**
@@ -131,9 +131,9 @@ abstract class Type
     /**
      * @return int
      */
-    public function id()
+    public function getId()
     {
-        return $this->id;
+        return $this->uniqueId;
     }
 
     /**
@@ -181,7 +181,7 @@ abstract class Type
     {
         $rule = $rule ? $this->parser->checkRule($rule) : $this->rule;
         $this->log('Formatted output in "' . $rule . '" as "html"');
-        return $this->formatter->html($this->val($rule), $rule, $this->id, $this->value, $this->rule);
+        return $this->formatter->html($this->val($rule), $rule, $this->uniqueId, $this->value, $this->rule);
     }
 
     /**
@@ -199,7 +199,7 @@ abstract class Type
         return $this->formatter->htmlInput(
             $this->val($rule),
             $rule,
-            $this->id,
+            $this->uniqueId,
             $this->value,
             $this->rule,
             $name,
@@ -282,17 +282,17 @@ abstract class Type
      */
     protected function customConvert($rule, $addToLog = false)
     {
-        $from = $this->parser->checkRule($this->rule);
-        $to   = $this->parser->checkRule($rule);
+        $from   = $this->parser->checkRule($this->rule);
+        $target = $this->parser->checkRule($rule);
 
-        $ruleTo   = $this->formatter->get($to);
+        $ruleTo   = $this->formatter->get($target);
         $ruleFrom = $this->formatter->get($from);
         $ruleDef  = $this->formatter->get($this->default);
 
-        $log = '"' . $from . '"=>"' . $to . '"';
+        $log = '"' . $from . '"=>"' . $target . '"';
 
         $result = $this->value;
-        if ($from != $to) {
+        if ($from != $target) {
             if (is_callable($ruleTo['rate']) || is_callable($ruleFrom['rate'])) {
                 if (is_callable($ruleFrom['rate'])) {
                     $defNorm = $ruleFrom['rate']($this->value, $this->default, $from);
@@ -301,7 +301,7 @@ abstract class Type
                 }
 
                 if (is_callable($ruleTo['rate'])) {
-                    $result = $ruleTo['rate']($defNorm, $to, $this->default);
+                    $result = $ruleTo['rate']($defNorm, $target, $this->default);
                 } else {
                     $result = $defNorm / $ruleTo['rate'];
                 }
@@ -314,10 +314,10 @@ abstract class Type
             if ($this->isDebug && $addToLog) {
                 $message = array(
                     'Converted ' . $log . ';',
-                    'New value = "' . $result . ' ' . $to . '";',
+                    'New value = "' . $result . ' ' . $target . '";',
                     is_callable($ruleTo['rate']) ? 'func(' . $from . ')' : $ruleTo['rate'] . ' ' . $from,
                     '=',
-                    is_callable($ruleFrom['rate']) ? 'func(' . $to . ')' : $ruleFrom['rate'] . ' ' . $to,
+                    is_callable($ruleFrom['rate']) ? 'func(' . $target . ')' : $ruleFrom['rate'] . ' ' . $target,
                 );
 
                 $this->log(implode(' ', $message));
@@ -668,8 +668,8 @@ abstract class Type
      */
     public function dump($showId = true)
     {
-        $id = $showId ? '; id=' . $this->id : '';
-        return $this->value . ' ' . $this->rule . $id;
+        $uniqueId = $showId ? '; id=' . $this->uniqueId : '';
+        return $this->value . ' ' . $this->rule . $uniqueId;
     }
 
     /**
@@ -739,12 +739,12 @@ abstract class Type
     {
         self::$counter++;
 
-        $oldId    = $this->id;
-        $this->id = self::$counter;
+        $oldId          = $this->uniqueId;
+        $this->uniqueId = self::$counter;
 
         $this->log(
             'Cloned from id=' . $oldId . ' and created new with ' .
-            'id=' . $this->id . '; dump=' . $this->dump(false)
+            'id=' . $this->uniqueId . '; dump=' . $this->dump(false)
         );
     }
 
@@ -784,7 +784,6 @@ abstract class Type
             return $this->convert($value);
         }
 
-        $value = print_r($value, true);
         throw new Exception($this->type . ': Undefined __set() called: "' . $name . '" = "' . $value . '"');
     }
 
