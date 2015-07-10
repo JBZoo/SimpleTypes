@@ -34,6 +34,9 @@ class Parser
      */
     public function __construct($default = '', array $ruleList = array())
     {
+        uksort($ruleList, function ($a, $b) {
+            return strlen($b) - strlen($a);
+        });
         $this->rules   = $ruleList;
         $this->default = $default;
     }
