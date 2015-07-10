@@ -23,7 +23,7 @@ class Degree extends Type
      */
     public function removeCircles()
     {
-        $devider = null;
+        $devider = 0;
         if ($this->isRule('d')) {
             $devider = 360;
         } elseif ($this->isRule('r')) {
@@ -34,7 +34,7 @@ class Degree extends Type
             $devider = 1;
         }
 
-        if ($devider) {
+        if ($devider > 0) {
             if ($this->value <= (-1 * $devider)) {
                 $this->value = fmod($this->value, $devider);
             } elseif ($this->value >= $devider) {
