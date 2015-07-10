@@ -109,7 +109,7 @@ class OutputTest extends PHPUnit
 
     public function testGetId()
     {
-        $this->assertGreaterThan(0, $this->val()->id());
+        $this->assertGreaterThan(0, $this->val()->getId());
     }
 
     public function testGetLogs()

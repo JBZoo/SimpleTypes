@@ -164,11 +164,11 @@ class MagicTest extends PHPUnit
         $val1 = $this->val(1);
         $val2 = $val1->add(2, true);
 
-        $this->assertEquals(true, $val1->id() !== $val2->id());
+        $this->assertEquals(true, $val1->getId() !== $val2->getId());
 
         $val1 = $this->val(1);
         $val2 = $val1->add(2, false);
 
-        $this->assertEquals(true, $val1->id() === $val2->id());
+        $this->assertEquals(true, $val1->getId() === $val2->getId());
     }
 }
