@@ -58,10 +58,8 @@ class DegreeTypeTest extends TypeTest
     public function testRemoveCirclesDeg()
     {
         $this->assertEquals('180 d', $this->val('540 d')->removeCircles()->dump(false));
-    }
-
-    public function testRemoveCirclesNegativeRad()
-    {
         $this->assertEquals('-1 r', $this->val('-5 r')->removeCircles()->dump(false));
+        $this->assertEquals('0 g', $this->val('1600 g')->removeCircles()->dump(false));
+        $this->assertEquals('-0.55 t', $this->val('-5.55 t')->removeCircles()->dump(false));
     }
 }

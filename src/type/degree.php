@@ -42,9 +42,6 @@ class Degree extends Type
             }
 
             $this->log('Remove circles : ' . $this->dump(false));
-
-        } else {
-            $this->log('Remove circles. Undefined rule: ' . $this->rule());
         }
 
         return $this;
