@@ -56,7 +56,7 @@ class ConfigWeight extends Config
             ),
             'lb'    => array(
                 'symbol' => 'Pounds',
-                'rate'   => 0.06479891,
+                'rate'   => 453.59237,
             ),
         );
 
