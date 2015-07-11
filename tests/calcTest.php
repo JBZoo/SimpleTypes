@@ -148,6 +148,7 @@ class CalcTest extends PHPUnit
         $this->batchEqualDumps(array(
             array('20 %', $discountSave->percent($itemPrice)->dump(false)),
             array('40 %', $this->val('10 eur')->percent('50 usd')->dump(false)),
+            array('60 %', $this->val('10 eur')->percent('50 usd', true)->dump(false)),
         ));
     }
 

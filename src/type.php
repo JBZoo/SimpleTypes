@@ -348,7 +348,7 @@ abstract class Type
 
         $this->log(
             "Compared \"{$this->dump(false)}\" {$mode} " .
-            "\"{$value->dump(false)}\" // $val1$mode$val2, r=$round, "
+            "\"{$value->dump(false)}\" // $val1 $mode $val2, r=$round, "
         );
 
         if ($mode == '==') {
@@ -497,15 +497,20 @@ abstract class Type
 
     /**
      * @param  $value
+     * @param  $revert
      * @return Type
      */
-    public function percent($value)
+    public function percent($value, $revert = false)
     {
         $value = $this->getValidValue($value);
 
         $percent = 0.0;
         if (!$this->isEmpty() && !$value->isEmpty()) {
             $percent = ($this->value / $value->val($this->rule)) * 100;
+        }
+
+        if ($revert) {
+            $percent = 100 - $percent;
         }
 
         $result = $this->getValidValue($percent . '%');

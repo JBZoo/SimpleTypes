@@ -36,7 +36,7 @@ class WeightTypeTest extends typeTest
             array('0.06479891 g', $this->val('1 gr')->convert('g')->dump(false)),
             array('1.7718451953125 g', $this->val('1 dr')->convert('g')->dump(false)),
             array('28.349523125 g', $this->val('1 oz')->convert('g')->dump(false)),
-            array('0.06479891 g', $this->val('1 lb')->convert('g')->dump(false)),
+            array('453.59237 g', $this->val('1 lb')->convert('g')->dump(false)),
         ));
     }
 }
