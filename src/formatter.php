@@ -108,18 +108,16 @@ class Formatter
     }
 
     /**
-     * @param float  $value
-     * @param string $rule
-     * @param int    $id
-     * @param float  $origValue
-     * @param string $origRule
+     * @param array $current
+     * @param array $orig
+     * @param array $params
      * @return string
      * @throws Exception
      */
-    public function html($value, $rule, $id, $origValue, $origRule)
+    public function html($current, $orig, $params)
     {
-        $data  = $this->format($value, $rule);
-        $rData = $this->get($rule);
+        $data  = $this->format($current['value'], $current['rule']);
+        $rData = $this->get($current['rule']);
 
         $result = str_replace(
             array('%v', '%s'),
@@ -137,44 +135,42 @@ class Formatter
                     'simpleType-block',
                     'simpleType-' . $this->type,
                 ),
-                'data-simpleType-id'         => $id,
-                'data-simpleType-value'      => $value,
-                'data-simpleType-rule'       => $rule,
-                'data-simpleType-orig-value' => $origValue,
-                'data-simpleType-orig-rule'  => $origRule,
+                'data-simpleType-id'         => $params['id'],
+                'data-simpleType-value'      => $current['value'],
+                'data-simpleType-rule'       => $current['rule'],
+                'data-simpleType-orig-value' => $orig['value'],
+                'data-simpleType-orig-rule'  => $orig['rule'],
             )
         ) . '>' . $result . '</span>';
     }
 
     /**
-     * @param float  $value
-     * @param string $rule
-     * @param int    $id
-     * @param float  $origValue
-     * @param string $origRule
-     * @param string $inputName
-     * @param bool   $formatted
+     * @param array $current
+     * @param array $orig
+     * @param array $params
      * @return string
      */
-    public function htmlInput($value, $rule, $id, $origValue, $origRule, $inputName, $formatted)
+    public function htmlInput($current, $orig, $params)
     {
-        $inputValue = $formatted ? $this->text($value, $rule) : $this->text($value, $rule, false);
+        $inputValue = $params['formatted']
+            ? $this->text($current['value'], $current['rule'])
+            : $this->text($current['value'], $current['rule'], false);
 
         return '<input ' . $this->htmlAttributes(
             array(
                 'value'                      => $inputValue,
-                'name'                       => $inputName,
+                'name'                       => $params['name'],
                 'type'                       => 'text',
                 'class'                      => array(
                     'simpleType',
                     'simpleType-' . $this->type,
                     'simpleType-input'
                 ),
-                'data-simpleType-id'         => $id,
-                'data-simpleType-value'      => $value,
-                'data-simpleType-rule'       => $rule,
-                'data-simpleType-orig-value' => $origValue,
-                'data-simpleType-orig-rule'  => $origRule,
+                'data-simpleType-id'         => $params['id'],
+                'data-simpleType-value'      => $current['value'],
+                'data-simpleType-rule'       => $current['rule'],
+                'data-simpleType-orig-value' => $orig['value'],
+                'data-simpleType-orig-rule'  => $orig['rule'],
             )
         ) . ' />';
     }

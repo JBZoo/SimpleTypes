@@ -181,7 +181,11 @@ abstract class Type
     {
         $rule = $rule ? $this->parser->checkRule($rule) : $this->rule;
         $this->log('Formatted output in "' . $rule . '" as "html"');
-        return $this->formatter->html($this->val($rule), $rule, $this->uniqueId, $this->value, $this->rule);
+        return $this->formatter->html(
+            array('value' => $this->val($rule), 'rule' => $rule),
+            array('value' => $this->value, 'rule' => $this->rule),
+            array('id' => $this->uniqueId)
+        );
     }
 
     /**
@@ -197,13 +201,9 @@ abstract class Type
         $this->log('Formatted output in "' . $rule . '" as "input"');
 
         return $this->formatter->htmlInput(
-            $this->val($rule),
-            $rule,
-            $this->uniqueId,
-            $this->value,
-            $this->rule,
-            $name,
-            $formatted
+            array('value' => $this->val($rule), 'rule' => $rule),
+            array('value' => $this->value, 'rule' => $this->rule),
+            array('id' => $this->uniqueId, 'name' => $name, 'formatted' => $formatted)
         );
     }
 
