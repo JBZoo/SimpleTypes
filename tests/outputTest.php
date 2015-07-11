@@ -102,9 +102,23 @@ class OutputTest extends PHPUnit
 
     public function testHtmlInput()
     {
-        $html = $this->val('10000.666 uah')->htmlInput('usd');
+        $html = $this->val('100.50 uah')->htmlInput('usd', 'some-param');
 
         $this->assertRegExp('#<input\s#', $html);
+
+        // check important classes
+        $this->assertRegExp('#simpleType#', $html);
+        $this->assertRegExp('#simpleType-input#', $html);
+        $this->assertRegExp('#simpleType-value#', $html);
+        $this->assertRegExp('#simpleType-money#', $html);
+
+        // attributes
+        $this->assertRegExp('#name=\"some-param\"#', $html);
+        $this->assertRegExp('#data-simpleType-id="\d*"#', $html);
+        $this->assertRegExp('#data-simpleType-value="8\.04"#', $html);
+        $this->assertRegExp('#data-simpleType-rule="usd"#', $html);
+        $this->assertRegExp('#data-simpleType-orig-value="100\.5"#', $html);
+        $this->assertRegExp('#data-simpleType-orig-rule="uah"#', $html);
     }
 
     public function testGetId()
