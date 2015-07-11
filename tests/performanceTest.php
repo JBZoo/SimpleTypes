@@ -37,7 +37,7 @@ class PerformanceTest extends PHPUnit
         $this->assertTrue(!empty($number));
     }
 
-    public function testCreateTime()
+    public function disabledCreateTime()
     {
         $this->startProfiler();
         for ($i = 0; $i < $this->max; $i++) {
@@ -45,7 +45,7 @@ class PerformanceTest extends PHPUnit
         }
         $result = $this->markProfiler($this->max);
 
-        //$this->cliMessage('Create time (on ' . $this->max . '): ' . $result['timeF'] . ' / ' . $result['timeOneF']);
+        $this->cliMessage('Create time (on ' . $this->max . '): ' . $result['timeF'] . ' / ' . $result['timeOneF']);
         $message = 'Constructor is too slow!; ' . $result['timeOneF'];
         $this->assertLessThan($this->minCreateTime, $result['timeOne'], $message);
     }
