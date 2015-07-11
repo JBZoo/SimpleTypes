@@ -26,7 +26,9 @@ class LETest extends PHPUnit
         '.git',
         'build',
         'vendor',
-        'reports'
+        'reports',
+        'composer.phar',
+        'composer.lock',
     );
 
     public function testFiles()
@@ -47,7 +49,7 @@ class LETest extends PHPUnit
         foreach ($files as $key => $value) {
             $path = $dir . DIRECTORY_SEPARATOR . $value;
 
-            if (!is_dir($path)) {
+            if (!is_dir($path) && !in_array($value, $this->excludeList, true)) {
                 $results[] = $path;
             } elseif (is_dir($path) && !in_array($value, $this->excludeList, true)) {
                 $this->getFileList($path, $results);
