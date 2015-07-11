@@ -10,11 +10,11 @@
 Simply add a dependency on `smetdenis/simpletypes` to your project's `composer.json` file if you use [Composer](http://getcomposer.org/) to manage the dependencies of your project.
 Here is a minimal example of a `composer.json` file that just defines a dependency on Money:
 ```javascript
-{
-    "require": {
-        "smetdenis/simpletypes": "1.*"
+    {
+        "require": {
+            "smetdenis/simpletypes": "1.*"
+        }
     }
-}
 ```
 
 ... or in a command line `composer require smetdenis/simpletypes`
@@ -24,6 +24,7 @@ Here is a minimal example of a `composer.json` file that just defines a dependen
 ```php
 require_once './src/autoload.php'; // or with composer autoload.php
 
+// Get needed classes
 use SmetDenis\SimpleTypes\Config;
 use SmetDenis\SimpleTypes\Money;
 use SmetDenis\SimpleTypes\ConfigMoney;
@@ -40,20 +41,20 @@ $money = new Money('100500 usd', new ConfigMoney()); // my custom params only fo
 
 ## A lot of types is ready for use
 SimpleTypes has such ready configurations like
-  * Area
-  * Degree (geometry)
-  * Info (bytes, bits...)
-  * Length
-  * Money (Currency converter)
-  * Temperature (Kelvin, Fahrenheit, Celsius and etc)
-  * Volume
-  * Weight
+  * [Area](https://github.com/smetdenis/SimpleTypes/blob/master/src/config/area.php)
+  * [Degree](https://github.com/smetdenis/SimpleTypes/blob/master/src/config/degree.php) (geometry)
+  * [Info](https://github.com/smetdenis/SimpleTypes/blob/master/src/config/info.php) (bytes, bits...)
+  * [Length](https://github.com/smetdenis/SimpleTypes/blob/master/src/config/length.php)
+  * [Money](https://github.com/smetdenis/SimpleTypes/blob/master/src/config/money.php) (Currency converter)
+  * [Temperature](https://github.com/smetdenis/SimpleTypes/blob/master/src/config/temp.php) (Kelvin, Fahrenheit, Celsius and etc)
+  * [Volume](https://github.com/smetdenis/SimpleTypes/blob/master/src/config/volume.php)
+  * [Weight](https://github.com/smetdenis/SimpleTypes/blob/master/src/config/weight.php)
 
 You can add your own type. It's really easy. See this page below.
 
 ### Smart and useful parser
 SimpleTypes has really smart parser for all input values.
-It can find number, understand any decimal symbols, trim, letter cases, e.t.c...
+It can find number, understand any decimal symbols, trim, letter cases, e.t.c... and it works relly fast!
 
 ```php
 $money = new Money(' - 1 2 3 , 4 5 6 rub '); // Equals -123.456 rubles
@@ -62,7 +63,7 @@ $money = new Money('  EuR 3,50   ');
 $money = new Money('usd'); // Just object with usd rule
 ```
 
-### Basic arithmetic
+## Basic arithmetic
 Different ways to use basic arithmetic
 ```php
 // example #1
@@ -82,6 +83,88 @@ $usd->add('10'); // eur is default in the ConfigMoney
 $usd->add(['10', 'eur']);
 ```
 
+SimpleTypes can
+ * add
+ * subtract
+ * division
+ * multiply
+ * use custom functions (Closure)
+ * negative / positibe / invert sign / abs
+ * use percent
+ * setting empty value
+ * setting another value and rule
+ * create clone
+ * converting to any rules (currencies, units)
+ * rounding
+ * comparing
+ * ... and others
+
+## Compare values
+
+```php
+$kg = new Weight('1 kg'); // one kilogram
+$lb = new Weight('2 lb'); // two pounds
+
+var_dump($kg->compare($lb)); // false ("==" by default)
+var_dump($kg->compare($lb, '=='));// false
+var_dump($kg->compare($lb, '<'));// false
+var_dump($kg->compare($lb, '<='));// false
+var_dump($kg->compare($lb, '>'));// true
+var_dump($kg->compare($lb, '>='));// true
+```
+
+And same examples but we will use smart parser
+```php
+$kg = new Weight('1 kg');
+$lb = new Weight('2 lb');
+
+var_dump($kg->compare('1000 g')); // true
+var_dump($kg->compare('2 lb', '=='));// false
+var_dump($kg->compare('2 lb', '<'));// false
+var_dump($kg->compare('2 lb', '<='));// false
+var_dump($kg->compare('2 lb', '>'));// true
+var_dump($kg->compare('2 lb', '>='));// true
+```
+
+## Percent method
+Simple way for count difference between two values
+```php
+$origPrice = new Money('100 usd');
+$realPrice = new Money('40 eur');
+
+$diff = $realPrice->percent($origPrice);
+echo $diff->text(); // 80%
+
+$discount = $realPrice->percent($origPrice, true); // revert flag added
+echo $discount->text(); // 20%
+```
+
+## PHP magic methods
+
+Safe serialize/unserialize
+```php
+$valBefore = $this->val('500 usd');
+$valString = serialize($valBefore);
+$valAfter  = unserialize($valString)->convert('eur');
+$valBefore->compare($valAfter);// true
+```
+
+__toString() works like text() method
+```php
+$val = $this->val('500 usd');
+echo $val; // "$500.00"
+```
+
+__invoke()
+```php
+$val = $this->val('10 eur');
+// it's converting
+$val('usd'); // so object now contains "20 usd" (1 eur = 2 usd)
+// set new value and rule
+$val('100 rub');
+$val('100', 'uah');
+```
+
 ### Chaining method calls
 ```php
 $value = (new Money('4.95 usd'))
@@ -97,7 +180,7 @@ $value = (new Money('4.95 usd'))
             ->add(new Money('600 rub'))// 1.05€ (1 EUR = 50 RUB)
             ->add('-500%');// -4.2€
     })
-    ->abs() // 4.2€
+    ->abs(); // 4.2€
 ```
 
 ## Different ways for output and rendering
@@ -182,7 +265,7 @@ class ConfigInfo extends Config
         // key of array is alias for parser
         return array(
             'byte' => array(
-                'rate' => 1 // 1 byte = 1 byte =)))
+                'rate' => 1 // Because 1 byte to byte is 1 =)))
             ),
 
             'kb'   => array(
@@ -198,7 +281,7 @@ class ConfigInfo extends Config
             ),
 
             'mb'   => array( // Other params gets from $this->defaultParams variable
-                'symbol' => 'GB',
+                'symbol' => 'MB',
                 'rate'   => 1024 * 1024,
             ),
 
