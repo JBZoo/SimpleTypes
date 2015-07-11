@@ -64,6 +64,6 @@ class InstancesTest extends PHPUnit
             $count++;
         }
 
-        //$this->cliMessage($typeCount . '|' . $count);
+        $this->assertEquals($typeCount, $count, 'Some configs or types are not found');
     }
 }
