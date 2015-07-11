@@ -33,7 +33,7 @@ class PerformanceTest extends PHPUnit
         $money = new Money(1, new ConfigMoney());
         $this->assertTrue(!empty($money));
 
-        $number = new Number(1, new ConfigTestEmpty());
+        $number = new Weight(1, new ConfigTestEmpty());
         $this->assertTrue(!empty($number));
     }
 
@@ -66,7 +66,7 @@ class PerformanceTest extends PHPUnit
     public function testSizeOneObject()
     {
         $this->startProfiler();
-        $val = new Number(1, new ConfigTestEmpty());
+        $val = new Weight(1, new ConfigTestEmpty());
 
         $before = $this->markProfiler(1, 'memory');
         unset($val);
