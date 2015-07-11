@@ -58,22 +58,15 @@ class Parser
             return $this->parse($value, $rule);
 
         } else {
-            $data = trim($data);
-            $reg  = '#(.*)(' . implode('|', $this->getCodeList()) . ')(.*)#iu';
-
-            if (preg_match($reg, $data, $matches)) {
-                $rule  = $matches[2];
-                $value = 0;
-                if (!empty($matches[1])) {
-                    $value = $matches[1];
-                } elseif (!empty($matches[3])) {
-                    $value = $matches[3];
+            $value = strtolower(trim($data));
+            $aliases = $this->getCodeList();
+            foreach ($aliases as $alias) {
+                if (strpos($value, $alias) !== false) {
+                    $rule = $alias;
+                    $value = str_ireplace($rule, '', $value);
+                    break;
                 }
             }
-        }
-
-        if (is_null($value)) {
-            $value = $data;
         }
 
         $value = $this->cleanValue($value);
