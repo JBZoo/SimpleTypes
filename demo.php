@@ -63,17 +63,17 @@ $money = (new Money('4.95 usd'))
     ->getClone()// copy of object is created
     ->division(5)// -$2.19
     ->multiply(10)// -$21.90
-    ->convert('eur')// -10.95ˆ (For easy understanding we use 1 EUR = 2 USD)
+    ->convert('eur')// -10.95â‚¬ (For easy understanding we use 1 EUR = 2 USD)
     ->customFunc(function (Money $value) {
         $value
-            ->add(new Money('600 rub'))// 1.05ˆ (1 EUR = 50 RUB)
-            ->add('-500%');// -4.2ˆ
+            ->add(new Money('600 rub'))// 1.05â‚¬ (1 EUR = 50 RUB)
+            ->add('-500%');// -4.2â‚¬
     })
-    ->abs(); // 4.2ˆ
+    ->abs(); // 4.2â‚¬
 
 // show all actions (history)
-print_r($money->logs());
-print_r($money->dump());
+$history = $money->logs();
+echo $money->dump();
 /**
  * You will see something like that
  *
