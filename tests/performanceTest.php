@@ -18,11 +18,11 @@ namespace SmetDenis\SimpleTypes;
  */
 class PerformanceTest extends PHPUnit
 {
-    protected $max = 1000;
+    protected $max = 100;
 
-    protected $minCreateTime     = 0.002; // for really(!!!) slow or old hardware. Normal value is 0.0005 !
-    protected $minCreateMem      = 512;
-    protected $maxObjectMem      = 8192;
+    protected $minCreateTime = 0.005; // for really(!!!) slow or old hardware. Normal value is 0.0005 !
+    protected $minCreateMem = 512;
+    protected $maxObjectMem = 8192;
     protected $maxObjectMemUnset = 256;
 
     /**
@@ -37,7 +37,7 @@ class PerformanceTest extends PHPUnit
         $this->assertTrue(!empty($number));
     }
 
-    public function disabledCreateTime()
+    public function testCreateTime()
     {
         $this->startProfiler();
         for ($i = 0; $i < $this->max; $i++) {
@@ -45,9 +45,9 @@ class PerformanceTest extends PHPUnit
         }
         $result = $this->markProfiler($this->max);
 
-        $this->cliMessage('Create time (on ' . $this->max . '): ' . $result['timeF'] . ' / ' . $result['timeOneF']);
-        $message = 'Constructor is too slow!; ' . $result['timeOneF'];
-        $this->assertLessThan($this->minCreateTime, $result['timeOne'], $message);
+        $this->cliMessage('Create time (' . $this->max . ', ' . $this->minCreateTime . '): ' . $result['timeF'] . ' / ' . $result['timeOneF']);
+        //$message = 'Constructor is too slow!; ' . $result['timeOneF'];
+        //$this->assertLessThan($this->minCreateTime, $result['timeOne'], $message);
     }
 
     public function testMemoryLeak()
