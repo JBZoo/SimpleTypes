@@ -15,7 +15,7 @@
         "number",
         "pressure",
         "speed",
-        "temp",
+        "temperature",
         "time",
         "volume",
         "weight"
