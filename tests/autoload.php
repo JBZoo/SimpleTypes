@@ -15,14 +15,19 @@
 
 // main autoload
 if (file_exists('src/autoload.php')) {
+    $path = realpath('.');
     require_once 'src/autoload.php';
 
 } else if (file_exists('../src/autoload.php')) {
+    $path = realpath('../');
     require_once '../src/autoload.php';
 
 } else {
+    $path = realpath('../../');
     require_once '../../src/autoload.php';
 }
+
+define('ROOT_PATH', $path);
 
 // test tools
 require_once 'configs.php';
