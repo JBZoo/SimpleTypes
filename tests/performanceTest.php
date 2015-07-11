@@ -45,8 +45,8 @@ class PerformanceTest extends PHPUnit
         }
         $result = $this->markProfiler($this->max);
 
-        $this->cliMessage('Create time (' . $this->max . ', ' . $this->minCreateTime . '): '
-            . $result['timeF'] . ' / ' . $result['timeOneF']);
+        //$this->cliMessage($message = 'Create time (' . $this->max . ', ' . $this->minCreateTime . '): '
+        //    . $result['timeF'] . ' / ' . $result['timeOneF']);
 
         //$message = 'Constructor is too slow!; ' . $result['timeOneF'];
         //$this->assertLessThan($this->minCreateTime, $result['timeOne'], $message);
@@ -78,5 +78,14 @@ class PerformanceTest extends PHPUnit
         //$this->cliMessage('SizeOneObject = ' . $before . ' / ' . $after);
         $this->assertLessThan($this->maxObjectMem, $before, 'Too big object!');
         $this->assertLessThan($this->maxObjectMemUnset, $after, 'Too big object!');
+    }
+
+    /**
+     * @param $message
+     * @return int
+     */
+    protected function cliMessage($message)
+    {
+        fwrite(STDERR, $message . "\n");
     }
 }

@@ -100,13 +100,4 @@ class PHPUnit extends \PHPUnit_Framework_TestCase
 
         return $result;
     }
-
-    /**
-     * @param $message
-     * @return int
-     */
-    public function cliMessage($message)
-    {
-        fwrite(STDERR, $message . "\n");
-    }
 }
