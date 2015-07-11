@@ -35,15 +35,11 @@ spl_autoload_register(
                 'type'         => 'type.php',
 
                 // types
-                'acceleration' => 'type/acceleration.php',
                 'area'         => 'type/area.php',
                 'degree'       => 'type/degree.php',
                 'info'         => 'type/info.php',
                 'length'       => 'type/length.php',
                 'money'        => 'type/money.php',
-                'number'       => 'type/number.php',
-                'pressure'     => 'type/pressure.php',
-                'speed'        => 'type/speed.php',
                 'temp'         => 'type/temp.php',
                 'time'         => 'type/time.php',
                 'volume'       => 'type/volume.php',
