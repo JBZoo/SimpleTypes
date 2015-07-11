@@ -73,12 +73,10 @@ class ConfigInfo extends Config
                 'rate'   => function ($value, $to) {
 
                     if ($to == 'bit') {
-                        $value = $value * 8;
-                    } else {
-                        $value = $value / 8;
+                        return $value * 8;
                     }
 
-                    return $value;
+                    return $value / 8;
                 },
             ),
         );
