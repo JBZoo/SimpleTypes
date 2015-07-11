@@ -8,7 +8,7 @@
 
 ## Installation
 Simply add a dependency on `smetdenis/simpletypes` to your project's `composer.json` file if you use [Composer](http://getcomposer.org/) to manage the dependencies of your project.
-Here is a minimal example of a `composer.json` file that just defines a dependency on Money:
+Here is a minimal example of a `composer.json` file that just defines a dependency on SimpleTypes:
 ```javascript
     {
         "require": {
@@ -39,7 +39,7 @@ $money = new Length('500 km');
 $money = new Money('100500 usd', new ConfigMoney()); // my custom params only for that object
 ```
 
-## A lot of types is ready for use
+## A lot of types are ready to use
 SimpleTypes has such ready configurations like
   * [Area](https://github.com/smetdenis/SimpleTypes/blob/master/src/config/area.php)
   * [Degree](https://github.com/smetdenis/SimpleTypes/blob/master/src/config/degree.php) (geometry)
@@ -54,7 +54,8 @@ You can add your own type. It's really easy. See this page below.
 
 ### Smart and useful parser
 SimpleTypes has really smart parser for all input values.
-It can find number, understand any decimal symbols, trim, letter cases, e.t.c... and it works relly fast!
+It can find number, understand any decimal symbols, trim, letter cases, e.t.c...
+and it works really fast!
 
 ```php
 $money = new Money(' - 1 2 3 , 4 5 6 rub '); // Equals -123.456 rubles
