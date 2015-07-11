@@ -49,7 +49,7 @@ class LETest extends PHPUnit
 
             if (!is_dir($path)) {
                 $results[] = $path;
-            } else if (is_dir($path) && !in_array($value, $this->excludeList, true)) {
+            } elseif (is_dir($path) && !in_array($value, $this->excludeList, true)) {
                 $this->getFileList($path, $results);
             }
         }

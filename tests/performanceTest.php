@@ -45,7 +45,9 @@ class PerformanceTest extends PHPUnit
         }
         $result = $this->markProfiler($this->max);
 
-        $this->cliMessage('Create time (' . $this->max . ', ' . $this->minCreateTime . '): ' . $result['timeF'] . ' / ' . $result['timeOneF']);
+        $this->cliMessage('Create time (' . $this->max . ', ' . $this->minCreateTime . '): '
+            . $result['timeF'] . ' / ' . $result['timeOneF']);
+
         //$message = 'Constructor is too slow!; ' . $result['timeOneF'];
         //$this->assertLessThan($this->minCreateTime, $result['timeOne'], $message);
     }
