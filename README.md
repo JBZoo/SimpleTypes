@@ -64,6 +64,24 @@ $money = new Money('  EuR 3,50   ');
 $money = new Money('usd'); // Just object with usd rule
 ```
 
+### Chaining method calls
+```php
+$value = (new Money('4.95 usd'))
+    ->add('10 usd')// $14.95
+    ->subtract('2 eur')// $10.95
+    ->negative()// -$10.95
+    ->getClone()// copy of object is created
+    ->division(5)// -$2.19
+    ->multiply(10)// -$21.90
+    ->convert('eur')// -10.95€ (For easy understanding we use 1 EUR = 2 USD)
+    ->customFunc(function (Money $value) { // sometimes we would like something more than plus/minus ;)
+        $value
+            ->add(new Money('600 rub'))// 1.05€ (1 EUR = 50 RUB)
+            ->add('-500%');// -4.2€
+    })
+    ->abs(); // 4.2€
+```
+
 ## Basic arithmetic
 Different ways to use basic arithmetic
 ```php
@@ -164,24 +182,6 @@ $val('usd'); // so object now contains "20 usd" (1 eur = 2 usd)
 // set new value and rule
 $val('100 rub');
 $val('100', 'uah');
-```
-
-### Chaining method calls
-```php
-$value = (new Money('4.95 usd'))
-    ->add('10 usd')// $14.95
-    ->subtract('2 eur')// $10.95
-    ->negative()// -$10.95
-    ->getClone()// copy of object is created
-    ->division(5)// -$2.19
-    ->multiply(10)// -$21.90
-    ->convert('eur')// -10.95€ (For easy understanding we use 1 EUR = 2 USD)
-    ->customFunc(function (Money $value) { // sometimes we would like something more than plus/minus ;)
-        $value
-            ->add(new Money('600 rub'))// 1.05€ (1 EUR = 50 RUB)
-            ->add('-500%');// -4.2€
-    })
-    ->abs(); // 4.2€
 ```
 
 ## Different ways for output and rendering
