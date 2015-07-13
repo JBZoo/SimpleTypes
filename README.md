@@ -25,9 +25,9 @@ Here is a minimal example of a `composer.json` file that just defines a dependen
 require_once './src/autoload.php'; // or with composer autoload.php
 
 // Get needed classes
-use SmetDenis\SimpleTypes\Config;
-use SmetDenis\SimpleTypes\Money;
-use SmetDenis\SimpleTypes\ConfigMoney;
+use SmetDenis\SimpleTypes\Config,
+    SmetDenis\SimpleTypes\Money,
+    SmetDenis\SimpleTypes\ConfigMoney;
 
 // Set config object for all Money objects as default
 Config::registerDefault('money', new ConfigMoney());
