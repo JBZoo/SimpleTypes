@@ -30,7 +30,7 @@
         "php": ">=5.3.27"
     },
     "autoload"         : {
-        "files": ["src/autoload.php"]
+        "classmap": ["src"]
     },
     "support"          : {
         "issues": "https://github.com/smetdenis/SimpleTypes/issues"
