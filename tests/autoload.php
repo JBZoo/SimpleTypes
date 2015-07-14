@@ -14,17 +14,17 @@
 // @codeCoverageIgnoreStart
 
 // main autoload
-if (file_exists('src/autoload.php')) {
+if (file_exists('vendor/autoload.php')) {
     $path = realpath('.');
-    require_once 'src/autoload.php';
+    require_once 'vendor/autoload.php';
 
 } else if (file_exists('../src/autoload.php')) {
     $path = realpath('../');
-    require_once '../src/autoload.php';
+    require_once '../vendor/autoload.php';
 
 } else {
     $path = realpath('../../');
-    require_once '../../src/autoload.php';
+    require_once '../../vendor/autoload.php';
 }
 
 define('ROOT_PATH', $path);
