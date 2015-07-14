@@ -12,13 +12,13 @@
 
 require_once __DIR__ . '/src/autoload.php';
 
-use SmetDenis\SimpleTypes\Config;
-use SmetDenis\SimpleTypes\Money;
-use SmetDenis\SimpleTypes\Weight;
-use SmetDenis\SimpleTypes\Length;
-use SmetDenis\SimpleTypes\ConfigMoney;
-use SmetDenis\SimpleTypes\ConfigWeight;
-use SmetDenis\SimpleTypes\ConfigLength;
+use SmetDenis\SimpleTypes\Money,
+    SmetDenis\SimpleTypes\Config,
+    SmetDenis\SimpleTypes\Weight,
+    SmetDenis\SimpleTypes\Length,
+    SmetDenis\SimpleTypes\ConfigMoney,
+    SmetDenis\SimpleTypes\ConfigWeight,
+    SmetDenis\SimpleTypes\ConfigLength;
 
 // Set config object for all Money objects as default
 Config::registerDefault('money', new ConfigMoney());

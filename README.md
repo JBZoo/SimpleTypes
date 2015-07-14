@@ -8,7 +8,7 @@
 
 ## Installation
 Simply add a dependency on `smetdenis/simpletypes` to your project's `composer.json` file if you use [Composer](http://getcomposer.org/) to manage the dependencies of your project.
-Here is a minimal example of a `composer.json` file that just defines a dependency on Money:
+Here is a minimal example of a `composer.json` file that just defines a dependency on SimpleTypes:
 ```javascript
     {
         "require": {
@@ -25,9 +25,9 @@ Here is a minimal example of a `composer.json` file that just defines a dependen
 require_once './src/autoload.php'; // or with composer autoload.php
 
 // Get needed classes
-use SmetDenis\SimpleTypes\Config;
-use SmetDenis\SimpleTypes\Money;
-use SmetDenis\SimpleTypes\ConfigMoney;
+use SmetDenis\SimpleTypes\Config,
+    SmetDenis\SimpleTypes\Money,
+    SmetDenis\SimpleTypes\ConfigMoney;
 
 // Set config object for all Money objects as default
 Config::registerDefault('money', new ConfigMoney());
@@ -39,7 +39,7 @@ $money = new Length('500 km');
 $money = new Money('100500 usd', new ConfigMoney()); // my custom params only for that object
 ```
 
-## A lot of types is ready for use
+## A lot of types are ready to use
 SimpleTypes has such ready configurations like
   * [Area](https://github.com/smetdenis/SimpleTypes/blob/master/src/config/area.php)
   * [Degree](https://github.com/smetdenis/SimpleTypes/blob/master/src/config/degree.php) (geometry)
@@ -54,13 +54,32 @@ You can add your own type. It's really easy. See this page below.
 
 ### Smart and useful parser
 SimpleTypes has really smart parser for all input values.
-It can find number, understand any decimal symbols, trim, letter cases, e.t.c... and it works relly fast!
+It can find number, understand any decimal symbols, trim, letter cases, e.t.c...
+and it works really fast!
 
 ```php
 $money = new Money(' - 1 2 3 , 4 5 6 rub '); // Equals -123.456 rubles
 $money = new Money('1.0e+18 EUR '); // Really huge number. I'm rich! =)
 $money = new Money('  EuR 3,50   ');
 $money = new Money('usd'); // Just object with usd rule
+```
+
+### Chaining method calls
+```php
+$value = (new Money('4.95 usd'))
+    ->add('10 usd')// $14.95
+    ->subtract('2 eur')// $10.95
+    ->negative()// -$10.95
+    ->getClone()// copy of object is created
+    ->division(5)// -$2.19
+    ->multiply(10)// -$21.90
+    ->convert('eur')// -10.95€ (For easy understanding we use 1 EUR = 2 USD)
+    ->customFunc(function (Money $value) { // sometimes we would like something more than plus/minus ;)
+        $value
+            ->add(new Money('600 rub'))// 1.05€ (1 EUR = 50 RUB)
+            ->add('-500%');// -4.2€
+    })
+    ->abs(); // 4.2€
 ```
 
 ## Basic arithmetic
@@ -163,24 +182,6 @@ $val('usd'); // so object now contains "20 usd" (1 eur = 2 usd)
 // set new value and rule
 $val('100 rub');
 $val('100', 'uah');
-```
-
-### Chaining method calls
-```php
-$value = (new Money('4.95 usd'))
-    ->add('10 usd')// $14.95
-    ->subtract('2 eur')// $10.95
-    ->negative()// -$10.95
-    ->getClone()// copy of object is created
-    ->division(5)// -$2.19
-    ->multiply(10)// -$21.90
-    ->convert('eur')// -10.95€ (For easy understanding we use 1 EUR = 2 USD)
-    ->customFunc(function (Money $value) { // sometimes we would like something more than plus/minus ;)
-        $value
-            ->add(new Money('600 rub'))// 1.05€ (1 EUR = 50 RUB)
-            ->add('-500%');// -4.2€
-    })
-    ->abs(); // 4.2€
 ```
 
 ## Different ways for output and rendering
