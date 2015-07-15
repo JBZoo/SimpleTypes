@@ -33,10 +33,10 @@ use SmetDenis\SimpleTypes\Config,
 Config::registerDefault('money', new ConfigMoney());
 
 // Create any object, some different ways
-$money = new Money('10 eur');
-$money = new Weight('1000'); // Gram is default in the ConfigWeight class
-$money = new Length('500 km');
-$money = new Money('100500 usd', new ConfigMoney()); // my custom params only for that object
+$money  = new Money('10 eur');
+$weight = new Weight('1000'); // Gram is default in the ConfigWeight class
+$length = new Length('500 km');
+$money  = new Money('100500 usd', new ConfigMoney()); // my custom params only for that object
 ```
 
 ## A lot of types are ready to use
