@@ -22,7 +22,7 @@ Here is a minimal example of a `composer.json` file that just defines a dependen
 ## Examples
 
 ```php
-require_once './src/autoload.php'; // or with composer autoload.php
+require_once './vendor/autoload.php'; // composer autoload.php
 
 // Get needed classes
 use SmetDenis\SimpleTypes\Config,
