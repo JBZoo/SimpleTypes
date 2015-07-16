@@ -2,27 +2,27 @@
 
 ### The universal PHP library to convert any values and measures
 
-[![License](https://poser.pugx.org/smetdenis/simpletypes/license)](https://packagist.org/packages/smetdenis/simpletypes)  [![Latest Stable Version](https://poser.pugx.org/smetdenis/simpletypes/v/stable)](https://packagist.org/packages/smetdenis/simpletypes)  [![Build Status](https://travis-ci.org/smetdenis/SimpleTypes.svg?branch=master)](https://travis-ci.org/smetdenis/SimpleTypes)  [![Coverage Status](https://coveralls.io/repos/smetdenis/SimpleTypes/badge.svg)](https://coveralls.io/r/smetdenis/SimpleTypes)  [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/smetdenis/SimpleTypes/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/smetdenis/SimpleTypes/?branch=master)  [![Code Climate](https://codeclimate.com/github/smetdenis/SimpleTypes/badges/gpa.svg)](https://codeclimate.com/github/smetdenis/SimpleTypes)  
+[![License](https://poser.pugx.org/SmetDenis/SimpleTypes/license)](https://packagist.org/packages/SmetDenis/SimpleTypes)  [![Latest Stable Version](https://poser.pugx.org/SmetDenis/SimpleTypes/v/stable)](https://packagist.org/packages/SmetDenis/SimpleTypes)  [![Build Status](https://travis-ci.org/SmetDenis/SimpleTypes.svg?branch=master)](https://travis-ci.org/SmetDenis/SimpleTypes)  [![Coverage Status](https://coveralls.io/repos/smetdenis/SimpleTypes/badge.svg?branch=master&service=github)](https://coveralls.io/github/smetdenis/SimpleTypes?branch=master)  [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/SmetDenis/SimpleTypes/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/SmetDenis/SimpleTypes/?branch=master)  [![Code Climate](https://codeclimate.com/github/smetdenis/SimpleTypes/badges/gpa.svg)](https://codeclimate.com/github/smetdenis/SimpleTypes)  
 [![Dependency Status](https://www.versioneye.com/user/projects/5596cc726166340021000010/badge.svg?style=flat)](https://www.versioneye.com/user/projects/5596cc726166340021000010) 
-[![HHVM Status](http://hhvm.h4cc.de/badge/smetdenis/simpletypes.svg)](http://hhvm.h4cc.de/package/smetdenis/simpletypes)  [![SensioLabsInsight](https://insight.sensiolabs.com/projects/03303b96-02dc-4e6e-b1ca-ac87e5f4ca9a/mini.png)](https://insight.sensiolabs.com/projects/03303b96-02dc-4e6e-b1ca-ac87e5f4ca9a)
+[![HHVM Status](http://hhvm.h4cc.de/badge/SmetDenis/SimpleTypes.svg)](http://hhvm.h4cc.de/package/SmetDenis/SimpleTypes)  [![SensioLabsInsight](https://insight.sensiolabs.com/projects/03303b96-02dc-4e6e-b1ca-ac87e5f4ca9a/mini.png)](https://insight.sensiolabs.com/projects/03303b96-02dc-4e6e-b1ca-ac87e5f4ca9a)
 
 ## Installation
-Simply add a dependency on `smetdenis/simpletypes` to your project's `composer.json` file if you use [Composer](http://getcomposer.org/) to manage the dependencies of your project.
+Simply add a dependency on `SmetDenis/SimpleTypes` to your project's `composer.json` file if you use [Composer](http://getcomposer.org/) to manage the dependencies of your project.
 Here is a minimal example of a `composer.json` file that just defines a dependency on SimpleTypes:
 ```javascript
     {
         "require": {
-            "smetdenis/simpletypes": "1.*"
+            "SmetDenis/SimpleTypes": "1.*"
         }
     }
 ```
 
-... or in a command line `composer require smetdenis/simpletypes`
+... or in a command line `composer require SmetDenis/SimpleTypes`
 
 ## Examples
 
 ```php
-require_once './src/autoload.php'; // or with composer autoload.php
+require_once './vendor/autoload.php'; // composer autoload.php
 
 // Get needed classes
 use SmetDenis\SimpleTypes\Config,
@@ -33,22 +33,22 @@ use SmetDenis\SimpleTypes\Config,
 Config::registerDefault('money', new ConfigMoney());
 
 // Create any object, some different ways
-$money = new Money('10 eur');
-$money = new Weight('1000'); // Gram is default in the ConfigWeight class
-$money = new Length('500 km');
-$money = new Money('100500 usd', new ConfigMoney()); // my custom params only for that object
+$money  = new Money('10 eur');
+$weight = new Weight('1000'); // Gram is default in the ConfigWeight class
+$length = new Length('500 km');
+$money  = new Money('100500 usd', new ConfigMoney()); // my custom params only for that object
 ```
 
 ## A lot of types are ready to use
 SimpleTypes has such ready configurations like
-  * [Area](https://github.com/smetdenis/SimpleTypes/blob/master/src/config/area.php)
-  * [Degree](https://github.com/smetdenis/SimpleTypes/blob/master/src/config/degree.php) (geometry)
-  * [Info](https://github.com/smetdenis/SimpleTypes/blob/master/src/config/info.php) (bytes, bits...)
-  * [Length](https://github.com/smetdenis/SimpleTypes/blob/master/src/config/length.php)
-  * [Money](https://github.com/smetdenis/SimpleTypes/blob/master/src/config/money.php) (Currency converter)
-  * [Temperature](https://github.com/smetdenis/SimpleTypes/blob/master/src/config/temp.php) (Kelvin, Fahrenheit, Celsius and etc)
-  * [Volume](https://github.com/smetdenis/SimpleTypes/blob/master/src/config/volume.php)
-  * [Weight](https://github.com/smetdenis/SimpleTypes/blob/master/src/config/weight.php)
+  * [Area](https://github.com/SmetDenis/SimpleTypes/blob/master/src/config/area.php)
+  * [Degree](https://github.com/SmetDenis/SimpleTypes/blob/master/src/config/degree.php) (geometry)
+  * [Info](https://github.com/SmetDenis/SimpleTypes/blob/master/src/config/info.php) (bytes, bits...)
+  * [Length](https://github.com/SmetDenis/SimpleTypes/blob/master/src/config/length.php)
+  * [Money](https://github.com/SmetDenis/SimpleTypes/blob/master/src/config/money.php) (Currency converter)
+  * [Temperature](https://github.com/SmetDenis/SimpleTypes/blob/master/src/config/temp.php) (Kelvin, Fahrenheit, Celsius and etc)
+  * [Volume](https://github.com/SmetDenis/SimpleTypes/blob/master/src/config/volume.php)
+  * [Weight](https://github.com/SmetDenis/SimpleTypes/blob/master/src/config/weight.php)
 
 You can add your own type. It's really easy. See this page below.
 
