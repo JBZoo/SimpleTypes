@@ -10,7 +10,7 @@
  * @link       http://github.com/smetdenis/simpletypes
  */
 
-require_once __DIR__ . '/src/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 use SmetDenis\SimpleTypes\Money,
     SmetDenis\SimpleTypes\Config,
@@ -74,6 +74,7 @@ $money = (new Money('4.95 usd'))
 // show all actions (history)
 $history = $money->logs();
 echo $money->dump();
+
 /**
  * You will see something like that
  *
