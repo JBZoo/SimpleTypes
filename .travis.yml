@@ -25,7 +25,7 @@ script:
 
 after_script:
   # Send to coveralls
-  - sh -c 'if [ "$TRAVIS_PHP_VERSION" == "5.5" ]; then
+  - sh -c 'if [ "$TRAVIS_PHP_VERSION" = "5.5" ]; then
         php vendor/bin/coveralls -v;
     fi;'
 
