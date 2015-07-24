@@ -12,7 +12,7 @@ before_script:
   # Composer
   - wget -nc http://getcomposer.org/composer.phar
   - php composer.phar install --dev --no-interaction
-  - composer update
+  - php composer.phar update
 
   # Dirs
   - mkdir -p build/logs
@@ -21,7 +21,7 @@ before_script:
 
 script:
   # PHPUnit tests
-  - phpunit --configuration phpunit.xml.dist
+  - php vendor/bin/phpunit --configuration phpunit.xml.dist
 
 after_script:
   # Send to coveralls
