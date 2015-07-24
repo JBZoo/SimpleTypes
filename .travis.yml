@@ -31,8 +31,8 @@ after_script:
 
   # Check PSR1,2 src and tests (NOT FOR HipHop !!!)
   - sh -c 'if [ "$TRAVIS_PHP_VERSION" = "5.5" ]; then
-        php vendor/bin/phpcs ./src --standard=PSR1 --encoding=utf-8 --report=summary -vp;
-        php vendor/bin/phpcs ./src --standard=PSR2 --encoding=utf-8 --report=summary -vp;
+        php vendor/bin/phpcs ./src   --standard=PSR1 --encoding=utf-8 --report=summary -vp;
+        php vendor/bin/phpcs ./src   --standard=PSR2 --encoding=utf-8 --report=summary -vp;
         php vendor/bin/phpcs ./tests --standard=PSR2 --encoding=utf-8 --report=summary -vp;
     fi;'
 
