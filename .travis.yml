@@ -11,7 +11,7 @@ php:
 before_script:
   # Composer
   - composer self-update
-  - composer install --dev --no-interaction
+  - composer install --no-interaction
   - composer update
 
   # Dirs
@@ -25,20 +25,20 @@ script:
 
 after_script:
   # Send to coveralls
-  - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then
+  - sh -c 'if [ "$TRAVIS_PHP_VERSION" == "5.5" ]; then
         php vendor/bin/coveralls -v;
     fi;'
 
   # Check PSR1,2 src and tests (NOT FOR HipHop !!!)
-  - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then
+  - sh -c 'if [ "$TRAVIS_PHP_VERSION" == "5.5" ]; then
         php vendor/bin/phpcs ./src --standard=PSR1 --encoding=utf-8 --report=summary -vp;
     fi;'
     
-  - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then
+  - sh -c 'if [ "$TRAVIS_PHP_VERSION" == "5.5" ]; then
         php vendor/bin/phpcs ./src --standard=PSR2 --encoding=utf-8 --report=summary -vp;
     fi;'
     
-  - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then
+  - sh -c 'if [ "$TRAVIS_PHP_VERSION" == "5.5" ]; then
         php vendor/bin/phpcs ./tests --standard=PSR2 --encoding=utf-8 --report=summary -vp;
     fi;'
 
