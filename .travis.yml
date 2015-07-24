@@ -10,9 +10,9 @@ php:
 
 before_script:
   # Composer
-  - wget -nc http://getcomposer.org/composer.phar
-  - php composer.phar install --dev --no-interaction
-  - php composer.phar update
+  - composer self-update
+  - composer install --dev --no-interaction
+  - composer update
 
   # Dirs
   - mkdir -p build/logs
@@ -25,12 +25,11 @@ script:
 
 after_script:
   # Send to coveralls
-  - php vendor/bin/coveralls -v
   - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then
         php vendor/bin/coveralls -v;
     fi;'
 
-  # Check PSR1,2 src and tests
+  # Check PSR1,2 src and tests (NOT FOR HipHop !!!)
   - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then
         php vendor/bin/phpcs ./src --standard=PSR1 --encoding=utf-8 --report=summary -vp;
     fi;'
