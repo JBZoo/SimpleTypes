@@ -49,8 +49,7 @@ class Parser
      */
     public function parse($data = null, $forceRule = null)
     {
-        $value = null;
-        $rule  = null;
+        $rule = null;
 
         if (is_array($data)) {
             $value = isset($data[0]) ? $data[0] : null;
