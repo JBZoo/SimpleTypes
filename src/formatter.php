@@ -87,7 +87,8 @@ class Formatter
     /**
      * @param float  $value
      * @param string $rule
-     * @return string
+     * @param bool   $showSymbol
+     * @return mixed|string
      * @throws Exception
      */
     public function text($value, $rule, $showSymbol = true)
