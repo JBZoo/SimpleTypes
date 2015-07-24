@@ -864,8 +864,9 @@ abstract class Type
      */
     public function addRule($rule, array $newFormat = array())
     {
+        $form = $this->formatter;
         $rule = $this->parser->cleanRule($rule);
-        $this->formatter->addRule($rule, $newFormat);
+        $form->addRule($rule, $newFormat);
         $this->parser->addRule($rule);
         $this->log('New rule "' . $rule . '" added');
 
