@@ -18,7 +18,7 @@ namespace SmetDenis\SimpleTypes;
  */
 class PHPUnit extends \PHPUnit_Framework_TestCase
 {
-    protected $ns = '\\SmetDenis\\SimpleTypes\\';
+    protected $namespace = '\\SmetDenis\\SimpleTypes\\';
 
     protected static $times    = array();
     protected static $memories = array();

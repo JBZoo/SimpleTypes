@@ -25,8 +25,8 @@ class TypeTest extends PHPUnit
      */
     public function val($arg = null)
     {
-        $configName = $this->ns . 'Config' . ucfirst($this->type);
-        $className  = $this->ns . $this->type;
+        $configName = $this->namespace . 'Config' . ucfirst($this->type);
+        $className  = $this->namespace . $this->type;
         Config::registerDefault($this->type, new $configName);
 
         return new $className($arg);
