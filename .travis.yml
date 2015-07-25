@@ -21,7 +21,7 @@ before_script:
 
 script:
   # PHPUnit tests
-  - php vendor/bin/phpunit --configuration phpunit.xml.dist
+  - phpunit --configuration phpunit.xml.dist
 
 after_script:
   # Send to coveralls
