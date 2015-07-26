@@ -1,6 +1,6 @@
-# SimpleTypes
+# SimpleTypes  [![Build Status](https://travis-ci.org/SmetDenis/SimpleTypes.svg?branch=master)](https://travis-ci.org/SmetDenis/SimpleTypes)
 
-### The universal PHP library to convert any values and measures   [![Build Status](https://travis-ci.org/SmetDenis/SimpleTypes.svg?branch=master)](https://travis-ci.org/SmetDenis/SimpleTypes)
+### The universal PHP library to convert any values and measures
 
 [![License](https://poser.pugx.org/SmetDenis/SimpleTypes/license)](https://packagist.org/packages/SmetDenis/SimpleTypes)  [![Latest Stable Version](https://poser.pugx.org/SmetDenis/SimpleTypes/v/stable)](https://packagist.org/packages/SmetDenis/SimpleTypes)   [![Coverage Status](https://coveralls.io/repos/smetdenis/SimpleTypes/badge.svg?branch=master&service=github)](https://coveralls.io/github/smetdenis/SimpleTypes?branch=master)  [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/SmetDenis/SimpleTypes/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/SmetDenis/SimpleTypes/?branch=master)  [![Code Climate](https://codeclimate.com/github/smetdenis/SimpleTypes/badges/gpa.svg)](https://codeclimate.com/github/smetdenis/SimpleTypes)  
 [![Dependency Status](https://www.versioneye.com/user/projects/5596cc726166340021000010/badge.svg?style=flat)](https://www.versioneye.com/user/projects/5596cc726166340021000010) 
