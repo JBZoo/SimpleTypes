@@ -51,9 +51,9 @@ class Formatter
 
         // prepare rules
         $this->rules = array_change_key_case((array)$rules, CASE_LOWER);
-        array_walk($this->rules, function (&$item) {
-            $item = array_merge($this->default, (array)$item);
-        });
+        array_walk($this->rules, function (&$item, $key, $default) {
+            $item = array_merge($default, (array)$item);
+        }, $this->default);
     }
 
     /**
