@@ -14,22 +14,16 @@
 // @codeCoverageIgnoreStart
 
 // main autoload
-if (file_exists('vendor/autoload.php')) {
-    $path = realpath('.');
-    require_once 'vendor/autoload.php';
-
-} else if (file_exists('../src/autoload.php')) {
-    $path = realpath('../');
-    require_once '../vendor/autoload.php';
-
+if ($autoload = realpath('./vendor/autoload.php')) {
+    require_once $autoload;
 } else {
-    $path = realpath('../../');
-    require_once '../../vendor/autoload.php';
+    die('execute "composer install"');
 }
 
-define('ROOT_PATH', $path);
+define('ROOT_PATH', realpath('.'));
 
 // test tools
+require_once 'phpunit.php';
 require_once 'configs.php';
 require_once 'type/typeTest.php';
 
