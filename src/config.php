@@ -76,7 +76,7 @@ abstract class Config
     public static function getDefault($type)
     {
         $type = trim(strtolower($type));
-        if (isset(self::$configs[$type])) {
+        if (array_key_exists($type, self::$configs)) {
             return self::$configs[$type];
         }
 

@@ -76,7 +76,7 @@ class FormatterTest extends PHPUnit
 
     public function testGetRule()
     {
-        $rule = $this->val('50000 rub')->getRule('usd');
+        $rule = $this->val('50000 rub')->getRuleData('usd');
         $this->assertEquals('$', $rule['symbol']);
     }
 
@@ -85,7 +85,7 @@ class FormatterTest extends PHPUnit
      */
     public function testGetRuleUndefined()
     {
-        $this->val('50000 rub')->getRule('undefined');
+        $this->val('50000 rub')->getRuleData('undefined');
     }
 
     /**

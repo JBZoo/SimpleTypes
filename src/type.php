@@ -46,12 +46,12 @@ abstract class Type
     /**
      * @var Parser
      */
-    protected $parser = null;
+    protected $parser;
 
     /**
      * @var Formatter
      */
-    protected $formatter = null;
+    protected $formatter;
 
     /**
      * @var array
@@ -92,7 +92,7 @@ abstract class Type
 
         // check that default rule
         $rules = $this->formatter->getList(true);
-        if (!isset($rules[$this->default])) {
+        if (!array_key_exists($this->default, $rules)) {
             throw new Exception($this->type . ': Default rule not found!');
         }
 
@@ -121,7 +121,7 @@ abstract class Type
         $config        = $config ? $config : $defaultConfig;
 
         // Hack for getValidValue method
-        if (empty($defaultConfig) && $config) {
+        if (!$defaultConfig && $config) {
             Config::registerDefault($this->type, $config);
         }
 
@@ -139,12 +139,13 @@ abstract class Type
     /**
      * @param string $rule
      * @return float
+     * @throws Exception
      */
     public function val($rule = null)
     {
         $rule = $this->parser->cleanRule($rule);
 
-        if ($rule && $rule != $this->rule) {
+        if ($rule && $rule !== $this->rule) {
             return $this->customConvert($rule);
         }
 
@@ -154,10 +155,17 @@ abstract class Type
     /**
      * @param $rule
      * @return string
+     * @throws Exception
      */
     public function text($rule = null)
     {
-        $rule = $rule ? $this->parser->checkRule($rule) : $this->rule;
+        if ($rule) {
+            $rule = $this->parser->checkRule($rule);
+        } else {
+            $rule = $this->rule;
+        }
+
+        //$rule = $rule ? $this->parser->checkRule($rule) : $this->rule;
         $this->log('Formatted output in "' . $rule . '" as "text"');
         return $this->formatter->text($this->val($rule), $rule);
     }
@@ -165,6 +173,7 @@ abstract class Type
     /**
      * @param $rule
      * @return string
+     * @throws Exception
      */
     public function noStyle($rule = null)
     {
@@ -176,6 +185,7 @@ abstract class Type
     /**
      * @param $rule
      * @return string
+     * @throws Exception
      */
     public function html($rule = null)
     {
@@ -210,6 +220,7 @@ abstract class Type
     /**
      * @param string $rule
      * @return bool
+     * @throws Exception
      */
     public function isRule($rule)
     {
@@ -219,8 +230,9 @@ abstract class Type
 
     /**
      * @return string
+     * @throws Exception
      */
-    public function rule()
+    public function getRule()
     {
         return $this->rule;
     }
@@ -259,16 +271,17 @@ abstract class Type
 
     /**
      * @param bool $toString
-     * @return array|string
+     * @return array|
+     * @throws Exception
      */
     public function data($toString = false)
     {
-        $data = array($this->val(), $this->rule());
+        $data = array($this->val(), $this->getRule());
         return $toString ? implode(' ', $data) : $data;
     }
 
     /**
-     * @return Type
+     * @return $this
      */
     public function getClone()
     {
@@ -279,6 +292,7 @@ abstract class Type
      * @param string $rule
      * @param bool   $addToLog
      * @return float
+     * @throws Exception
      */
     protected function customConvert($rule, $addToLog = false)
     {
@@ -292,7 +306,7 @@ abstract class Type
         $log = '"' . $from . '"=>"' . $target . '"';
 
         $result = $this->value;
-        if ($from != $target) {
+        if ($from !== $target) {
             if (is_callable($ruleTo['rate']) || is_callable($ruleFrom['rate'])) {
                 if (is_callable($ruleFrom['rate'])) {
                     $defNorm = $ruleFrom['rate']($this->value, $this->default, $from);
@@ -340,9 +354,9 @@ abstract class Type
         $value = $this->getValidValue($value);
 
         $mode = trim($mode);
-        $mode = in_array($mode, array('=', '==', '===')) ? '==' : $mode;
+        $mode = in_array($mode, array('=', '==', '==='), true) ? '==' : $mode;
 
-        $round = (is_null($round)) ? Formatter::ROUND_DEFAULT : ((int)$round);
+        $round = (null === $round) ? Formatter::ROUND_DEFAULT : ((int)$round);
         $val1  = round((float)$this->val($this->rule), $round);
         $val2  = round((float)$value->val($this->rule), $round);
 
@@ -351,22 +365,22 @@ abstract class Type
             "\"{$value->dump(false)}\" // $val1 $mode $val2, r=$round, "
         );
 
-        if ($mode == '==') {
+        if ($mode === '==') {
             return $val1 === $val2;
 
-        } elseif ($mode == '!=' || $mode == '!==') {
+        } elseif ($mode === '!=' || $mode === '!==') {
             return $val1 !== $val2;
 
-        } elseif ($mode == '<') {
+        } elseif ($mode === '<') {
             return $val1 < $val2;
 
-        } elseif ($mode == '>') {
+        } elseif ($mode === '>') {
             return $val1 > $val2;
 
-        } elseif ($mode == '<=') {
+        } elseif ($mode === '<=') {
             return $val1 <= $val2;
 
-        } elseif ($mode == '>=') {
+        } elseif ($mode === '>=') {
             return $val1 >= $val2;
         }
 
@@ -386,6 +400,7 @@ abstract class Type
      * @param mixed $value
      * @param bool  $getClone
      * @return $this
+     * @throws Exception
      */
     public function add($value, $getClone = false)
     {
@@ -395,7 +410,8 @@ abstract class Type
     /**
      * @param mixed $value
      * @param bool  $getClone
-     * @return Type
+     * @return $this
+     * @throws Exception
      */
     public function subtract($value, $getClone = false)
     {
@@ -406,10 +422,11 @@ abstract class Type
      * @param string $newRule
      * @param bool   $getClone
      * @return $this
+     * @throws Exception
      */
     public function convert($newRule, $getClone = false)
     {
-        if (empty($newRule)) {
+        if (!$newRule) {
             $newRule = $this->rule;
         }
 
@@ -427,7 +444,7 @@ abstract class Type
 
     /**
      * @param bool $getClone
-     * @return Type
+     * @return $this
      */
     public function invert($getClone = false)
     {
@@ -445,7 +462,7 @@ abstract class Type
 
     /**
      * @param bool $getClone
-     * @return Type
+     * @return $this
      */
     public function positive($getClone = false)
     {
@@ -454,7 +471,7 @@ abstract class Type
 
     /**
      * @param bool $getClone
-     * @return Type
+     * @return $this
      */
     public function negative($getClone = false)
     {
@@ -463,7 +480,7 @@ abstract class Type
 
     /**
      * @param bool $getClone
-     * @return Type
+     * @return $this
      */
     public function abs($getClone = false)
     {
@@ -473,7 +490,7 @@ abstract class Type
     /**
      * @param float $number
      * @param bool  $getClone
-     * @return Type
+     * @return $this
      */
     public function multiply($number, $getClone = false)
     {
@@ -486,7 +503,7 @@ abstract class Type
     /**
      * @param float $number
      * @param bool  $getClone
-     * @return Type
+     * @return $this
      */
     public function division($number, $getClone = false)
     {
@@ -498,7 +515,8 @@ abstract class Type
     /**
      * @param  $value
      * @param  $revert
-     * @return Type
+     * @return $this
+     * @throws Exception
      */
     public function percent($value, $revert = false)
     {
@@ -525,7 +543,7 @@ abstract class Type
     /**
      * @param \Closure $function
      * @param bool     $getClone
-     * @return Type
+     * @return $this
      * @throws Exception
      */
     public function customFunc(\Closure $function, $getClone = false)
@@ -541,14 +559,15 @@ abstract class Type
     /**
      * @param mixed $value
      * @param bool  $getClone
-     * @return Type
+     * @return $this
+     * @throws Exception
      */
     public function set($value, $getClone = false)
     {
         $value = $this->getValidValue($value);
 
         $this->value = $value->val();
-        $this->rule  = $value->rule();
+        $this->rule  = $value->getRule();
 
         return $this->modifer($this->value, 'Set new value = "' . $this->dump(false) . '"', $getClone);
     }
@@ -566,15 +585,15 @@ abstract class Type
 
         $addValue = 0;
 
-        if ($this->rule == '%') {
-            if ($value->rule() == '%') {
+        if ($this->rule === '%') {
+            if ($value->getRule() === '%') {
                 $addValue = $value->val();
             } else {
                 $this->error('Impossible add "' . $value->dump(false) . '" to "' . $this->dump(false) . '"');
             }
 
         } else {
-            if ($value->rule() !== '%') {
+            if ($value->getRule() !== '%') {
                 $addValue = $value->val($this->rule);
             } else {
                 $addValue = $this->value * $value->val() / 100;
@@ -595,7 +614,7 @@ abstract class Type
      * @param mixed  $newValue
      * @param string $logMessage
      * @param bool   $getClone
-     * @return Type
+     * @return $this
      */
     protected function modifer($newValue, $logMessage = null, $getClone = false)
     {
@@ -619,6 +638,7 @@ abstract class Type
      * @param int    $roundValue
      * @param string $mode
      * @return $this
+     * @throws Exception
      */
     public function round($roundValue = null, $mode = Formatter::ROUND_CLASSIC)
     {
@@ -637,7 +657,7 @@ abstract class Type
 
     /**
      * @param Type|string $value
-     * @return Type
+     * @return $this
      * @throws Exception
      */
     public function getValidValue($value)
@@ -697,12 +717,13 @@ abstract class Type
 
     /**
      * @return string
+     * @throws Exception
      */
     public function __toString()
     {
         $this->log('__toString() called');
 
-        return $this->text();
+        return (string)$this->text();
     }
 
     /**
@@ -729,6 +750,7 @@ abstract class Type
 
     /**
      * Wake up after serialize
+     * @throws Exception
      */
     public function __wakeup()
     {
@@ -762,11 +784,11 @@ abstract class Type
     {
         $name = strtolower($name);
 
-        if ($name == 'value') {
+        if ($name === 'value') {
             return $this->val();
 
-        } elseif ($name == 'rule') {
-            return $this->rule();
+        } elseif ($name === 'rule') {
+            return $this->getRule();
         }
 
         throw new Exception($this->type . ': Undefined __get() called: "' . $name . '"');
@@ -775,17 +797,17 @@ abstract class Type
     /**
      * @param string $name
      * @param mixed  $value
-     * @return Type
+     * @return $this
      * @throws Exception
      */
     public function __set($name, $value)
     {
         $name = strtolower($name);
 
-        if ($name == 'value') {
+        if ($name === 'value') {
             return $this->set(array($value));
 
-        } elseif ($name == 'rule') {
+        } elseif ($name === 'rule') {
             return $this->convert($value);
         }
 
@@ -796,19 +818,19 @@ abstract class Type
      * Experimental! Methods aliases
      * @param string $name
      * @param array  $arguments
-     * @return Type|mixed
+     * @return $this|mixed
      * @throws Exception
      */
     public function __call($name, $arguments)
     {
         $name = strtolower($name);
-        if ($name == 'value') {
+        if ($name === 'value') {
             return call_user_func_array(array($this, 'val'), $arguments);
 
-        } elseif ($name == 'plus') {
+        } elseif ($name === 'plus') {
             return call_user_func_array(array($this, 'add'), $arguments);
 
-        } elseif ($name == 'minus') {
+        } elseif ($name === 'minus') {
             return call_user_func_array(array($this, 'subtract'), $arguments);
         }
 
@@ -816,7 +838,7 @@ abstract class Type
     }
 
     /**
-     * @return Type
+     * @return $this
      * @throws Exception
      */
     public function __invoke()
@@ -824,19 +846,19 @@ abstract class Type
         $args      = func_get_args();
         $argsCount = count($args);
 
-        if ($argsCount == 0) {
+        if ($argsCount === 0) {
             $this->error('Undefined arguments');
 
-        } elseif ($argsCount == 1) {
+        } elseif ($argsCount === 1) {
             $rules = $this->formatter->getList();
 
-            if (isset($rules[$args[0]])) {
+            if (array_key_exists($args[0], $rules)) {
                 return $this->convert($args[0]);
             } else {
                 return $this->set($args[0]);
             }
 
-        } elseif ($argsCount == 2) {
+        } elseif ($argsCount === 2) {
             return $this->set(array($args[0], $args[1]));
         }
 
@@ -847,6 +869,7 @@ abstract class Type
      * @param array  $newFormat
      * @param string $rule
      * @return $this
+     * @throws Exception
      */
     public function changeRule($rule, array $newFormat)
     {
@@ -860,7 +883,8 @@ abstract class Type
     /**
      * @param string $rule
      * @param array  $newFormat
-     * @return Type
+     * @return $this
+     * @throws Exception
      */
     public function addRule($rule, array $newFormat = array())
     {
@@ -875,7 +899,7 @@ abstract class Type
 
     /**
      * @param string $rule
-     * @return Type
+     * @return $this
      */
     public function removeRule($rule)
     {
@@ -890,8 +914,9 @@ abstract class Type
     /**
      * @param string $rule
      * @return array
+     * @throws Exception
      */
-    public function getRule($rule)
+    public function getRuleData($rule)
     {
         $rule = $this->parser->cleanRule($rule);
         return $this->formatter->get($rule);

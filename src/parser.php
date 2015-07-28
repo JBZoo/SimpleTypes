@@ -52,8 +52,8 @@ class Parser
         $rule = null;
 
         if (is_array($data)) {
-            $value = isset($data[0]) ? $data[0] : null;
-            $rule  = isset($data[1]) ? $data[1] : null;
+            $value = array_key_exists(0, $data) ? $data[0] : null;
+            $rule  = array_key_exists(1, $data) ? $data[1] : null;
             return $this->parse($value, $rule);
 
         } else {
@@ -71,7 +71,7 @@ class Parser
         $value = $this->cleanValue($value);
         $rule  = $this->checkRule($rule);
 
-        if (!empty($forceRule)) {
+        if ($forceRule) {
             $rule = $forceRule;
         }
 
@@ -92,19 +92,18 @@ class Parser
      */
     public function cleanValue($value)
     {
-        $value = trim($value);
+        $result = trim($value);
 
-        $value = preg_replace("#[^0-9-+eE,.]#", '', $value);
+        $result = preg_replace('#[^0-9-+eE,.]#', '', $result);
 
-        if (!preg_match('#\d[eE][-+]\d#', $value)) { // remove exponential format
-            $value = str_replace(array('e', 'E'), '', $value);
+        if (!preg_match('#\d[eE][-+]\d#', $result)) { // remove exponential format
+            $result = str_replace(array('e', 'E'), '', $result);
         }
 
-        $value = str_replace(',', '.', $value);
-        $value = (float)$value;
-        $value = round($value, Formatter::ROUND_DEFAULT);
+        $result = (float)str_replace(',', '.', $result);
+        $result = round($result, Formatter::ROUND_DEFAULT);
 
-        return $value;
+        return $result;
     }
 
     /**
@@ -128,11 +127,11 @@ class Parser
     {
         $rule = $this->cleanRule($rule);
 
-        if (empty($rule)) {
+        if (!$rule) {
             return $this->default;
         }
 
-        if (isset($this->rules[$rule])) {
+        if (array_key_exists($rule, $this->rules)) {
             return $rule;
         }
 
@@ -153,7 +152,7 @@ class Parser
      */
     public function removeRule($rule)
     {
-        if (isset($this->rules[$rule])) {
+        if (array_key_exists($rule, $this->rules)) {
             unset($this->rules[$rule]);
         }
     }

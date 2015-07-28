@@ -30,9 +30,9 @@ class Formatter
     protected $rules = array();
 
     /**
-     * @var string
+     * @var string|null
      */
-    protected $type = null;
+    protected $type = '';
 
     /**
      * @var array
@@ -51,9 +51,9 @@ class Formatter
 
         // prepare rules
         $this->rules = array_change_key_case((array)$rules, CASE_LOWER);
-        foreach ($this->rules as $name => $rule) {
-            $this->rules[$name] = array_merge($this->default, $rule);
-        }
+        array_walk($this->rules, function (&$item) {
+            $item = array_merge($this->default, (array)$item);
+        });
     }
 
     /**
@@ -63,7 +63,7 @@ class Formatter
      */
     public function get($rule)
     {
-        if (isset($this->rules[$rule])) {
+        if (array_key_exists($rule, $this->rules)) {
             return (array)$this->rules[$rule];
         }
 
@@ -123,8 +123,8 @@ class Formatter
         $result = str_replace(
             array('%v', '%s'),
             array(
-                '<span class="simpleType-value">' . $data['value'] . "</span>",
-                '<span class="simpleType-symbol">' . $rData['symbol'] . "</span>",
+                '<span class="simpleType-value">' . $data['value'] . '</span>',
+                '<span class="simpleType-symbol">' . $rData['symbol'] . '</span>',
             ),
             $data['template']
         );
@@ -150,6 +150,7 @@ class Formatter
      * @param array $orig
      * @param array $params
      * @return string
+     * @throws Exception
      */
     public function htmlInput($current, $orig, $params)
     {
@@ -184,7 +185,9 @@ class Formatter
     {
         $result = '';
 
-        if (!empty($attributes)) {
+        $attributes = (array)$attributes;
+
+        if (count($attributes)) {
             foreach ($attributes as $key => $param) {
                 $value = implode(' ', (array)$param);
                 $value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
@@ -208,28 +211,28 @@ class Formatter
     {
         $format = $this->get($rule);
 
-        if (empty($roundType)) {
-            $roundType = isset($format['round_type']) ? $format['round_type'] : self::ROUND_NONE;
+        if (!$roundType) {
+            $roundType = array_key_exists('round_type', $format) ? $format['round_type'] : self::ROUND_NONE;
         }
 
-        if (is_null($roundValue)) {
-            $roundValue = isset($format['round_value']) ? $format['round_value'] : self::ROUND_DEFAULT;
+        if (null === $roundValue) {
+            $roundValue = array_key_exists('round_value', $format) ? $format['round_value'] : self::ROUND_DEFAULT;
         }
 
         $roundValue = (int)$roundValue;
 
-        if (self::ROUND_CEIL == $roundType) {
+        if (self::ROUND_CEIL === $roundType) {
             $base  = pow(10, $roundValue);
             $value = ceil($value * $base) / $base;
 
-        } elseif (self::ROUND_CLASSIC == $roundType) {
+        } elseif (self::ROUND_CLASSIC === $roundType) {
             $value = round($value, $roundValue);
 
-        } elseif (self::ROUND_FLOOR == $roundType) {
+        } elseif (self::ROUND_FLOOR === $roundType) {
             $base  = pow(10, $roundValue);
             $value = floor($value * $base) / $base;
 
-        } elseif (self::ROUND_NONE == $roundType) {
+        } elseif (self::ROUND_NONE === $roundType) {
             $value = round($value, Formatter::ROUND_DEFAULT); // hack, because 123.400000001 !== 123.4
 
         } else {
@@ -244,11 +247,12 @@ class Formatter
      * @param float  $value
      * @param string $rule
      * @return array
+     * @throws Exception
      */
     protected function format($value, $rule)
     {
         $format = (array)$this->get($rule);
-        $value  = !empty($value) ? $value : 0.0;
+        $value  = (float)$value;
 
         $roundedValue = $this->round($value, $rule);
         $isPositive   = ($value >= 0);
@@ -271,6 +275,7 @@ class Formatter
     /**
      * @param string $rule
      * @param array  $newFormat
+     * @throws Exception
      */
     public function changeRule($rule, array $newFormat)
     {
@@ -290,7 +295,7 @@ class Formatter
             throw new Exception('Empty rule name');
         }
 
-        if (isset($this->rules[$rule])) {
+        if (array_key_exists($rule, $this->rules)) {
             throw new Exception('Format "' . $rule . '" already exists');
         }
 
@@ -303,7 +308,7 @@ class Formatter
      */
     public function removeRule($rule)
     {
-        if (isset($this->rules[$rule])) {
+        if (array_key_exists($rule, $this->rules)) {
             unset($this->rules[$rule]);
         }
     }
