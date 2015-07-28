@@ -20,6 +20,7 @@ class Degree extends Type
 {
     /**
      * @return Degree
+     * @throws Exception
      */
     public function removeCircles()
     {
