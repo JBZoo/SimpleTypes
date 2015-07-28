@@ -33,7 +33,8 @@
         "phpunit/phpunit"          : "4.7.*",
         "phpunit/php-code-coverage": "2.1.*",
         "satooshi/php-coveralls"   : "0.6.*",
-        "squizlabs/php_codesniffer": "2.3.*"
+        "squizlabs/php_codesniffer": "2.3.*",
+        "sebastian/phpcpd"         : "*"
     },
     "autoload"         : {
         "classmap": [

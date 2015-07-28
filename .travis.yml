@@ -34,6 +34,11 @@ after_script:
         php vendor/bin/phpcs ./src   --standard=PSR1,PSR2 --encoding=utf-8 --report=summary -vp;
         php vendor/bin/phpcs ./tests --standard=PSR2      --encoding=utf-8 --report=summary -vp;
     fi;'
+  
+  # Try to find copy-paste
+  - sh -c 'if [ "$TRAVIS_PHP_VERSION" = "5.5" ]; then
+        php vendor/bin/phpcpd ./src  --no-interaction --verbose;
+    fi;'    
 
 notifications:
   email: denis@jbzoo.com
