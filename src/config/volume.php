@@ -16,7 +16,13 @@ namespace SmetDenis\SimpleTypes;
  */
 class ConfigVolume extends Config
 {
-    public $default = 'lit';
+    /**
+     * Set default
+     */
+    public function __construct()
+    {
+        $this->default = 'lit';
+    }
 
     /**
      * List of rules

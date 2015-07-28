@@ -18,7 +18,13 @@ namespace SmetDenis\SimpleTypes;
  */
 class ConfigInfo extends Config
 {
-    public $default = 'byte';
+    /**
+     * Set default
+     */
+    public function __construct()
+    {
+        $this->default = 'byte';
+    }
 
     /**
      * List of rules
@@ -72,7 +78,7 @@ class ConfigInfo extends Config
                 'symbol' => 'Bit',
                 'rate'   => function ($value, $to) {
 
-                    if ($to == 'bit') {
+                    if ($to === 'bit') {
                         return $value * 8;
                     }
 

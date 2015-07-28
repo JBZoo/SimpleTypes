@@ -16,8 +16,13 @@ namespace SmetDenis\SimpleTypes;
  */
 class ConfigDegree extends Config
 {
-    public $default = 'd';
-    public $isDebug = true;
+    /**
+     * Set default
+     */
+    public function __construct()
+    {
+        $this->default = 'd';
+    }
 
     /**
      * List of rules
@@ -36,7 +41,7 @@ class ConfigDegree extends Config
             'r' => array(
                 'symbol' => 'pi',
                 'rate'   => function ($value, $to) {
-                    if ($to == 'd') {
+                    if ($to === 'd') {
                         return $value * 180;
                     }
                     return $value / 180;
@@ -46,7 +51,7 @@ class ConfigDegree extends Config
             'g' => array(
                 'symbol' => 'Grad',
                 'rate'   => function ($value, $to) {
-                    if ($to == 'd') {
+                    if ($to === 'd') {
                         return $value * 0.9;
                     }
                     return $value / 0.9;

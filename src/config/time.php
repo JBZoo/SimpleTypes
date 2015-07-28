@@ -16,7 +16,13 @@ namespace SmetDenis\SimpleTypes;
  */
 class ConfigTime extends Config
 {
-    public $default = 's';
+    /**
+     * Set default
+     */
+    public function __construct()
+    {
+        $this->default = 's';
+    }
 
     /**
      * List of rules

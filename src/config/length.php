@@ -18,7 +18,13 @@ namespace SmetDenis\SimpleTypes;
  */
 class ConfigLength extends Config
 {
-    public $default = 'm';
+    /**
+     * Set default
+     */
+    public function __construct()
+    {
+        $this->default = 'm';
+    }
 
     /**
      * List of rules

@@ -18,7 +18,13 @@ namespace SmetDenis\SimpleTypes;
  */
 class ConfigWeight extends Config
 {
-    public $default = 'g';
+    /**
+     * Set default
+     */
+    public function __construct()
+    {
+        $this->default = 'g';
+    }
 
     /**
      * List of rules

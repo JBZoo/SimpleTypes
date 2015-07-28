@@ -18,7 +18,13 @@ namespace SmetDenis\SimpleTypes;
  */
 class ConfigTemp extends Config
 {
-    public $default = 'k';
+    /**
+     * Set default
+     */
+    public function __construct()
+    {
+        $this->default = 'k';
+    }
 
     /**
      * List of rules
@@ -36,10 +42,10 @@ class ConfigTemp extends Config
                 'symbol' => '°C',
                 'rate'   => function ($value, $to) {
 
-                    if ($to == 'k') {
-                        $value = $value + 273.15;
+                    if ($to === 'k') {
+                        $value += 273.15;
                     } else {
-                        $value = $value - 273.15;
+                        $value -= 273.15;
                     }
 
                     return $value;
@@ -51,7 +57,7 @@ class ConfigTemp extends Config
                 'symbol' => '°F',
                 'rate'   => function ($value, $to) {
 
-                    if ($to == 'k') {
+                    if ($to === 'k') {
                         $value = ($value + 459.67) * (5 / 9);
                     } else {
                         $value = $value * (9 / 5) - 459.67;
@@ -66,7 +72,7 @@ class ConfigTemp extends Config
                 'symbol' => '°R',
                 'rate'   => function ($value, $to) {
 
-                    if ($to == 'k') {
+                    if ($to === 'k') {
                         $value = $value * 5 / 9;
                     } else {
                         $value = $value * 9 / 5;

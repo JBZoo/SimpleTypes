@@ -18,7 +18,13 @@ namespace SmetDenis\SimpleTypes;
  */
 class ConfigArea extends Config
 {
-    public $default = 'm2';
+    /**
+     * Set default
+     */
+    public function __construct()
+    {
+        $this->default = 'm2';
+    }
 
     /**
      * List of rules

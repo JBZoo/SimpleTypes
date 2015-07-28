@@ -18,7 +18,13 @@ namespace SmetDenis\SimpleTypes;
  */
 class ConfigMoney extends Config
 {
-    public $default = 'eur';
+    /**
+     * Set default
+     */
+    public function __construct()
+    {
+        $this->default = 'eur';
+    }
 
     /**
      * List of rules
