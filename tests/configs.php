@@ -12,9 +12,6 @@
 
 namespace SmetDenis\SimpleTypes;
 
-// @codingStandardsIgnoreFile
-// @codeCoverageIgnoreStart
-
 /**
  * Class ConfigTestEmpty
  * @package SmetDenis\SimpleTypes
@@ -97,5 +94,3 @@ class ConfigTestWrong extends Config
         );
     }
 }
-
-// @codeCoverageIgnoreEnd

@@ -20,8 +20,20 @@ class PHPUnit extends \PHPUnit_Framework_TestCase
 {
     protected $namespace = '\\SmetDenis\\SimpleTypes\\';
 
-    protected static $times    = array();
+    protected static $times = array();
     protected static $memories = array();
+
+    protected $excludeList = array(
+        '.',
+        '..',
+        '.idea',
+        '.git',
+        'build',
+        'vendor',
+        'reports',
+        'composer.phar',
+        'composer.lock',
+    );
 
     /**
      * @param mixed $arg
@@ -99,5 +111,43 @@ class PHPUnit extends \PHPUnit_Framework_TestCase
         }
 
         return $result;
+    }
+
+    protected function getFileList($dir, $filter = null, &$results = array())
+    {
+        $files = scandir($dir);
+
+        foreach ($files as $key => $value) {
+            $path = $dir . DIRECTORY_SEPARATOR . $value;
+
+            if (!is_dir($path) && !in_array($value, $this->excludeList, true)) {
+
+                if ($filter) {
+                    if (preg_match($filter, $path)) {
+                        $results[] = $path;
+                    }
+                } else {
+                    $results[] = $path;
+                }
+
+            } elseif (is_dir($path) && !in_array($value, $this->excludeList, true)) {
+                $this->getFileList($path, $filter, $results);
+            }
+        }
+
+        return $results;
+    }
+
+    protected function openFile($path)
+    {
+        $contents = null;
+
+        if ($realPath = realpath($path)) {
+            $handle   = fopen($path, "rb");
+            $contents = fread($handle, filesize($path));
+            fclose($handle);
+        }
+
+        return $contents;
     }
 }
