@@ -38,7 +38,12 @@ after_script:
   # Try to find copy-paste
   - sh -c 'if [ "$TRAVIS_PHP_VERSION" = "5.5" ]; then
         php vendor/bin/phpcpd ./src  --no-interaction --verbose;
-    fi;'    
+    fi;'
+
+  # Try to find copy-paste
+  - sh -c 'if [ "$TRAVIS_PHP_VERSION" = "5.5" ]; then
+        php vendor/bin/phploc ./src  --no-interaction --verbose;
+    fi;'
 
 notifications:
   email: denis@jbzoo.com

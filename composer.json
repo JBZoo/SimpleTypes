@@ -1,47 +1,33 @@
 {
-    "name"             : "smetdenis/simpletypes",
-    "type"             : "library",
-    "description"      : "The universal PHP library to convert any values and measures",
-    "license"          : "MIT",
+    "name": "smetdenis/simpletypes",
+    "type": "library",
+    "description": "The universal PHP library to convert any values and measures",
+    "license": "MIT",
     "minimum-stability": "dev",
-    "keywords"         : [
-        "converter",
-        "acceleration",
-        "area",
-        "degree",
-        "info",
-        "length",
-        "money",
-        "number",
-        "pressure",
-        "speed",
-        "temperature",
-        "time",
-        "volume",
-        "weight"
-    ],
-    "authors"          : [
+    "keywords": ["converter", "acceleration", "area", "degree", "info", "length", "money",  "number", "pressure", "speed", "temperature", "time", "volume", "weight"],
+    "authors": [
         {
-            "name" : "SmetDenis",
+            "name": "SmetDenis",
             "email": "denis@jbzoo.com"
         }
     ],
-    "require"          : {
+    "require": {
         "php": ">=5.3.1"
     },
-    "require-dev"      : {
-        "phpunit/phpunit"          : "4.7.*",
+    "require-dev": {
+        "phpunit/phpunit": "4.7.*",
         "phpunit/php-code-coverage": "2.1.*",
-        "satooshi/php-coveralls"   : "0.6.*",
-        "squizlabs/php_codesniffer": "2.3.*",
-        "sebastian/phpcpd"         : "*"
+        "satooshi/php-coveralls": "dev-master",
+        "squizlabs/php_codesniffer": "*",
+        "sebastian/phpcpd": "*",
+        "phploc/phploc": "*"
     },
-    "autoload"         : {
+    "autoload": {
         "classmap": [
             "src"
         ]
     },
-    "support"          : {
+    "support": {
         "issues": "https://github.com/smetdenis/SimpleTypes/issues"
     }
 }
