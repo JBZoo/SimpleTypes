@@ -5,13 +5,16 @@ php:
   - 5.4
   - 5.5
   - 5.6
+  - 7.0
+  - hhvm
+  - nightly
 
 matrix:
+  fast_finish: true
   allow_failures:
     - php: 7.0
-    #- php: hhvm
-    #- php: nightly
-  #fast_finish: true
+    - php: hhvm
+    - php: nightly
 
 before_script:
   # Composer
