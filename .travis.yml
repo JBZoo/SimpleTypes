@@ -5,15 +5,15 @@ php:
   - 5.4
   - 5.5
   - 5.6
-  - 7.0
   - hhvm
+  - 7.0
   - nightly
 
 matrix:
   fast_finish: true
   allow_failures:
-    - php: 7.0
     - php: hhvm
+    - php: 7.0
     - php: nightly
 
 before_script:
@@ -30,18 +30,17 @@ before_script:
 
 script:
   # PHPUnit tests
-  - php vendor/bin/phpunit --configuration phpunit.xml.dist
+  - php vendor/bin/phpunit --configuration phpunit.xml.dist --verbose;
 
 after_script:
   # Send to coveralls
   - sh -c 'if [ "$TRAVIS_PHP_VERSION" = "5.5" ]; then
-        php vendor/bin/coveralls -v;
+        php vendor/bin/coveralls --verbose;
     fi;'
 
   # Check PSR1,2 src and tests (NOT FOR HipHop !!!)
   - sh -c 'if [ "$TRAVIS_PHP_VERSION" = "5.5" ]; then
         php vendor/bin/phpcs ./src   --standard=PSR1,PSR2 --encoding=utf-8 --report=summary -vp | grep "TOTAL\sOF";
-        php vendor/bin/phpcs ./tests --standard=PSR2      --encoding=utf-8 --report=summary -vp | grep "TOTAL\sOF";
     fi;'
   
   # Try to find copy-paste
