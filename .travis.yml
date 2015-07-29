@@ -9,9 +9,10 @@ php:
 matrix:
   fast_finish: true
   allow-failures:
-    - php: 7.0
-    - php: hhvm
-    - php: nightly
+    php:
+      - 7.0
+      - hhvm
+      - nightly
 
 
 before_script:
