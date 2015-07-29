@@ -42,20 +42,4 @@ class LETest extends PHPUnit
         }
     }
 
-    protected function getFileList($dir, &$results = array())
-    {
-        $files = scandir($dir);
-
-        foreach ($files as $key => $value) {
-            $path = $dir . DIRECTORY_SEPARATOR . $value;
-
-            if (!is_dir($path) && !in_array($value, $this->excludeList, true)) {
-                $results[] = $path;
-            } elseif (is_dir($path) && !in_array($value, $this->excludeList, true)) {
-                $this->getFileList($path, $results);
-            }
-        }
-
-        return $results;
-    }
 }
