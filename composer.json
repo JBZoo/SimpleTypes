@@ -20,7 +20,9 @@
         "satooshi/php-coveralls": "dev-master",
         "squizlabs/php_codesniffer": "*",
         "sebastian/phpcpd": "*",
-        "phploc/phploc": "*"
+        "phploc/phploc": "*",
+        "phpmd/phpmd": "^2.2",
+        "pdepend/pdepend": "^2.1"
     },
     "autoload": {
         "classmap": [

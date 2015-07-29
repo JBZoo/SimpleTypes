@@ -15,6 +15,7 @@ before_script:
 
   # Dirs
   - mkdir -p build/logs
+  - mkdir -p build/pdepend
 
   # Update env
   - phpenv rehash
@@ -40,9 +41,22 @@ after_script:
         php vendor/bin/phpcpd ./src  --no-interaction --verbose;
     fi;'
 
-  # Try to find copy-paste
+  # Show code statistic
   - sh -c 'if [ "$TRAVIS_PHP_VERSION" = "5.5" ]; then
         php vendor/bin/phploc ./src  --no-interaction --verbose;
+    fi;'
+
+  # Show code problems
+  - sh -c 'if [ "$TRAVIS_PHP_VERSION" = "5.5" ]; then
+        php vendor/bin/phpmd ./src text codesize --verbose;
+    fi;'
+
+  # Build pdepend stats
+  - sh -c 'if [ "$TRAVIS_PHP_VERSION" = "5.5" ]; then
+        php vendor/bin/pdepend
+          --summary-xml=build/pdepend/summary.xml
+          --jdepend-chart=build/pdepend/jdepend.svg
+          --overview-pyramid=build/pdepend/pyramid.svg ./src;
     fi;'
 
 notifications:
