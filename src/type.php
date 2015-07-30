@@ -643,7 +643,10 @@ abstract class Type
     public function round($roundValue = null, $mode = Formatter::ROUND_CLASSIC)
     {
         $oldValue = $this->value;
-        $newValue = $this->formatter->round($this->value, $this->rule, $roundValue, $mode);
+        $newValue = $this->formatter->round($this->value, $this->rule, array(
+            'roundValue' => $roundValue,
+            'roundType'  => $mode
+        ));
 
         $this->log(
             'Rounded (size=' . (int)$roundValue . '; type=' . $mode . ') "' .

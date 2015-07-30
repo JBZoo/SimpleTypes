@@ -200,16 +200,22 @@ class Formatter
     }
 
     /**
-     * @param float    $value
-     * @param string   $rule
-     * @param null|int $roundValue
-     * @param string   $roundType
+     * @param float  $value
+     * @param string $rule
+     * @param array  $params
      * @return float
      * @throws Exception
      */
-    public function round($value, $rule, $roundValue = null, $roundType = null)
+    public function round($value, $rule, array $params = array())
     {
         $format = $this->get($rule);
+
+        // prepare params
+        $params = array_merge(array('roundType' => null, 'roundValue' => null), $params);
+
+        // get vars
+        $roundType  = $params['roundType'];
+        $roundValue = $params['roundValue'];
 
         if (!$roundType) {
             $roundType = array_key_exists('round_type', $format) ? $format['round_type'] : self::ROUND_NONE;
