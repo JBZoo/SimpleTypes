@@ -76,9 +76,9 @@ class ConfigInfo extends Config
             ),
             'bit'  => array(
                 'symbol' => 'Bit',
-                'rate'   => function ($value, $to) {
+                'rate'   => function ($value, $ruleTo) {
 
-                    if ($to === 'bit') {
+                    if ($ruleTo === 'bit') {
                         return $value * 8;
                     }
 

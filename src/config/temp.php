@@ -40,9 +40,9 @@ class ConfigTemp extends Config
             // Celsius
             'C' => array(
                 'symbol' => '°C',
-                'rate'   => function ($value, $to) {
+                'rate'   => function ($value, $ruleTo) {
 
-                    if ($to === 'k') {
+                    if ($ruleTo === 'k') {
                         $value += 273.15;
                     } else {
                         $value -= 273.15;
@@ -55,9 +55,9 @@ class ConfigTemp extends Config
             // Fahrenheit
             'F' => array(
                 'symbol' => '°F',
-                'rate'   => function ($value, $to) {
+                'rate'   => function ($value, $ruleTo) {
 
-                    if ($to === 'k') {
+                    if ($ruleTo === 'k') {
                         $value = ($value + 459.67) * (5 / 9);
                     } else {
                         $value = $value * (9 / 5) - 459.67;
@@ -70,9 +70,9 @@ class ConfigTemp extends Config
             // Rankine
             'R' => array(
                 'symbol' => '°R',
-                'rate'   => function ($value, $to) {
+                'rate'   => function ($value, $ruleTo) {
 
-                    if ($to === 'k') {
+                    if ($ruleTo === 'k') {
                         $value = $value * 5 / 9;
                     } else {
                         $value = $value * 9 / 5;

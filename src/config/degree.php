@@ -42,8 +42,8 @@ class ConfigDegree extends Config
             // radian
             'r' => array(
                 'symbol' => 'pi',
-                'rate'   => function ($value, $to) {
-                    if ($to === 'd') {
+                'rate'   => function ($value, $ruleTo) {
+                    if ($ruleTo === 'd') {
                         return $value * 180;
                     }
                     return $value / 180;
@@ -52,8 +52,8 @@ class ConfigDegree extends Config
             // grads
             'g' => array(
                 'symbol' => 'Grad',
-                'rate'   => function ($value, $to) {
-                    if ($to === 'd') {
+                'rate'   => function ($value, $ruleTo) {
+                    if ($ruleTo === 'd') {
                         return $value * 0.9;
                     }
                     return $value / 0.9;
