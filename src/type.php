@@ -159,13 +159,7 @@ abstract class Type
      */
     public function text($rule = null)
     {
-        if ($rule) {
-            $rule = $this->parser->checkRule($rule);
-        } else {
-            $rule = $this->rule;
-        }
-
-        //$rule = $rule ? $this->parser->checkRule($rule) : $this->rule;
+        $rule = $rule ? $this->parser->checkRule($rule) : $this->rule;
         $this->log('Formatted output in "' . $rule . '" as "text"');
         return $this->formatter->text($this->val($rule), $rule);
     }
