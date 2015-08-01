@@ -34,8 +34,8 @@ class Parser
      */
     public function __construct($default = '', array $ruleList = array())
     {
-        uksort($ruleList, function ($a, $b) {
-            return strlen($b) - strlen($a);
+        uksort($ruleList, function ($item1, $item2) {
+            return strlen($item2) - strlen($item1);
         });
         $this->rules   = $ruleList;
         $this->default = $default;
@@ -57,11 +57,11 @@ class Parser
             return $this->parse($value, $rule);
 
         } else {
-            $value = strtolower(trim($data));
+            $value   = strtolower(trim($data));
             $aliases = $this->getCodeList();
             foreach ($aliases as $alias) {
                 if (strpos($value, $alias) !== false) {
-                    $rule = $alias;
+                    $rule  = $alias;
                     $value = str_ireplace($rule, '', $value);
                     break;
                 }
