@@ -36,7 +36,7 @@ class FilesTest extends PHPUnit
         '',
         'namespace SmetDenis\SimpleTypes;',
         '',
-        '/**'
+        '/**',
     );
 
     protected $excludeList = array(
@@ -72,7 +72,20 @@ class FilesTest extends PHPUnit
         foreach ($files as $file) {
             $content = $this->openFile($file);
 
-            self::assertContains($valid, $content, 'File has novalid header: ' . $file);
+            self::assertContains($valid, $content, 'File has no valid header: ' . $file);
+        }
+    }
+
+    public function testCyrillic()
+    {
+        $this->excludeList[] = 'money.php';
+
+        $files = $this->getFileList(ROOT_PATH . '/src', '#\.php$#i');
+
+        foreach ($files as $file) {
+            $content = $this->openFile($file);
+
+            self::assertEquals(0, preg_match('/[А-Яа-яЁё]/u', $content), 'File has no valid chars: ' . $file);
         }
     }
 
