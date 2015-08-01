@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <phpunit bootstrap="tests/autoload.php"
-         color="true"
+         colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
-         stopOnFailures="false"
          syntaxCheck="true"
+         stopOnFailures="true"
+         stopOnError="true"
+         stopOnFailure="true"
+         stopOnIncomplete="true"
+         stopOnSkipped="false"
+         verbose="true"
         >
 
     <testsuites>
