@@ -4,7 +4,10 @@
     "description": "The universal PHP library to convert any values and measures",
     "license": "MIT",
     "minimum-stability": "dev",
-    "keywords": ["converter", "acceleration", "area", "degree", "info", "length", "money",  "number", "pressure", "speed", "temperature", "time", "volume", "weight"],
+    "keywords": [
+        "converter", "acceleration", "area", "degree", "info", "length", "money", "number", "pressure", "speed",
+        "temperature", "time", "volume", "weight"
+    ],
     "authors": [
         {
             "name": "SmetDenis",
