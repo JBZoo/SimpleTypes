@@ -17,14 +17,14 @@
 if ($autoload = realpath('./vendor/autoload.php')) {
     require_once $autoload;
 } else {
-    die('execute "composer install"');
+    die('Please execute "composer install --no-dev" !');
 }
 
 define('ROOT_PATH', realpath('.'));
 
 // test tools
 require_once 'phpunit.php';
-require_once 'configs.php';
+require_once 'fixtures.php';
 require_once 'type/typeTest.php';
 
 
