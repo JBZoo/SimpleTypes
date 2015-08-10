@@ -381,3 +381,5 @@ Show current rule
 echo $value->val(); // "eur"
 ```
 
+## License
+MIT
