@@ -21,7 +21,7 @@ before_script:
   - composer validate
 
   # Dirs
-  - mkdir -p build/logs
+  - mkdir -p build/phpunit
   - mkdir -p build/pdepend
 
   # Update env
