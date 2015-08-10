@@ -17,7 +17,7 @@
 if ($autoload = realpath('./vendor/autoload.php')) {
     require_once $autoload;
 } else {
-    die('Please execute "composer install --no-dev" !');
+    die('Please execute "composer update --no-dev" !');
 }
 
 define('ROOT_PATH', realpath('.'));
