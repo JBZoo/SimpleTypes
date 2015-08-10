@@ -53,7 +53,7 @@ class FilesTest extends PHPUnit
 
     public function testFiles()
     {
-        $files = $this->getFileList(ROOT_PATH);
+        $files = $this->getFileList(ROOT_PATH, '[/\\\\](src|tests)[/\\\\].*\.php$');
 
         foreach ($files as $file) {
             $content = $this->openFile($file);
@@ -63,10 +63,9 @@ class FilesTest extends PHPUnit
 
     public function testHeaders()
     {
-        $this->excludeList[] = 'demo.php';
         $this->excludeList[] = 'autoload.php';
 
-        $files = $this->getFileList(ROOT_PATH, '#\.php$#i');
+        $files = $this->getFileList(ROOT_PATH, '[/\\\\](src|tests)[/\\\\].*\.php$');
         $valid = implode($this->validHeader, $this->le);
 
         foreach ($files as $file) {
@@ -80,7 +79,7 @@ class FilesTest extends PHPUnit
     {
         $this->excludeList[] = 'money.php';
 
-        $files = $this->getFileList(ROOT_PATH . '/src', '#\.php$#i');
+        $files = $this->getFileList(ROOT_PATH, '/src/.*\.php$');
 
         foreach ($files as $file) {
             $content = $this->openFile($file);

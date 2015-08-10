@@ -123,7 +123,7 @@ class PHPUnit extends \PHPUnit_Framework_TestCase
             if (!is_dir($path) && !in_array($value, $this->excludeList, true)) {
 
                 if ($filter) {
-                    if (preg_match($filter, $path)) {
+                    if (preg_match('#' . $filter . '#iu', $path)) {
                         $results[] = $path;
                     }
                 } else {
