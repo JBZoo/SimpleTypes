@@ -18,6 +18,8 @@ before_script:
   # Composer
   - composer self-update
   - composer install --no-interaction
+  - composer validate
+  - composer diagnose
 
   # Dirs
   - mkdir -p build/logs
@@ -35,20 +37,20 @@ after_script:
   - sh -c 'if [ "$TRAVIS_PHP_VERSION" = "5.5" ]; then
         php vendor/bin/coveralls --verbose;
     fi;'
-
+      
   # Check PSR1,2 src and tests (NOT FOR HipHop !!!)
   - sh -c 'if [ "$TRAVIS_PHP_VERSION" = "5.5" ]; then
-        php vendor/bin/phpcs ./src   --standard=PSR1,PSR2 --encoding=utf-8 --report=summary -vp | grep "TOTAL\sOF";
+        php vendor/bin/phpcs ./src --standard=PSR1,PSR2 --encoding=utf-8 --report=summary -vp | grep "TOTAL\sOF";
     fi;'
   
   # Try to find copy-paste
   - sh -c 'if [ "$TRAVIS_PHP_VERSION" = "5.5" ]; then
-        php vendor/bin/phpcpd ./src  --no-interaction --verbose;
+        php vendor/bin/phpcpd ./src --no-interaction --verbose;
     fi;'
 
   # Show code statistic
   - sh -c 'if [ "$TRAVIS_PHP_VERSION" = "5.5" ]; then
-        php vendor/bin/phploc ./src  --no-interaction --verbose;
+        php vendor/bin/phploc ./src --no-interaction --verbose;
     fi;'
 
   # Show code problems
@@ -66,7 +68,7 @@ after_script:
         php vendor/bin/pdepend
           --summary-xml=build/pdepend/summary.xml
           --jdepend-chart=build/pdepend/jdepend.svg
-          --overview-pyramid=build/pdepend/pyramid.svg ./src;
+          --overview-pyramid=build/pdepend/pyramid.svg ./src --verbose;
     fi;'
 
 notifications:
