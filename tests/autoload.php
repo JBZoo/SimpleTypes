@@ -20,6 +20,7 @@ if ($autoload = realpath('./vendor/autoload.php')) {
     die('Please execute "composer update --no-dev" !');
 }
 
+// @FIXME Very bad code
 define('ROOT_PATH', realpath('.'));
 
 // test tools
