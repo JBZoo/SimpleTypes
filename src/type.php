@@ -14,6 +14,7 @@ namespace SmetDenis\SimpleTypes;
 
 /**
  * Class Type
+ * @TODO Too big file
  * @package SmetDenis\SimpleTypes
  */
 abstract class Type
