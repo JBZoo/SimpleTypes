@@ -14,7 +14,6 @@ namespace SmetDenis\SimpleTypes;
 
 /**
  * Class Degree
- * @fixme Test message
  * @package SmetDenis\SimpleTypes
  */
 class Degree extends Type

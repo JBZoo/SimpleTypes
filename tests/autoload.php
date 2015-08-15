@@ -21,7 +21,6 @@ if ($autoload = realpath('./vendor/autoload.php')) {
     exit(1);
 }
 
-// @FIXME Very bad code
 define('ROOT_PATH', realpath('.'));
 
 // test tools
