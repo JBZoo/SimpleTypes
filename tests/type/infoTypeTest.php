@@ -19,7 +19,7 @@ namespace SmetDenis\SimpleTypes;
 class InfoTypeTest extends typeTest
 {
 
-    protected $type = 'info';
+    protected $type = 'Info';
 
     public function testSimple()
     {

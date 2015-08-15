@@ -19,7 +19,7 @@ namespace SmetDenis\SimpleTypes;
 class AreaTypeTest extends typeTest
 {
 
-    protected $type = 'area';
+    protected $type = 'Area';
 
     public function testSimple()
     {

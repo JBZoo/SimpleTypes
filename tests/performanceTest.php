@@ -54,6 +54,8 @@ class PerformanceTest extends PHPUnit
 
     public function testMemoryLeak()
     {
+        $this->markTestSkipped('Memory test skipped');
+
         $this->startProfiler();
         for ($i = 0; $i < $this->max; $i++) {
             new Money(rand(-100, 100) . ' usd', new ConfigMoney());
@@ -61,12 +63,14 @@ class PerformanceTest extends PHPUnit
         $result = $this->markProfiler($this->max);
 
         //$this->cliMessage('Memory leak (on ' . $this->max . '): ' . $result['memory'] . ' / ' . $result['memoryF']);
-        $msaage = 'Memory leak gets a lot of memory!; ' . $result['memoryF'];
-        $this->assertLessThan($this->minCreateMem, $result['memory'], $msaage);
+        $message = 'Memory leak gets a lot of memory!; ' . $result['memoryF'];
+        $this->assertLessThan($this->minCreateMem, $result['memory'], $message);
     }
 
     public function testSizeOneObject()
     {
+        $this->markTestSkipped('Size of  One Object test skipped');
+
         $this->startProfiler();
         $val = new Weight(1, new ConfigTestEmpty());
 

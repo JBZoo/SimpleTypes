@@ -19,7 +19,7 @@ namespace SmetDenis\SimpleTypes;
 class VolumeTypeTest extends TypeTest
 {
 
-    protected $type = 'volume';
+    protected $type = 'Volume';
 
     public function testSimple()
     {

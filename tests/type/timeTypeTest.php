@@ -19,7 +19,7 @@ namespace SmetDenis\SimpleTypes;
 class TimeTypeTest extends TypeTest
 {
 
-    protected $type = 'time';
+    protected $type = 'Time';
 
     public function testSimple()
     {

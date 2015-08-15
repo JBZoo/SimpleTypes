@@ -19,7 +19,7 @@ namespace SmetDenis\SimpleTypes;
 class LengthTypeTest extends typeTest
 {
 
-    protected $type = 'length';
+    protected $type = 'Length';
 
     public function testSimple()
     {

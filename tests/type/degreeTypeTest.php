@@ -19,7 +19,7 @@ namespace SmetDenis\SimpleTypes;
 class DegreeTypeTest extends TypeTest
 {
 
-    protected $type = 'degree';
+    protected $type = 'Degree';
 
     public function testSimple()
     {

@@ -19,7 +19,7 @@ namespace SmetDenis\SimpleTypes;
 class WeightTypeTest extends typeTest
 {
 
-    protected $type = 'weight';
+    protected $type = 'Weight';
 
     public function testSimple()
     {
