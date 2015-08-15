@@ -21,7 +21,9 @@ if ($autoload = realpath('./vendor/autoload.php')) {
     exit(1);
 }
 
-define('ROOT_PATH', realpath('.'));
+if (!defined('ROOT_PATH')) { // for PHPUnit process isolation
+    define('ROOT_PATH', realpath('.'));
+}
 
 // test tools
 require_once 'phpunit.php';
