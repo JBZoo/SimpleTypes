@@ -17,7 +17,7 @@
 if ($autoload = realpath('./vendor/autoload.php')) {
     require_once $autoload;
 } else {
-    echo 'Please execute "composer update --no-dev" !' . PHP_EOL;
+    echo "\033[0;31mPlease execute \"composer update --no-dev\" !\033[0m" . PHP_EOL;
     exit(1);
 }
 
