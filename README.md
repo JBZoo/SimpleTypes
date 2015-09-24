@@ -378,7 +378,7 @@ echo $value->val(); // "4.2"
 
 Show current rule
 ```php
-echo $value->val(); // "eur"
+echo $value->rule(); // "eur"
 ```
 
 ## License
