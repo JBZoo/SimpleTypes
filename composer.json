@@ -1,5 +1,5 @@
 {
-    "name": "smetdenis/simpletypes",
+    "name": "jbzoo/simpletypes",
     "type": "library",
     "description": "The universal PHP library to convert any values and measures",
     "license": "MIT",
