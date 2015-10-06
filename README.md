@@ -1,4 +1,4 @@
-# SimpleTypes  [![Build Status](https://travis-ci.org/JBZoo/SimpleTypes.svg?branch=master)](https://travis-ci.org/SmetDenis/SimpleTypes)
+# SimpleTypes  [![Build Status](https://travis-ci.org/JBZoo/SimpleTypes.svg?branch=master)](https://travis-ci.org/JBZoo/SimpleTypes)
 
 ### The universal PHP library to convert any values and measures
 
