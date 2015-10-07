@@ -2,8 +2,8 @@
 
 ### The universal PHP library to convert any values and measures
 
-[![License](https://poser.pugx.org/JBZoo/SimpleTypes/license)](https://packagist.org/packages/JBZoo/SimpleTypes)  [![Latest Stable Version](https://poser.pugx.org/JBZoo/SimpleTypes/v/stable)](https://packagist.org/packages/JBZoo/SimpleTypes)   [![Coverage Status](https://coveralls.io/repos/JBZoo/SimpleTypes/badge.svg?branch=master&service=github)](https://coveralls.io/github/JBZoo/SimpleTypes?branch=master)  [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/JBZoo/SimpleTypes/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/JBZoo/SimpleTypes/?branch=master)  [![Code Climate](https://codeclimate.com/github/JBZoo/SimpleTypes/badges/gpa.svg)](https://codeclimate.com/github/JBZoo/SimpleTypes)
-[![Dependency Status](https://www.versioneye.com/user/projects/5596cc726166340021000010/badge.svg?style=flat)](https://www.versioneye.com/user/projects/5596cc726166340021000010) 
+[![License](https://poser.pugx.org/JBZoo/SimpleTypes/license)](https://packagist.org/packages/JBZoo/SimpleTypes)  [![Latest Stable Version](https://poser.pugx.org/JBZoo/SimpleTypes/v/stable)](https://packagist.org/packages/JBZoo/SimpleTypes)   [![Coverage Status](https://coveralls.io/repos/JBZoo/SimpleTypes/badge.svg?branch=master&service=github)](https://coveralls.io/github/JBZoo/SimpleTypes?branch=master)   [![Code Climate](https://codeclimate.com/github/JBZoo/SimpleTypes/badges/gpa.svg)](https://codeclimate.com/github/JBZoo/SimpleTypes)
+[Dependency Status](https://www.versioneye.com/user/projects/5596cc726166340021000010/badge.svg?style=flat)](https://www.versioneye.com/user/projects/5596cc726166340021000010)
 [![HHVM Status](http://hhvm.h4cc.de/badge/JBZoo/SimpleTypes.svg)](http://hhvm.h4cc.de/package/JBZoo/SimpleTypes)  [![SensioLabsInsight](https://insight.sensiolabs.com/projects/03303b96-02dc-4e6e-b1ca-ac87e5f4ca9a/mini.png)](https://insight.sensiolabs.com/projects/03303b96-02dc-4e6e-b1ca-ac87e5f4ca9a)
 
 ## Installation
