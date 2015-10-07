@@ -2,12 +2,15 @@
 /**
  * SimpleTypes
  *
- * Copyright (c) 2015, Denis Smetannikov <denis@jbzoo.com>.
+ * This file is part of the JBZoo CCK package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  *
  * @package   SimpleTypes
+ * @license   MIT
+ * @copyright Copyright (C) JBZoo.com,  All rights reserved.
+ * @link      https://github.com/JBZoo/SimpleTypes
  * @author    Denis Smetannikov <denis@jbzoo.com>
- * @copyright 2015 Denis Smetannikov <denis@jbzoo.com>
- * @link      http://github.com/smetdenis/simpletypes
  */
 
 // @codingStandardsIgnoreFile
@@ -17,7 +20,7 @@
 if ($autoload = realpath('./vendor/autoload.php')) {
     require_once $autoload;
 } else {
-    echo "\033[0;31mPlease execute \"composer update --no-dev\" !\033[0m" . PHP_EOL;
+    echo "Please execute \"composer update\"" . PHP_EOL;
     exit(1);
 }
 

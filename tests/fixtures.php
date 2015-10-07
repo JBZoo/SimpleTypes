@@ -2,19 +2,22 @@
 /**
  * SimpleTypes
  *
- * Copyright (c) 2015, Denis Smetannikov <denis@jbzoo.com>.
+ * This file is part of the JBZoo CCK package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  *
  * @package   SimpleTypes
+ * @license   MIT
+ * @copyright Copyright (C) JBZoo.com,  All rights reserved.
+ * @link      https://github.com/JBZoo/SimpleTypes
  * @author    Denis Smetannikov <denis@jbzoo.com>
- * @copyright 2015 Denis Smetannikov <denis@jbzoo.com>
- * @link      http://github.com/smetdenis/simpletypes
  */
 
-namespace SmetDenis\SimpleTypes;
+namespace JBZoo\SimpleTypes;
 
 /**
  * Class ConfigTestEmpty
- * @package SmetDenis\SimpleTypes
+ * @package JBZoo\SimpleTypes
  * @codeCoverageIgnore
  */
 class ConfigTestEmpty extends Config
@@ -30,7 +33,7 @@ class ConfigTestEmpty extends Config
 
 /**
  * Class ConfigTestWeight
- * @package SmetDenis\SimpleTypes
+ * @package JBZoo\SimpleTypes
  * @codeCoverageIgnore
  */
 class ConfigTestWeight extends Config
@@ -59,7 +62,7 @@ class ConfigTestWeight extends Config
 
 /**
  * Class ConfigTestInfo
- * @package SmetDenis\SimpleTypes
+ * @package JBZoo\SimpleTypes
  * @codeCoverageIgnore
  */
 class ConfigTestInfo extends Config
@@ -78,7 +81,7 @@ class ConfigTestInfo extends Config
 
 /**
  * Class ConfigTestWrong
- * @package SmetDenis\SimpleTypes
+ * @package JBZoo\SimpleTypes
  * @codeCoverageIgnore
  */
 class ConfigTestWrong extends Config

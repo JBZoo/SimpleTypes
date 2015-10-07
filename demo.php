@@ -7,18 +7,18 @@
  * @package    SimpleTypes
  * @author     Denis Smetannikov <denis@jbzoo.com>
  * @copyright  2015 Denis Smetannikov <denis@jbzoo.com>
- * @link       http://github.com/smetdenis/simpletypes
+ * @link       https://github.com/JBZoo/SimpleTypes
  */
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-use SmetDenis\SimpleTypes\Money,
-    SmetDenis\SimpleTypes\Config,
-    SmetDenis\SimpleTypes\Weight,
-    SmetDenis\SimpleTypes\Length,
-    SmetDenis\SimpleTypes\ConfigMoney,
-    SmetDenis\SimpleTypes\ConfigWeight,
-    SmetDenis\SimpleTypes\ConfigLength;
+use JBZoo\SimpleTypes\Money,
+    JBZoo\SimpleTypes\Config,
+    JBZoo\SimpleTypes\Weight,
+    JBZoo\SimpleTypes\Length,
+    JBZoo\SimpleTypes\ConfigMoney,
+    JBZoo\SimpleTypes\ConfigWeight,
+    JBZoo\SimpleTypes\ConfigLength;
 
 // Set config object for all Money objects as default
 Config::registerDefault('money', new ConfigMoney());

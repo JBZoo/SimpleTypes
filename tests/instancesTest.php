@@ -2,19 +2,22 @@
 /**
  * SimpleTypes
  *
- * Copyright (c) 2015, Denis Smetannikov <denis@jbzoo.com>.
+ * This file is part of the JBZoo CCK package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  *
  * @package   SimpleTypes
+ * @license   MIT
+ * @copyright Copyright (C) JBZoo.com,  All rights reserved.
+ * @link      https://github.com/JBZoo/SimpleTypes
  * @author    Denis Smetannikov <denis@jbzoo.com>
- * @copyright 2015 Denis Smetannikov <denis@jbzoo.com>
- * @link      http://github.com/smetdenis/simpletypes
  */
 
-namespace SmetDenis\SimpleTypes;
+namespace JBZoo\SimpleTypes;
 
 /**
  * Class InstancesTest
- * @package SmetDenis\SimpleTypes
+ * @package JBZoo\SimpleTypes
  */
 class InstancesTest extends PHPUnit
 {
@@ -31,10 +34,10 @@ class InstancesTest extends PHPUnit
                 continue;
             }
 
-            $className = '\\SmetDenis\\SimpleTypes\\' . ucfirst(str_replace('.php', '', $file));
+            $className = '\\JBZoo\\SimpleTypes\\' . ucfirst(str_replace('.php', '', $file));
 
             $obj = new $className('', $config);
-            $this->assertInstanceOf('\\SmetDenis\\SimpleTypes\\Type', $obj);
+            $this->assertInstanceOf('\\JBZoo\\SimpleTypes\\Type', $obj);
 
             $count++;
         }
@@ -56,10 +59,10 @@ class InstancesTest extends PHPUnit
                 continue;
             }
 
-            $className = '\\SmetDenis\\SimpleTypes\\Config' . ucfirst(str_replace('.php', '', $file));
+            $className = '\\JBZoo\\SimpleTypes\\Config' . ucfirst(str_replace('.php', '', $file));
 
             $obj = new $className();
-            $this->assertInstanceOf('\\SmetDenis\\SimpleTypes\\Config', $obj);
+            $this->assertInstanceOf('\\JBZoo\\SimpleTypes\\Config', $obj);
 
             $count++;
         }

@@ -12,12 +12,12 @@ Here is a minimal example of a `composer.json` file that just defines a dependen
 ```javascript
     {
         "require": {
-            "SmetDenis/SimpleTypes": "1.*"
+            "JBZoo/SimpleTypes": "^1.0"
         }
     }
 ```
 
-... or in a command line `composer require SmetDenis/SimpleTypes`
+... or in a command line `composer require jbzoo/simpletypes`
 
 ## Examples
 
@@ -25,9 +25,9 @@ Here is a minimal example of a `composer.json` file that just defines a dependen
 require_once './vendor/autoload.php'; // composer autoload.php
 
 // Get needed classes
-use SmetDenis\SimpleTypes\Config,
-    SmetDenis\SimpleTypes\Money,
-    SmetDenis\SimpleTypes\ConfigMoney;
+use JBZoo\SimpleTypes\Config,
+    JBZoo\SimpleTypes\Money,
+    JBZoo\SimpleTypes\ConfigMoney;
 
 // Set config object for all Money objects as default
 Config::registerDefault('money', new ConfigMoney());
@@ -241,7 +241,7 @@ For example, config for information
 ```php
 /**
  * Class ConfigInfo
- * @package SmetDenis\SimpleTypes
+ * @package JBZoo\SimpleTypes
  */
 class ConfigInfo extends Config
 {

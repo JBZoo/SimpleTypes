@@ -2,19 +2,22 @@
 /**
  * SimpleTypes
  *
- * Copyright (c) 2015, Denis Smetannikov <denis@jbzoo.com>.
+ * This file is part of the JBZoo CCK package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  *
  * @package   SimpleTypes
+ * @license   MIT
+ * @copyright Copyright (C) JBZoo.com,  All rights reserved.
+ * @link      https://github.com/JBZoo/SimpleTypes
  * @author    Denis Smetannikov <denis@jbzoo.com>
- * @copyright 2015 Denis Smetannikov <denis@jbzoo.com>
- * @link      http://github.com/smetdenis/simpletypes
  */
 
-namespace SmetDenis\SimpleTypes;
+namespace JBZoo\SimpleTypes;
 
 /**
  * Class formatterTest
- * @package SmetDenis\SimpleTypes
+ * @package JBZoo\SimpleTypes
  */
 class FormatterTest extends PHPUnit
 {
@@ -48,7 +51,7 @@ class FormatterTest extends PHPUnit
     }
 
     /**
-     * @expectedException \SmetDenis\SimpleTypes\Exception
+     * @expectedException \JBZoo\SimpleTypes\Exception
      */
     public function testRemove()
     {
@@ -58,16 +61,16 @@ class FormatterTest extends PHPUnit
     }
 
     /**
-     * @expectedException \SmetDenis\SimpleTypes\Exception
+     * @expectedException \JBZoo\SimpleTypes\Exception
      */
     public function testSetEmptyRule()
     {
         $this->val('50000 usd')
-             ->addRule(' '); // Exception!
+            ->addRule(' '); // Exception!
     }
 
     /**
-     * @expectedException \SmetDenis\SimpleTypes\Exception
+     * @expectedException \JBZoo\SimpleTypes\Exception
      */
     public function testAddExists()
     {
@@ -81,7 +84,7 @@ class FormatterTest extends PHPUnit
     }
 
     /**
-     * @expectedException \SmetDenis\SimpleTypes\Exception
+     * @expectedException \JBZoo\SimpleTypes\Exception
      */
     public function testGetRuleUndefined()
     {
@@ -89,12 +92,12 @@ class FormatterTest extends PHPUnit
     }
 
     /**
-     * @expectedException \SmetDenis\SimpleTypes\Exception
+     * @expectedException \JBZoo\SimpleTypes\Exception
      */
     public function testChangeUndefined()
     {
         $this->val('50000 usd')
-             ->changeRule('undefined', array()); // Exception!
+            ->changeRule('undefined', array()); // Exception!
     }
 
     public function testDependenceChanges()
@@ -107,7 +110,7 @@ class FormatterTest extends PHPUnit
     }
 
     /**
-     * @expectedException \SmetDenis\SimpleTypes\Exception
+     * @expectedException \JBZoo\SimpleTypes\Exception
      */
     public function testDependenceAdd()
     {
