@@ -20,6 +20,15 @@ before_script:
   - composer install --no-interaction
   - composer validate
 
+  # install testing tools
+  - composer require phpunit/phpunit:"^4.8"
+  - composer require satooshi/php-coveralls:"dev-master"
+  - composer require squizlabs/php_codesniffer:"*"
+  - composer require sebastian/phpcpd:"*"
+  - composer require phploc/phploc:"*"
+  - composer require phpmd/phpmd:"^2.2"
+  - composer require pdepend/pdepend:"^2.1"
+
   # Dirs
   - mkdir -p build/cov
   - mkdir -p build/logs  
@@ -73,4 +82,4 @@ after_script:
     fi;'
 
 notifications:
-  email: denis@jbzoo.com
+  email: github@jbzoo.com

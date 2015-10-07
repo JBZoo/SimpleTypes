@@ -1,6 +1,5 @@
 build/*
 vendor/*
-tests/reports/*
 composer.phar
 composer.lock
 test.php
