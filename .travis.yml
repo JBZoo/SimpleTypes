@@ -50,7 +50,7 @@ after_script:
       
   # Check PSR1,2 src and tests (NOT FOR HipHop !!!)
   - sh -c 'if [ "$TRAVIS_PHP_VERSION" = "5.5" ]; then
-        php vendor/bin/phpcs ./src --standard=PSR1,PSR2 --encoding=utf-8 --report=summary -vp | grep "TOTAL\sOF";
+        php vendor/bin/phpcs ./src --standard=PSR1,PSR2 --encoding=utf-8 --report-width=160 -v;
     fi;'
   
   # Try to find copy-paste
