@@ -1,5 +1,6 @@
 build/*
 vendor/*
+phpunit.xml
 composer.phar
 composer.lock
 test.php
