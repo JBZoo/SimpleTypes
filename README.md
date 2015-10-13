@@ -1,4 +1,4 @@
-# SimpleTypes  [![Build Status](https://travis-ci.org/JBZoo/SimpleTypes.svg?branch=master)](https://travis-ci.org/JBZoo/SimpleTypes)
+# SimpleTypes  [![Build Status](https://travis-ci.org/JBZoo/SimpleTypes.svg?branch=master)](https://travis-ci.org/JBZoo/SimpleTypes)    [![Coverage Status](https://coveralls.io/repos/JBZoo/SimpleTypes/badge.svg?branch=master&service=github)](https://coveralls.io/github/JBZoo/SimpleTypes?branch=master)
 
 ### The universal PHP library to convert any values and measures
 
