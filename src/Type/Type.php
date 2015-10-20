@@ -44,7 +44,7 @@ abstract class Type
     /**
      * @var string
      */
-    protected $rule = '';
+    protected $_rule = '';
 
     /**
      * @var string
@@ -152,7 +152,7 @@ abstract class Type
     {
         $rule = $this->_parser->cleanRule($rule);
 
-        if ($rule && $rule !== $this->rule) {
+        if ($rule && $rule !== $this->_rule) {
             return $this->_customConvert($rule);
         }
 
@@ -166,7 +166,7 @@ abstract class Type
      */
     public function text($rule = null)
     {
-        $rule = $rule ? $this->_parser->checkRule($rule) : $this->rule;
+        $rule = $rule ? $this->_parser->checkRule($rule) : $this->_rule;
         $this->log('Formatted output in "' . $rule . '" as "text"');
         return $this->_formatter->text($this->val($rule), $rule);
     }
@@ -178,7 +178,7 @@ abstract class Type
      */
     public function noStyle($rule = null)
     {
-        $rule = $rule ? $this->_parser->checkRule($rule) : $this->rule;
+        $rule = $rule ? $this->_parser->checkRule($rule) : $this->_rule;
         $this->log('Formatted output in "' . $rule . '" as "noStyle"');
         return $this->_formatter->text($this->val($rule), $rule, false);
     }
@@ -190,11 +190,11 @@ abstract class Type
      */
     public function html($rule = null)
     {
-        $rule = $rule ? $this->_parser->checkRule($rule) : $this->rule;
+        $rule = $rule ? $this->_parser->checkRule($rule) : $this->_rule;
         $this->log('Formatted output in "' . $rule . '" as "html"');
         return $this->_formatter->html(
             array('value' => $this->val($rule), 'rule' => $rule),
-            array('value' => $this->value, 'rule' => $this->rule),
+            array('value' => $this->value, 'rule' => $this->_rule),
             array('id' => $this->_uniqueId)
         );
     }
@@ -208,12 +208,12 @@ abstract class Type
      */
     public function htmlInput($rule = null, $name = null, $formatted = false)
     {
-        $rule = $rule ? $this->_parser->checkRule($rule) : $this->rule;
+        $rule = $rule ? $this->_parser->checkRule($rule) : $this->_rule;
         $this->log('Formatted output in "' . $rule . '" as "input"');
 
         return $this->_formatter->htmlInput(
             array('value' => $this->val($rule), 'rule' => $rule),
-            array('value' => $this->value, 'rule' => $this->rule),
+            array('value' => $this->value, 'rule' => $this->_rule),
             array('id' => $this->_uniqueId, 'name' => $name, 'formatted' => $formatted)
         );
     }
@@ -226,7 +226,7 @@ abstract class Type
     public function isRule($rule)
     {
         $rule = $this->_parser->checkRule($rule);
-        return $rule === $this->rule;
+        return $rule === $this->_rule;
     }
 
     /**
@@ -235,7 +235,7 @@ abstract class Type
      */
     public function getRule()
     {
-        return $this->rule;
+        return $this->_rule;
     }
 
     /**
@@ -297,7 +297,7 @@ abstract class Type
      */
     protected function _customConvert($rule, $addToLog = false)
     {
-        $from   = $this->_parser->checkRule($this->rule);
+        $from   = $this->_parser->checkRule($this->_rule);
         $target = $this->_parser->checkRule($rule);
 
         $ruleTo   = $this->_formatter->get($target);
@@ -358,8 +358,8 @@ abstract class Type
         $mode = in_array($mode, array('=', '==', '==='), true) ? '==' : $mode;
 
         $round = (null === $round) ? Formatter::ROUND_DEFAULT : ((int)$round);
-        $val1  = round((float)$this->val($this->rule), $round);
-        $val2  = round((float)$value->val($this->rule), $round);
+        $val1  = round((float)$this->val($this->_rule), $round);
+        $val2  = round((float)$value->val($this->_rule), $round);
 
         $this->log(
             "Compared \"{$this->dump(false)}\" {$mode} " .
@@ -428,16 +428,16 @@ abstract class Type
     public function convert($newRule, $getClone = false)
     {
         if (!$newRule) {
-            $newRule = $this->rule;
+            $newRule = $this->_rule;
         }
 
         $newRule = $this->_parser->checkRule($newRule);
 
         $obj = $getClone ? clone($this) : $this;
 
-        if ($newRule !== $obj->rule) {
+        if ($newRule !== $obj->_rule) {
             $obj->value = $obj->_customConvert($newRule, true);
-            $obj->rule  = $newRule;
+            $obj->_rule  = $newRule;
         }
 
         return $obj;
@@ -525,7 +525,7 @@ abstract class Type
 
         $percent = 0.0;
         if (!$this->isEmpty() && !$value->isEmpty()) {
-            $percent = ($this->value / $value->val($this->rule)) * 100;
+            $percent = ($this->value / $value->val($this->_rule)) * 100;
         }
 
         if ($revert) {
@@ -568,7 +568,7 @@ abstract class Type
         $value = $this->getValidValue($value);
 
         $this->value = $value->val();
-        $this->rule  = $value->getRule();
+        $this->_rule  = $value->getRule();
 
         return $this->_modifer($this->value, 'Set new value = "' . $this->dump(false) . '"', $getClone);
     }
@@ -586,7 +586,7 @@ abstract class Type
 
         $addValue = 0;
 
-        if ($this->rule === '%') {
+        if ($this->_rule === '%') {
             if ($value->getRule() === '%') {
                 $addValue = $value->val();
             } else {
@@ -595,7 +595,7 @@ abstract class Type
 
         } else {
             if ($value->getRule() !== '%') {
-                $addValue = $value->val($this->rule);
+                $addValue = $value->val($this->_rule);
             } else {
                 $addValue = $this->value * $value->val() / 100;
             }
@@ -644,7 +644,7 @@ abstract class Type
     public function round($roundValue = null, $mode = Formatter::ROUND_CLASSIC)
     {
         $oldValue = $this->value;
-        $newValue = $this->_formatter->round($this->value, $this->rule, array(
+        $newValue = $this->_formatter->round($this->value, $this->_rule, array(
             'roundValue' => $roundValue,
             'roundType'  => $mode,
         ));
@@ -698,7 +698,7 @@ abstract class Type
     public function dump($showId = true)
     {
         $uniqueId = $showId ? '; id=' . $this->_uniqueId : '';
-        return $this->value . ' ' . $this->rule . $uniqueId;
+        return $this->value . ' ' . $this->_rule . $uniqueId;
     }
 
     /**
