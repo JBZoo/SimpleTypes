@@ -52,7 +52,7 @@ abstract class Config
     /**
      * @var array
      */
-    static protected $configs = array();
+    static protected $_configs = array();
 
     /**
      * List of rules
@@ -69,7 +69,7 @@ abstract class Config
     {
         $type = trim(strtolower($type));
 
-        self::$configs[$type] = $config;
+        self::$_configs[$type] = $config;
     }
 
     /**
@@ -79,8 +79,8 @@ abstract class Config
     public static function getDefault($type)
     {
         $type = trim(strtolower($type));
-        if (array_key_exists($type, self::$configs)) {
-            return self::$configs[$type];
+        if (array_key_exists($type, self::$_configs)) {
+            return self::$_configs[$type];
         }
 
         return null;
