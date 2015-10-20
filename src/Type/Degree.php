@@ -39,10 +39,10 @@ class Degree extends Type
         }
 
         if ($devider > 0) {
-            if ($this->value <= (-1 * $devider)) {
-                $this->value = fmod($this->value, $devider);
-            } elseif ($this->value >= $devider) {
-                $this->value = fmod($this->value, $devider);
+            if ($this->_value <= (-1 * $devider)) {
+                $this->_value = fmod($this->_value, $devider);
+            } elseif ($this->_value >= $devider) {
+                $this->_value = fmod($this->_value, $devider);
             }
 
             $this->log('Remove circles : ' . $this->dump(false));

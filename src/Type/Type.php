@@ -39,7 +39,7 @@ abstract class Type
     /**
      * @var float|int
      */
-    protected $value = 0;
+    protected $_value = 0;
 
     /**
      * @var string
@@ -107,7 +107,7 @@ abstract class Type
         $this->_parser = new Parser($this->_default, $rules);
 
         // parse data
-        list($this->value, $this->_rule) = $this->_parser->parse($value);
+        list($this->_value, $this->_rule) = $this->_parser->parse($value);
 
         // count unique id
         self::$_counter++;
@@ -156,7 +156,7 @@ abstract class Type
             return $this->_customConvert($rule);
         }
 
-        return $this->value;
+        return $this->_value;
     }
 
     /**
@@ -194,7 +194,7 @@ abstract class Type
         $this->log('Formatted output in "' . $rule . '" as "html"');
         return $this->_formatter->html(
             array('value' => $this->val($rule), 'rule' => $rule),
-            array('value' => $this->value, 'rule' => $this->_rule),
+            array('value' => $this->_value, 'rule' => $this->_rule),
             array('id' => $this->_uniqueId)
         );
     }
@@ -213,7 +213,7 @@ abstract class Type
 
         return $this->_formatter->htmlInput(
             array('value' => $this->val($rule), 'rule' => $rule),
-            array('value' => $this->value, 'rule' => $this->_rule),
+            array('value' => $this->_value, 'rule' => $this->_rule),
             array('id' => $this->_uniqueId, 'name' => $name, 'formatted' => $formatted)
         );
     }
@@ -243,7 +243,7 @@ abstract class Type
      */
     public function isEmpty()
     {
-        return (float)$this->value === 0.0;
+        return (float)$this->_value === 0.0;
     }
 
     /**
@@ -251,7 +251,7 @@ abstract class Type
      */
     public function isPositive()
     {
-        return $this->value > 0;
+        return $this->_value > 0;
     }
 
     /**
@@ -259,7 +259,7 @@ abstract class Type
      */
     public function isNegative()
     {
-        return $this->value < 0;
+        return $this->_value < 0;
     }
 
     /**
@@ -306,13 +306,13 @@ abstract class Type
 
         $log = '"' . $from . '"=>"' . $target . '"';
 
-        $result = $this->value;
+        $result = $this->_value;
         if ($from !== $target) {
             if (is_callable($ruleTo['rate']) || is_callable($ruleFrom['rate'])) {
                 if (is_callable($ruleFrom['rate'])) {
-                    $defNorm = $ruleFrom['rate']($this->value, $this->_default, $from);
+                    $defNorm = $ruleFrom['rate']($this->_value, $this->_default, $from);
                 } else {
-                    $defNorm = $this->value * $ruleFrom['rate'] * $ruleDef['rate'];
+                    $defNorm = $this->_value * $ruleFrom['rate'] * $ruleDef['rate'];
                 }
 
                 if (is_callable($ruleTo['rate'])) {
@@ -322,7 +322,7 @@ abstract class Type
                 }
 
             } else {
-                $defNorm = $this->value * $ruleFrom['rate'] * $ruleDef['rate'];
+                $defNorm = $this->_value * $ruleFrom['rate'] * $ruleDef['rate'];
                 $result  = $defNorm / $ruleTo['rate'];
             }
 
@@ -436,7 +436,7 @@ abstract class Type
         $obj = $getClone ? clone($this) : $this;
 
         if ($newRule !== $obj->_rule) {
-            $obj->value = $obj->_customConvert($newRule, true);
+            $obj->_value = $obj->_customConvert($newRule, true);
             $obj->_rule  = $newRule;
         }
 
@@ -450,12 +450,12 @@ abstract class Type
     public function invert($getClone = false)
     {
         $logMess = 'Invert sign';
-        if ($this->value > 0) {
-            $newValue = -1 * $this->value;
-        } elseif ($this->value < 0) {
-            $newValue = abs($this->value);
+        if ($this->_value > 0) {
+            $newValue = -1 * $this->_value;
+        } elseif ($this->_value < 0) {
+            $newValue = abs($this->_value);
         } else {
-            $newValue = $this->value;
+            $newValue = $this->_value;
         }
 
         return $this->_modifer($newValue, $logMess, $getClone);
@@ -467,7 +467,7 @@ abstract class Type
      */
     public function positive($getClone = false)
     {
-        return $this->_modifer(abs($this->value), 'Set positive/abs', $getClone);
+        return $this->_modifer(abs($this->_value), 'Set positive/abs', $getClone);
     }
 
     /**
@@ -476,7 +476,7 @@ abstract class Type
      */
     public function negative($getClone = false)
     {
-        return $this->_modifer(-1 * abs($this->value), 'Set negative', $getClone);
+        return $this->_modifer(-1 * abs($this->_value), 'Set negative', $getClone);
     }
 
     /**
@@ -496,7 +496,7 @@ abstract class Type
     public function multiply($number, $getClone = false)
     {
         $multiplier = $this->_parser->cleanValue($number);
-        $newValue   = $multiplier * $this->value;
+        $newValue   = $multiplier * $this->_value;
 
         return $this->_modifer($newValue, 'Multiply with "' . $multiplier . '"', $getClone);
     }
@@ -510,7 +510,7 @@ abstract class Type
     {
         $divider = $this->_parser->cleanValue($number);
 
-        return $this->_modifer($this->value / $divider, 'Division with "' . $divider . '"', $getClone);
+        return $this->_modifer($this->_value / $divider, 'Division with "' . $divider . '"', $getClone);
     }
 
     /**
@@ -525,7 +525,7 @@ abstract class Type
 
         $percent = 0.0;
         if (!$this->isEmpty() && !$value->isEmpty()) {
-            $percent = ($this->value / $value->val($this->_rule)) * 100;
+            $percent = ($this->_value / $value->val($this->_rule)) * 100;
         }
 
         if ($revert) {
@@ -554,7 +554,7 @@ abstract class Type
             $function($this);
         }
 
-        return $this->_modifer($this->value, '<-- Function finished', $getClone);
+        return $this->_modifer($this->_value, '<-- Function finished', $getClone);
     }
 
     /**
@@ -567,10 +567,10 @@ abstract class Type
     {
         $value = $this->getValidValue($value);
 
-        $this->value = $value->val();
+        $this->_value = $value->val();
         $this->_rule  = $value->getRule();
 
-        return $this->_modifer($this->value, 'Set new value = "' . $this->dump(false) . '"', $getClone);
+        return $this->_modifer($this->_value, 'Set new value = "' . $this->dump(false) . '"', $getClone);
     }
 
     /**
@@ -597,7 +597,7 @@ abstract class Type
             if ($value->getRule() !== '%') {
                 $addValue = $value->val($this->_rule);
             } else {
-                $addValue = $this->value * $value->val() / 100;
+                $addValue = $this->_value * $value->val() / 100;
             }
         }
 
@@ -605,7 +605,7 @@ abstract class Type
             $addValue *= -1;
         }
 
-        $newValue = $this->value + $addValue;
+        $newValue = $this->_value + $addValue;
         $logMess  = ($isSubtract ? 'Subtract' : 'Add') . ' "' . $value->dump(false) . '"';
 
         return $this->_modifer($newValue, $logMess, $getClone);
@@ -624,12 +624,12 @@ abstract class Type
         // create new object
         if ($getClone) {
             $clone        = $this->getClone();
-            $clone->value = $newValue;
+            $clone->_value = $newValue;
             $clone->log($logMessage . 'New value = "' . $clone->dump(false) . '"');
             return $clone;
         }
 
-        $this->value = $newValue;
+        $this->_value = $newValue;
         $this->log($logMessage . 'New value = "' . $this->dump(false) . '"');
 
         return $this;
@@ -643,8 +643,8 @@ abstract class Type
      */
     public function round($roundValue = null, $mode = Formatter::ROUND_CLASSIC)
     {
-        $oldValue = $this->value;
-        $newValue = $this->_formatter->round($this->value, $this->_rule, array(
+        $oldValue = $this->_value;
+        $newValue = $this->_formatter->round($this->_value, $this->_rule, array(
             'roundValue' => $roundValue,
             'roundType'  => $mode,
         ));
@@ -654,7 +654,7 @@ abstract class Type
             $oldValue . '" => "' . $newValue . '"'
         );
 
-        $this->value = $newValue;
+        $this->_value = $newValue;
 
         return $this;
     }
@@ -698,7 +698,7 @@ abstract class Type
     public function dump($showId = true)
     {
         $uniqueId = $showId ? '; id=' . $this->_uniqueId : '';
-        return $this->value . ' ' . $this->_rule . $uniqueId;
+        return $this->_value . ' ' . $this->_rule . $uniqueId;
     }
 
     /**
