@@ -21,9 +21,9 @@
         "jbzoo/phpunit": "dev-master"
     },
     "autoload": {
-        "classmap": [
-            "src"
-        ]
+        "psr-4": {
+            "JBZoo\\SimpleTypes\\": "src"
+        }
     },
     "support": {
         "issues": "https://github.com/SmetDenis/SimpleTypes/issues"
