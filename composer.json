@@ -17,6 +17,9 @@
     "require": {
         "php": ">=5.3.1"
     },
+    "require-dev": {
+        "jbzoo/phpunit": "dev-master"
+    },
     "autoload": {
         "classmap": [
             "src"
