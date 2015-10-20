@@ -1,6 +1,6 @@
 <?php
 /**
- * SimpleTypes
+ * JBZoo SimpleTypes
  *
  * Copyright (c) 2015, Denis Smetannikov <denis@jbzoo.com>.
  *
