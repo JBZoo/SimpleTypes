@@ -14,8 +14,13 @@
          verbose="true"
         >
 
+    <php>
+        <env name="PACKAGE_NAME" value="SimpleTypes"/>
+        <env name="PACKAGE_AUTHOR" value="Denis Smetannikov &lt;denis@jbzoo.com&gt;"/>
+    </php>
+
     <testsuites>
-        <testsuite name="Tests suite">
+        <testsuite name="JBZoo SimpleTypes Suite">
             <directory suffix="Test.php">./tests</directory>
         </testsuite>
     </testsuites>
