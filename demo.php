@@ -12,13 +12,13 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-use JBZoo\SimpleTypes\Type\Money,
-    JBZoo\SimpleTypes\Config\Config,
-    JBZoo\SimpleTypes\Type\Weight,
-    JBZoo\SimpleTypes\Type\Length,
-    JBZoo\SimpleTypes\Config\Money as ConfigMoney,
-    JBZoo\SimpleTypes\Config\Weight as ConfigWeight,
-    JBZoo\SimpleTypes\Config\Length as ConfigLength;
+use JBZoo\SimpleTypes\Type\Money;
+use JBZoo\SimpleTypes\Config\Config;
+use JBZoo\SimpleTypes\Type\Weight;
+use JBZoo\SimpleTypes\Type\Length;
+use JBZoo\SimpleTypes\Config\Money as ConfigMoney;
+use JBZoo\SimpleTypes\Config\Weight as ConfigWeight;
+use JBZoo\SimpleTypes\Config\Length as ConfigLength;
 
 // Set config object for all Money objects as default
 Config::registerDefault('money', new ConfigMoney());
