@@ -1,6 +1,6 @@
 <?php
 /**
- * SimpleTypes
+ * JBZoo SimpleTypes
  *
  * This file is part of the JBZoo CCK package.
  * For the full copyright and license information, please view the LICENSE
@@ -24,12 +24,12 @@ class Parser
     /**
      * @var string
      */
-    protected $default = '';
+    protected $_default = '';
 
     /**
      * @var array
      */
-    protected $rules = array();
+    protected $_rules = array();
 
     /**
      * @param string $default
@@ -40,8 +40,8 @@ class Parser
         uksort($ruleList, function ($item1, $item2) {
             return strlen($item2) - strlen($item1);
         });
-        $this->rules   = $ruleList;
-        $this->default = $default;
+        $this->_rules   = $ruleList;
+        $this->_default = $default;
     }
 
     /**
@@ -86,7 +86,7 @@ class Parser
      */
     public function getCodeList()
     {
-        return array_keys($this->rules);
+        return array_keys($this->_rules);
     }
 
     /**
@@ -131,10 +131,10 @@ class Parser
         $rule = $this->cleanRule($rule);
 
         if (!$rule) {
-            return $this->default;
+            return $this->_default;
         }
 
-        if (array_key_exists($rule, $this->rules)) {
+        if (array_key_exists($rule, $this->_rules)) {
             return $rule;
         }
 
@@ -146,7 +146,7 @@ class Parser
      */
     public function addRule($newRule)
     {
-        $this->rules[$newRule] = $newRule;
+        $this->_rules[$newRule] = $newRule;
     }
 
     /**
@@ -155,8 +155,8 @@ class Parser
      */
     public function removeRule($rule)
     {
-        if (array_key_exists($rule, $this->rules)) {
-            unset($this->rules[$rule]);
+        if (array_key_exists($rule, $this->_rules)) {
+            unset($this->_rules[$rule]);
         }
     }
 }

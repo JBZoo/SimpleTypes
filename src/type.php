@@ -1,6 +1,6 @@
 <?php
 /**
- * SimpleTypes
+ * JBZoo SimpleTypes
  *
  * This file is part of the JBZoo CCK package.
  * For the full copyright and license information, please view the LICENSE
@@ -24,12 +24,12 @@ abstract class Type
     /**
      * @var int
      */
-    protected $uniqueId = 0;
+    protected $_uniqueId = 0;
 
     /**
      * @var string
      */
-    protected $type = '';
+    protected $_type = '';
 
     /**
      * @var float|int
@@ -44,32 +44,32 @@ abstract class Type
     /**
      * @var string
      */
-    protected $default = '';
+    protected $_default = '';
 
     /**
      * @var Parser
      */
-    protected $parser;
+    protected $_parser;
 
     /**
      * @var Formatter
      */
-    protected $formatter;
+    protected $_formatter;
 
     /**
      * @var array
      */
-    protected $logs = array();
+    protected $_logs = array();
 
     /**
      * @var bool
      */
-    protected $isDebug = false;
+    protected $_isDebug = false;
 
     /**
      * @type int
      */
-    static protected $counter = 0;
+    static protected $_counter = 0;
 
     /**
      * @param string $value
@@ -78,39 +78,39 @@ abstract class Type
      */
     public function __construct($value = null, Config $config = null)
     {
-        $this->type = strtolower(str_replace(__NAMESPACE__ . '\\', '', get_class($this)));
+        $this->_type = strtolower(str_replace(__NAMESPACE__ . '\\', '', get_class($this)));
 
         // get custom or global config
-        $config = $this->getConfig($config);
+        $config = $this->_getConfig($config);
 
         // debug flag (for logging)
-        $this->isDebug = (bool)$config->isDebug;
+        $this->_isDebug = (bool)$config->isDebug;
 
         // set default rule
-        $this->default = trim(strtolower($config->default));
-        !$this->default && $this->error('Default rule cannot be empty!');
+        $this->_default = trim(strtolower($config->default));
+        !$this->_default && $this->error('Default rule cannot be empty!');
 
         // create formatter helper
-        $this->formatter = new Formatter($config->getRules(), $config->defaultParams, $this->type);
+        $this->_formatter = new Formatter($config->getRules(), $config->defaultParams, $this->_type);
 
         // check that default rule
-        $rules = $this->formatter->getList(true);
-        if (!array_key_exists($this->default, $rules)) {
-            throw new Exception($this->type . ': Default rule not found!');
+        $rules = $this->_formatter->getList(true);
+        if (!array_key_exists($this->_default, $rules)) {
+            throw new Exception($this->_type . ': Default rule not found!');
         }
 
         // create parser helper
-        $this->parser = new Parser($this->default, $rules);
+        $this->_parser = new Parser($this->_default, $rules);
 
         // parse data
-        list($this->value, $this->rule) = $this->parser->parse($value);
+        list($this->value, $this->rule) = $this->_parser->parse($value);
 
         // count unique id
-        self::$counter++;
-        $this->uniqueId = self::$counter;
+        self::$_counter++;
+        $this->_uniqueId = self::$_counter;
 
         // success log
-        $this->log('Id=' . $this->uniqueId . ' has just created; dump="' . $this->dump(false) . '"');
+        $this->log('Id=' . $this->_uniqueId . ' has just created; dump="' . $this->dump(false) . '"');
     }
 
     /**
@@ -118,14 +118,14 @@ abstract class Type
      * @return Config
      * @throws Exception
      */
-    protected function getConfig(Config $config = null)
+    protected function _getConfig(Config $config = null)
     {
-        $defaultConfig = Config::getDefault($this->type);
+        $defaultConfig = Config::getDefault($this->_type);
         $config        = $config ? $config : $defaultConfig;
 
         // Hack for getValidValue method
         if (!$defaultConfig && $config) {
-            Config::registerDefault($this->type, $config);
+            Config::registerDefault($this->_type, $config);
         }
 
         return $config;
@@ -136,7 +136,7 @@ abstract class Type
      */
     public function getId()
     {
-        return $this->uniqueId;
+        return $this->_uniqueId;
     }
 
     /**
@@ -146,10 +146,10 @@ abstract class Type
      */
     public function val($rule = null)
     {
-        $rule = $this->parser->cleanRule($rule);
+        $rule = $this->_parser->cleanRule($rule);
 
         if ($rule && $rule !== $this->rule) {
-            return $this->customConvert($rule);
+            return $this->_customConvert($rule);
         }
 
         return $this->value;
@@ -162,9 +162,9 @@ abstract class Type
      */
     public function text($rule = null)
     {
-        $rule = $rule ? $this->parser->checkRule($rule) : $this->rule;
+        $rule = $rule ? $this->_parser->checkRule($rule) : $this->rule;
         $this->log('Formatted output in "' . $rule . '" as "text"');
-        return $this->formatter->text($this->val($rule), $rule);
+        return $this->_formatter->text($this->val($rule), $rule);
     }
 
     /**
@@ -174,9 +174,9 @@ abstract class Type
      */
     public function noStyle($rule = null)
     {
-        $rule = $rule ? $this->parser->checkRule($rule) : $this->rule;
+        $rule = $rule ? $this->_parser->checkRule($rule) : $this->rule;
         $this->log('Formatted output in "' . $rule . '" as "noStyle"');
-        return $this->formatter->text($this->val($rule), $rule, false);
+        return $this->_formatter->text($this->val($rule), $rule, false);
     }
 
     /**
@@ -186,12 +186,12 @@ abstract class Type
      */
     public function html($rule = null)
     {
-        $rule = $rule ? $this->parser->checkRule($rule) : $this->rule;
+        $rule = $rule ? $this->_parser->checkRule($rule) : $this->rule;
         $this->log('Formatted output in "' . $rule . '" as "html"');
-        return $this->formatter->html(
+        return $this->_formatter->html(
             array('value' => $this->val($rule), 'rule' => $rule),
             array('value' => $this->value, 'rule' => $this->rule),
-            array('id' => $this->uniqueId)
+            array('id' => $this->_uniqueId)
         );
     }
 
@@ -204,13 +204,13 @@ abstract class Type
      */
     public function htmlInput($rule = null, $name = null, $formatted = false)
     {
-        $rule = $rule ? $this->parser->checkRule($rule) : $this->rule;
+        $rule = $rule ? $this->_parser->checkRule($rule) : $this->rule;
         $this->log('Formatted output in "' . $rule . '" as "input"');
 
-        return $this->formatter->htmlInput(
+        return $this->_formatter->htmlInput(
             array('value' => $this->val($rule), 'rule' => $rule),
             array('value' => $this->value, 'rule' => $this->rule),
-            array('id' => $this->uniqueId, 'name' => $name, 'formatted' => $formatted)
+            array('id' => $this->_uniqueId, 'name' => $name, 'formatted' => $formatted)
         );
     }
 
@@ -221,7 +221,7 @@ abstract class Type
      */
     public function isRule($rule)
     {
-        $rule = $this->parser->checkRule($rule);
+        $rule = $this->_parser->checkRule($rule);
         return $rule === $this->rule;
     }
 
@@ -263,7 +263,7 @@ abstract class Type
      */
     public function getRules()
     {
-        return $this->formatter->getList();
+        return $this->_formatter->getList();
     }
 
     /**
@@ -291,14 +291,14 @@ abstract class Type
      * @return float
      * @throws Exception
      */
-    protected function customConvert($rule, $addToLog = false)
+    protected function _customConvert($rule, $addToLog = false)
     {
-        $from   = $this->parser->checkRule($this->rule);
-        $target = $this->parser->checkRule($rule);
+        $from   = $this->_parser->checkRule($this->rule);
+        $target = $this->_parser->checkRule($rule);
 
-        $ruleTo   = $this->formatter->get($target);
-        $ruleFrom = $this->formatter->get($from);
-        $ruleDef  = $this->formatter->get($this->default);
+        $ruleTo   = $this->_formatter->get($target);
+        $ruleFrom = $this->_formatter->get($from);
+        $ruleDef  = $this->_formatter->get($this->_default);
 
         $log = '"' . $from . '"=>"' . $target . '"';
 
@@ -306,13 +306,13 @@ abstract class Type
         if ($from !== $target) {
             if (is_callable($ruleTo['rate']) || is_callable($ruleFrom['rate'])) {
                 if (is_callable($ruleFrom['rate'])) {
-                    $defNorm = $ruleFrom['rate']($this->value, $this->default, $from);
+                    $defNorm = $ruleFrom['rate']($this->value, $this->_default, $from);
                 } else {
                     $defNorm = $this->value * $ruleFrom['rate'] * $ruleDef['rate'];
                 }
 
                 if (is_callable($ruleTo['rate'])) {
-                    $result = $ruleTo['rate']($defNorm, $target, $this->default);
+                    $result = $ruleTo['rate']($defNorm, $target, $this->_default);
                 } else {
                     $result = $defNorm / $ruleTo['rate'];
                 }
@@ -322,7 +322,7 @@ abstract class Type
                 $result  = $defNorm / $ruleTo['rate'];
             }
 
-            if ($this->isDebug && $addToLog) {
+            if ($this->_isDebug && $addToLog) {
                 $message = array(
                     'Converted ' . $log . ';',
                     'New value = "' . $result . ' ' . $target . '";',
@@ -381,7 +381,7 @@ abstract class Type
             return $val1 >= $val2;
         }
 
-        throw new Exception($this->type . ': Undefined compare mode: ' . $mode);
+        throw new Exception($this->_type . ': Undefined compare mode: ' . $mode);
     }
 
     /**
@@ -390,7 +390,7 @@ abstract class Type
      */
     public function setEmpty($getClone = false)
     {
-        return $this->modifer(0.0, 'Set empty', $getClone);
+        return $this->_modifer(0.0, 'Set empty', $getClone);
     }
 
     /**
@@ -401,7 +401,7 @@ abstract class Type
      */
     public function add($value, $getClone = false)
     {
-        return $this->customAdd($value, $getClone);
+        return $this->_customAdd($value, $getClone);
     }
 
     /**
@@ -412,7 +412,7 @@ abstract class Type
      */
     public function subtract($value, $getClone = false)
     {
-        return $this->customAdd($value, $getClone, true);
+        return $this->_customAdd($value, $getClone, true);
     }
 
     /**
@@ -427,12 +427,12 @@ abstract class Type
             $newRule = $this->rule;
         }
 
-        $newRule = $this->parser->checkRule($newRule);
+        $newRule = $this->_parser->checkRule($newRule);
 
         $obj = $getClone ? clone($this) : $this;
 
         if ($newRule !== $obj->rule) {
-            $obj->value = $obj->customConvert($newRule, true);
+            $obj->value = $obj->_customConvert($newRule, true);
             $obj->rule  = $newRule;
         }
 
@@ -454,7 +454,7 @@ abstract class Type
             $newValue = $this->value;
         }
 
-        return $this->modifer($newValue, $logMess, $getClone);
+        return $this->_modifer($newValue, $logMess, $getClone);
     }
 
     /**
@@ -463,7 +463,7 @@ abstract class Type
      */
     public function positive($getClone = false)
     {
-        return $this->modifer(abs($this->value), 'Set positive/abs', $getClone);
+        return $this->_modifer(abs($this->value), 'Set positive/abs', $getClone);
     }
 
     /**
@@ -472,7 +472,7 @@ abstract class Type
      */
     public function negative($getClone = false)
     {
-        return $this->modifer(-1 * abs($this->value), 'Set negative', $getClone);
+        return $this->_modifer(-1 * abs($this->value), 'Set negative', $getClone);
     }
 
     /**
@@ -491,10 +491,10 @@ abstract class Type
      */
     public function multiply($number, $getClone = false)
     {
-        $multiplier = $this->parser->cleanValue($number);
+        $multiplier = $this->_parser->cleanValue($number);
         $newValue   = $multiplier * $this->value;
 
-        return $this->modifer($newValue, 'Multiply with "' . $multiplier . '"', $getClone);
+        return $this->_modifer($newValue, 'Multiply with "' . $multiplier . '"', $getClone);
     }
 
     /**
@@ -504,9 +504,9 @@ abstract class Type
      */
     public function division($number, $getClone = false)
     {
-        $divider = $this->parser->cleanValue($number);
+        $divider = $this->_parser->cleanValue($number);
 
-        return $this->modifer($this->value / $divider, 'Division with "' . $divider . '"', $getClone);
+        return $this->_modifer($this->value / $divider, 'Division with "' . $divider . '"', $getClone);
     }
 
     /**
@@ -550,7 +550,7 @@ abstract class Type
             $function($this);
         }
 
-        return $this->modifer($this->value, '<-- Function finished', $getClone);
+        return $this->_modifer($this->value, '<-- Function finished', $getClone);
     }
 
     /**
@@ -566,7 +566,7 @@ abstract class Type
         $this->value = $value->val();
         $this->rule  = $value->getRule();
 
-        return $this->modifer($this->value, 'Set new value = "' . $this->dump(false) . '"', $getClone);
+        return $this->_modifer($this->value, 'Set new value = "' . $this->dump(false) . '"', $getClone);
     }
 
     /**
@@ -576,7 +576,7 @@ abstract class Type
      * @return $this
      * @throws Exception
      */
-    protected function customAdd($value, $getClone = false, $isSubtract = false)
+    protected function _customAdd($value, $getClone = false, $isSubtract = false)
     {
         $value = $this->getValidValue($value);
 
@@ -604,7 +604,7 @@ abstract class Type
         $newValue = $this->value + $addValue;
         $logMess  = ($isSubtract ? 'Subtract' : 'Add') . ' "' . $value->dump(false) . '"';
 
-        return $this->modifer($newValue, $logMess, $getClone);
+        return $this->_modifer($newValue, $logMess, $getClone);
     }
 
     /**
@@ -613,7 +613,7 @@ abstract class Type
      * @param bool   $getClone
      * @return $this
      */
-    protected function modifer($newValue, $logMessage = null, $getClone = false)
+    protected function _modifer($newValue, $logMessage = null, $getClone = false)
     {
         $logMessage = $logMessage ? $logMessage . '; ' : '';
 
@@ -640,7 +640,7 @@ abstract class Type
     public function round($roundValue = null, $mode = Formatter::ROUND_CLASSIC)
     {
         $oldValue = $this->value;
-        $newValue = $this->formatter->round($this->value, $this->rule, array(
+        $newValue = $this->_formatter->round($this->value, $this->rule, array(
             'roundValue' => $roundValue,
             'roundType'  => $mode,
         ));
@@ -666,12 +666,12 @@ abstract class Type
             $thisClass = strtolower(get_class($this));
             $valClass  = strtolower(get_class($value));
             if ($thisClass !== $valClass) {
-                throw new Exception($this->type . ': No valid object type given: ' . $valClass);
+                throw new Exception($this->_type . ': No valid object type given: ' . $valClass);
             }
 
         } else {
             $className = get_class($this);
-            $value     = new $className($value, $this->getConfig());
+            $value     = new $className($value, $this->_getConfig());
         }
 
         return $value;
@@ -684,7 +684,7 @@ abstract class Type
     public function error($message)
     {
         $this->log($message);
-        throw new Exception($this->type . ': ' . $message);
+        throw new Exception($this->_type . ': ' . $message);
     }
 
     /**
@@ -693,7 +693,7 @@ abstract class Type
      */
     public function dump($showId = true)
     {
-        $uniqueId = $showId ? '; id=' . $this->uniqueId : '';
+        $uniqueId = $showId ? '; id=' . $this->_uniqueId : '';
         return $this->value . ' ' . $this->rule . $uniqueId;
     }
 
@@ -702,8 +702,8 @@ abstract class Type
      */
     public function log($message)
     {
-        if ($this->isDebug) {
-            $this->logs[] = (string)$message;
+        if ($this->_isDebug) {
+            $this->_logs[] = (string)$message;
         }
     }
 
@@ -712,7 +712,7 @@ abstract class Type
      */
     public function logs()
     {
-        return $this->logs;
+        return $this->_logs;
     }
 
     /**
@@ -764,14 +764,14 @@ abstract class Type
      */
     public function __clone()
     {
-        self::$counter++;
+        self::$_counter++;
 
-        $oldId          = $this->uniqueId;
-        $this->uniqueId = self::$counter;
+        $oldId          = $this->_uniqueId;
+        $this->_uniqueId = self::$_counter;
 
         $this->log(
             'Cloned from id=' . $oldId . ' and created new with ' .
-            'id=' . $this->uniqueId . '; dump=' . $this->dump(false)
+            'id=' . $this->_uniqueId . '; dump=' . $this->dump(false)
         );
     }
 
@@ -791,7 +791,7 @@ abstract class Type
             return $this->getRule();
         }
 
-        throw new Exception($this->type . ': Undefined __get() called: "' . $name . '"');
+        throw new Exception($this->_type . ': Undefined __get() called: "' . $name . '"');
     }
 
     /**
@@ -811,7 +811,7 @@ abstract class Type
             return $this->convert($value);
         }
 
-        throw new Exception($this->type . ': Undefined __set() called: "' . $name . '" = "' . $value . '"');
+        throw new Exception($this->_type . ': Undefined __set() called: "' . $name . '" = "' . $value . '"');
     }
 
     /**
@@ -834,7 +834,7 @@ abstract class Type
             return call_user_func_array(array($this, 'subtract'), $arguments);
         }
 
-        throw new Exception($this->type . ': Called undefined method: "' . $name . '"');
+        throw new Exception($this->_type . ': Called undefined method: "' . $name . '"');
     }
 
     /**
@@ -850,7 +850,7 @@ abstract class Type
             $this->error('Undefined arguments');
 
         } elseif ($argsCount === 1) {
-            $rules = $this->formatter->getList();
+            $rules = $this->_formatter->getList();
 
             if (array_key_exists($args[0], $rules)) {
                 return $this->convert($args[0]);
@@ -862,7 +862,7 @@ abstract class Type
             return $this->set(array($args[0], $args[1]));
         }
 
-        throw new Exception($this->type . ': Too many arguments');
+        throw new Exception($this->_type . ': Too many arguments');
     }
 
     /**
@@ -873,8 +873,8 @@ abstract class Type
      */
     public function changeRule($rule, array $newFormat)
     {
-        $rule = $this->parser->cleanRule($rule);
-        $this->formatter->changeRule($rule, $newFormat);
+        $rule = $this->_parser->cleanRule($rule);
+        $this->_formatter->changeRule($rule, $newFormat);
         $this->log('Rule "' . $rule . '" changed');
 
         return $this;
@@ -888,10 +888,10 @@ abstract class Type
      */
     public function addRule($rule, array $newFormat = array())
     {
-        $form = $this->formatter;
-        $rule = $this->parser->cleanRule($rule);
+        $form = $this->_formatter;
+        $rule = $this->_parser->cleanRule($rule);
         $form->addRule($rule, $newFormat);
-        $this->parser->addRule($rule);
+        $this->_parser->addRule($rule);
         $this->log('New rule "' . $rule . '" added');
 
         return $this;
@@ -903,9 +903,9 @@ abstract class Type
      */
     public function removeRule($rule)
     {
-        $rule = $this->parser->cleanRule($rule);
-        $this->formatter->removeRule($rule);
-        $this->parser->removeRule($rule);
+        $rule = $this->_parser->cleanRule($rule);
+        $this->_formatter->removeRule($rule);
+        $this->_parser->removeRule($rule);
         $this->log('Rule "' . $rule . '" removed');
 
         return $this;
@@ -918,7 +918,7 @@ abstract class Type
      */
     public function getRuleData($rule)
     {
-        $rule = $this->parser->cleanRule($rule);
-        return $this->formatter->get($rule);
+        $rule = $this->_parser->cleanRule($rule);
+        return $this->_formatter->get($rule);
     }
 }

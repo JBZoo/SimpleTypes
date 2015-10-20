@@ -1,6 +1,6 @@
 <?php
 /**
- * SimpleTypes
+ * JBZoo SimpleTypes
  *
  * This file is part of the JBZoo CCK package.
  * For the full copyright and license information, please view the LICENSE
@@ -30,17 +30,17 @@ class Formatter
     /**
      * @var array
      */
-    protected $rules = array();
+    protected $_rules = array();
 
     /**
      * @var string|null
      */
-    protected $type = '';
+    protected $_type = '';
 
     /**
      * @var array
      */
-    protected $default = array();
+    protected $_default = array();
 
     /**
      * @param array  $rules
@@ -49,14 +49,14 @@ class Formatter
      */
     public function __construct(array $rules = array(), array $default = array(), $type = null)
     {
-        $this->type    = $type;
-        $this->default = $default;
+        $this->_type    = $type;
+        $this->_default = $default;
 
         // prepare rules
-        $this->rules = array_change_key_case((array)$rules, CASE_LOWER);
-        array_walk($this->rules, function (&$item, $key, $default) {
+        $this->_rules = array_change_key_case((array)$rules, CASE_LOWER);
+        array_walk($this->_rules, function (&$item, $key, $default) {
             $item = array_merge($default, (array)$item);
-        }, $this->default);
+        }, $this->_default);
     }
 
     /**
@@ -66,8 +66,8 @@ class Formatter
      */
     public function get($rule)
     {
-        if (array_key_exists($rule, $this->rules)) {
-            return (array)$this->rules[$rule];
+        if (array_key_exists($rule, $this->_rules)) {
+            return (array)$this->_rules[$rule];
         }
 
         throw new Exception('Undefined rule: "' . $rule . '"');
@@ -80,11 +80,11 @@ class Formatter
     public function getList($keysOnly = false)
     {
         if ($keysOnly) {
-            $keys = array_keys($this->rules);
+            $keys = array_keys($this->_rules);
             return array_combine($keys, $keys);
         }
 
-        return $this->rules;
+        return $this->_rules;
     }
 
     /**
@@ -96,7 +96,7 @@ class Formatter
      */
     public function text($value, $rule, $showSymbol = true)
     {
-        $data   = $this->format($value, $rule);
+        $data   = $this->_format($value, $rule);
         $rData  = $this->get($rule);
         $symbol = $showSymbol ? $rData['symbol'] : '';
 
@@ -120,7 +120,7 @@ class Formatter
      */
     public function html($current, $orig, $params)
     {
-        $data  = $this->format($current['value'], $current['rule']);
+        $data  = $this->_format($current['value'], $current['rule']);
         $rData = $this->get($current['rule']);
 
         $result = str_replace(
@@ -137,7 +137,7 @@ class Formatter
                 'class'                      => array(
                     'simpleType',
                     'simpleType-block',
-                    'simpleType-' . $this->type,
+                    'simpleType-' . $this->_type,
                 ),
                 'data-simpleType-id'         => $params['id'],
                 'data-simpleType-value'      => $current['value'],
@@ -168,7 +168,7 @@ class Formatter
                 'type'                       => 'text',
                 'class'                      => array(
                     'simpleType',
-                    'simpleType-' . $this->type,
+                    'simpleType-' . $this->_type,
                     'simpleType-input'
                 ),
                 'data-simpleType-id'         => $params['id'],
@@ -258,7 +258,7 @@ class Formatter
      * @return array
      * @throws Exception
      */
-    protected function format($value, $rule)
+    protected function _format($value, $rule)
     {
         $format = (array)$this->get($rule);
         $value  = (float)$value;
@@ -290,7 +290,7 @@ class Formatter
     {
         $oldFormat = $this->get($rule);
 
-        $this->rules[$rule] = array_merge($oldFormat, (array)$newFormat);
+        $this->_rules[$rule] = array_merge($oldFormat, (array)$newFormat);
     }
 
     /**
@@ -304,11 +304,11 @@ class Formatter
             throw new Exception('Empty rule name');
         }
 
-        if (array_key_exists($rule, $this->rules)) {
+        if (array_key_exists($rule, $this->_rules)) {
             throw new Exception('Format "' . $rule . '" already exists');
         }
 
-        $this->rules[$rule] = array_merge($this->default, (array)$newFormat);
+        $this->_rules[$rule] = array_merge($this->_default, (array)$newFormat);
     }
 
     /**
@@ -317,8 +317,8 @@ class Formatter
      */
     public function removeRule($rule)
     {
-        if (array_key_exists($rule, $this->rules)) {
-            unset($this->rules[$rule]);
+        if (array_key_exists($rule, $this->_rules)) {
+            unset($this->_rules[$rule]);
         }
     }
 }
