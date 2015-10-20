@@ -25,7 +25,7 @@ class InstancesTest extends PHPUnit
     public function testCreateTypes()
     {
         $config = new ConfigTestEmpty();
-        $files  = scandir(realpath(__DIR__ . '/../src/type'));
+        $files  = scandir(realpath(__DIR__ . '/../src/Type'));
 
         $count = 0;
 
@@ -51,7 +51,7 @@ class InstancesTest extends PHPUnit
      */
     public function testCreateConfigs($typeCount)
     {
-        $files = scandir(realpath(__DIR__ . '/../src/config'));
+        $files = scandir(realpath(__DIR__ . '/../src/Config'));
 
         $count = 0;
 
