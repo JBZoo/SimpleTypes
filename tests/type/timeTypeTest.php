@@ -13,7 +13,7 @@
  * @author    Denis Smetannikov <denis@jbzoo.com>
  */
 
-namespace JBZoo\SimpleTypes;
+namespace JBZoo\PHPUnit;
 
 /**
  * Class TimeTypeTest
@@ -28,7 +28,7 @@ class TimeTypeTest extends TypeTest
     {
         $time = $this->val(60 * 60 * 24 * 30);
 
-        $this->batchEquals(array(
+        isBatch(array(
             array('2592000 s', $time->dump(false)),
             array('43200 m', $time->convert('m')->dump(false)),
             array('720 h', $time->convert('h')->dump(false)),

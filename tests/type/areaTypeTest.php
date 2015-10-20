@@ -13,7 +13,7 @@
  * @author    Denis Smetannikov <denis@jbzoo.com>
  */
 
-namespace JBZoo\SimpleTypes;
+namespace JBZoo\PHPUnit;
 
 /**
  * Class AreaTypeTest
@@ -29,7 +29,7 @@ class AreaTypeTest extends typeTest
         $length = $this->val('1000m2');
 
         // SI
-        $this->batchEquals(array(
+        isBatch(array(
             array('1000 m2', $length->dump(false)),
             array('1000000000 mm2', $length->convert('mm2')->dump(false)),
             array('10000000 cm2', $length->convert('cm2')->dump(false)),
@@ -38,7 +38,7 @@ class AreaTypeTest extends typeTest
             array('0.1 ga', $length->convert('ga')->dump(false)),
         ));
 
-        $this->batchEquals(array(
+        isBatch(array(
             array('0.09290341 m2', $this->val('1 ft2')->convert('m2')->dump(false)),
             array('404.6873 m2', $this->val('1 ch2')->convert('m2')->dump(false)),
             array('4046.873 m2', $this->val('1 acr')->convert('m2')->dump(false)),

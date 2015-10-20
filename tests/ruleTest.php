@@ -13,7 +13,7 @@
  * @author    Denis Smetannikov <denis@jbzoo.com>
  */
 
-namespace JBZoo\SimpleTypes;
+namespace JBZoo\PHPUnit;
 
 /**
  * Class formatterTest
@@ -24,9 +24,9 @@ class FormatterTest extends PHPUnit
 
     public function testChange()
     {
-        $val1 = $this->val('50000.789 usd');
+        $val1 = val('50000.789 usd');
 
-        $this->batchEquals(array(
+        isBatch(array(
             array('$50 000.79', $val1->text()),
             array('50 000.79$', $val1->changeRule('usd', array('format_positive' => '%v%s'))->text()),
         ));
@@ -34,7 +34,7 @@ class FormatterTest extends PHPUnit
 
     public function testAdd()
     {
-        $val = $this->val('50000 usd');
+        $val = val('50000 usd');
 
         $val->addRule('qwe', array(
             'symbol'          => 'Q',
@@ -46,8 +46,8 @@ class FormatterTest extends PHPUnit
             'rate'            => 0.15,
         ));
 
-        $this->assertEquals('$50 000.00', $val->text());
-        $this->assertEquals('166.667 Q', $val->convert('qwe')->text());
+        is('$50 000.00', $val->text());
+        is('166.667 Q', $val->convert('qwe')->text());
     }
 
     /**
@@ -55,7 +55,7 @@ class FormatterTest extends PHPUnit
      */
     public function testRemove()
     {
-        $val = $this->val('50000 usd');
+        $val = val('50000 usd');
         $val->removeRule('rub');
         $val->convert('rub'); // Exception!
     }
@@ -65,7 +65,7 @@ class FormatterTest extends PHPUnit
      */
     public function testSetEmptyRule()
     {
-        $this->val('50000 usd')
+        val('50000 usd')
             ->addRule(' '); // Exception!
     }
 
@@ -74,13 +74,13 @@ class FormatterTest extends PHPUnit
      */
     public function testAddExists()
     {
-        $this->val('50000 usd')->addRule('rub');
+        val('50000 usd')->addRule('rub');
     }
 
     public function testGetRule()
     {
-        $rule = $this->val('50000 rub')->getRuleData('usd');
-        $this->assertEquals('$', $rule['symbol']);
+        $rule = val('50000 rub')->getRuleData('usd');
+        is('$', $rule['symbol']);
     }
 
     /**
@@ -88,7 +88,7 @@ class FormatterTest extends PHPUnit
      */
     public function testGetRuleUndefined()
     {
-        $this->val('50000 rub')->getRuleData('undefined');
+        val('50000 rub')->getRuleData('undefined');
     }
 
     /**
@@ -96,17 +96,17 @@ class FormatterTest extends PHPUnit
      */
     public function testChangeUndefined()
     {
-        $this->val('50000 usd')
+        val('50000 usd')
             ->changeRule('undefined', array()); // Exception!
     }
 
     public function testDependenceChanges()
     {
-        $val1 = $this->val('usd')->changeRule('usd', array('format_positive' => '%v%s'));
-        $val2 = $this->val('usd');
+        $val1 = val('usd')->changeRule('usd', array('format_positive' => '%v%s'));
+        $val2 = val('usd');
 
-        $this->assertEquals('0.00$', $val1->text());
-        $this->assertEquals('$0.00', $val2->text());
+        is('0.00$', $val1->text());
+        is('$0.00', $val2->text());
     }
 
     /**
@@ -114,34 +114,34 @@ class FormatterTest extends PHPUnit
      */
     public function testDependenceAdd()
     {
-        $this->val('1 usd')->addRule('qwe', array())->convert('qwe');
-        $this->val('1 usd')->convert('qwe');
+        val('1 usd')->addRule('qwe', array())->convert('qwe');
+        val('1 usd')->convert('qwe');
     }
 
     public function testDependenceRemove()
     {
-        $this->val('1 usd')->removeRule('rub');
-        $this->assertEquals('25 rub', $this->val('1 usd')->convert('rub')->dump(false));
+        val('1 usd')->removeRule('rub');
+        is('25 rub', val('1 usd')->convert('rub')->dump(false));
     }
 
     public function testIsRule()
     {
-        $val = $this->val('1 usd');
+        $val = val('1 usd');
 
-        $this->assertEquals(true, $val->isRule('USD'));
+        is(true, $val->isRule('USD'));
 
         $val->convert('RUB');
-        $this->assertEquals(false, $val->isRule('USD'));
+        is(false, $val->isRule('USD'));
 
     }
 
     public function testGetRules()
     {
-        $val = $this->val();
-        $this->assertArrayHasKey('rub', $val->getRules());
-        $this->assertArrayHasKey('usd', $val->getRules());
-        $this->assertArrayHasKey('uah', $val->getRules());
-        $this->assertArrayHasKey('eur', $val->getRules());
-        $this->assertArrayHasKey('byr', $val->getRules());
+        $val = val();
+        isKey('rub', $val->getRules());
+        isKey('usd', $val->getRules());
+        isKey('uah', $val->getRules());
+        isKey('eur', $val->getRules());
+        isKey('byr', $val->getRules());
     }
 }

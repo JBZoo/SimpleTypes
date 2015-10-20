@@ -13,7 +13,7 @@
  * @author    Denis Smetannikov <denis@jbzoo.com>
  */
 
-namespace JBZoo\SimpleTypes;
+namespace JBZoo\PHPUnit;
 
 /**
  * Class DegreeTypeTest
@@ -28,7 +28,7 @@ class DegreeTypeTest extends TypeTest
     {
         $val = $this->val('180 d');
 
-        $this->batchEquals(array(
+        isBatch(array(
             array('180 d', $val->dump(false)),
             array('1 r', $val->convert('r')->dump(false)),
             array('200 g', $val->convert('g')->dump(false)),
@@ -40,7 +40,7 @@ class DegreeTypeTest extends TypeTest
     {
         $val = $this->val('1.5 r');
 
-        $this->batchEquals(array(
+        isBatch(array(
             array('270 d', $val->convert('d')->dump(false)),
             array('1.5 r', $val->convert('r')->dump(false)),
             array('300 g', $val->convert('g')->dump(false)),
@@ -52,7 +52,7 @@ class DegreeTypeTest extends TypeTest
     {
         $val = $this->val('-1 r');
 
-        $this->batchEquals(array(
+        isBatch(array(
             array('-180 d', $val->convert('d')->dump(false)),
             array('-1 r', $val->convert('r')->dump(false)),
             array('-200 g', $val->convert('g')->dump(false)),
@@ -62,9 +62,9 @@ class DegreeTypeTest extends TypeTest
 
     public function testRemoveCirclesDeg()
     {
-        $this->assertEquals('180 d', $this->val('540 d')->removeCircles()->dump(false));
-        $this->assertEquals('-1 r', $this->val('-5 r')->removeCircles()->dump(false));
-        $this->assertEquals('0 g', $this->val('1600 g')->removeCircles()->dump(false));
-        $this->assertEquals('-0.55 t', $this->val('-5.55 t')->removeCircles()->dump(false));
+        is('180 d', $this->val('540 d')->removeCircles()->dump(false));
+        is('-1 r', $this->val('-5 r')->removeCircles()->dump(false));
+        is('0 g', $this->val('1600 g')->removeCircles()->dump(false));
+        is('-0.55 t', $this->val('-5.55 t')->removeCircles()->dump(false));
     }
 }

@@ -13,37 +13,37 @@
  * @author    Denis Smetannikov <denis@jbzoo.com>
  */
 
-namespace JBZoo\SimpleTypes;
+namespace JBZoo\PHPUnit;
 
 /**
- * Class compareTest
- * @package JBZoo\SimpleTypes
+ * Class CompareTest
+ * @package JBZoo\PHPUnit
  */
 class CompareTest extends PHPUnit
 {
 
     public function testSimple()
     {
-        $this->batchEquals(array(
-            array(true, $this->val(1)->compare(1, '=')),
-            array(true, $this->val(1)->compare(1, '==')),
-            array(true, $this->val(1)->compare(1, '===')),
-            array(true, $this->val(1)->compare(1, '>=')),
-            array(true, $this->val(1)->compare(1, '<=')),
+        isBatch(array(
+            array(true, val(1)->compare(1, '=')),
+            array(true, val(1)->compare(1, '==')),
+            array(true, val(1)->compare(1, '===')),
+            array(true, val(1)->compare(1, '>=')),
+            array(true, val(1)->compare(1, '<=')),
 
-            array(false, $this->val(1)->compare(1, '<')),
-            array(false, $this->val(1)->compare(1, '!=')),
-            array(false, $this->val(1)->compare(1, '!==')),
-            array(false, $this->val(1)->compare(1, '>')),
+            array(false, val(1)->compare(1, '<')),
+            array(false, val(1)->compare(1, '!=')),
+            array(false, val(1)->compare(1, '!==')),
+            array(false, val(1)->compare(1, '>')),
         ));
     }
 
     public function testComplex()
     {
-        $v1 = $this->val(1.5);
-        $v2 = $this->val('5.6');
+        $v1 = val(1.5);
+        $v2 = val('5.6');
 
-        $this->batchEquals(array(
+        isBatch(array(
             array(false, $v1->compare($v2, ' =')),
             array(true, $v1->compare($v2, '< ')),
             array(true, $v1->compare($v2, ' <= ')),
@@ -54,10 +54,10 @@ class CompareTest extends PHPUnit
 
     public function testRules()
     {
-        $usd = $this->val('1 usd');
-        $eur = $this->val('1 eur');
+        $usd = val('1 usd');
+        $eur = val('1 eur');
 
-        $this->batchEquals(array(
+        isBatch(array(
             array(false, $usd->compare($eur, '=')),
             array(true, $usd->compare($eur, '!=')),
             array(true, $usd->compare($eur, '<')),
@@ -70,7 +70,7 @@ class CompareTest extends PHPUnit
         $eur->convert('usd');
         $usd->convert('eur');
 
-        $this->batchEquals(array(
+        isBatch(array(
             array(false, $usd->compare($eur, '==')),
             array(true, $usd->compare($eur, '!==')),
             array(true, $usd->compare($eur, '<')),
@@ -85,6 +85,6 @@ class CompareTest extends PHPUnit
      */
     public function testUndefined()
     {
-        $this->val('usd')->compare(0, 'undefined');
+        val('usd')->compare(0, 'undefined');
     }
 }

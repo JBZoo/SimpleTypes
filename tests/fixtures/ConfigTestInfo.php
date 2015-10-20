@@ -18,25 +18,20 @@ namespace JBZoo\PHPUnit;
 use JBZoo\SimpleTypes\Config;
 
 /**
- * Class TypeTest
- * @package JBZoo\SimpleTypes
+ * Class ConfigTestInfo
+ * @package JBZoo\PHPUnit
+ * @codeCoverageIgnore
  */
-class TypeTest extends PHPUnit
+class ConfigTestInfo extends Config
 {
-    protected $type = '';
+    public $default = 'byte';
+    public $isDebug = true;
 
-    protected $namespace = '\\JBZoo\\SimpleTypes\\';
-
-    /**
-     * @param null $arg
-     * @return \JBZoo\SimpleTypes\Type
-     */
-    public function val($arg = null)
+    public function getRules()
     {
-        $configName = $this->namespace . 'Config' . ucfirst($this->type);
-        $className  = $this->namespace . $this->type;
-        Config::registerDefault($this->type, new $configName);
-
-        return new $className($arg);
+        return array(
+            'byte' => array('rate' => 1),
+            'kb'   => array('rate' => 1024),
+        );
     }
 }

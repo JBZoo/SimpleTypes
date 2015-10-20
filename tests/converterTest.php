@@ -13,33 +13,33 @@
  * @author    Denis Smetannikov <denis@jbzoo.com>
  */
 
-namespace JBZoo\SimpleTypes;
+namespace JBZoo\PHPUnit;
 
 /**
- * Class converterTest
- * @package JBZoo\SimpleTypes
+ * Class ConverterTest
+ * @package JBZoo\PHPUnit
  */
 class ConverterTest extends PHPUnit
 {
 
     public function testCheckExists()
     {
-        $this->batchEqualDumps(array(
-            array('1 eur', $this->val('1')->dump(false)), // eur is default
-            array('1 eur', $this->val('1 eur')->dump(false)),
-            array('1 usd', $this->val('1 usd')->dump(false)),
-            array('1 rub', $this->val('1 rub')->dump(false)),
-            array('1 uah', $this->val('1 uah')->dump(false)),
-            array('1 byr', $this->val('1 byr')->dump(false)),
+        batchEqualDumps(array(
+            array('1 eur', val('1')->dump(false)), // eur is default
+            array('1 eur', val('1 eur')->dump(false)),
+            array('1 usd', val('1 usd')->dump(false)),
+            array('1 rub', val('1 rub')->dump(false)),
+            array('1 uah', val('1 uah')->dump(false)),
+            array('1 byr', val('1 byr')->dump(false)),
         ));
 
     }
 
     public function testSimple()
     {
-        $val = $this->val('1.25 usd');
+        $val = val('1.25 usd');
 
-        $this->batchEquals(array(
+        isBatch(array(
             array(0.625, $val->val('eur')),
             array(1.25, $val->val('usd')),
             array('0.625 eur', $val->convert('eur')->dump(false)),
@@ -54,7 +54,7 @@ class ConverterTest extends PHPUnit
 
     public function testUndefinedRuleSilent()
     {
-        $this->assertEquals('1.25 eur', $this->val('1.25 qwe')->dump(false));
+        is('1.25 eur', val('1.25 qwe')->dump(false));
     }
 
     /**
@@ -62,12 +62,12 @@ class ConverterTest extends PHPUnit
      */
     public function testUndefinedRuleFatal()
     {
-        $this->val('1.25 usd')->convert('qwerty');
+        val('1.25 usd')->convert('qwerty');
     }
 
     public function testEmptyRule()
     {
-        $this->assertEquals(true, $this->val('1.25 usd')->convert('')->isRule('usd'));
-        $this->assertEquals(true, $this->val('1.25 usd')->convert('', true)->isRule('usd'));
+        is(true, val('1.25 usd')->convert('')->isRule('usd'));
+        is(true, val('1.25 usd')->convert('', true)->isRule('usd'));
     }
 }

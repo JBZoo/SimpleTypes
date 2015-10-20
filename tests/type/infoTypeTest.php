@@ -13,7 +13,7 @@
  * @author    Denis Smetannikov <denis@jbzoo.com>
  */
 
-namespace JBZoo\SimpleTypes;
+namespace JBZoo\PHPUnit;
 
 /**
  * Class infoTypeTest
@@ -26,7 +26,7 @@ class InfoTypeTest extends typeTest
 
     public function testSimple()
     {
-        $this->batchEquals(array(
+        isBatch(array(
             array('1 KB', $this->val('1024 byte')->text('KB')),
             array('1 KB', $this->val('8192 bit')->text('KB')),
             array('4 GB', $this->val('4294967296 byte')->text('GB')),
@@ -36,7 +36,7 @@ class InfoTypeTest extends typeTest
 
     public function testConvert()
     {
-        $this->batchEquals(array(
+        isBatch(array(
             array('81920 bit', $this->val('10Kb')->convert('bit')->dump(false)),
             array('10 kb', $this->val('81920bit')->convert('mb')->convert('kb')->dump(false)),
         ));
@@ -44,7 +44,7 @@ class InfoTypeTest extends typeTest
 
     public function testCompare()
     {
-        $this->assertTrue($this->val('10kb')->compare('81920bit'));
+        isTrue($this->val('10kb')->compare('81920bit'));
     }
 
     public function testComplex()
@@ -58,6 +58,6 @@ class InfoTypeTest extends typeTest
             ->add('512 kb')
             ->convert('mb');
 
-        $this->assertEquals('5.5 mb', $val->dump(false));
+        is('5.5 mb', $val->dump(false));
     }
 }

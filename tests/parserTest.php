@@ -13,7 +13,7 @@
  * @author    Denis Smetannikov <denis@jbzoo.com>
  */
 
-namespace JBZoo\SimpleTypes;
+namespace JBZoo\PHPUnit;
 
 /**
  * Class parserTest
@@ -25,7 +25,7 @@ class ParserTest extends PHPUnit
     {
         $empty = '0 eur';
 
-        $this->batchEqualDumps(array(
+        batchEqualDumps(array(
             // empty
             array($empty),
             array($empty, null),
@@ -53,7 +53,7 @@ class ParserTest extends PHPUnit
 
     public function testSimple()
     {
-        $this->batchEqualDumps(array(
+        batchEqualDumps(array(
             // int
             array('1 eur', 1),
             array('-1 eur', -1),
@@ -76,7 +76,7 @@ class ParserTest extends PHPUnit
 
     public function testRule()
     {
-        $this->batchEqualDumps(array(
+        batchEqualDumps(array(
             array('0 eur', 'eur'),
             array('1 eur', '1eur'),
             array('1 eur', '1EUR'),
@@ -99,7 +99,7 @@ class ParserTest extends PHPUnit
 
     public function testRound()
     {
-        $this->batchEqualDumps(array(
+        batchEqualDumps(array(
             array('0.1 eur', '.1'),
             array('0.01 eur', '.01'),
             array('0.001 eur', '.001'),
@@ -118,7 +118,7 @@ class ParserTest extends PHPUnit
 
     public function testComplex()
     {
-        $this->batchEqualDumps(array(
+        batchEqualDumps(array(
             array('-123.456 usd', ' - 1 2 3 . 4 5 6 usd '),
             array('-123.456 usd', array(' - 1 2 3 , 4 5 6 eur', 'usd')),
             array('-123.456 usd', array(' - 1 2 3 . 4 5 6 eur', 'usd')),
@@ -130,6 +130,6 @@ class ParserTest extends PHPUnit
 
     public function testUndefinedRule()
     {
-        $this->assertTrue($this->val('1 undefined')->isRule('eur'));
+        isTrue(val('1 undefined')->isRule('eur'));
     }
 }

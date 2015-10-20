@@ -13,7 +13,7 @@
  * @author    Denis Smetannikov <denis@jbzoo.com>
  */
 
-namespace JBZoo\SimpleTypes;
+namespace JBZoo\PHPUnit;
 
 /**
  * Class InstancesTest
@@ -37,7 +37,7 @@ class InstancesTest extends PHPUnit
             $className = '\\JBZoo\\SimpleTypes\\' . ucfirst(str_replace('.php', '', $file));
 
             $obj = new $className('', $config);
-            $this->assertInstanceOf('\\JBZoo\\SimpleTypes\\Type', $obj);
+            isClass('\\JBZoo\\SimpleTypes\\Type', $obj);
 
             $count++;
         }
@@ -62,11 +62,11 @@ class InstancesTest extends PHPUnit
             $className = '\\JBZoo\\SimpleTypes\\Config' . ucfirst(str_replace('.php', '', $file));
 
             $obj = new $className();
-            $this->assertInstanceOf('\\JBZoo\\SimpleTypes\\Config', $obj);
+            isClass('\\JBZoo\\SimpleTypes\\Config', $obj);
 
             $count++;
         }
 
-        $this->assertEquals($typeCount, $count, 'Some configs or types are not found');
+        is($typeCount, $count, 'Some configs or types are not found');
     }
 }

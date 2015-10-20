@@ -13,7 +13,7 @@
  * @author    Denis Smetannikov <denis@jbzoo.com>
  */
 
-namespace JBZoo\SimpleTypes;
+namespace JBZoo\PHPUnit;
 
 /**
  * Class WeightTypeTest
@@ -29,13 +29,13 @@ class WeightTypeTest extends typeTest
         $weight = $this->val('10000g');
 
         // SI
-        $this->batchEquals(array(
+        isBatch(array(
             array('10000 g', $weight->dump(false)),
             array('10 kg', $weight->convert('kg')->dump(false)),
             array('0.01 ton', $weight->convert('ton')->dump(false)),
         ));
 
-        $this->batchEquals(array(
+        isBatch(array(
             array('0.06479891 g', $this->val('1 gr')->convert('g')->dump(false)),
             array('1.7718451953125 g', $this->val('1 dr')->convert('g')->dump(false)),
             array('28.349523125 g', $this->val('1 oz')->convert('g')->dump(false)),

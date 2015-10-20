@@ -13,19 +13,23 @@
  * @author    Denis Smetannikov <denis@jbzoo.com>
  */
 
-namespace JBZoo\SimpleTypes;
+namespace JBZoo\PHPUnit;
+
+use JBZoo\SimpleTypes\ConfigMoney;
+use JBZoo\SimpleTypes\Money;
+use JBZoo\SimpleTypes\Weight;
 
 /**
  * Class calcTest
- * @package JBZoo\SimpleTypes
+ * @package JBZoo\PHPUnit
  */
 class CalcTest extends PHPUnit
 {
     public function testAdd()
     {
-        $val = $this->val();
+        $val = val();
 
-        $this->batchEqualDumps(array(
+        batchEqualDumps(array(
             array('0 eur', $val->dump(false)),
             array('1 eur', $val->add('1')->dump(false)),
             array('0 eur', $val->add('-1')->dump(false)),
@@ -40,9 +44,9 @@ class CalcTest extends PHPUnit
 
     public function testSubtract()
     {
-        $val = $this->val();
+        $val = val();
 
-        $this->batchEqualDumps(array(
+        batchEqualDumps(array(
             array('0 eur', $val->dump(false)),
             array('-1 eur', $val->subtract('1')->dump(false)),
             array('0 eur', $val->subtract('-1')->dump(false)),
@@ -57,9 +61,9 @@ class CalcTest extends PHPUnit
 
     public function testPercentAddAndSubtract()
     {
-        $val = $this->val(100);
+        $val = val(100);
 
-        $this->batchEqualDumps(array(
+        batchEqualDumps(array(
             array('100 eur', $val->dump(false)),
 
             // plus
@@ -75,35 +79,35 @@ class CalcTest extends PHPUnit
 
     public function testAddAndSubtract()
     {
-        $val = $this->val('100 eur');
+        $val = val('100 eur');
 
         $val
             ->add(-10)
             ->add('50%')
             ->subtract(200)
             ->add('-50%')
-            ->add($this->val('100 eur'))
+            ->add(val('100 eur'))
             ->add(-10)
             ->subtract(-200);
 
-        $this->assertEquals($val->dump(false), '257.5 eur');
+        is($val->dump(false), '257.5 eur');
 
-        $this->assertEquals('3 %', $this->val('1%')->add('2%')->dump(false));
+        is('3 %', val('1%')->add('2%')->dump(false));
     }
 
 
     public function testInvert()
     {
-        $val = $this->val('1 eur');
+        $val = val('1 eur');
 
-        $this->batchEqualDumps(array(
+        batchEqualDumps(array(
             array('-1 eur', $val->invert()->dump(false)),
             array('1 eur', $val->invert()->dump(false)),
         ));
 
-        $val = $this->val();
+        $val = val();
 
-        $this->batchEqualDumps(array(
+        batchEqualDumps(array(
             array('0 eur', $val->invert()->dump(false)),
             array('0 eur', $val->invert()->dump(false)),
         ));
@@ -111,9 +115,9 @@ class CalcTest extends PHPUnit
 
     public function testPositiveAndNegative()
     {
-        $val = $this->val('1 eur');
+        $val = val('1 eur');
 
-        $this->batchEqualDumps(array(
+        batchEqualDumps(array(
             array('1 eur', $val->positive()->dump(false)),
             array('-1 eur', $val->negative()->dump(false)),
             array('-1 eur', $val->negative()->dump(false)),
@@ -123,9 +127,9 @@ class CalcTest extends PHPUnit
 
     public function testMultiply()
     {
-        $val = $this->val('1 eur');
+        $val = val('1 eur');
 
-        $this->batchEqualDumps(array(
+        batchEqualDumps(array(
             array('1 eur', $val->multiply('1')->dump(false)),
             array('10 eur', $val->multiply('10')->dump(false)),
             array('-10 eur', $val->multiply('-1')->dump(false)),
@@ -135,9 +139,9 @@ class CalcTest extends PHPUnit
 
     public function testDivision()
     {
-        $val = $this->val('360 eur');
+        $val = val('360 eur');
 
-        $this->batchEqualDumps(array(
+        batchEqualDumps(array(
             array('3000 eur', $val->division(.12)->dump(false)),
             array('100 eur', $val->division(30)->dump(false)),
         ));
@@ -145,19 +149,19 @@ class CalcTest extends PHPUnit
 
     public function testPercent()
     {
-        $discountSave = $this->val('20 eur');
-        $itemPrice    = $this->val('100 eur');
+        $discountSave = val('20 eur');
+        $itemPrice    = val('100 eur');
 
-        $this->batchEqualDumps(array(
+        batchEqualDumps(array(
             array('20 %', $discountSave->percent($itemPrice)->dump(false)),
-            array('40 %', $this->val('10 eur')->percent('50 usd')->dump(false)),
-            array('60 %', $this->val('10 eur')->percent('50 usd', true)->dump(false)),
+            array('40 %', val('10 eur')->percent('50 usd')->dump(false)),
+            array('60 %', val('10 eur')->percent('50 usd', true)->dump(false)),
         ));
     }
 
     public function testFunction()
     {
-        $val = $this->val('100 eur');
+        $val = val('100 eur');
 
         $val
             ->customFunc(function ($value) {
@@ -172,33 +176,33 @@ class CalcTest extends PHPUnit
                     ->convert('byr');
             });
 
-        $this->assertEquals('20650000 byr', $val->dump(false));
+        is('20650000 byr', $val->dump(false));
     }
 
     public function testChecks()
     {
-        $val = $this->val('-1 usd');
+        $val = val('-1 usd');
 
-        $this->assertEquals(true, $val->isNegative());
-        $this->assertEquals(false, $val->isPositive());
-        $this->assertEquals(false, $val->isEmpty());
+        is(true, $val->isNegative());
+        is(false, $val->isPositive());
+        is(false, $val->isEmpty());
 
         $val->set(1);
-        $this->assertEquals(false, $val->isNegative());
-        $this->assertEquals(true, $val->isPositive());
-        $this->assertEquals(false, $val->isEmpty());
+        is(false, $val->isNegative());
+        is(true, $val->isPositive());
+        is(false, $val->isEmpty());
 
         $val->setEmpty();
-        $this->assertEquals(false, $val->isNegative());
-        $this->assertEquals(false, $val->isPositive());
-        $this->assertEquals(true, $val->isEmpty());
+        is(false, $val->isNegative());
+        is(false, $val->isPositive());
+        is(true, $val->isEmpty());
     }
 
     public function testAbs()
     {
-        $this->assertEquals('1 eur', $this->val('-1 eur')->abs()->dump(false));
-        $this->assertEquals('1 eur', $this->val('1 eur')->abs()->dump(false));
-        $this->assertEquals('0 eur', $this->val('0 eur')->abs()->dump(false));
+        is('1 eur', val('-1 eur')->abs()->dump(false));
+        is('1 eur', val('1 eur')->abs()->dump(false));
+        is('0 eur', val('0 eur')->abs()->dump(false));
     }
 
     /**
@@ -206,7 +210,7 @@ class CalcTest extends PHPUnit
      */
     public function testImpossibleAdd1()
     {
-        $this->val('1 %')->add('1 usd');
+        val('1 %')->add('1 usd');
     }
 
     /**
