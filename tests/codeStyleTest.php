@@ -15,27 +15,11 @@
 
 namespace JBZoo\PHPUnit;
 
-use JBZoo\SimpleTypes\Config;
-
 /**
- * Class TypeTest
+ * Class CodeStyleTest
  * @package JBZoo\SimpleTypes
  */
-class TypeTest extends PHPUnit
+class CodeStyleTest extends PHPUnit
 {
-    protected $type = '';
 
-    /**
-     * @param null $arg
-     * @return Type
-     * @throws Exception
-     */
-    public function val($arg = null)
-    {
-        $configName = $this->namespace . 'Config' . ucfirst($this->type);
-        $className  = $this->namespace . $this->type;
-        Config::registerDefault($this->type, new $configName);
-
-        return new $className($arg);
-    }
 }
