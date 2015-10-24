@@ -3,7 +3,7 @@
 ### The universal PHP library to convert any values and measures
 
 [![License](https://poser.pugx.org/JBZoo/SimpleTypes/license)](https://packagist.org/packages/JBZoo/SimpleTypes)
-[![Latest Stable Version](https://poser.pugx.org/JBZoo/SimpleTypes/v/stable)](https://packagist.org/packages/JBZoo/SimpleTypes)
+[![Latest Stable Version](https://poser.pugx.org/JBZoo/SimpleTypes/v/stable)](https://packagist.org/packages/JBZoo/SimpleTypes) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/JBZoo/SimpleTypes/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/JBZoo/SimpleTypes/?branch=master)
 
 ## Installation
 Simply add a dependency on `JBZoo/SimpleTypes` to your project's `composer.json` file if you use [Composer](http://getcomposer.org/) to manage the dependencies of your project.
