@@ -54,9 +54,10 @@ class Formatter
 
         // prepare rules
         $this->_rules = array_change_key_case((array)$rules, CASE_LOWER);
-        array_walk($this->_rules, function (&$item, $key, $default) {
-            $item = array_merge($default, (array)$item);
-        }, $this->_default);
+
+        foreach ($this->_rules as $key => $item) {
+            $this->_rules[$key] = array_merge($default, (array)$item);
+        }
     }
 
     /**
@@ -169,7 +170,7 @@ class Formatter
                 'class'                      => array(
                     'simpleType',
                     'simpleType-' . $this->_type,
-                    'simpleType-input'
+                    'simpleType-input',
                 ),
                 'data-simpleType-id'         => $params['id'],
                 'data-simpleType-value'      => $current['value'],
