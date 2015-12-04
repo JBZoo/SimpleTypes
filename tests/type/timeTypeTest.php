@@ -21,7 +21,6 @@ namespace JBZoo\PHPUnit;
  */
 class TimeTypeTest extends TypeTest
 {
-
     protected $_type = 'Time';
 
     public function testSimple()

@@ -21,7 +21,6 @@ namespace JBZoo\PHPUnit;
  */
 class FormatterTest extends PHPUnit
 {
-
     public function testChange()
     {
         $val1 = val('50000.789 usd');

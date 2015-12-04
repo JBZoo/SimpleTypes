@@ -1,6 +1,6 @@
 <?php
 /**
- * SimpleTypes
+ * JBZoo SimpleTypes
  *
  * This file is part of the JBZoo CCK package.
  * For the full copyright and license information, please view the LICENSE
@@ -32,6 +32,7 @@ class Volume extends Config
     /**
      * List of rules
      * @link https://en.wikipedia.org/wiki/United_States_customary_units
+     *
      * @return array
      */
     public function getRules()

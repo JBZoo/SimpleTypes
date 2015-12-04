@@ -168,6 +168,7 @@ abstract class Type
     {
         $rule = $rule ? $this->_parser->checkRule($rule) : $this->_rule;
         $this->log('Formatted output in "' . $rule . '" as "text"');
+
         return $this->_formatter->text($this->val($rule), $rule);
     }
 
@@ -180,6 +181,7 @@ abstract class Type
     {
         $rule = $rule ? $this->_parser->checkRule($rule) : $this->_rule;
         $this->log('Formatted output in "' . $rule . '" as "noStyle"');
+
         return $this->_formatter->text($this->val($rule), $rule, false);
     }
 
@@ -192,6 +194,7 @@ abstract class Type
     {
         $rule = $rule ? $this->_parser->checkRule($rule) : $this->_rule;
         $this->log('Formatted output in "' . $rule . '" as "html"');
+
         return $this->_formatter->html(
             array('value' => $this->val($rule), 'rule' => $rule),
             array('value' => $this->_value, 'rule' => $this->_rule),
@@ -623,7 +626,7 @@ abstract class Type
 
         // create new object
         if ($getClone) {
-            $clone        = $this->getClone();
+            $clone         = $this->getClone();
             $clone->_value = $newValue;
             $clone->log($logMessage . 'New value = "' . $clone->dump(false) . '"');
             return $clone;
@@ -770,7 +773,7 @@ abstract class Type
     {
         self::$_counter++;
 
-        $oldId          = $this->_uniqueId;
+        $oldId           = $this->_uniqueId;
         $this->_uniqueId = self::$_counter;
 
         $this->log(

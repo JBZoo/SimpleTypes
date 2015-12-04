@@ -21,5 +21,4 @@ namespace JBZoo\SimpleTypes\Type;
  */
 class Info extends Type
 {
-
 }

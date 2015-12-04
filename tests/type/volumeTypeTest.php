@@ -21,7 +21,6 @@ namespace JBZoo\PHPUnit;
  */
 class VolumeTypeTest extends TypeTest
 {
-
     protected $_type = 'Volume';
 
     public function testSimple()

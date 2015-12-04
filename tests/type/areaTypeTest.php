@@ -21,7 +21,6 @@ namespace JBZoo\PHPUnit;
  */
 class AreaTypeTest extends typeTest
 {
-
     protected $_type = 'Area';
 
     public function testSimple()

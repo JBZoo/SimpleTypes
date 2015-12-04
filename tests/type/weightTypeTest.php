@@ -21,7 +21,6 @@ namespace JBZoo\PHPUnit;
  */
 class WeightTypeTest extends typeTest
 {
-
     protected $_type = 'Weight';
 
     public function testSimple()

@@ -47,7 +47,7 @@ class ParserTest extends PHPUnit
             array($empty, array(null, null)),
             array($empty, array(0)),
             array($empty, array(0, '')),
-            array($empty, array(0, '')),
+            array($empty, array(0, "")),
         ));
     }
 

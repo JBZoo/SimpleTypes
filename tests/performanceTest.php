@@ -70,7 +70,7 @@ class PerformanceTest extends PHPUnit
     public function testSizeOneObject()
     {
         if ($this->isXDebug()) {
-            return;
+            return false;
         }
 
         $this->startProfiler();

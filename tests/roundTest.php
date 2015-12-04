@@ -23,7 +23,6 @@ use JBZoo\SimpleTypes\Formatter;
  */
 class RoundTest extends PHPUnit
 {
-
     public function testNone()
     {
         $value = '123.456789';

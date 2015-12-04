@@ -21,7 +21,6 @@ namespace JBZoo\PHPUnit;
  */
 class InstancesTest extends PHPUnit
 {
-
     public function testCreateTypes()
     {
         $config = new ConfigTestEmpty();

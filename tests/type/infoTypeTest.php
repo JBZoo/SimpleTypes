@@ -21,7 +21,6 @@ namespace JBZoo\PHPUnit;
  */
 class InfoTypeTest extends typeTest
 {
-
     protected $_type = 'Info';
 
     public function testSimple()

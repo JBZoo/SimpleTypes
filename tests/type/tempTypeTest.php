@@ -21,7 +21,6 @@ namespace JBZoo\PHPUnit;
  */
 class TempTypeTest extends typeTest
 {
-
     protected $_type = 'Temp';
 
     public function testCreate()

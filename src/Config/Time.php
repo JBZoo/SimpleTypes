@@ -1,6 +1,6 @@
 <?php
 /**
- * SimpleTypes
+ * JBZoo SimpleTypes
  *
  * This file is part of the JBZoo CCK package.
  * For the full copyright and license information, please view the LICENSE
@@ -57,15 +57,15 @@ class Time extends Config
                 'rate'   => 604800,
             ),
             'mo' => array(
-                'symbol' => 'Month', // Only 30 days!
+                'symbol' => 'Month',    // Only 30 days!
                 'rate'   => 2592000,
             ),
             'q'  => array(
-                'symbol' => 'Quarter', // 3 months
+                'symbol' => 'Quarter',  // 3 months
                 'rate'   => 7776000,
             ),
             'y'  => array(
-                'symbol' => 'Year', // 365.25 days
+                'symbol' => 'Year',     // 365.25 days
                 'rate'   => 31557600,
             ),
         );

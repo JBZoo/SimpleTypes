@@ -81,8 +81,7 @@ class CalcTest extends PHPUnit
     {
         $val = val('100 eur');
 
-        $val
-            ->add(-10)
+        $val->add(-10)
             ->add('50%')
             ->subtract(200)
             ->add('-50%')

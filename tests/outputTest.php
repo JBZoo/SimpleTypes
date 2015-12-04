@@ -21,7 +21,6 @@ namespace JBZoo\PHPUnit;
  */
 class OutputTest extends PHPUnit
 {
-
     public function testText()
     {
         isBatch(array(

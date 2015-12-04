@@ -40,6 +40,7 @@ class Parser
         uksort($ruleList, function ($item1, $item2) {
             return strlen($item2) - strlen($item1);
         });
+
         $this->_rules   = $ruleList;
         $this->_default = $default;
     }

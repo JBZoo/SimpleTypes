@@ -21,7 +21,6 @@ namespace JBZoo\PHPUnit;
  */
 class LengthTypeTest extends typeTest
 {
-
     protected $_type = 'Length';
 
     public function testSimple()

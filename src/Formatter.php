@@ -22,6 +22,7 @@ namespace JBZoo\SimpleTypes;
 class Formatter
 {
     const ROUND_DEFAULT = 8;
+
     const ROUND_NONE    = 'none';
     const ROUND_CEIL    = 'ceil';
     const ROUND_FLOOR   = 'floor';

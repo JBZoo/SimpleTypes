@@ -1,6 +1,6 @@
 <?php
 /**
- * SimpleTypes
+ * JBZoo SimpleTypes
  *
  * This file is part of the JBZoo CCK package.
  * For the full copyright and license information, please view the LICENSE
@@ -42,6 +42,7 @@ class Degree extends Config
                 'format_negative' => '-%v%s',
                 'symbol'          => '°',
             ),
+
             // radian
             'r' => array(
                 'symbol' => 'pi',
@@ -52,6 +53,7 @@ class Degree extends Config
                     return $value / 180;
                 },
             ),
+
             // grads
             'g' => array(
                 'symbol' => 'Grad',
@@ -62,6 +64,7 @@ class Degree extends Config
                     return $value / 0.9;
                 },
             ),
+
             // turn (loop)
             't' => array(
                 'symbol' => 'Turn',

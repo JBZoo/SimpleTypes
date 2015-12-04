@@ -26,7 +26,6 @@ use JBZoo\SimpleTypes\Type\Weight;
  */
 class ConfigTest extends PHPUnit
 {
-
     public function testEmptyValid()
     {
         $money = new Money('1 i', new ConfigTestEmpty());

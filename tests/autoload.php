@@ -16,8 +16,6 @@
 namespace JBZoo\PHPUnit;
 
 // @codingStandardsIgnoreFile
-// @codeCoverageIgnoreStart
-
 if (!defined('ROOT_PATH')) { // for PHPUnit process isolation
     define('ROOT_PATH', realpath('.'));
 }
@@ -37,5 +35,3 @@ require_once 'fixtures/ConfigTestInfo.php';
 require_once 'fixtures/ConfigTestWeight.php';
 require_once 'fixtures/ConfigTestWrong.php';
 require_once 'type/typeTest.php';
-
-// @codeCoverageIgnoreEnd

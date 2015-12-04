@@ -21,7 +21,6 @@ namespace JBZoo\PHPUnit;
  */
 class MagicTest extends PHPUnit
 {
-
     public function testSerializing()
     {
         $valBefore = val('500 usd');

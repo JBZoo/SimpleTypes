@@ -40,15 +40,22 @@ abstract class Config
      * @var array
      */
     public $defaultParams = array(
+        // main
         'symbol'          => '',
-        'round_type'      => Formatter::ROUND_CLASSIC,
-        'round_value'     => Formatter::ROUND_DEFAULT,
+        'rate'            => 1,
+
+        // number format
         'num_decimals'    => '2',
         'decimal_sep'     => '.',
         'thousands_sep'   => ' ',
+
+        // templates
         'format_positive' => '%v %s',
         'format_negative' => '-%v %s',
-        'rate'            => 1,
+
+        // round
+        'round_type'      => Formatter::ROUND_CLASSIC,
+        'round_value'     => Formatter::ROUND_DEFAULT,
     );
 
     /**

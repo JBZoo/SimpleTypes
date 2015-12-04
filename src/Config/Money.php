@@ -1,6 +1,6 @@
 <?php
 /**
- * SimpleTypes
+ * JBZoo SimpleTypes
  *
  * This file is part of the JBZoo CCK package.
  * For the full copyright and license information, please view the LICENSE
@@ -82,7 +82,7 @@ class Money extends Config
                 'symbol'          => '%',
                 'format_positive' => '%v%s',
                 'format_negative' => '-%v%s',
-            )
+            ),
         );
     }
 }

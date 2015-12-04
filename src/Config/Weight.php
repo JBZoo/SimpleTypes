@@ -1,6 +1,6 @@
 <?php
 /**
- * SimpleTypes
+ * JBZoo SimpleTypes
  *
  * This file is part of the JBZoo CCK package.
  * For the full copyright and license information, please view the LICENSE
@@ -37,33 +37,33 @@ class Weight extends Config
     {
         return array(
             // SI
-            'g'     => array(
+            'g'   => array(
                 'symbol' => 'g',
                 'rate'   => 1,
             ),
-            'kg'    => array(
+            'kg'  => array(
                 'symbol' => 'Kg',
                 'rate'   => 1000,
             ),
-            'ton'   => array(
+            'ton' => array(
                 'symbol' => 'Tons',
                 'rate'   => 1000000,
             ),
 
             // other
-            'gr'    => array(
+            'gr'  => array(
                 'symbol' => 'Grains',
                 'rate'   => 0.06479891,
             ),
-            'dr'    => array(
+            'dr'  => array(
                 'symbol' => 'Drams',
                 'rate'   => 1.7718451953125,
             ),
-            'oz'    => array(
+            'oz'  => array(
                 'symbol' => 'Ounces',
                 'rate'   => 28.349523125,
             ),
-            'lb'    => array(
+            'lb'  => array(
                 'symbol' => 'Pounds',
                 'rate'   => 453.59237,
             ),

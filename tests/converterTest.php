@@ -21,7 +21,6 @@ namespace JBZoo\PHPUnit;
  */
 class ConverterTest extends PHPUnit
 {
-
     public function testCheckExists()
     {
         batchEqualDumps(array(

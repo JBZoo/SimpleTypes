@@ -21,4 +21,5 @@ namespace JBZoo\SimpleTypes;
  */
 class Exception extends \Exception
 {
+
 }

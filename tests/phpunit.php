@@ -40,6 +40,7 @@ function batchEqualDumps($testList)
     foreach ($testList as $test) {
         $result = isset($test[0]) ? $test[0] : null;
         $arg    = isset($test[1]) ? $test[1] : null;
+
         is(val($arg)->dump(false), $result);
     }
 }

@@ -21,7 +21,6 @@ namespace JBZoo\PHPUnit;
  */
 class CompareTest extends PHPUnit
 {
-
     public function testSimple()
     {
         isBatch(array(

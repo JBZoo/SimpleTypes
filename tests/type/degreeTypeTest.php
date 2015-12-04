@@ -21,7 +21,6 @@ namespace JBZoo\PHPUnit;
  */
 class DegreeTypeTest extends TypeTest
 {
-
     protected $_type = 'Degree';
 
     public function testSimple()

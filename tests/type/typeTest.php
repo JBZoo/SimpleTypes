@@ -23,7 +23,7 @@ use JBZoo\SimpleTypes\Config\Config;
  */
 class TypeTest extends PHPUnit
 {
-    protected $_type = '';
+    protected $_type = null;
 
     /**
      * @param null $arg
