@@ -20,6 +20,11 @@
     "require-dev": {
         "jbzoo/phpunit": "^1.0"
     },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.x-dev"
+        }
+    },    
     "autoload": {
         "psr-4": {
             "JBZoo\\SimpleTypes\\": "src"
