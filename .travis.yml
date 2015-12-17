@@ -10,8 +10,10 @@ php:
 matrix:
   fast_finish: true
 
-script:
+before_script:
   - composer update-all
+
+script:
   - composer test
 
 after_script:
