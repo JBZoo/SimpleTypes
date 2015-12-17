@@ -31,6 +31,9 @@
             "JBZoo\\SimpleTypes\\" : "src"
         }
     },
+    "config"            : {
+        "optimize-autoloader" : true
+    },    
     "scripts"           : {
         "test"       : [
             "@manifest",
