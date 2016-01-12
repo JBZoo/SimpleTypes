@@ -26,8 +26,8 @@ class CodeStyleTest extends Codestyle
 
     public function testCyrillic()
     {
-        $this->_excludeFiles[] = 'outputTest.php';
-        $this->_excludeFiles[] = 'Money.php';
+        $GLOBALS['_jbzoo_fileExcludes'][] = 'outputTest.php';
+        $GLOBALS['_jbzoo_fileExcludes'][] = 'Money.php';
 
         parent::testCyrillic();
     }
