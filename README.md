@@ -6,12 +6,12 @@
 [![Latest Stable Version](https://poser.pugx.org/JBZoo/SimpleTypes/v/stable)](https://packagist.org/packages/JBZoo/SimpleTypes) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/JBZoo/SimpleTypes/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/JBZoo/SimpleTypes/?branch=master)
 
 ## Installation
-Simply add a dependency on `JBZoo/SimpleTypes` to your project's `composer.json` file if you use [Composer](http://getcomposer.org/) to manage the dependencies of your project.
+Simply add a dependency on `jbzoo/simpletypes` to your project's `composer.json` file if you use [Composer](http://getcomposer.org/) to manage the dependencies of your project.
 Here is a minimal example of a `composer.json` file that just defines a dependency on SimpleTypes:
 ```javascript
     {
         "require": {
-            "JBZoo/SimpleTypes": "^1.0"
+            "jbzoo/simpletypes": "^1.0"
         }
     }
 ```

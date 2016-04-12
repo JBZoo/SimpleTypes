@@ -15,6 +15,8 @@
 
 namespace JBZoo\PHPUnit;
 
+use Symfony\Component\Finder\Finder;
+
 /**
  * Class CodeStyleTest
  * @package JBZoo\SimpleTypes
@@ -26,11 +28,23 @@ class CodeStyleTest extends Codestyle
 
     public function testCyrillic()
     {
-        $GLOBALS['_jbzoo_fileExcludes'][] = 'outputTest.php';
-        $GLOBALS['_jbzoo_fileExcludes'][] = 'Money.php';
+        $this->_excludePaths[] = 'outputTest.php';
+        $this->_excludePaths[] = 'README.md';
 
-        parent::testCyrillic();
+        $finder = new Finder();
+        $finder
+            ->files()
+            ->in(PROJECT_ROOT)
+            ->exclude($this->_excludePaths)
+            ->notPath(basename(__FILE__))
+            ->notName('*.md')
+            ->notName('Money.php')
+            ->exclude('tests');
+
+        /** @var \SplFileInfo $file */
+        foreach ($finder as $file) {
+            $content = openFile($file->getPathname());
+            isNotLike('#[А-Яа-яЁё]#ius', $content, 'File has no valid chars: ' . $file);
+        }
     }
-
-
 }

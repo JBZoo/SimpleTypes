@@ -2,12 +2,14 @@
 /**
  * JBZoo SimpleTypes
  *
- * Copyright (c) 2015, Denis Smetannikov <denis@jbzoo.com>.
+ * This file is part of the JBZoo CCK package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  *
- * @package    SimpleTypes
- * @author     Denis Smetannikov <denis@jbzoo.com>
- * @copyright  2015 Denis Smetannikov <denis@jbzoo.com>
- * @link       https://github.com/JBZoo/SimpleTypes
+ * @package   SimpleTypes
+ * @license   MIT
+ * @copyright Copyright (C) JBZoo.com,  All rights reserved.
+ * @link      https://github.com/JBZoo/SimpleTypes
  */
 
 require_once __DIR__ . '/vendor/autoload.php';
@@ -57,19 +59,19 @@ $usd->add(['10', 'eur']);
 
 // Chaining method calls
 $money = (new Money('4.95 usd'))
-    ->add('10 usd')// $14.95
-    ->subtract('2 eur')// $10.95
-    ->negative()// -$10.95
-    ->getClone()// copy of object is created
-    ->division(5)// -$2.19
-    ->multiply(10)// -$21.90
-    ->convert('eur')// -10.95€ (For easy understanding we use 1 EUR = 2 USD)
-    ->customFunc(function (Money $value) {
+    ->add('10 usd')                         // $14.95
+    ->subtract('2 eur')                     // $10.95
+    ->negative()                            // -$10.95
+    ->getClone()                            // copy of object is created
+    ->division(5)                           // -$2.19
+    ->multiply(10)                          // -$21.90
+    ->convert('eur')                        // -10.95€ (For easy understanding we use 1 EUR = 2 USD)
+    ->customFunc(function (Money $value) {  // custom handler
         $value
-            ->add(new Money('600 rub'))// 1.05€ (1 EUR = 50 RUB)
-            ->add('-500%');// -4.2€
+            ->add(new Money('600 rub'))     // 1.05€ (1 EUR = 50 RUB)
+            ->add('-500%');                 // -4.2€
     })
-    ->abs(); // 4.2€
+    ->abs();                                // 4.2€
 
 // show all actions (history)
 $history = $money->logs();
