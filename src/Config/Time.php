@@ -69,6 +69,5 @@ class Time extends Config
                 'rate'   => 31557600,
             ),
         );
-
     }
 }
