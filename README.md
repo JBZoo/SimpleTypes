@@ -57,28 +57,28 @@ It can find number, understand any decimal symbols, trim, letter cases, e.t.c...
 and it works really fast!
 
 ```php
-$money = new Money(' - 1 2 3 , 4 5 6 rub '); // Equals -123.456 rubles
-$money = new Money('1.0e+18 EUR '); // Really huge number. I'm rich! =)
+$money = new Money(' - 1 2 3 , 4 5 6 rub ');    // Equals -123.456 rubles
+$money = new Money('1.0e+18 EUR ');             // Really huge number. I'm rich! =)
 $money = new Money('  EuR 3,50   ');
-$money = new Money('usd'); // Just object with usd rule
+$money = new Money('usd');                      // Just object with usd rule
 ```
 
 ### Chaining method calls
 ```php
 $value = (new Money('4.95 usd'))
-    ->add('10 usd')// $14.95
-    ->subtract('2 eur')// $10.95
-    ->negative()// -$10.95
-    ->getClone()// copy of object is created
-    ->division(5)// -$2.19
-    ->multiply(10)// -$21.90
-    ->convert('eur')// -10.95€ (For easy understanding we use 1 EUR = 2 USD)
-    ->customFunc(function (Money $value) { // sometimes we would like something more than plus/minus ;)
+    ->add('10 usd')                         // $14.95
+    ->subtract('2 eur')                     // $10.95
+    ->negative()                            // -$10.95
+    ->getClone()                            // copy of object is created
+    ->division(5)                           // -$2.19
+    ->multiply(10)                          // -$21.90
+    ->convert('eur')                        // -10.95€ (For easy understanding we use 1 EUR = 2 USD)
+    ->customFunc(function (Money $value) {  // sometimes we would like something more than plus/minus ;)
         $value
-            ->add(new Money('600 rub'))// 1.05€ (1 EUR = 50 RUB)
-            ->add('-500%');// -4.2€
+            ->add(new Money('600 rub'))     // 1.05€ (1 EUR = 50 RUB)
+            ->add('-500%');                 // -4.2€
     })
-    ->abs(); // 4.2€
+    ->abs();                                // 4.2€
 ```
 
 ## Basic arithmetic
@@ -123,12 +123,12 @@ SimpleTypes can
 $kg = new Weight('1 kg'); // one kilogram
 $lb = new Weight('2 lb'); // two pounds
 
-var_dump($kg->compare($lb)); // false ("==" by default)
-var_dump($kg->compare($lb, '=='));// false
-var_dump($kg->compare($lb, '<'));// false
-var_dump($kg->compare($lb, '<='));// false
-var_dump($kg->compare($lb, '>'));// true
-var_dump($kg->compare($lb, '>='));// true
+var_dump($kg->compare($lb));            // false ("==" by default)
+var_dump($kg->compare($lb, '=='));      // false
+var_dump($kg->compare($lb, '<'));       // false
+var_dump($kg->compare($lb, '<='));      // false
+var_dump($kg->compare($lb, '>'));       // true
+var_dump($kg->compare($lb, '>='));      // true
 ```
 
 And same examples but we will use smart parser
@@ -136,12 +136,12 @@ And same examples but we will use smart parser
 $kg = new Weight('1 kg');
 $lb = new Weight('2 lb');
 
-var_dump($kg->compare('1000 g')); // true
-var_dump($kg->compare('2 lb', '=='));// false
-var_dump($kg->compare('2 lb', '<'));// false
-var_dump($kg->compare('2 lb', '<='));// false
-var_dump($kg->compare('2 lb', '>'));// true
-var_dump($kg->compare('2 lb', '>='));// true
+var_dump($kg->compare('1000 g'));       // true
+var_dump($kg->compare('2 lb', '=='));   // false
+var_dump($kg->compare('2 lb', '<'));    // false
+var_dump($kg->compare('2 lb', '<='));   // false
+var_dump($kg->compare('2 lb', '>'));    // true
+var_dump($kg->compare('2 lb', '>='));   // true
 ```
 
 ## Percent method
@@ -188,9 +188,9 @@ $val('100', 'uah');
 
 ```php
 $value = new Money('-50.666666 usd');
-echo $value->text(); // "-$50.67"
-echo $value->text('rub'); // "-1 266,67 руб." (output without changing inner state)
-echo $value->noStyle('rub');// "-1 266,67" (without symbol)
+echo $value->text();            // "-$50.67"
+echo $value->text('rub');       // "-1 266,67 руб." (output without changing inner state)
+echo $value->noStyle('rub');    // "-1 266,67" (without symbol)
 ```
 
 ### Simple HTML rendering
