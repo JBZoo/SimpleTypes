@@ -68,6 +68,5 @@ class Weight extends Config
                 'rate'   => 453.59237,
             ),
         );
-
     }
 }
