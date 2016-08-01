@@ -19,7 +19,7 @@
         "php" : ">=5.3.1"
     },
     "require-dev"       : {
-        "jbzoo/phpunit" : "^1.0"
+        "jbzoo/phpunit" : "^1.7"
     },
     "extra"             : {
         "branch-alias" : {
@@ -33,29 +33,6 @@
     },
     "config"            : {
         "optimize-autoloader" : true
-    },    
-    "scripts"           : {
-        "test"       : [
-            "@manifest",
-            "@autoload",
-            "@phpunit",
-            "@phpmd",
-            "@phpcs",
-            "@phpcpd",
-            "@phploc"
-        ],
-        "update-all" : [
-            "composer self-update",
-            "composer update"
-        ],
-        "manifest"   : "composer validate",
-        "autoload"   : "composer dump-autoload --optimize --no-scripts",
-        "phpunit"    : "php ./vendor/phpunit/phpunit/phpunit --configuration ./phpunit.xml.dist",
-        "phpmd"      : "php ./vendor/phpmd/phpmd/src/bin/phpmd ./src text ./vendor/jbzoo/misc/phpmd/jbzoo.xml --verbose",
-        "phpcs"      : "php ./vendor/squizlabs/php_codesniffer/scripts/phpcs ./src --standard=./vendor/jbzoo/misc/phpcs/JBZoo/ruleset.xml --report=full",
-        "phpcpd"     : "php ./vendor/sebastian/phpcpd/phpcpd ./src --verbose",
-        "phploc"     : "php ./vendor/phploc/phploc/phploc ./src --verbose",
-        "coveralls"  : "php ./vendor/satooshi/php-coveralls/bin/coveralls --verbose"
     },
     "support"           : {
         "issues" : "https://github.com/SmetDenis/SimpleTypes/issues"
