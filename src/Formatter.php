@@ -71,7 +71,7 @@ class Formatter
             return (array)$this->rules[$rule];
         }
 
-        throw new Exception('Undefined rule: "' . $rule . '"');
+        throw new Exception("Undefined rule: '{$rule}'");
     }
 
     /**
@@ -125,8 +125,8 @@ class Formatter
         $result = str_replace(
             ['%v', '%s'],
             [
-                '<span class="simpleType-value">' . $data['value'] . '</span>',
-                '<span class="simpleType-symbol">' . $rData['symbol'] . '</span>',
+                "<span class=\"simpleType-value\">{$data['value']}</span>",
+                "<span class=\"simpleType-symbol\">{$rData['symbol']}</span>",
             ],
             $data['template']
         );
@@ -189,7 +189,7 @@ class Formatter
                 $value = implode(' ', (array)$param);
                 $value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
                 $value = trim($value);
-                $result .= ' ' . $key . '="' . $value . '"';
+                $result .= " {$key}=\"{$value}\"";
             }
         }
 
@@ -234,7 +234,7 @@ class Formatter
         } elseif (self::ROUND_NONE === $roundType) {
             $value = round($value, self::ROUND_DEFAULT); // hack, because 123.400000001 !== 123.4
         } else {
-            throw new Exception('Undefined round mode: "' . $roundType . '"');
+            throw new Exception("Undefined round mode: '{$roundType}'");
         }
 
         return $value;
@@ -290,7 +290,7 @@ class Formatter
         }
 
         if (array_key_exists($rule, $this->rules)) {
-            throw new Exception('Format "' . $rule . '" already exists');
+            throw new Exception("Format '{$rule}' already exists");
         }
 
         $this->rules[$rule] = array_merge($this->default, $newFormat);

@@ -141,7 +141,7 @@ class Parser
             return $rule;
         }
 
-        throw new Exception('Undefined rule: ' . $rule);
+        throw new Exception("Undefined rule: {$rule}");
     }
 
     /**

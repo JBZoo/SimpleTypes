@@ -44,7 +44,7 @@ class Degree extends Type
                 $this->internalValue = fmod($this->internalValue, $divider);
             }
 
-            $this->log('Remove circles : ' . $this->dump(false));
+            $this->log("Remove circles: {$this->dump(false)}");
         }
 
         return $this;

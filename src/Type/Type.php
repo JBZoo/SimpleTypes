@@ -111,7 +111,7 @@ abstract class Type
         // check that default rule
         $rules = $this->formatter->getList(true);
         if (!$rules || !array_key_exists($this->default, $rules)) {
-            throw new Exception($this->type . ': Default rule not found!');
+            throw new Exception("{$this->type}: Default rule not found!");
         }
 
         // create parser helper
@@ -125,7 +125,7 @@ abstract class Type
         $this->uniqueId = self::$counter;
 
         // success log
-        $this->log("Id={$this->uniqueId} has just created; dump=\"" . $this->dump(false) . '"');
+        $this->log("Id={$this->uniqueId} has just created; dump='{$this->dump(false)}'");
     }
 
     /**
@@ -175,7 +175,7 @@ abstract class Type
     public function text(?string $rule = null)
     {
         $rule = $rule ? $this->parser->checkRule($rule) : $this->internalRule;
-        $this->log('Formatted output in "' . $rule . '" as "text"');
+        $this->log("Formatted output in '{$rule}' as 'text'");
 
         return $this->formatter->text($this->val($rule), $rule);
     }
@@ -187,7 +187,7 @@ abstract class Type
     public function noStyle(?string $rule = null)
     {
         $rule = $rule ? $this->parser->checkRule($rule) : $this->internalRule;
-        $this->log('Formatted output in "' . $rule . '" as "noStyle"');
+        $this->log("Formatted output in '{$rule}' as 'noStyle'");
 
         return $this->formatter->text($this->val($rule), $rule, false);
     }
@@ -199,7 +199,7 @@ abstract class Type
     public function html(?string $rule = null)
     {
         $rule = $rule ? $this->parser->checkRule($rule) : $this->internalRule;
-        $this->log('Formatted output in "' . $rule . '" as "html"');
+        $this->log("Formatted output in '{$rule}' as 'html'");
 
         return $this->formatter->html(
             ['value' => $this->val($rule), 'rule' => $rule],
@@ -217,7 +217,7 @@ abstract class Type
     public function htmlInput(?string $rule = null, ?string $name = null, bool $formatted = false)
     {
         $rule = $rule ? $this->parser->checkRule($rule) : $this->internalRule;
-        $this->log('Formatted output in "' . $rule . '" as "input"');
+        $this->log("Formatted output in '{$rule}' as 'input'");
 
         return $this->formatter->htmlInput(
             ['value' => $this->val($rule), 'rule' => $rule],
@@ -309,7 +309,7 @@ abstract class Type
         $ruleFrom = $this->formatter->get($from);
         $ruleDef = $this->formatter->get($this->default);
 
-        $log = '"' . $from . '"=>"' . $target . '"';
+        $log = "'{$from}'=>'{$target}'";
 
         $result = $this->internalValue;
         if ($from !== $target) {
@@ -334,11 +334,11 @@ abstract class Type
 
             if ($this->isDebug && $addToLog) {
                 $message = [
-                    'Converted ' . $log . ';',
-                    'New value = "' . $result . ' ' . $target . '";',
-                    is_callable($ruleTo['rate']) ? 'func(' . $from . ')' : $ruleTo['rate'] . ' ' . $from,
+                    "Converted {$log};",
+                    "New value = {$result} {$target};",
+                    is_callable($ruleTo['rate']) ? "func({$from})" : "{$ruleTo['rate']} {$from}",
                     '=',
-                    is_callable($ruleFrom['rate']) ? 'func(' . $target . ')' : $ruleFrom['rate'] . ' ' . $target,
+                    is_callable($ruleFrom['rate']) ? "func({$target})" : "{$ruleFrom['rate']} {$target}",
                 ];
 
                 $this->log(implode(' ', $message));
@@ -367,8 +367,7 @@ abstract class Type
         $val2 = round((float)$value->val($this->internalRule), $round);
 
         $this->log(
-            "Compared \"{$this->dump(false)}\" {$mode} " .
-            "\"{$value->dump(false)}\" // {$val1} {$mode} {$val2}, r={$round}"
+            "Compared '{$this->dump(false)}' {$mode} '{$value->dump(false)}' // {$val1} {$mode} {$val2}, r={$round}"
         );
 
         if ($mode === '==') {
@@ -505,7 +504,7 @@ abstract class Type
         $multiplier = $this->parser->cleanValue($number);
         $newValue = $multiplier * $this->internalValue;
 
-        return $this->modifier($newValue, 'Multiply with "' . $multiplier . '"', $getClone);
+        return $this->modifier($newValue, "Multiply with '{$multiplier}'", $getClone);
     }
 
     /**
@@ -517,7 +516,7 @@ abstract class Type
     {
         $divider = $this->parser->cleanValue($number);
 
-        return $this->modifier($this->internalValue / $divider, 'Division with "' . $divider . '"', $getClone);
+        return $this->modifier($this->internalValue / $divider, "Division with '{$divider}'", $getClone);
     }
 
     /**
@@ -538,11 +537,8 @@ abstract class Type
             $percent = 100 - $percent;
         }
 
-        $result = $this->getValidValue($percent . '%');
-        $this->log(
-            'Calculate percent; ' . $this->dump(false) . ' / ' .
-            $value->dump(false) . ' = ' . $result->dump(false)
-        );
+        $result = $this->getValidValue("{$percent}%");
+        $this->log("Calculate percent; '{$this->dump(false)}' / {$value->dump(false)} = {$result->dump(false)}");
 
         return $result;
     }
@@ -572,7 +568,7 @@ abstract class Type
         $this->internalValue = $value->val();
         $this->internalRule = $value->getRule();
 
-        return $this->modifier($this->internalValue, 'Set new value = "' . $this->dump(false) . '"', $getClone);
+        return $this->modifier($this->internalValue, "Set new value = '{$this->dump(false)}'", $getClone);
     }
 
     /**
@@ -591,7 +587,7 @@ abstract class Type
             if ($value->getRule() === '%') {
                 $addValue = $value->val();
             } else {
-                $this->error('Impossible add "' . $value->dump(false) . '" to "' . $this->dump(false) . '"');
+                $this->error("Impossible add '{$value->dump(false)}' to '{$this->dump(false)}'");
             }
         } elseif ($value->getRule() !== '%') {
             $addValue = $value->val($this->internalRule);
@@ -604,7 +600,7 @@ abstract class Type
         }
 
         $newValue = $this->internalValue + $addValue;
-        $logMess = ($isSubtract ? 'Subtract' : 'Add') . ' "' . $value->dump(false) . '"';
+        $logMess = ($isSubtract ? 'Subtract' : 'Add') . " '{$value->dump(false)}'";
 
         return $this->modifier($newValue, $logMess, $getClone);
     }
@@ -617,18 +613,16 @@ abstract class Type
      */
     protected function modifier(float $newValue, ?string $logMessage = null, bool $getClone = false): self
     {
-        $logMessage = $logMessage ? $logMessage . '; ' : '';
-
         // create new object
         if ($getClone) {
             $clone = $this->getClone();
             $clone->internalValue = $newValue;
-            $clone->log($logMessage . 'New value = "' . $clone->dump(false) . '"');
+            $clone->log("{$logMessage}; New value = '{$clone->dump(false)}'");
             return $clone;
         }
 
         $this->internalValue = $newValue;
-        $this->log($logMessage . 'New value = "' . $this->dump(false) . '"');
+        $this->log("{$logMessage}; New value = '{$this->dump(false)}'");
 
         return $this;
     }
@@ -646,10 +640,7 @@ abstract class Type
             'roundType'  => $mode,
         ]);
 
-        $this->log(
-            'Rounded (size=' . $roundValue . '; type=' . $mode . ') "' .
-            $oldValue . '" => "' . $newValue . '"'
-        );
+        $this->log("Rounded (size={$roundValue}; type={$mode}) '{$oldValue}' => {$newValue}");
 
         $this->internalValue = $newValue;
 
@@ -666,7 +657,7 @@ abstract class Type
             $thisClass = strtolower(get_class($this));
             $valClass = strtolower(get_class($value));
             if ($thisClass !== $valClass) {
-                throw new Exception($this->type . ': No valid object type given: ' . $valClass);
+                throw new Exception("{$this->type}: No valid object type given: {$valClass}");
             }
         } else {
             $className = get_class($this);
@@ -682,7 +673,7 @@ abstract class Type
     public function error(string $message): void
     {
         $this->log($message);
-        throw new Exception($this->type . ': ' . $message);
+        throw new Exception("{$this->type}: {$message}");
     }
 
     /**
@@ -691,8 +682,8 @@ abstract class Type
      */
     public function dump(bool $showId = true)
     {
-        $uniqueId = $showId ? '; id=' . $this->uniqueId : '';
-        return $this->internalValue . ' ' . $this->internalRule . $uniqueId;
+        $uniqueId = $showId ? "; id={$this->uniqueId}" : '';
+        return "{$this->internalValue} {$this->internalRule}{$uniqueId}";
     }
 
     /**
@@ -764,10 +755,7 @@ abstract class Type
         $oldId = $this->uniqueId;
         $this->uniqueId = self::$counter;
 
-        $this->log(
-            'Cloned from id=' . $oldId . ' and created new with ' .
-            'id=' . $this->uniqueId . '; dump=' . $this->dump(false)
-        );
+        $this->log("Cloned from id='{$oldId}' and created new with id='{$this->uniqueId}'; dump=" . $this->dump(false));
     }
 
     /**
@@ -786,7 +774,7 @@ abstract class Type
             return $this->getRule();
         }
 
-        throw new Exception($this->type . ': Undefined __get() called: "' . $name . '"');
+        throw new Exception("{$this->type}: Undefined __get() called: '{$name}'");
     }
 
     /**
@@ -801,7 +789,7 @@ abstract class Type
         } elseif ($name === 'rule') {
             $this->convert($value);
         } else {
-            throw new Exception("{$this->type}: Undefined __set() called: \"{$name}\" = \"{$value}\"");
+            throw new Exception("{$this->type}: Undefined __set() called: '{$name}' = '{$value}'");
         }
     }
 
@@ -826,7 +814,7 @@ abstract class Type
             return call_user_func_array([$this, 'subtract'], $arguments);
         }
 
-        throw new Exception($this->type . ': Called undefined method: "' . $name . '"');
+        throw new Exception("{$this->type}: Called undefined method: '{$name}'");
     }
 
     /**
@@ -851,7 +839,7 @@ abstract class Type
             return $this->set([$args[0], $args[1]]);
         }
 
-        throw new Exception($this->type . ': Too many arguments');
+        throw new Exception("{$this->type}: Too many arguments");
     }
 
     /**
@@ -863,7 +851,7 @@ abstract class Type
     {
         $rule = $this->parser->cleanRule($rule);
         $this->formatter->changeRule($rule, $newFormat);
-        $this->log('Rule "' . $rule . '" changed');
+        $this->log("The rule '{$rule}' changed");
 
         return $this;
     }
@@ -879,7 +867,7 @@ abstract class Type
         $rule = $this->parser->cleanRule($rule);
         $form->addRule($rule, $newFormat);
         $this->parser->addRule($rule);
-        $this->log('New rule "' . $rule . '" added');
+        $this->log("The rule '{$rule}' added");
 
         return $this;
     }
@@ -893,7 +881,7 @@ abstract class Type
         $rule = $this->parser->cleanRule($rule);
         $this->formatter->removeRule($rule);
         $this->parser->removeRule($rule);
-        $this->log('Rule "' . $rule . '" removed');
+        $this->log("The rule '{$rule}' removed");
 
         return $this;
     }
