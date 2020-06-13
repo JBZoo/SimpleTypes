@@ -1,26 +1,27 @@
 <?php
+
 /**
- * JBZoo SimpleTypes
+ * JBZoo Toolbox - SimpleTypes
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   SimpleTypes
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/SimpleTypes
+ * @package    SimpleTypes
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/SimpleTypes
  */
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-use JBZoo\SimpleTypes\Type\Money;
 use JBZoo\SimpleTypes\Config\Config;
-use JBZoo\SimpleTypes\Type\Weight;
-use JBZoo\SimpleTypes\Type\Length;
+use JBZoo\SimpleTypes\Config\Length as ConfigLength;
 use JBZoo\SimpleTypes\Config\Money as ConfigMoney;
 use JBZoo\SimpleTypes\Config\Weight as ConfigWeight;
-use JBZoo\SimpleTypes\Config\Length as ConfigLength;
+use JBZoo\SimpleTypes\Type\Length;
+use JBZoo\SimpleTypes\Type\Money;
+use JBZoo\SimpleTypes\Type\Weight;
 
 // Set config object for all Money objects as default
 Config::registerDefault('money', new ConfigMoney());

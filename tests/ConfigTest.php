@@ -1,16 +1,16 @@
 <?php
+
 /**
- * JBZoo SimpleTypes
+ * JBZoo Toolbox - SimpleTypes
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   SimpleTypes
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/SimpleTypes
- * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @package    SimpleTypes
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/SimpleTypes
  */
 
 namespace JBZoo\PHPUnit;
@@ -41,20 +41,20 @@ class ConfigTest extends PHPUnit
         $weight1 = new Weight('1gram');
         $weight2 = new Weight('1kg');
 
-        isBatch(array(
+        isBatch([
 
-            array('1 gram', $weight1->dump(false)),
-            array('1000 gram', $weight2->convert('gram')->dump(false)),
-        ));
+            ['1 gram', $weight1->dump(false)],
+            ['1000 gram', $weight2->convert('gram')->dump(false)],
+        ]);
 
         // info
         $info1 = new Info(1);
         $info2 = new Info('1024byte');
 
-        isBatch(array(
-            array('1 byte', $info1->dump(false)),
-            array('1 kb', $info2->convert('kb')->dump(false)),
-        ));
+        isBatch([
+            ['1 byte', $info1->dump(false)],
+            ['1 kb', $info2->convert('kb')->dump(false)],
+        ]);
     }
 
     public function testEmptyDefault()
@@ -62,11 +62,9 @@ class ConfigTest extends PHPUnit
         is(null, Config::getDefault('undefined'));
     }
 
-    /**
-     * @expectedException \JBZoo\SimpleTypes\Exception
-     */
     public function testWrongDefault()
     {
+        $this->expectException(\JBZoo\SimpleTypes\Exception::class);
         new Money(null, new ConfigTestWrong());
     }
 }

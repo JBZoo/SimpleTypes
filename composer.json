@@ -3,7 +3,6 @@
     "type"              : "library",
     "description"       : "The universal PHP library to convert any values and measures",
     "license"           : "MIT",
-    "minimum-stability" : "stable",
     "keywords"          : [
         "converter", "acceleration", "area", "degree", "info", "length", "money", "number", "pressure", "speed",
         "temperature", "time", "volume", "weight"
@@ -15,26 +14,36 @@
             "role"  : "lead"
         }
     ],
+
     "require"           : {
-        "php" : ">=5.3.1"
+        "php" : ">=7.2"
     },
+
     "require-dev"       : {
-        "jbzoo/phpunit" : "^1.7"
+        "jbzoo/toolbox-dev" : "1.1.x-dev"
     },
-    "extra"             : {
-        "branch-alias" : {
-            "dev-master" : "1.x-dev"
-        }
-    },
+
     "autoload"          : {
         "psr-4" : {
             "JBZoo\\SimpleTypes\\" : "src"
         }
     },
+
+    "minimum-stability" : "dev",
+    "prefer-stable"     : true,
+
+    "autoload-dev"      : {
+        "classmap" : ["tests"],
+        "files"    : ["tests/phpunit-functions.php"]
+    },
+
     "config"            : {
         "optimize-autoloader" : true
     },
-    "support"           : {
-        "issues" : "https://github.com/SmetDenis/SimpleTypes/issues"
+
+    "extra"             : {
+        "branch-alias" : {
+            "dev-master" : "2.0.x-dev"
+        }
     }
 }

@@ -1,16 +1,16 @@
 <?php
+
 /**
- * JBZoo SimpleTypes
+ * JBZoo Toolbox - SimpleTypes
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   SimpleTypes
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/SimpleTypes
- * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @package    SimpleTypes
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/SimpleTypes
  */
 
 namespace JBZoo\SimpleTypes\Config;
@@ -40,47 +40,47 @@ class Info extends Config
         $base = 1024;
 
         $this->defaultParams['num_decimals'] = 0;
-        $this->defaultParams['round_type']   = Formatter::ROUND_NONE;
+        $this->defaultParams['round_type'] = Formatter::ROUND_NONE;
 
-        return array(
-            'byte' => array(
+        return [
+            'byte' => [
                 'symbol' => 'B',
                 'rate'   => 1,
-            ),
-            'kb'   => array(
+            ],
+            'kb'   => [
                 'symbol' => 'KB',
                 'rate'   => pow($base, 1),
-            ),
-            'mb'   => array(
+            ],
+            'mb'   => [
                 'symbol' => 'MB',
                 'rate'   => pow($base, 2),
-            ),
-            'gb'   => array(
+            ],
+            'gb'   => [
                 'symbol' => 'GB',
                 'rate'   => pow($base, 3),
-            ),
-            'tb'   => array(
+            ],
+            'tb'   => [
                 'symbol' => 'TB',
                 'rate'   => pow($base, 4),
-            ),
-            'pb'   => array(
+            ],
+            'pb'   => [
                 'symbol' => 'PB',
                 'rate'   => pow($base, 5),
-            ),
-            'eb'   => array(
+            ],
+            'eb'   => [
                 'symbol' => 'EB',
                 'rate'   => pow($base, 6),
-            ),
-            'zb'   => array(
+            ],
+            'zb'   => [
                 'symbol' => 'ZB',
                 'rate'   => pow($base, 7),
-            ),
-            'yb'   => array(
+            ],
+            'yb'   => [
                 'symbol' => 'YB',
                 'rate'   => pow($base, 8),
-            ),
+            ],
 
-            'bit'  => array(
+            'bit' => [
                 'symbol' => 'Bit',
                 'rate'   => function ($value, $ruleTo) {
 
@@ -90,7 +90,7 @@ class Info extends Config
 
                     return $value / 8;
                 },
-            ),
-        );
+            ],
+        ];
     }
 }

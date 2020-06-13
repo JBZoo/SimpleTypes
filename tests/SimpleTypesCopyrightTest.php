@@ -15,23 +15,15 @@
 
 namespace JBZoo\PHPUnit;
 
-use JBZoo\SimpleTypes\Config\Config;
-
 /**
- * Class ConfigTestWrong
+ * Class SimpleTypesCopyrightTest
+ *
  * @package JBZoo\PHPUnit
- * @codeCoverageIgnore
  */
-class ConfigTestWrong extends Config
+class SimpleTypesCopyrightTest extends AbstractCopyrightTest
 {
-    public $default = 'undefined';
-    public $isDebug = true;
-
-    public function getRules()
-    {
-        return [
-            'byte' => ['rate' => 1],
-            'kb'   => ['rate' => 1024],
-        ];
-    }
+    /**
+     * @var string
+     */
+    protected $packageName = 'SimpleTypes';
 }

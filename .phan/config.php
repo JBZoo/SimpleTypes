@@ -13,12 +13,10 @@
  * @link       https://github.com/JBZoo/SimpleTypes
  */
 
-namespace JBZoo\SimpleTypes\Type;
+$default = include __DIR__ . '/../vendor/jbzoo/codestyle/src/phan/default.php';
 
-/**
- * Class Info
- * @package JBZoo\SimpleTypes
- */
-class Info extends Type
-{
-}
+return array_merge($default, [
+    'directory_list' => [
+        'src',
+    ]
+]);

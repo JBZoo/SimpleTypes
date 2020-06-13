@@ -1,16 +1,16 @@
 <?php
+
 /**
- * JBZoo SimpleTypes
+ * JBZoo Toolbox - SimpleTypes
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   SimpleTypes
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/SimpleTypes
- * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @package    SimpleTypes
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/SimpleTypes
  */
 
 namespace JBZoo\PHPUnit;
@@ -24,7 +24,7 @@ class InstancesTest extends PHPUnit
     public function testCreateTypes()
     {
         $config = new ConfigTestEmpty();
-        $files  = scandir(realpath(__DIR__ . '/../src/Type'));
+        $files = scandir(realpath(__DIR__ . '/../src/Type'));
 
         $count = 0;
 
@@ -55,7 +55,8 @@ class InstancesTest extends PHPUnit
         $count = 0;
 
         foreach ($files as $file) {
-            if ($file == '.' || $file == '..' || strpos($file, '.php') === false || strtolower($file) === 'config.php') {
+            if ($file == '.' || $file == '..' || strpos($file,
+                    '.php') === false || strtolower($file) === 'config.php') {
                 continue;
             }
 

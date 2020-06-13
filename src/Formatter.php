@@ -1,16 +1,16 @@
 <?php
+
 /**
- * JBZoo SimpleTypes
+ * JBZoo Toolbox - SimpleTypes
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   SimpleTypes
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/SimpleTypes
- * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @package    SimpleTypes
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/SimpleTypes
  */
 
 namespace JBZoo\SimpleTypes;
@@ -21,43 +21,43 @@ namespace JBZoo\SimpleTypes;
  */
 class Formatter
 {
-    const ROUND_DEFAULT = 8;
+    public const ROUND_DEFAULT = 8;
 
-    const ROUND_NONE    = 'none';
-    const ROUND_CEIL    = 'ceil';
-    const ROUND_FLOOR   = 'floor';
-    const ROUND_CLASSIC = 'classic';
+    public const ROUND_NONE    = 'none';
+    public const ROUND_CEIL    = 'ceil';
+    public const ROUND_FLOOR   = 'floor';
+    public const ROUND_CLASSIC = 'classic';
 
     /**
      * @var array
      */
-    protected $_rules = array();
+    protected $rules = [];
 
     /**
      * @var string|null
      */
-    protected $_type = '';
+    protected $type = '';
 
     /**
      * @var array
      */
-    protected $_default = array();
+    protected $default = [];
 
     /**
      * @param array  $rules
      * @param array  $default
      * @param string $type
      */
-    public function __construct(array $rules = array(), array $default = array(), $type = null)
+    public function __construct(array $rules = [], array $default = [], $type = null)
     {
-        $this->_type    = $type;
-        $this->_default = $default;
+        $this->type = $type;
+        $this->default = $default;
 
         // prepare rules
-        $this->_rules = array_change_key_case((array)$rules, CASE_LOWER);
+        $this->rules = array_change_key_case((array)$rules, CASE_LOWER);
 
-        foreach ($this->_rules as $key => $item) {
-            $this->_rules[$key] = array_merge($default, (array)$item);
+        foreach ($this->rules as $key => $item) {
+            $this->rules[$key] = array_merge($default, (array)$item);
         }
     }
 
@@ -68,8 +68,8 @@ class Formatter
      */
     public function get($rule)
     {
-        if (array_key_exists($rule, $this->_rules)) {
-            return (array)$this->_rules[$rule];
+        if (array_key_exists($rule, $this->rules)) {
+            return (array)$this->rules[$rule];
         }
 
         throw new Exception('Undefined rule: "' . $rule . '"');
@@ -82,11 +82,11 @@ class Formatter
     public function getList($keysOnly = false)
     {
         if ($keysOnly) {
-            $keys = array_keys($this->_rules);
+            $keys = array_keys($this->rules);
             return array_combine($keys, $keys);
         }
 
-        return $this->_rules;
+        return $this->rules;
     }
 
     /**
@@ -98,13 +98,13 @@ class Formatter
      */
     public function text($value, $rule, $showSymbol = true)
     {
-        $data   = $this->_format($value, $rule);
-        $rData  = $this->get($rule);
+        $data = $this->format($value, $rule);
+        $rData = $this->get($rule);
         $symbol = $showSymbol ? $rData['symbol'] : '';
 
         $result = str_replace(
-            array('%v', '%s'),
-            array($data['value'], $symbol),
+            ['%v', '%s'],
+            [$data['value'], $symbol],
             $data['template']
         );
 
@@ -122,32 +122,30 @@ class Formatter
      */
     public function html($current, $orig, $params)
     {
-        $data  = $this->_format($current['value'], $current['rule']);
+        $data = $this->format($current['value'], $current['rule']);
         $rData = $this->get($current['rule']);
 
         $result = str_replace(
-            array('%v', '%s'),
-            array(
+            ['%v', '%s'],
+            [
                 '<span class="simpleType-value">' . $data['value'] . '</span>',
                 '<span class="simpleType-symbol">' . $rData['symbol'] . '</span>',
-            ),
+            ],
             $data['template']
         );
 
-        return '<span ' . $this->htmlAttributes(
-            array(
-                'class'                      => array(
+        return '<span ' . $this->htmlAttributes([
+                'class'                      => [
                     'simpleType',
                     'simpleType-block',
-                    'simpleType-' . $this->_type,
-                ),
+                    'simpleType-' . $this->type,
+                ],
                 'data-simpleType-id'         => $params['id'],
                 'data-simpleType-value'      => $current['value'],
                 'data-simpleType-rule'       => $current['rule'],
                 'data-simpleType-orig-value' => $orig['value'],
                 'data-simpleType-orig-rule'  => $orig['rule'],
-            )
-        ) . '>' . $result . '</span>';
+            ]) . '>' . $result . '</span>';
     }
 
     /**
@@ -163,23 +161,21 @@ class Formatter
             ? $this->text($current['value'], $current['rule'])
             : $this->text($current['value'], $current['rule'], false);
 
-        return '<input ' . $this->htmlAttributes(
-            array(
+        return '<input ' . $this->htmlAttributes([
                 'value'                      => $inputValue,
                 'name'                       => $params['name'],
                 'type'                       => 'text',
-                'class'                      => array(
+                'class'                      => [
                     'simpleType',
-                    'simpleType-' . $this->_type,
+                    'simpleType-' . $this->type,
                     'simpleType-input',
-                ),
+                ],
                 'data-simpleType-id'         => $params['id'],
                 'data-simpleType-value'      => $current['value'],
                 'data-simpleType-rule'       => $current['rule'],
                 'data-simpleType-orig-value' => $orig['value'],
                 'data-simpleType-orig-rule'  => $orig['rule'],
-            )
-        ) . ' />';
+            ]) . ' />';
     }
 
     /**
@@ -211,15 +207,15 @@ class Formatter
      * @return float
      * @throws \JBZoo\SimpleTypes\Exception
      */
-    public function round($value, $rule, array $params = array())
+    public function round($value, $rule, array $params = [])
     {
         $format = $this->get($rule);
 
         // prepare params
-        $params = array_merge(array('roundType' => null, 'roundValue' => null), $params);
+        $params = array_merge(['roundType' => null, 'roundValue' => null], $params);
 
         // get vars
-        $roundType  = $params['roundType'];
+        $roundType = $params['roundType'];
         $roundValue = $params['roundValue'];
 
         if (!$roundType) {
@@ -233,19 +229,15 @@ class Formatter
         $roundValue = (int)$roundValue;
 
         if (self::ROUND_CEIL === $roundType) {
-            $base  = pow(10, $roundValue);
+            $base = 10 ** $roundValue;
             $value = ceil($value * $base) / $base;
-
         } elseif (self::ROUND_CLASSIC === $roundType) {
             $value = round($value, $roundValue);
-
         } elseif (self::ROUND_FLOOR === $roundType) {
-            $base  = pow(10, $roundValue);
+            $base = 10 ** $roundValue;
             $value = floor($value * $base) / $base;
-
         } elseif (self::ROUND_NONE === $roundType) {
-            $value = round($value, Formatter::ROUND_DEFAULT); // hack, because 123.400000001 !== 123.4
-
+            $value = round($value, self::ROUND_DEFAULT); // hack, because 123.400000001 !== 123.4
         } else {
             throw new Exception('Undefined round mode: "' . $roundType . '"');
         }
@@ -260,14 +252,14 @@ class Formatter
      * @return array
      * @throws \JBZoo\SimpleTypes\Exception
      */
-    protected function _format($value, $rule)
+    protected function format($value, $rule)
     {
         $format = (array)$this->get($rule);
-        $value  = (float)$value;
+        $value = (float)$value;
 
         $roundedValue = $this->round($value, $rule);
-        $isPositive   = ($value >= 0);
-        $valueStr     = number_format(
+        $isPositive = ($value >= 0);
+        $valueStr = number_format(
             abs($roundedValue),
             $format['num_decimals'],
             $format['decimal_sep'],
@@ -276,11 +268,11 @@ class Formatter
 
         $template = $isPositive ? $format['format_positive'] : $format['format_negative'];
 
-        return array(
+        return [
             'value'      => $valueStr,
             'template'   => $template,
             'isPositive' => $isPositive,
-        );
+        ];
     }
 
     /**
@@ -292,7 +284,7 @@ class Formatter
     {
         $oldFormat = $this->get($rule);
 
-        $this->_rules[$rule] = array_merge($oldFormat, (array)$newFormat);
+        $this->rules[$rule] = array_merge($oldFormat, (array)$newFormat);
     }
 
     /**
@@ -300,17 +292,17 @@ class Formatter
      * @param array  $newFormat
      * @throws \JBZoo\SimpleTypes\Exception
      */
-    public function addRule($rule, array $newFormat = array())
+    public function addRule($rule, array $newFormat = [])
     {
         if (!$rule) {
             throw new Exception('Empty rule name');
         }
 
-        if (array_key_exists($rule, $this->_rules)) {
+        if (array_key_exists($rule, $this->rules)) {
             throw new Exception('Format "' . $rule . '" already exists');
         }
 
-        $this->_rules[$rule] = array_merge($this->_default, (array)$newFormat);
+        $this->rules[$rule] = array_merge($this->default, (array)$newFormat);
     }
 
     /**
@@ -319,8 +311,8 @@ class Formatter
      */
     public function removeRule($rule)
     {
-        if (array_key_exists($rule, $this->_rules)) {
-            unset($this->_rules[$rule]);
+        if (array_key_exists($rule, $this->rules)) {
+            unset($this->rules[$rule]);
         }
     }
 }

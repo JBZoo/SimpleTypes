@@ -1,16 +1,16 @@
 <?php
+
 /**
- * JBZoo SimpleTypes
+ * JBZoo Toolbox - SimpleTypes
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   SimpleTypes
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/SimpleTypes
- * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @package    SimpleTypes
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/SimpleTypes
  */
 
 namespace JBZoo\PHPUnit;
@@ -23,35 +23,35 @@ class OutputTest extends PHPUnit
 {
     public function testText()
     {
-        isBatch(array(
+        isBatch([
             // eur
-            array('10 000.67 €', val('10000.666 eur')->text()),
-            array('-10 000.67 €', val('-10000.666 eur')->text()),
+            ['10 000.67 €', val('10000.666 eur')->text()],
+            ['-10 000.67 €', val('-10000.666 eur')->text()],
 
             // usd
-            array('$10 000.67', val('10000.666 usd')->text()),
-            array('-$10 000.67', val('-10000.666 usd')->text()),
+            ['$10 000.67', val('10000.666 usd')->text()],
+            ['-$10 000.67', val('-10000.666 usd')->text()],
 
             // rub
-            array('10 000,67 руб.', val('10000.666 rub')->text()),
-            array('-10 000,67 руб.', val('-10000.666 rub')->text()),
+            ['10 000,67 руб.', val('10000.666 rub')->text()],
+            ['-10 000,67 руб.', val('-10000.666 rub')->text()],
 
             // uah
-            array('10 000,67 грн.', val('10000.666 uah')->text()),
-            array('-10 000,67 грн.', val('-10000.666 uah')->text()),
+            ['10 000,67 грн.', val('10000.666 uah')->text()],
+            ['-10 000,67 грн.', val('-10000.666 uah')->text()],
 
             // byr
-            array('10 100 Br', val('10000.666 byr')->text()),
-            array('-10 000 Br', val('-10000.666 byr')->text()),
+            ['10 100 Br', val('10000.666 byr')->text()],
+            ['-10 000 Br', val('-10000.666 byr')->text()],
 
             // %
-            array('10.67%', val('10.666 %')->text()),
-            array('-10.67%', val('-10.666 %')->text()),
+            ['10.67%', val('10.666 %')->text()],
+            ['-10.67%', val('-10.666 %')->text()],
 
             // with converting
-            array('$2.00', val('1 eur')->text('usd')),
-            array('0.50 €', val('1 usd')->text('eur')),
-        ));
+            ['$2.00', val('1 eur')->text('usd')],
+            ['0.50 €', val('1 usd')->text('eur')],
+        ]);
     }
 
     public function testDump()
@@ -62,18 +62,18 @@ class OutputTest extends PHPUnit
 
     public function testData()
     {
-        isBatch(array(
-            array(array('10000.666', 'uah'), val('10000.666 uah')->data()),
-            array(array('10000.666', 'uah'), val('10000.666 uah')->data(false)),
-            array('10000.666 uah', val('10000.666 uah')->data(true)),
-        ));
+        isBatch([
+            [['10000.666', 'uah'], val('10000.666 uah')->data()],
+            [['10000.666', 'uah'], val('10000.666 uah')->data(false)],
+            ['10000.666 uah', val('10000.666 uah')->data(true)],
+        ]);
     }
 
     public function testNoStyle()
     {
-        isBatch(array(
-            array('10 000,67', val('10000.666 uah')->noStyle()),
-        ));
+        isBatch([
+            ['10 000,67', val('10000.666 uah')->noStyle()],
+        ]);
     }
 
     public function testHtmlSpan()

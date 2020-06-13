@@ -1,16 +1,16 @@
 <?php
+
 /**
- * JBZoo SimpleTypes
+ * JBZoo Toolbox - SimpleTypes
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   SimpleTypes
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/SimpleTypes
- * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @package    SimpleTypes
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/SimpleTypes
  */
 
 namespace JBZoo\SimpleTypes\Config;
@@ -35,39 +35,39 @@ class Time extends Config
      */
     public function getRules()
     {
-        return array(
-            's'  => array(
+        return [
+            's'  => [
                 'symbol' => 'Sec',
                 'rate'   => 1,
-            ),
-            'm'  => array(
+            ],
+            'm'  => [
                 'symbol' => 'Min',
                 'rate'   => 60,
-            ),
-            'h'  => array(
+            ],
+            'h'  => [
                 'symbol' => 'H',
                 'rate'   => 3600,
-            ),
-            'd'  => array(
+            ],
+            'd'  => [
                 'symbol' => 'Day',
                 'rate'   => 86400,
-            ),
-            'w'  => array(
+            ],
+            'w'  => [
                 'symbol' => 'Week',
                 'rate'   => 604800,
-            ),
-            'mo' => array(
+            ],
+            'mo' => [
                 'symbol' => 'Month',    // Only 30 days!
                 'rate'   => 2592000,
-            ),
-            'q'  => array(
+            ],
+            'q'  => [
                 'symbol' => 'Quarter',  // 3 months
                 'rate'   => 7776000,
-            ),
-            'y'  => array(
+            ],
+            'y'  => [
                 'symbol' => 'Year',     // 365.25 days
                 'rate'   => 31557600,
-            ),
-        );
+            ],
+        ];
     }
 }

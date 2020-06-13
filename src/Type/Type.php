@@ -1,16 +1,16 @@
 <?php
+
 /**
- * JBZoo SimpleTypes
+ * JBZoo Toolbox - SimpleTypes
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   SimpleTypes
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/SimpleTypes
- * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @package    SimpleTypes
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/SimpleTypes
  */
 
 namespace JBZoo\SimpleTypes\Type;
@@ -23,113 +23,117 @@ use JBZoo\SimpleTypes\Parser;
 /**
  * Class Type
  * @package JBZoo\SimpleTypes
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ * @SuppressWarnings(PHPMD.TooManyMethods)
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
+ * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  */
 abstract class Type
 {
     /**
      * @var int
      */
-    protected $_uniqueId = 0;
+    protected $uniqueId = 0;
 
     /**
      * @var string
      */
-    protected $_type = '';
+    protected $type = '';
 
     /**
      * @var float|int
      */
-    protected $_value = 0;
+    protected $value = 0;
 
     /**
      * @var string
      */
-    protected $_rule = '';
+    protected $rule = '';
 
     /**
      * @var string
      */
-    protected $_default = '';
+    protected $default = '';
 
     /**
      * @var Parser
      */
-    protected $_parser;
+    protected $parser;
 
     /**
      * @var Formatter
      */
-    protected $_formatter;
+    protected $formatter;
 
     /**
      * @var array
      */
-    protected $_logs = array();
+    protected $logs = [];
 
     /**
      * @var bool
      */
-    protected $_isDebug = false;
+    protected $isDebug = false;
 
     /**
      * @type int
      */
-    static protected $_counter = 0;
+    protected static $counter = 0;
 
     /**
      * @param string $value
      * @param Config $config
-     * @throws \JBZoo\SimpleTypes\Exception
+     * @throws Exception
      */
     public function __construct($value = null, Config $config = null)
     {
-        $this->_type = strtolower(str_replace(__NAMESPACE__ . '\\', '', get_class($this)));
+        $this->type = strtolower(str_replace(__NAMESPACE__ . '\\', '', get_class($this)));
 
         // get custom or global config
-        $config = $this->_getConfig($config);
+        $config = $this->getConfig($config);
 
         // debug flag (for logging)
-        $this->_isDebug = (bool)$config->isDebug;
+        $this->isDebug = (bool)$config->isDebug;
 
         // set default rule
-        $this->_default = trim(strtolower($config->default));
-        !$this->_default && $this->error('Default rule cannot be empty!');
+        $this->default = strtolower(trim($config->default));
+        !$this->default && $this->error('Default rule cannot be empty!');
 
         // create formatter helper
-        $this->_formatter = new Formatter($config->getRules(), $config->defaultParams, $this->_type);
+        $this->formatter = new Formatter($config->getRules(), $config->defaultParams, $this->type);
         // check that default rule
-        $rules = $this->_formatter->getList(true);
-        if (!array_key_exists($this->_default, $rules)) {
-            throw new Exception($this->_type . ': Default rule not found!');
+        $rules = $this->formatter->getList(true);
+        if (!array_key_exists($this->default, $rules)) {
+            throw new Exception($this->type . ': Default rule not found!');
         }
 
         // create parser helper
-        $this->_parser = new Parser($this->_default, $rules);
+        $this->parser = new Parser($this->default, $rules);
 
         // parse data
-        list($this->_value, $this->_rule) = $this->_parser->parse($value);
+        [$this->value, $this->rule] = $this->parser->parse($value);
 
         // count unique id
-        self::$_counter++;
-        $this->_uniqueId = self::$_counter;
+        self::$counter++;
+        $this->uniqueId = self::$counter;
 
         // success log
-        $this->log('Id=' . $this->_uniqueId . ' has just created; dump="' . $this->dump(false) . '"');
+        $this->log('Id=' . $this->uniqueId . ' has just created; dump="' . $this->dump(false) . '"');
     }
 
     /**
      * @param Config $config
      * @return Config
-     * @throws \JBZoo\SimpleTypes\Exception
+     * @throws Exception
      */
-    protected function _getConfig(Config $config = null)
+    protected function getConfig(Config $config = null)
     {
-        $defaultConfig = Config::getDefault($this->_type);
-        $config        = $config ? $config : $defaultConfig;
+        $defaultConfig = Config::getDefault($this->type);
+        $config = $config ? $config : $defaultConfig;
 
         // Hack for getValidValue method
         if (!$defaultConfig && $config) {
-            Config::registerDefault($this->_type, $config);
+            Config::registerDefault($this->type, $config);
         }
 
         return $config;
@@ -140,65 +144,65 @@ abstract class Type
      */
     public function getId()
     {
-        return $this->_uniqueId;
+        return $this->uniqueId;
     }
 
     /**
      * @param string $rule
      * @return float
-     * @throws \JBZoo\SimpleTypes\Exception
+     * @throws Exception
      */
     public function val($rule = null)
     {
-        $rule = $this->_parser->cleanRule($rule);
+        $rule = $this->parser->cleanRule($rule);
 
-        if ($rule && $rule !== $this->_rule) {
-            return $this->_customConvert($rule);
+        if ($rule && $rule !== $this->rule) {
+            return $this->customConvert($rule);
         }
 
-        return $this->_value;
+        return $this->value;
     }
 
     /**
      * @param $rule
      * @return string
-     * @throws \JBZoo\SimpleTypes\Exception
+     * @throws Exception
      */
     public function text($rule = null)
     {
-        $rule = $rule ? $this->_parser->checkRule($rule) : $this->_rule;
+        $rule = $rule ? $this->parser->checkRule($rule) : $this->rule;
         $this->log('Formatted output in "' . $rule . '" as "text"');
 
-        return $this->_formatter->text($this->val($rule), $rule);
+        return $this->formatter->text($this->val($rule), $rule);
     }
 
     /**
      * @param $rule
      * @return string
-     * @throws \JBZoo\SimpleTypes\Exception
+     * @throws Exception
      */
     public function noStyle($rule = null)
     {
-        $rule = $rule ? $this->_parser->checkRule($rule) : $this->_rule;
+        $rule = $rule ? $this->parser->checkRule($rule) : $this->rule;
         $this->log('Formatted output in "' . $rule . '" as "noStyle"');
 
-        return $this->_formatter->text($this->val($rule), $rule, false);
+        return $this->formatter->text($this->val($rule), $rule, false);
     }
 
     /**
      * @param $rule
      * @return string
-     * @throws \JBZoo\SimpleTypes\Exception
+     * @throws Exception
      */
     public function html($rule = null)
     {
-        $rule = $rule ? $this->_parser->checkRule($rule) : $this->_rule;
+        $rule = $rule ? $this->parser->checkRule($rule) : $this->rule;
         $this->log('Formatted output in "' . $rule . '" as "html"');
 
-        return $this->_formatter->html(
-            array('value' => $this->val($rule), 'rule' => $rule),
-            array('value' => $this->_value, 'rule' => $this->_rule),
-            array('id' => $this->_uniqueId)
+        return $this->formatter->html(
+            ['value' => $this->val($rule), 'rule' => $rule],
+            ['value' => $this->value, 'rule' => $this->rule],
+            ['id' => $this->uniqueId]
         );
     }
 
@@ -207,38 +211,38 @@ abstract class Type
      * @param null $name
      * @param bool $formatted
      * @return string
-     * @throws \JBZoo\SimpleTypes\Exception
+     * @throws Exception
      */
     public function htmlInput($rule = null, $name = null, $formatted = false)
     {
-        $rule = $rule ? $this->_parser->checkRule($rule) : $this->_rule;
+        $rule = $rule ? $this->parser->checkRule($rule) : $this->rule;
         $this->log('Formatted output in "' . $rule . '" as "input"');
 
-        return $this->_formatter->htmlInput(
-            array('value' => $this->val($rule), 'rule' => $rule),
-            array('value' => $this->_value, 'rule' => $this->_rule),
-            array('id' => $this->_uniqueId, 'name' => $name, 'formatted' => $formatted)
+        return $this->formatter->htmlInput(
+            ['value' => $this->val($rule), 'rule' => $rule],
+            ['value' => $this->value, 'rule' => $this->rule],
+            ['id' => $this->uniqueId, 'name' => $name, 'formatted' => $formatted]
         );
     }
 
     /**
      * @param string $rule
      * @return bool
-     * @throws \JBZoo\SimpleTypes\Exception
+     * @throws Exception
      */
     public function isRule($rule)
     {
-        $rule = $this->_parser->checkRule($rule);
-        return $rule === $this->_rule;
+        $rule = $this->parser->checkRule($rule);
+        return $rule === $this->rule;
     }
 
     /**
      * @return string
-     * @throws \JBZoo\SimpleTypes\Exception
+     * @throws Exception
      */
     public function getRule()
     {
-        return $this->_rule;
+        return $this->rule;
     }
 
     /**
@@ -246,7 +250,7 @@ abstract class Type
      */
     public function isEmpty()
     {
-        return (float)$this->_value === 0.0;
+        return (float)$this->value === 0.0;
     }
 
     /**
@@ -254,7 +258,7 @@ abstract class Type
      */
     public function isPositive()
     {
-        return $this->_value > 0;
+        return $this->value > 0;
     }
 
     /**
@@ -262,7 +266,7 @@ abstract class Type
      */
     public function isNegative()
     {
-        return $this->_value < 0;
+        return $this->value < 0;
     }
 
     /**
@@ -270,17 +274,17 @@ abstract class Type
      */
     public function getRules()
     {
-        return $this->_formatter->getList();
+        return $this->formatter->getList();
     }
 
     /**
      * @param bool $toString
      * @return array|
-     * @throws \JBZoo\SimpleTypes\Exception
+     * @throws Exception
      */
     public function data($toString = false)
     {
-        $data = array($this->val(), $this->getRule());
+        $data = [$this->val(), $this->getRule()];
         return $toString ? implode(' ', $data) : $data;
     }
 
@@ -296,47 +300,47 @@ abstract class Type
      * @param string $rule
      * @param bool   $addToLog
      * @return float
-     * @throws \JBZoo\SimpleTypes\Exception
+     * @throws Exception
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    protected function _customConvert($rule, $addToLog = false)
+    protected function customConvert($rule, $addToLog = false)
     {
-        $from   = $this->_parser->checkRule($this->_rule);
-        $target = $this->_parser->checkRule($rule);
+        $from = $this->parser->checkRule($this->rule);
+        $target = $this->parser->checkRule($rule);
 
-        $ruleTo   = $this->_formatter->get($target);
-        $ruleFrom = $this->_formatter->get($from);
-        $ruleDef  = $this->_formatter->get($this->_default);
+        $ruleTo = $this->formatter->get($target);
+        $ruleFrom = $this->formatter->get($from);
+        $ruleDef = $this->formatter->get($this->default);
 
         $log = '"' . $from . '"=>"' . $target . '"';
 
-        $result = $this->_value;
+        $result = $this->value;
         if ($from !== $target) {
             if (is_callable($ruleTo['rate']) || is_callable($ruleFrom['rate'])) {
                 if (is_callable($ruleFrom['rate'])) {
-                    $defNorm = $ruleFrom['rate']($this->_value, $this->_default, $from);
+                    $defNorm = $ruleFrom['rate']($this->value, $this->default, $from);
                 } else {
-                    $defNorm = $this->_value * $ruleFrom['rate'] * $ruleDef['rate'];
+                    $defNorm = $this->value * $ruleFrom['rate'] * $ruleDef['rate'];
                 }
 
                 if (is_callable($ruleTo['rate'])) {
-                    $result = $ruleTo['rate']($defNorm, $target, $this->_default);
+                    $result = $ruleTo['rate']($defNorm, $target, $this->default);
                 } else {
                     $result = $defNorm / $ruleTo['rate'];
                 }
-
             } else {
-                $defNorm = $this->_value * $ruleFrom['rate'] * $ruleDef['rate'];
-                $result  = $defNorm / $ruleTo['rate'];
+                $defNorm = $this->value * $ruleFrom['rate'] * $ruleDef['rate'];
+                $result = $defNorm / $ruleTo['rate'];
             }
 
-            if ($this->_isDebug && $addToLog) {
-                $message = array(
+            if ($this->isDebug && $addToLog) {
+                $message = [
                     'Converted ' . $log . ';',
                     'New value = "' . $result . ' ' . $target . '";',
                     is_callable($ruleTo['rate']) ? 'func(' . $from . ')' : $ruleTo['rate'] . ' ' . $from,
                     '=',
                     is_callable($ruleFrom['rate']) ? 'func(' . $target . ')' : $ruleFrom['rate'] . ' ' . $target,
-                );
+                ];
 
                 $this->log(implode(' ', $message));
             }
@@ -350,7 +354,8 @@ abstract class Type
      * @param string  $mode
      * @param integer $round
      * @return bool
-     * @throws \JBZoo\SimpleTypes\Exception
+     * @throws Exception
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function compare($value, $mode = '==', $round = Formatter::ROUND_DEFAULT)
     {
@@ -358,11 +363,11 @@ abstract class Type
         $value = $this->getValidValue($value);
 
         $mode = trim($mode);
-        $mode = in_array($mode, array('=', '==', '==='), true) ? '==' : $mode;
+        $mode = in_array($mode, ['=', '==', '==='], true) ? '==' : $mode;
 
         $round = (null === $round) ? Formatter::ROUND_DEFAULT : ((int)$round);
-        $val1  = round((float)$this->val($this->_rule), $round);
-        $val2  = round((float)$value->val($this->_rule), $round);
+        $val1 = round((float)$this->val($this->rule), $round);
+        $val2 = round((float)$value->val($this->rule), $round);
 
         $this->log(
             "Compared \"{$this->dump(false)}\" {$mode} " .
@@ -371,24 +376,19 @@ abstract class Type
 
         if ($mode === '==') {
             return $val1 === $val2;
-
         } elseif ($mode === '!=' || $mode === '!==') {
             return $val1 !== $val2;
-
         } elseif ($mode === '<') {
             return $val1 < $val2;
-
         } elseif ($mode === '>') {
             return $val1 > $val2;
-
         } elseif ($mode === '<=') {
             return $val1 <= $val2;
-
         } elseif ($mode === '>=') {
             return $val1 >= $val2;
         }
 
-        throw new Exception($this->_type . ': Undefined compare mode: ' . $mode);
+        throw new Exception($this->type . ': Undefined compare mode: ' . $mode);
     }
 
     /**
@@ -397,50 +397,50 @@ abstract class Type
      */
     public function setEmpty($getClone = false)
     {
-        return $this->_modifer(0.0, 'Set empty', $getClone);
+        return $this->modifer(0.0, 'Set empty', $getClone);
     }
 
     /**
      * @param mixed $value
      * @param bool  $getClone
      * @return $this
-     * @throws \JBZoo\SimpleTypes\Exception
+     * @throws Exception
      */
     public function add($value, $getClone = false)
     {
-        return $this->_customAdd($value, $getClone);
+        return $this->customAdd($value, $getClone);
     }
 
     /**
      * @param mixed $value
      * @param bool  $getClone
      * @return $this
-     * @throws \JBZoo\SimpleTypes\Exception
+     * @throws Exception
      */
     public function subtract($value, $getClone = false)
     {
-        return $this->_customAdd($value, $getClone, true);
+        return $this->customAdd($value, $getClone, true);
     }
 
     /**
      * @param string $newRule
      * @param bool   $getClone
      * @return $this
-     * @throws \JBZoo\SimpleTypes\Exception
+     * @throws Exception
      */
     public function convert($newRule, $getClone = false)
     {
         if (!$newRule) {
-            $newRule = $this->_rule;
+            $newRule = $this->rule;
         }
 
-        $newRule = $this->_parser->checkRule($newRule);
+        $newRule = $this->parser->checkRule($newRule);
 
         $obj = $getClone ? clone($this) : $this;
 
-        if ($newRule !== $obj->_rule) {
-            $obj->_value = $obj->_customConvert($newRule, true);
-            $obj->_rule  = $newRule;
+        if ($newRule !== $obj->rule) {
+            $obj->value = $obj->customConvert($newRule, true);
+            $obj->rule = $newRule;
         }
 
         return $obj;
@@ -453,15 +453,15 @@ abstract class Type
     public function invert($getClone = false)
     {
         $logMess = 'Invert sign';
-        if ($this->_value > 0) {
-            $newValue = -1 * $this->_value;
-        } elseif ($this->_value < 0) {
-            $newValue = abs($this->_value);
+        if ($this->value > 0) {
+            $newValue = -1 * $this->value;
+        } elseif ($this->value < 0) {
+            $newValue = abs($this->value);
         } else {
-            $newValue = $this->_value;
+            $newValue = $this->value;
         }
 
-        return $this->_modifer($newValue, $logMess, $getClone);
+        return $this->modifer($newValue, $logMess, $getClone);
     }
 
     /**
@@ -470,7 +470,7 @@ abstract class Type
      */
     public function positive($getClone = false)
     {
-        return $this->_modifer(abs($this->_value), 'Set positive/abs', $getClone);
+        return $this->modifer(abs($this->value), 'Set positive/abs', $getClone);
     }
 
     /**
@@ -479,7 +479,7 @@ abstract class Type
      */
     public function negative($getClone = false)
     {
-        return $this->_modifer(-1 * abs($this->_value), 'Set negative', $getClone);
+        return $this->modifer(-1 * abs($this->value), 'Set negative', $getClone);
     }
 
     /**
@@ -498,10 +498,10 @@ abstract class Type
      */
     public function multiply($number, $getClone = false)
     {
-        $multiplier = $this->_parser->cleanValue($number);
-        $newValue   = $multiplier * $this->_value;
+        $multiplier = $this->parser->cleanValue($number);
+        $newValue = $multiplier * $this->value;
 
-        return $this->_modifer($newValue, 'Multiply with "' . $multiplier . '"', $getClone);
+        return $this->modifer($newValue, 'Multiply with "' . $multiplier . '"', $getClone);
     }
 
     /**
@@ -511,16 +511,16 @@ abstract class Type
      */
     public function division($number, $getClone = false)
     {
-        $divider = $this->_parser->cleanValue($number);
+        $divider = $this->parser->cleanValue($number);
 
-        return $this->_modifer($this->_value / $divider, 'Division with "' . $divider . '"', $getClone);
+        return $this->modifer($this->value / $divider, 'Division with "' . $divider . '"', $getClone);
     }
 
     /**
      * @param  $value
      * @param  $revert
      * @return $this
-     * @throws \JBZoo\SimpleTypes\Exception
+     * @throws Exception
      */
     public function percent($value, $revert = false)
     {
@@ -528,7 +528,7 @@ abstract class Type
 
         $percent = 0.0;
         if (!$this->isEmpty() && !$value->isEmpty()) {
-            $percent = ($this->_value / $value->val($this->_rule)) * 100;
+            $percent = ($this->value / $value->val($this->rule)) * 100;
         }
 
         if ($revert) {
@@ -548,7 +548,7 @@ abstract class Type
      * @param \Closure $function
      * @param bool     $getClone
      * @return $this
-     * @throws \JBZoo\SimpleTypes\Exception
+     * @throws Exception
      */
     public function customFunc(\Closure $function, $getClone = false)
     {
@@ -557,23 +557,23 @@ abstract class Type
             $function($this);
         }
 
-        return $this->_modifer($this->_value, '<-- Function finished', $getClone);
+        return $this->modifer($this->value, '<-- Function finished', $getClone);
     }
 
     /**
      * @param mixed $value
      * @param bool  $getClone
      * @return $this
-     * @throws \JBZoo\SimpleTypes\Exception
+     * @throws Exception
      */
     public function set($value, $getClone = false)
     {
         $value = $this->getValidValue($value);
 
-        $this->_value = $value->val();
-        $this->_rule  = $value->getRule();
+        $this->value = $value->val();
+        $this->rule = $value->getRule();
 
-        return $this->_modifer($this->_value, 'Set new value = "' . $this->dump(false) . '"', $getClone);
+        return $this->modifer($this->value, 'Set new value = "' . $this->dump(false) . '"', $getClone);
     }
 
     /**
@@ -581,37 +581,34 @@ abstract class Type
      * @param bool  $getClone
      * @param bool  $isSubtract
      * @return $this
-     * @throws \JBZoo\SimpleTypes\Exception
+     * @throws Exception
      */
-    protected function _customAdd($value, $getClone = false, $isSubtract = false)
+    protected function customAdd($value, $getClone = false, $isSubtract = false)
     {
         $value = $this->getValidValue($value);
 
         $addValue = 0;
 
-        if ($this->_rule === '%') {
+        if ($this->rule === '%') {
             if ($value->getRule() === '%') {
                 $addValue = $value->val();
             } else {
                 $this->error('Impossible add "' . $value->dump(false) . '" to "' . $this->dump(false) . '"');
             }
-
+        } elseif ($value->getRule() !== '%') {
+            $addValue = $value->val($this->rule);
         } else {
-            if ($value->getRule() !== '%') {
-                $addValue = $value->val($this->_rule);
-            } else {
-                $addValue = $this->_value * $value->val() / 100;
-            }
+            $addValue = $this->value * $value->val() / 100;
         }
 
         if ($isSubtract) {
             $addValue *= -1;
         }
 
-        $newValue = $this->_value + $addValue;
-        $logMess  = ($isSubtract ? 'Subtract' : 'Add') . ' "' . $value->dump(false) . '"';
+        $newValue = $this->value + $addValue;
+        $logMess = ($isSubtract ? 'Subtract' : 'Add') . ' "' . $value->dump(false) . '"';
 
-        return $this->_modifer($newValue, $logMess, $getClone);
+        return $this->modifer($newValue, $logMess, $getClone);
     }
 
     /**
@@ -620,19 +617,19 @@ abstract class Type
      * @param bool   $getClone
      * @return $this
      */
-    protected function _modifer($newValue, $logMessage = null, $getClone = false)
+    protected function modifer($newValue, $logMessage = null, $getClone = false)
     {
         $logMessage = $logMessage ? $logMessage . '; ' : '';
 
         // create new object
         if ($getClone) {
-            $clone         = $this->getClone();
-            $clone->_value = $newValue;
+            $clone = $this->getClone();
+            $clone->value = $newValue;
             $clone->log($logMessage . 'New value = "' . $clone->dump(false) . '"');
             return $clone;
         }
 
-        $this->_value = $newValue;
+        $this->value = $newValue;
         $this->log($logMessage . 'New value = "' . $this->dump(false) . '"');
 
         return $this;
@@ -642,22 +639,22 @@ abstract class Type
      * @param int    $roundValue
      * @param string $mode
      * @return $this
-     * @throws \JBZoo\SimpleTypes\Exception
+     * @throws Exception
      */
     public function round($roundValue = null, $mode = Formatter::ROUND_CLASSIC)
     {
-        $oldValue = $this->_value;
-        $newValue = $this->_formatter->round($this->_value, $this->_rule, array(
+        $oldValue = $this->value;
+        $newValue = $this->formatter->round($this->value, $this->rule, [
             'roundValue' => $roundValue,
             'roundType'  => $mode,
-        ));
+        ]);
 
         $this->log(
             'Rounded (size=' . (int)$roundValue . '; type=' . $mode . ') "' .
             $oldValue . '" => "' . $newValue . '"'
         );
 
-        $this->_value = $newValue;
+        $this->value = $newValue;
 
         return $this;
     }
@@ -665,20 +662,19 @@ abstract class Type
     /**
      * @param Type|string $value
      * @return $this
-     * @throws \JBZoo\SimpleTypes\Exception
+     * @throws Exception
      */
     public function getValidValue($value)
     {
         if (is_object($value)) {
             $thisClass = strtolower(get_class($this));
-            $valClass  = strtolower(get_class($value));
+            $valClass = strtolower(get_class($value));
             if ($thisClass !== $valClass) {
-                throw new Exception($this->_type . ': No valid object type given: ' . $valClass);
+                throw new Exception($this->type . ': No valid object type given: ' . $valClass);
             }
-
         } else {
             $className = get_class($this);
-            $value     = new $className($value, $this->_getConfig());
+            $value = new $className($value, $this->getConfig());
         }
 
         return $value;
@@ -686,12 +682,12 @@ abstract class Type
 
     /**
      * @param string $message
-     * @throws \JBZoo\SimpleTypes\Exception
+     * @throws Exception
      */
     public function error($message)
     {
         $this->log($message);
-        throw new Exception($this->_type . ': ' . $message);
+        throw new Exception($this->type . ': ' . $message);
     }
 
     /**
@@ -700,8 +696,8 @@ abstract class Type
      */
     public function dump($showId = true)
     {
-        $uniqueId = $showId ? '; id=' . $this->_uniqueId : '';
-        return $this->_value . ' ' . $this->_rule . $uniqueId;
+        $uniqueId = $showId ? '; id=' . $this->uniqueId : '';
+        return $this->value . ' ' . $this->rule . $uniqueId;
     }
 
     /**
@@ -709,8 +705,8 @@ abstract class Type
      */
     public function log($message)
     {
-        if ($this->_isDebug) {
-            $this->_logs[] = (string)$message;
+        if ($this->isDebug) {
+            $this->logs[] = (string)$message;
         }
     }
 
@@ -719,17 +715,15 @@ abstract class Type
      */
     public function logs()
     {
-        return $this->_logs;
+        return $this->logs;
     }
 
     /**
      * @return string
-     * @throws \JBZoo\SimpleTypes\Exception
      */
     public function __toString()
     {
         $this->log('__toString() called');
-
         return (string)$this->text();
     }
 
@@ -739,8 +733,8 @@ abstract class Type
      */
     public function __sleep()
     {
-        $result   = array();
-        $reflect  = new \ReflectionClass($this);
+        $result = [];
+        $reflect = new \ReflectionClass($this);
         $propList = $reflect->getProperties();
 
         foreach ($propList as $prop) {
@@ -757,7 +751,7 @@ abstract class Type
 
     /**
      * Wake up after serialize
-     * @throws \JBZoo\SimpleTypes\Exception
+     * @throws Exception
      */
     public function __wakeup()
     {
@@ -771,21 +765,21 @@ abstract class Type
      */
     public function __clone()
     {
-        self::$_counter++;
+        self::$counter++;
 
-        $oldId           = $this->_uniqueId;
-        $this->_uniqueId = self::$_counter;
+        $oldId = $this->uniqueId;
+        $this->uniqueId = self::$counter;
 
         $this->log(
             'Cloned from id=' . $oldId . ' and created new with ' .
-            'id=' . $this->_uniqueId . '; dump=' . $this->dump(false)
+            'id=' . $this->uniqueId . '; dump=' . $this->dump(false)
         );
     }
 
     /**
      * @param string $name
      * @return float|string
-     * @throws \JBZoo\SimpleTypes\Exception
+     * @throws Exception
      */
     public function __get($name)
     {
@@ -793,32 +787,34 @@ abstract class Type
 
         if ($name === 'value') {
             return $this->val();
+        }
 
-        } elseif ($name === 'rule') {
+        if ($name === 'rule') {
             return $this->getRule();
         }
 
-        throw new Exception($this->_type . ': Undefined __get() called: "' . $name . '"');
+        throw new Exception($this->type . ': Undefined __get() called: "' . $name . '"');
     }
 
     /**
      * @param string $name
      * @param mixed  $value
      * @return $this
-     * @throws \JBZoo\SimpleTypes\Exception
+     * @throws Exception
      */
     public function __set($name, $value)
     {
         $name = strtolower($name);
 
         if ($name === 'value') {
-            return $this->set(array($value));
+            return $this->set([$value]);
+        }
 
-        } elseif ($name === 'rule') {
+        if ($name === 'rule') {
             return $this->convert($value);
         }
 
-        throw new Exception($this->_type . ': Undefined __set() called: "' . $name . '" = "' . $value . '"');
+        throw new Exception($this->type . ': Undefined __set() called: "' . $name . '" = "' . $value . '"');
     }
 
     /**
@@ -826,62 +822,62 @@ abstract class Type
      * @param string $name
      * @param array  $arguments
      * @return $this|mixed
-     * @throws \JBZoo\SimpleTypes\Exception
+     * @throws Exception
      */
     public function __call($name, $arguments)
     {
         $name = strtolower($name);
         if ($name === 'value') {
-            return call_user_func_array(array($this, 'val'), $arguments);
-
-        } elseif ($name === 'plus') {
-            return call_user_func_array(array($this, 'add'), $arguments);
-
-        } elseif ($name === 'minus') {
-            return call_user_func_array(array($this, 'subtract'), $arguments);
+            return call_user_func_array([$this, 'val'], $arguments);
         }
 
-        throw new Exception($this->_type . ': Called undefined method: "' . $name . '"');
+        if ($name === 'plus') {
+            return call_user_func_array([$this, 'add'], $arguments);
+        }
+
+        if ($name === 'minus') {
+            return call_user_func_array([$this, 'subtract'], $arguments);
+        }
+
+        throw new Exception($this->type . ': Called undefined method: "' . $name . '"');
     }
 
     /**
      * @return $this
-     * @throws \JBZoo\SimpleTypes\Exception
+     * @throws Exception
      */
     public function __invoke()
     {
-        $args      = func_get_args();
+        $args = func_get_args();
         $argsCount = count($args);
 
         if ($argsCount === 0) {
             $this->error('Undefined arguments');
-
         } elseif ($argsCount === 1) {
-            $rules = $this->_formatter->getList();
+            $rules = $this->formatter->getList();
 
             if (array_key_exists($args[0], $rules)) {
                 return $this->convert($args[0]);
-            } else {
-                return $this->set($args[0]);
             }
 
+            return $this->set($args[0]);
         } elseif ($argsCount === 2) {
-            return $this->set(array($args[0], $args[1]));
+            return $this->set([$args[0], $args[1]]);
         }
 
-        throw new Exception($this->_type . ': Too many arguments');
+        throw new Exception($this->type . ': Too many arguments');
     }
 
     /**
      * @param array  $newFormat
      * @param string $rule
      * @return $this
-     * @throws \JBZoo\SimpleTypes\Exception
+     * @throws Exception
      */
     public function changeRule($rule, array $newFormat)
     {
-        $rule = $this->_parser->cleanRule($rule);
-        $this->_formatter->changeRule($rule, $newFormat);
+        $rule = $this->parser->cleanRule($rule);
+        $this->formatter->changeRule($rule, $newFormat);
         $this->log('Rule "' . $rule . '" changed');
 
         return $this;
@@ -891,14 +887,14 @@ abstract class Type
      * @param string $rule
      * @param array  $newFormat
      * @return $this
-     * @throws \JBZoo\SimpleTypes\Exception
+     * @throws Exception
      */
-    public function addRule($rule, array $newFormat = array())
+    public function addRule($rule, array $newFormat = [])
     {
-        $form = $this->_formatter;
-        $rule = $this->_parser->cleanRule($rule);
+        $form = $this->formatter;
+        $rule = $this->parser->cleanRule($rule);
         $form->addRule($rule, $newFormat);
-        $this->_parser->addRule($rule);
+        $this->parser->addRule($rule);
         $this->log('New rule "' . $rule . '" added');
 
         return $this;
@@ -910,9 +906,9 @@ abstract class Type
      */
     public function removeRule($rule)
     {
-        $rule = $this->_parser->cleanRule($rule);
-        $this->_formatter->removeRule($rule);
-        $this->_parser->removeRule($rule);
+        $rule = $this->parser->cleanRule($rule);
+        $this->formatter->removeRule($rule);
+        $this->parser->removeRule($rule);
         $this->log('Rule "' . $rule . '" removed');
 
         return $this;
@@ -921,11 +917,11 @@ abstract class Type
     /**
      * @param string $rule
      * @return array
-     * @throws \JBZoo\SimpleTypes\Exception
+     * @throws Exception
      */
     public function getRuleData($rule)
     {
-        $rule = $this->_parser->cleanRule($rule);
-        return $this->_formatter->get($rule);
+        $rule = $this->parser->cleanRule($rule);
+        return $this->formatter->get($rule);
     }
 }

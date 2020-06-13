@@ -1,16 +1,16 @@
 <?php
+
 /**
- * JBZoo SimpleTypes
+ * JBZoo Toolbox - SimpleTypes
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   SimpleTypes
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/SimpleTypes
- * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @package    SimpleTypes
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/SimpleTypes
  */
 
 namespace JBZoo\SimpleTypes\Config;
@@ -37,52 +37,52 @@ class Money extends Config
      */
     public function getRules()
     {
-        $this->defaultParams['num_decimals']    = 2;
-        $this->defaultParams['num_decimals']    = 2;
-        $this->defaultParams['round_type']      = Formatter::ROUND_CLASSIC;
-        $this->defaultParams['decimal_sep']     = '.';
-        $this->defaultParams['thousands_sep']   = ' ';
+        $this->defaultParams['num_decimals'] = 2;
+        $this->defaultParams['num_decimals'] = 2;
+        $this->defaultParams['round_type'] = Formatter::ROUND_CLASSIC;
+        $this->defaultParams['decimal_sep'] = '.';
+        $this->defaultParams['thousands_sep'] = ' ';
         $this->defaultParams['format_positive'] = '%v %s';
         $this->defaultParams['format_negative'] = '-%v %s';
 
-        return array(
-            'eur' => array(
+        return [
+            'eur' => [
                 'symbol' => '€',
                 'rate'   => 1,
-            ),
+            ],
 
-            'usd' => array(
+            'usd' => [
                 'symbol'          => '$',
                 'format_positive' => '%s%v',
                 'format_negative' => '-%s%v',
                 'rate'            => 0.5,
-            ),
+            ],
 
-            'rub' => array(
+            'rub' => [
                 'symbol'      => 'руб.',
                 'decimal_sep' => ',',
                 'rate'        => 0.02,
-            ),
+            ],
 
-            'uah' => array(
+            'uah' => [
                 'symbol'      => 'грн.',
                 'decimal_sep' => ',',
                 'rate'        => 0.04,
-            ),
+            ],
 
-            'byr' => array(
+            'byr' => [
                 'symbol'       => 'Br',
                 'round_type'   => Formatter::ROUND_CEIL,
                 'round_value'  => '-2',
                 'num_decimals' => '0',
                 'rate'         => 0.00005,
-            ),
+            ],
 
-            '%'   => array(
+            '%' => [
                 'symbol'          => '%',
                 'format_positive' => '%v%s',
                 'format_negative' => '-%v%s',
-            ),
-        );
+            ],
+        ];
     }
 }

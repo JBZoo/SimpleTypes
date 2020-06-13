@@ -1,16 +1,16 @@
 <?php
+
 /**
- * JBZoo SimpleTypes
+ * JBZoo Toolbox - SimpleTypes
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   SimpleTypes
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/SimpleTypes
- * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @package    SimpleTypes
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/SimpleTypes
  */
 
 namespace JBZoo\SimpleTypes\Config;
@@ -35,46 +35,46 @@ class Area extends Config
      */
     public function getRules()
     {
-        return array(
+        return [
             // SI
-            'mm2' => array(
+            'mm2' => [
                 'symbol' => 'mm2',
                 'rate'   => 0.000001,
-            ),
-            'cm2' => array(
+            ],
+            'cm2' => [
                 'symbol' => 'cm2',
                 'rate'   => 0.0001,
-            ),
-            'm2'  => array(
+            ],
+            'm2'  => [
                 'symbol' => 'm2',
                 'rate'   => 1,
-            ),
-            'km2' => array(
+            ],
+            'km2' => [
                 'symbol' => 'km2',
                 'rate'   => 1000000,
-            ),
+            ],
 
             // other
-            'ft2' => array(
+            'ft2' => [
                 'symbol' => 'sq ft',
                 'rate'   => 0.09290341,
-            ),
-            'ch2' => array(
+            ],
+            'ch2' => [
                 'symbol' => 'sq ch',
                 'rate'   => 404.6873,
-            ),
-            'acr' => array(
+            ],
+            'acr' => [
                 'symbol' => 'Acre',
                 'rate'   => 4046.873,
-            ),
-            'ar'  => array(
+            ],
+            'ar'  => [
                 'symbol' => 'Ar', // "Sotka"
                 'rate'   => 100,
-            ),
-            'ga'  => array(
+            ],
+            'ga'  => [
                 'symbol' => 'Ga',
                 'rate'   => 10000,
-            ),
-        );
+            ],
+        ];
     }
 }

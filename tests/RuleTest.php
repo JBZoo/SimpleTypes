@@ -1,16 +1,16 @@
 <?php
+
 /**
- * JBZoo SimpleTypes
+ * JBZoo Toolbox - SimpleTypes
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   SimpleTypes
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/SimpleTypes
- * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @package    SimpleTypes
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/SimpleTypes
  */
 
 namespace JBZoo\PHPUnit;
@@ -25,17 +25,17 @@ class FormatterTest extends PHPUnit
     {
         $val1 = val('50000.789 usd');
 
-        isBatch(array(
-            array('$50 000.79', $val1->text()),
-            array('50 000.79$', $val1->changeRule('usd', array('format_positive' => '%v%s'))->text()),
-        ));
+        isBatch([
+            ['$50 000.79', $val1->text()],
+            ['50 000.79$', $val1->changeRule('usd', ['format_positive' => '%v%s'])->text()],
+        ]);
     }
 
     public function testAdd()
     {
         $val = val('50000 usd');
 
-        $val->addRule('qwe', array(
+        $val->addRule('qwe', [
             'symbol'          => 'Q',
             'num_decimals'    => '0',
             'decimal_sep'     => ',',
@@ -43,36 +43,29 @@ class FormatterTest extends PHPUnit
             'format_positive' => '%v %s',
             'format_negative' => '-%v %s',
             'rate'            => 0.15,
-        ));
+        ]);
 
         is('$50 000.00', $val->text());
         is('166.667 Q', $val->convert('qwe')->text());
     }
 
-    /**
-     * @expectedException \JBZoo\SimpleTypes\Exception
-     */
     public function testRemove()
     {
+        $this->expectException(\JBZoo\SimpleTypes\Exception::class);
         $val = val('50000 usd');
         $val->removeRule('rub');
         $val->convert('rub'); // Exception!
     }
 
-    /**
-     * @expectedException \JBZoo\SimpleTypes\Exception
-     */
     public function testSetEmptyRule()
     {
-        val('50000 usd')
-            ->addRule(' '); // Exception!
+        $this->expectException(\JBZoo\SimpleTypes\Exception::class);
+        val('50000 usd')->addRule(' '); // Exception!
     }
 
-    /**
-     * @expectedException \JBZoo\SimpleTypes\Exception
-     */
     public function testAddExists()
     {
+        $this->expectException(\JBZoo\SimpleTypes\Exception::class);
         val('50000 usd')->addRule('rub');
     }
 
@@ -82,38 +75,31 @@ class FormatterTest extends PHPUnit
         is('$', $rule['symbol']);
     }
 
-    /**
-     * @expectedException \JBZoo\SimpleTypes\Exception
-     */
     public function testGetRuleUndefined()
     {
+        $this->expectException(\JBZoo\SimpleTypes\Exception::class);
         val('50000 rub')->getRuleData('undefined');
     }
 
-    /**
-     * @expectedException \JBZoo\SimpleTypes\Exception
-     */
     public function testChangeUndefined()
     {
-        val('50000 usd')
-            ->changeRule('undefined', array()); // Exception!
+        $this->expectException(\JBZoo\SimpleTypes\Exception::class);
+        val('50000 usd')->changeRule('undefined', []); // Exception!
     }
 
     public function testDependenceChanges()
     {
-        $val1 = val('usd')->changeRule('usd', array('format_positive' => '%v%s'));
+        $val1 = val('usd')->changeRule('usd', ['format_positive' => '%v%s']);
         $val2 = val('usd');
 
         is('0.00$', $val1->text());
         is('$0.00', $val2->text());
     }
 
-    /**
-     * @expectedException \JBZoo\SimpleTypes\Exception
-     */
     public function testDependenceAdd()
     {
-        val('1 usd')->addRule('qwe', array())->convert('qwe');
+        $this->expectException(\JBZoo\SimpleTypes\Exception::class);
+        val('1 usd')->addRule('qwe', [])->convert('qwe');
         val('1 usd')->convert('qwe');
     }
 

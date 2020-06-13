@@ -1,16 +1,16 @@
 <?php
+
 /**
- * JBZoo SimpleTypes
+ * JBZoo Toolbox - SimpleTypes
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   SimpleTypes
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/SimpleTypes
- * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @package    SimpleTypes
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/SimpleTypes
  */
 
 namespace JBZoo\PHPUnit;
@@ -38,8 +38,8 @@ function batchEqualDumps($testList)
     $testList = (array)$testList;
 
     foreach ($testList as $test) {
-        $result = isset($test[0]) ? $test[0] : null;
-        $arg    = isset($test[1]) ? $test[1] : null;
+        $result = $test[0] ?? null;
+        $arg = $test[1] ?? null;
 
         is(val($arg)->dump(false), $result);
     }

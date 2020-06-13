@@ -1,16 +1,16 @@
 <?php
+
 /**
- * JBZoo SimpleTypes
+ * JBZoo Toolbox - SimpleTypes
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   SimpleTypes
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/SimpleTypes
- * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @package    SimpleTypes
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/SimpleTypes
  */
 
 namespace JBZoo\SimpleTypes\Config;
@@ -35,54 +35,54 @@ class Length extends Config
      */
     public function getRules()
     {
-        return array(
+        return [
             // SI
-            'mm' => array(
+            'mm' => [
                 'symbol' => 'mm',
                 'rate'   => 0.001,
-            ),
-            'cm' => array(
+            ],
+            'cm' => [
                 'symbol' => 'cm',
                 'rate'   => 0.01,
-            ),
-            'dm' => array(
+            ],
+            'dm' => [
                 'symbol' => 'dm',
                 'rate'   => 0.1,
-            ),
-            'm'  => array(
+            ],
+            'm'  => [
                 'symbol' => 'm',
                 'rate'   => 1,
-            ),
-            'km' => array(
+            ],
+            'km' => [
                 'symbol' => 'km',
                 'rate'   => 1000,
-            ),
+            ],
 
             // others
-            'p'  => array(
+            'p'  => [
                 'symbol' => 'Point',
                 'rate'   => 0.000352777778,
-            ),
-            'li' => array(
+            ],
+            'li' => [
                 'symbol' => 'Link',
                 'rate'   => 0.2012,
-            ),
-            'in' => array(
+            ],
+            'in' => [
                 'symbol' => 'Inches',
                 'rate'   => 0.0254,
-            ),
-            'ft' => array(
+            ],
+            'ft' => [
                 'symbol' => 'Foot',
                 'rate'   => 0.3048,
-            ),
-            'yd' => array(
+            ],
+            'yd' => [
                 'symbol' => 'Yard',
                 'rate'   => 0.9144,
-            ),
-            'mi' => array(
+            ],
+            'mi' => [
                 'symbol' => 'Mile',
                 'rate'   => 1609.344,
-            ),
-        );
+            ],
+        ];
     }
 }

@@ -1,16 +1,16 @@
 <?php
+
 /**
- * JBZoo SimpleTypes
+ * JBZoo Toolbox - SimpleTypes
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   SimpleTypes
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/SimpleTypes
- * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @package    SimpleTypes
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/SimpleTypes
  */
 
 namespace JBZoo\SimpleTypes;
@@ -24,25 +24,25 @@ class Parser
     /**
      * @var string
      */
-    protected $_default = '';
+    protected $default = '';
 
     /**
      * @var array
      */
-    protected $_rules = array();
+    protected $rules = [];
 
     /**
      * @param string $default
      * @param array  $ruleList
      */
-    public function __construct($default = '', array $ruleList = array())
+    public function __construct($default = '', array $ruleList = [])
     {
         uksort($ruleList, function ($item1, $item2) {
             return strlen($item2) - strlen($item1);
         });
 
-        $this->_rules   = $ruleList;
-        $this->_default = $default;
+        $this->rules = $ruleList;
+        $this->default = $default;
     }
 
     /**
@@ -56,30 +56,29 @@ class Parser
         $rule = null;
 
         if (is_array($data)) {
-            $value = array_key_exists(0, $data) ? $data[0] : null;
-            $rule  = array_key_exists(1, $data) ? $data[1] : null;
+            $value = $data[0] ?? null;
+            $rule = $data[1] ?? null;
             return $this->parse($value, $rule);
+        }
 
-        } else {
-            $value   = strtolower(trim($data));
-            $aliases = $this->getCodeList();
-            foreach ($aliases as $alias) {
-                if (strpos($value, $alias) !== false) {
-                    $rule  = $alias;
-                    $value = str_ireplace($rule, '', $value);
-                    break;
-                }
+        $value = strtolower(trim($data));
+        $aliases = $this->getCodeList();
+        foreach ($aliases as $alias) {
+            if (strpos($value, $alias) !== false) {
+                $rule = $alias;
+                $value = str_ireplace($rule, '', $value);
+                break;
             }
         }
 
         $value = $this->cleanValue($value);
-        $rule  = $this->checkRule($rule);
+        $rule = $this->checkRule($rule);
 
         if ($forceRule) {
             $rule = $forceRule;
         }
 
-        return array($value, $rule);
+        return [$value, $rule];
     }
 
     /**
@@ -87,7 +86,7 @@ class Parser
      */
     public function getCodeList()
     {
-        return array_keys($this->_rules);
+        return array_keys($this->rules);
     }
 
     /**
@@ -101,7 +100,7 @@ class Parser
         $result = preg_replace('#[^0-9-+eE,.]#', '', $result);
 
         if (!preg_match('#\d[eE][-+]\d#', $result)) { // remove exponential format
-            $result = str_replace(array('e', 'E'), '', $result);
+            $result = str_replace(['e', 'E'], '', $result);
         }
 
         $result = (float)str_replace(',', '.', $result);
@@ -132,10 +131,10 @@ class Parser
         $rule = $this->cleanRule($rule);
 
         if (!$rule) {
-            return $this->_default;
+            return $this->default;
         }
 
-        if (array_key_exists($rule, $this->_rules)) {
+        if (array_key_exists($rule, $this->rules)) {
             return $rule;
         }
 
@@ -147,7 +146,7 @@ class Parser
      */
     public function addRule($newRule)
     {
-        $this->_rules[$newRule] = $newRule;
+        $this->rules[$newRule] = $newRule;
     }
 
     /**
@@ -156,8 +155,8 @@ class Parser
      */
     public function removeRule($rule)
     {
-        if (array_key_exists($rule, $this->_rules)) {
-            unset($this->_rules[$rule]);
+        if (array_key_exists($rule, $this->rules)) {
+            unset($this->rules[$rule]);
         }
     }
 }

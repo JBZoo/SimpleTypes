@@ -1,16 +1,16 @@
 <?php
+
 /**
- * JBZoo SimpleTypes
+ * JBZoo Toolbox - SimpleTypes
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   SimpleTypes
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/SimpleTypes
- * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @package    SimpleTypes
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/SimpleTypes
  */
 
 namespace JBZoo\PHPUnit;
@@ -29,19 +29,23 @@ class ConfigTestWeight extends Config
 
     public function getRules()
     {
-        return array(
-            'kg'   => array('rate' => function ($value, $to) {
+        return [
+            'kg' => [
+                'rate' => function ($value, $to) {
 
-                if ($to == 'gram') {
-                    return $value * 1000;
+                    if ($to == 'gram') {
+                        return $value * 1000;
+                    }
+
+                    return $value / 1000;
                 }
+            ],
 
-                return $value / 1000;
-            }),
-
-            'gram' => array('rate' => function ($value) {
-                return $value;
-            }),
-        );
+            'gram' => [
+                'rate' => function ($value) {
+                    return $value;
+                }
+            ],
+        ];
     }
 }

@@ -1,16 +1,16 @@
 <?php
+
 /**
- * JBZoo SimpleTypes
+ * JBZoo Toolbox - SimpleTypes
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   SimpleTypes
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/SimpleTypes
- * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @package    SimpleTypes
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/SimpleTypes
  */
 
 namespace JBZoo\SimpleTypes\Config;
@@ -37,41 +37,41 @@ class Volume extends Config
      */
     public function getRules()
     {
-        return array(
+        return [
             // SI
-            'ml'  => array(
+            'ml'  => [
                 'symbol' => 'mL',
                 'rate'   => 0.001,
-            ),
-            'cm3' => array(
+            ],
+            'cm3' => [
                 'symbol' => 'cm3',
                 'rate'   => 0.1,
-            ),
-            'm3'  => array(
+            ],
+            'm3'  => [
                 'symbol' => 'm3',
                 'rate'   => 1000,
-            ),
-            'lit' => array(
+            ],
+            'lit' => [
                 'symbol' => 'L',
                 'rate'   => 1,
-            ),
+            ],
             // other
-            'qt'  => array(
+            'qt'  => [
                 'symbol' => 'US quart',
                 'rate'   => 0.946352946,
-            ),
-            'pt'  => array(
+            ],
+            'pt'  => [
                 'symbol' => 'US pint',
                 'rate'   => 0.56826125,
-            ),
-            'gal' => array(
+            ],
+            'gal' => [
                 'symbol' => 'US gallon',
                 'rate'   => 3.785411784,
-            ),
-            'bbl' => array(
+            ],
+            'bbl' => [
                 'symbol' => 'Barrel',
                 'rate'   => 119.240471196,
-            ),
-        );
+            ],
+        ];
     }
 }

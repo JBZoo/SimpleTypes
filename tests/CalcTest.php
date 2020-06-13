@@ -1,16 +1,16 @@
 <?php
+
 /**
- * JBZoo SimpleTypes
+ * JBZoo Toolbox - SimpleTypes
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   SimpleTypes
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/SimpleTypes
- * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @package    SimpleTypes
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/SimpleTypes
  */
 
 namespace JBZoo\PHPUnit;
@@ -204,19 +204,17 @@ class CalcTest extends PHPUnit
         is('0 eur', val('0 eur')->abs()->dump(false));
     }
 
-    /**
-     * @expectedException \JBZoo\SimpleTypes\Exception
-     */
     public function testImpossibleAdd1()
     {
+        $this->expectException(\JBZoo\SimpleTypes\Exception::class);
+
         val('1 %')->add('1 usd');
     }
 
-    /**
-     * @expectedException \JBZoo\SimpleTypes\Exception
-     */
     public function testNoValidTypes()
     {
+        $this->expectException(\JBZoo\SimpleTypes\Exception::class);
+
         $money  = new Money('1 usd', new ConfigMoney());
         $weight = new Weight('1 kg', new ConfigTestWeight());
         $money->add($weight);

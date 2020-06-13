@@ -1,16 +1,16 @@
 <?php
+
 /**
- * JBZoo SimpleTypes
+ * JBZoo Toolbox - SimpleTypes
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   SimpleTypes
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/SimpleTypes
- * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @package    SimpleTypes
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/SimpleTypes
  */
 
 namespace JBZoo\SimpleTypes\Config;
@@ -35,16 +35,16 @@ class Degree extends Config
      */
     public function getRules()
     {
-        return array(
+        return [
             // degree
-            'd' => array(
+            'd' => [
                 'format_positive' => '%v%s',
                 'format_negative' => '-%v%s',
                 'symbol'          => '°',
-            ),
+            ],
 
             // radian
-            'r' => array(
+            'r' => [
                 'symbol' => 'pi',
                 'rate'   => function ($value, $ruleTo) {
                     if ($ruleTo === 'd') {
@@ -52,10 +52,10 @@ class Degree extends Config
                     }
                     return $value / 180;
                 },
-            ),
+            ],
 
             // grads
-            'g' => array(
+            'g' => [
                 'symbol' => 'Grad',
                 'rate'   => function ($value, $ruleTo) {
                     if ($ruleTo === 'd') {
@@ -63,13 +63,13 @@ class Degree extends Config
                     }
                     return $value / 0.9;
                 },
-            ),
+            ],
 
             // turn (loop)
-            't' => array(
+            't' => [
                 'symbol' => 'Turn',
                 'rate'   => 360,
-            ),
-        );
+            ],
+        ];
     }
 }

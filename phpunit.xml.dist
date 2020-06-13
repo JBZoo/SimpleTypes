@@ -1,34 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
-    JBZoo SimpleTypes
+    JBZoo Toolbox - SimpleTypes
 
-    This file is part of the JBZoo CCK package.
+    This file is part of the JBZoo Toolbox project.
     For the full copyright and license information, please view the LICENSE
     file that was distributed with this source code.
 
     @package    SimpleTypes
     @license    MIT
-    @copyright  Copyright (C) JBZoo.com,  All rights reserved.
+    @copyright  Copyright (C) JBZoo.com, All rights reserved.
     @link       https://github.com/JBZoo/SimpleTypes
 -->
 <phpunit bootstrap="tests/autoload.php"
-         colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
+         convertDeprecationsToExceptions="true"
+         executionOrder="random"
          processIsolation="false"
-         syntaxCheck="true"
-         stopOnFailures="true"
-         stopOnError="true"
-         stopOnFailure="true"
-         stopOnIncomplete="true"
+         stopOnError="false"
+         stopOnFailure="false"
+         stopOnIncomplete="false"
          stopOnSkipped="false"
+         stopOnRisky="false"
          verbose="true"
-        >
+         colors="true"
+>
 
     <testsuites>
-        <testsuite name="JBZoo SimpleTypes Suite">
-            <directory suffix="Test.php">./tests</directory>
+        <testsuite name="All">
+            <directory suffix="Test.php">tests</directory>
         </testsuite>
     </testsuites>
 
@@ -39,8 +40,9 @@
     </filter>
 
     <logging>
-        <log type="coverage-clover" target="build/logs/clover.xml"/>
-        <log type="coverage-html" target="build/phpunit" lowUpperBound="80" highLowerBound="95"/>
+        <log type="coverage-clover" target="build/coverage_xml/main.xml"/>
+        <log type="coverage-php" target="build/coverage_cov/main.cov"/>
+        <log type="junit" target="build/coverage_junit/main.xml"/>
         <log type="coverage-text" target="php://stdout" showUncoveredFiles="false" showOnlySummary="true"/>
     </logging>
 

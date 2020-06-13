@@ -1,16 +1,16 @@
 <?php
+
 /**
- * JBZoo SimpleTypes
+ * JBZoo Toolbox - SimpleTypes
  *
- * This file is part of the JBZoo CCK package.
+ * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   SimpleTypes
- * @license   MIT
- * @copyright Copyright (C) JBZoo.com,  All rights reserved.
- * @link      https://github.com/JBZoo/SimpleTypes
- * @author    Denis Smetannikov <denis@jbzoo.com>
+ * @package    SimpleTypes
+ * @license    MIT
+ * @copyright  Copyright (C) JBZoo.com, All rights reserved.
+ * @link       https://github.com/JBZoo/SimpleTypes
  */
 
 namespace JBZoo\SimpleTypes\Config;
@@ -39,7 +39,7 @@ abstract class Config
      * Popular params for most measures
      * @var array
      */
-    public $defaultParams = array(
+    public $defaultParams = [
         // main
         'symbol'          => '',
         'rate'            => 1,
@@ -56,12 +56,12 @@ abstract class Config
         // round
         'round_type'      => Formatter::ROUND_CLASSIC,
         'round_value'     => Formatter::ROUND_DEFAULT,
-    );
+    ];
 
     /**
      * @var array
      */
-    static protected $_configs = array();
+    protected static $configs = [];
 
     /**
      * List of rules
@@ -76,9 +76,9 @@ abstract class Config
      */
     public static function registerDefault($type, Config $config)
     {
-        $type = trim(strtolower($type));
+        $type = strtolower(trim($type));
 
-        self::$_configs[$type] = $config;
+        self::$configs[$type] = $config;
     }
 
     /**
@@ -87,9 +87,9 @@ abstract class Config
      */
     public static function getDefault($type)
     {
-        $type = trim(strtolower($type));
-        if (array_key_exists($type, self::$_configs)) {
-            return self::$_configs[$type];
+        $type = strtolower(trim($type));
+        if (array_key_exists($type, self::$configs)) {
+            return self::$configs[$type];
         }
 
         return null;
