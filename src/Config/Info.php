@@ -49,40 +49,40 @@ class Info extends Config
             ],
             'kb'   => [
                 'symbol' => 'KB',
-                'rate'   => pow($base, 1),
+                'rate'   => $base ** 1,
             ],
             'mb'   => [
                 'symbol' => 'MB',
-                'rate'   => pow($base, 2),
+                'rate'   => $base ** 2,
             ],
             'gb'   => [
                 'symbol' => 'GB',
-                'rate'   => pow($base, 3),
+                'rate'   => $base ** 3,
             ],
             'tb'   => [
                 'symbol' => 'TB',
-                'rate'   => pow($base, 4),
+                'rate'   => $base ** 4,
             ],
             'pb'   => [
                 'symbol' => 'PB',
-                'rate'   => pow($base, 5),
+                'rate'   => $base ** 5,
             ],
             'eb'   => [
                 'symbol' => 'EB',
-                'rate'   => pow($base, 6),
+                'rate'   => $base ** 6,
             ],
             'zb'   => [
                 'symbol' => 'ZB',
-                'rate'   => pow($base, 7),
+                'rate'   => $base ** 7,
             ],
             'yb'   => [
                 'symbol' => 'YB',
-                'rate'   => pow($base, 8),
+                'rate'   => $base ** 8,
             ],
 
             'bit' => [
                 'symbol' => 'Bit',
-                'rate'   => function ($value, $ruleTo) {
+                'rate'   => function (int $value, string $ruleTo) {
 
                     if ($ruleTo === 'bit') {
                         return $value * 8;

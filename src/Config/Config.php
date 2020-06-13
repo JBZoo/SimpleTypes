@@ -72,9 +72,8 @@ abstract class Config
     /**
      * @param string $type
      * @param Config $config
-     * @throws \JBZoo\SimpleTypes\Exception
      */
-    public static function registerDefault($type, Config $config)
+    public static function registerDefault(string $type, Config $config): void
     {
         $type = strtolower(trim($type));
 
@@ -83,15 +82,11 @@ abstract class Config
 
     /**
      * @param string $type
-     * @return Config
+     * @return Config|null
      */
-    public static function getDefault($type)
+    public static function getDefault($type): ?Config
     {
         $type = strtolower(trim($type));
-        if (array_key_exists($type, self::$configs)) {
-            return self::$configs[$type];
-        }
-
-        return null;
+        return self::$configs[$type] ?? null;
     }
 }

@@ -46,7 +46,7 @@ class Degree extends Config
             // radian
             'r' => [
                 'symbol' => 'pi',
-                'rate'   => function ($value, $ruleTo) {
+                'rate'   => function (float $value, string $ruleTo): float {
                     if ($ruleTo === 'd') {
                         return $value * 180;
                     }
@@ -57,7 +57,7 @@ class Degree extends Config
             // grads
             'g' => [
                 'symbol' => 'Grad',
-                'rate'   => function ($value, $ruleTo) {
+                'rate'   => function (float $value, string $ruleTo): float {
                     if ($ruleTo === 'd') {
                         return $value * 0.9;
                     }

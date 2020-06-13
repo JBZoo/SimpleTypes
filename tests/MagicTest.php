@@ -72,7 +72,7 @@ class MagicTest extends PHPUnit
     {
         $val = val('500 usd');
 
-        $val->VALUE = 100;
+        $val->value = 100;
         is('100 eur', $val->dump(false));
 
         $val->value = '100usd';

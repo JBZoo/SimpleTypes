@@ -21,9 +21,9 @@ use JBZoo\SimpleTypes\Type\Money;
 
 /**
  * @param null $arg
- * @return \JBZoo\SimpleTypes\Type\Money
+ * @return Money
  */
-function val($arg = null)
+function val($arg = null): Money
 {
     Config::registerDefault('money', new ConfigMoney());
 

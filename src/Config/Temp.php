@@ -39,12 +39,10 @@ class Temp extends Config
         $this->defaultParams['format_negative'] = '-%v%s';
 
         return [
-
             // Celsius
             'C' => [
                 'symbol' => '°C',
-                'rate'   => function ($value, $ruleTo) {
-
+                'rate'   => function (float $value, string $ruleTo): float {
                     if ($ruleTo === 'k') {
                         $value += 273.15;
                     } else {
@@ -58,8 +56,7 @@ class Temp extends Config
             // Fahrenheit
             'F' => [
                 'symbol' => '°F',
-                'rate'   => function ($value, $ruleTo) {
-
+                'rate'   => function (float $value, string $ruleTo): float {
                     if ($ruleTo === 'k') {
                         $value = ($value + 459.67) * (5 / 9);
                     } else {
@@ -73,8 +70,7 @@ class Temp extends Config
             // Rankine
             'R' => [
                 'symbol' => '°R',
-                'rate'   => function ($value, $ruleTo) {
-
+                'rate'   => function (float $value, string $ruleTo): float {
                     if ($ruleTo === 'k') {
                         $value = $value * 5 / 9;
                     } else {
@@ -88,7 +84,7 @@ class Temp extends Config
             // Kelvin
             'K' => [
                 'symbol' => 'K',
-                'rate'   => function ($value) {
+                'rate'   => function (float $value): float {
                     return $value;
                 },
             ],

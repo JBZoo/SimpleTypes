@@ -37,9 +37,16 @@ class Parser
      */
     public function __construct($default = '', array $ruleList = [])
     {
-        uksort($ruleList, function ($item1, $item2) {
+        /**
+         * @param string $item1
+         * @param string $item2
+         * @return int
+         */
+        $sortFunction = function (string $item1, string $item2): int {
             return strlen($item2) - strlen($item1);
-        });
+        };
+
+        uksort($ruleList, $sortFunction);
 
         $this->rules = $ruleList;
         $this->default = $default;
@@ -49,7 +56,6 @@ class Parser
      * @param mixed  $data
      * @param string $forceRule
      * @return array
-     * @throws \JBZoo\SimpleTypes\Exception
      */
     public function parse($data = null, $forceRule = null)
     {
@@ -61,8 +67,9 @@ class Parser
             return $this->parse($value, $rule);
         }
 
-        $value = strtolower(trim($data));
+        $value = strtolower(trim((string)$data));
         $aliases = $this->getCodeList();
+
         foreach ($aliases as $alias) {
             if (strpos($value, $alias) !== false) {
                 $rule = $alias;
@@ -71,7 +78,7 @@ class Parser
             }
         }
 
-        $value = $this->cleanValue($value);
+        $value = $this->cleanValue((string)$value);
         $rule = $this->checkRule($rule);
 
         if ($forceRule) {
@@ -90,14 +97,14 @@ class Parser
     }
 
     /**
-     * @param string $value
+     * @param string|float|int|null $value
      * @return float
      */
     public function cleanValue($value)
     {
-        $result = trim($value);
+        $result = trim((string)$value);
 
-        $result = preg_replace('#[^0-9-+eE,.]#', '', $result);
+        $result = (string)preg_replace('#[^0-9-+eE,.]#', '', $result);
 
         if (!preg_match('#\d[eE][-+]\d#', $result)) { // remove exponential format
             $result = str_replace(['e', 'E'], '', $result);
@@ -110,23 +117,19 @@ class Parser
     }
 
     /**
-     * @param string $rule
+     * @param string|null $rule
      * @return string
      */
-    public function cleanRule($rule)
+    public function cleanRule(?string $rule): string
     {
-        $rule = strtolower($rule);
-        $rule = trim($rule);
-
-        return $rule;
+        return strtolower(trim((string)$rule));
     }
 
     /**
-     * @param string $rule
+     * @param string|null $rule
      * @return string
-     * @throws \JBZoo\SimpleTypes\Exception
      */
-    public function checkRule($rule)
+    public function checkRule(?string $rule)
     {
         $rule = $this->cleanRule($rule);
 
@@ -144,7 +147,7 @@ class Parser
     /**
      * @param string $newRule
      */
-    public function addRule($newRule)
+    public function addRule(string $newRule): void
     {
         $this->rules[$newRule] = $newRule;
     }
@@ -153,10 +156,13 @@ class Parser
      * @param string $rule
      * @return bool
      */
-    public function removeRule($rule)
+    public function removeRule($rule): bool
     {
         if (array_key_exists($rule, $this->rules)) {
             unset($this->rules[$rule]);
+            return true;
         }
+
+        return false;
     }
 }

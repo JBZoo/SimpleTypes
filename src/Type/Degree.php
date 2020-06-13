@@ -23,7 +23,6 @@ class Degree extends Type
 {
     /**
      * @return Degree
-     * @throws \JBZoo\SimpleTypes\Exception
      */
     public function removeCircles()
     {
@@ -39,10 +38,10 @@ class Degree extends Type
         }
 
         if ($divider > 0) {
-            if ($this->value <= (-1 * $divider)) {
-                $this->value = fmod($this->value, $divider);
-            } elseif ($this->value >= $divider) {
-                $this->value = fmod($this->value, $divider);
+            if ($this->internalValue <= (-1 * $divider)) {
+                $this->internalValue = fmod($this->internalValue, $divider);
+            } elseif ($this->internalValue >= $divider) {
+                $this->internalValue = fmod($this->internalValue, $divider);
             }
 
             $this->log('Remove circles : ' . $this->dump(false));
