@@ -24,7 +24,7 @@ class Degree extends Type
     /**
      * @return Degree
      */
-    public function removeCircles()
+    public function removeCircles(): Degree
     {
         $divider = 0;
         if ($this->isRule('d')) {

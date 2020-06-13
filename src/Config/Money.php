@@ -32,12 +32,10 @@ class Money extends Config
     }
 
     /**
-     * List of rules
-     * @return array
+     * @inheritDoc
      */
-    public function getRules()
+    public function getRules(): array
     {
-        $this->defaultParams['num_decimals'] = 2;
         $this->defaultParams['num_decimals'] = 2;
         $this->defaultParams['round_type'] = Formatter::ROUND_CLASSIC;
         $this->defaultParams['decimal_sep'] = '.';

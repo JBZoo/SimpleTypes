@@ -30,10 +30,9 @@ class Time extends Config
     }
 
     /**
-     * List of rules
-     * @return array
+     * @inheritDoc
      */
-    public function getRules()
+    public function getRules(): array
     {
         return [
             's'  => [

@@ -57,7 +57,7 @@ class Parser
      * @param string $forceRule
      * @return array
      */
-    public function parse($data = null, $forceRule = null)
+    public function parse($data = null, $forceRule = null): array
     {
         $rule = null;
 
@@ -91,7 +91,7 @@ class Parser
     /**
      * @return array
      */
-    public function getCodeList()
+    public function getCodeList(): array
     {
         return array_keys($this->rules);
     }
@@ -100,7 +100,7 @@ class Parser
      * @param string|float|int|null $value
      * @return float
      */
-    public function cleanValue($value)
+    public function cleanValue($value): float
     {
         $result = trim((string)$value);
 

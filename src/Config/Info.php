@@ -32,10 +32,9 @@ class Info extends Config
     }
 
     /**
-     * List of rules
-     * @return array
+     * @inheritDoc
      */
-    public function getRules()
+    public function getRules(): array
     {
         $base = 1024;
 

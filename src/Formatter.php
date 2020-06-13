@@ -65,7 +65,7 @@ class Formatter
      * @param string $rule
      * @return array
      */
-    public function get($rule)
+    public function get($rule): array
     {
         if (array_key_exists($rule, $this->rules)) {
             return (array)$this->rules[$rule];
@@ -92,9 +92,9 @@ class Formatter
      * @param float  $value
      * @param string $rule
      * @param bool   $showSymbol
-     * @return mixed|string
+     * @return string
      */
-    public function text($value, $rule, $showSymbol = true)
+    public function text($value, $rule, $showSymbol = true): string
     {
         $data = $this->format($value, $rule);
         $rData = $this->get($rule);
@@ -117,7 +117,7 @@ class Formatter
      * @param array $params
      * @return string
      */
-    public function html($current, $orig, $params)
+    public function html($current, $orig, $params): string
     {
         $data = $this->format($current['value'], $current['rule']);
         $rData = $this->get($current['rule']);
@@ -151,7 +151,7 @@ class Formatter
      * @param array $params
      * @return string
      */
-    public function htmlInput($current, $orig, $params)
+    public function htmlInput($current, $orig, $params): string
     {
         $inputValue = $params['formatted']
             ? $this->text($current['value'], $current['rule'])
@@ -178,7 +178,7 @@ class Formatter
      * @param array $attributes
      * @return string
      */
-    public function htmlAttributes($attributes)
+    public function htmlAttributes($attributes): string
     {
         $result = '';
 
@@ -202,7 +202,7 @@ class Formatter
      * @param array  $params
      * @return float
      */
-    public function round($value, $rule, array $params = [])
+    public function round($value, $rule, array $params = []): float
     {
         $format = $this->get($rule);
 
@@ -246,9 +246,9 @@ class Formatter
      * @param string $rule
      * @return array
      */
-    protected function format($value, $rule)
+    protected function format($value, $rule): array
     {
-        $format = (array)$this->get($rule);
+        $format = $this->get($rule);
         $value = (float)$value;
 
         $roundedValue = $this->round($value, $rule);

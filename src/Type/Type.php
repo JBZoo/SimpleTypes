@@ -132,7 +132,7 @@ abstract class Type
      * @param Config|null $config
      * @return Config|null
      */
-    protected function getConfig(?Config $config = null)
+    protected function getConfig(?Config $config = null): ?Config
     {
         $defaultConfig = Config::getDefault($this->type);
         $config = $config ?: $defaultConfig;
@@ -289,7 +289,7 @@ abstract class Type
     /**
      * @return $this
      */
-    public function getClone()
+    public function getClone(): self
     {
         return clone($this);
     }
@@ -347,9 +347,9 @@ abstract class Type
     }
 
     /**
-     * @param mixed   $value
-     * @param string  $mode
-     * @param integer $round
+     * @param Type|string $value
+     * @param string      $mode
+     * @param int         $round
      * @return bool
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
@@ -400,27 +400,27 @@ abstract class Type
      * @param bool $getClone
      * @return $this
      */
-    public function setEmpty($getClone = false)
+    public function setEmpty($getClone = false): self
     {
-        return $this->modifer(0.0, 'Set empty', $getClone);
+        return $this->modifier(0.0, 'Set empty', $getClone);
     }
 
     /**
-     * @param mixed $value
-     * @param bool  $getClone
+     * @param Type|string|float|int|null $value
+     * @param bool                       $getClone
      * @return $this
      */
-    public function add($value, $getClone = false)
+    public function add($value, $getClone = false): self
     {
         return $this->customAdd($value, $getClone);
     }
 
     /**
-     * @param mixed $value
-     * @param bool  $getClone
+     * @param Type|string|float|int|null $value
+     * @param bool                       $getClone
      * @return $this
      */
-    public function subtract($value, $getClone = false)
+    public function subtract($value, $getClone = false): self
     {
         return $this->customAdd($value, $getClone, true);
     }
@@ -430,7 +430,7 @@ abstract class Type
      * @param bool   $getClone
      * @return $this
      */
-    public function convert($newRule, $getClone = false)
+    public function convert($newRule, $getClone = false): self
     {
         if (!$newRule) {
             $newRule = $this->internalRule;
@@ -452,7 +452,7 @@ abstract class Type
      * @param bool $getClone
      * @return $this
      */
-    public function invert($getClone = false)
+    public function invert($getClone = false): self
     {
         $logMess = 'Invert sign';
         if ($this->internalValue > 0) {
@@ -463,32 +463,32 @@ abstract class Type
             $newValue = $this->internalValue;
         }
 
-        return $this->modifer($newValue, $logMess, $getClone);
+        return $this->modifier($newValue, $logMess, $getClone);
     }
 
     /**
      * @param bool $getClone
      * @return $this
      */
-    public function positive($getClone = false)
+    public function positive($getClone = false): self
     {
-        return $this->modifer(abs((float)$this->internalValue), 'Set positive/abs', $getClone);
+        return $this->modifier(abs((float)$this->internalValue), 'Set positive/abs', $getClone);
     }
 
     /**
      * @param bool $getClone
      * @return $this
      */
-    public function negative($getClone = false)
+    public function negative($getClone = false): self
     {
-        return $this->modifer(-1 * abs((float)$this->internalValue), 'Set negative', $getClone);
+        return $this->modifier(-1 * abs((float)$this->internalValue), 'Set negative', $getClone);
     }
 
     /**
      * @param bool $getClone
      * @return $this
      */
-    public function abs($getClone = false)
+    public function abs($getClone = false): self
     {
         return $this->positive($getClone);
     }
@@ -498,12 +498,12 @@ abstract class Type
      * @param bool  $getClone
      * @return $this
      */
-    public function multiply($number, $getClone = false)
+    public function multiply($number, $getClone = false): self
     {
         $multiplier = $this->parser->cleanValue($number);
         $newValue = $multiplier * $this->internalValue;
 
-        return $this->modifer($newValue, 'Multiply with "' . $multiplier . '"', $getClone);
+        return $this->modifier($newValue, 'Multiply with "' . $multiplier . '"', $getClone);
     }
 
     /**
@@ -511,11 +511,11 @@ abstract class Type
      * @param bool  $getClone
      * @return $this
      */
-    public function division($number, $getClone = false)
+    public function division($number, $getClone = false): self
     {
         $divider = $this->parser->cleanValue($number);
 
-        return $this->modifer($this->internalValue / $divider, 'Division with "' . $divider . '"', $getClone);
+        return $this->modifier($this->internalValue / $divider, 'Division with "' . $divider . '"', $getClone);
     }
 
     /**
@@ -550,36 +550,36 @@ abstract class Type
      * @param bool     $getClone
      * @return $this
      */
-    public function customFunc(\Closure $function, $getClone = false)
+    public function customFunc(\Closure $function, $getClone = false): self
     {
         $this->log('--> Function start');
         $function($this);
 
-        return $this->modifer($this->internalValue, '<-- Function finished', $getClone);
+        return $this->modifier($this->internalValue, '<-- Function finished', $getClone);
     }
 
     /**
-     * @param mixed $value
-     * @param bool  $getClone
+     * @param array|string|float|int $value
+     * @param bool                   $getClone
      * @return $this
      */
-    public function set($value, $getClone = false)
+    public function set($value, $getClone = false): self
     {
         $value = $this->getValidValue($value);
 
         $this->internalValue = $value->val();
         $this->internalRule = $value->getRule();
 
-        return $this->modifer($this->internalValue, 'Set new value = "' . $this->dump(false) . '"', $getClone);
+        return $this->modifier($this->internalValue, 'Set new value = "' . $this->dump(false) . '"', $getClone);
     }
 
     /**
-     * @param mixed $value
-     * @param bool  $getClone
-     * @param bool  $isSubtract
+     * @param Type|string|float|int|null $value
+     * @param bool                       $getClone
+     * @param bool                       $isSubtract
      * @return $this
      */
-    protected function customAdd($value, $getClone = false, $isSubtract = false)
+    protected function customAdd($value, $getClone = false, $isSubtract = false): self
     {
         $value = $this->getValidValue($value);
 
@@ -604,16 +604,16 @@ abstract class Type
         $newValue = $this->internalValue + $addValue;
         $logMess = ($isSubtract ? 'Subtract' : 'Add') . ' "' . $value->dump(false) . '"';
 
-        return $this->modifer($newValue, $logMess, $getClone);
+        return $this->modifier($newValue, $logMess, $getClone);
     }
 
     /**
-     * @param mixed  $newValue
+     * @param float  $newValue
      * @param string $logMessage
      * @param bool   $getClone
      * @return $this
      */
-    protected function modifer($newValue, $logMessage = null, $getClone = false)
+    protected function modifier(float $newValue, $logMessage = null, $getClone = false): self
     {
         $logMessage = $logMessage ? $logMessage . '; ' : '';
 
@@ -636,7 +636,7 @@ abstract class Type
      * @param string $mode
      * @return $this
      */
-    public function round($roundValue = null, $mode = Formatter::ROUND_CLASSIC)
+    public function round($roundValue = null, $mode = Formatter::ROUND_CLASSIC): self
     {
         $oldValue = $this->internalValue;
         $newValue = $this->formatter->round($this->internalValue, $this->internalRule, [
@@ -655,12 +655,12 @@ abstract class Type
     }
 
     /**
-     * @param Type|string $value
+     * @param mixed $value
      * @return Type
      */
     public function getValidValue($value)
     {
-        if (is_object($value)) {
+        if ($value instanceof self) {
             $thisClass = strtolower(get_class($this));
             $valClass = strtolower(get_class($value));
             if ($thisClass !== $valClass) {
@@ -696,17 +696,17 @@ abstract class Type
     /**
      * @param string $message Som message for debugging
      */
-    public function log($message): void
+    public function log(string $message): void
     {
         if ($this->isDebug) {
-            $this->logs[] = (string)$message;
+            $this->logs[] = $message;
         }
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function logs()
+    public function logs(): array
     {
         return $this->logs;
     }
@@ -806,7 +806,7 @@ abstract class Type
      * Experimental! Methods aliases
      * @param string $name
      * @param array  $arguments
-     * @return $this|mixed
+     * @return $this|float
      */
     public function __call($name, $arguments)
     {
@@ -829,7 +829,7 @@ abstract class Type
     /**
      * @return $this
      */
-    public function __invoke()
+    public function __invoke(): self
     {
         $args = func_get_args();
         $argsCount = count($args);
@@ -856,7 +856,7 @@ abstract class Type
      * @param array  $newFormat
      * @return $this
      */
-    public function changeRule($rule, array $newFormat)
+    public function changeRule($rule, array $newFormat): self
     {
         $rule = $this->parser->cleanRule($rule);
         $this->formatter->changeRule($rule, $newFormat);
@@ -870,7 +870,7 @@ abstract class Type
      * @param array  $newFormat
      * @return $this
      */
-    public function addRule($rule, array $newFormat = [])
+    public function addRule($rule, array $newFormat = []): self
     {
         $form = $this->formatter;
         $rule = $this->parser->cleanRule($rule);
@@ -885,7 +885,7 @@ abstract class Type
      * @param string $rule
      * @return $this
      */
-    public function removeRule($rule)
+    public function removeRule($rule): self
     {
         $rule = $this->parser->cleanRule($rule);
         $this->formatter->removeRule($rule);

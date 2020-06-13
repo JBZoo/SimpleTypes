@@ -30,12 +30,10 @@ class Volume extends Config
     }
 
     /**
-     * List of rules
+     * @inheritDoc
      * @link https://en.wikipedia.org/wiki/United_States_customary_units
-     *
-     * @return array
      */
-    public function getRules()
+    public function getRules(): array
     {
         return [
             // SI

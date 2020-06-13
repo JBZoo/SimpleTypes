@@ -30,10 +30,9 @@ class Temp extends Config
     }
 
     /**
-     * List of rules
-     * @return array
+     * @inheritDoc
      */
-    public function getRules()
+    public function getRules(): array
     {
         $this->defaultParams['format_positive'] = '%v%s';
         $this->defaultParams['format_negative'] = '-%v%s';
