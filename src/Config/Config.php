@@ -84,7 +84,7 @@ abstract class Config
      * @param string $type
      * @return Config|null
      */
-    public static function getDefault($type): ?Config
+    public static function getDefault(string $type): ?Config
     {
         $type = strtolower(trim($type));
         return self::$configs[$type] ?? null;

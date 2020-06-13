@@ -44,11 +44,11 @@ class Formatter
     protected $default = [];
 
     /**
-     * @param array  $rules
-     * @param array  $default
-     * @param string $type
+     * @param array       $rules
+     * @param array       $default
+     * @param string|null $type
      */
-    public function __construct(array $rules = [], array $default = [], $type = null)
+    public function __construct(array $rules = [], array $default = [], ?string $type = null)
     {
         $this->type = $type;
         $this->default = $default;
@@ -65,7 +65,7 @@ class Formatter
      * @param string $rule
      * @return array
      */
-    public function get($rule): array
+    public function get(string $rule): array
     {
         if (array_key_exists($rule, $this->rules)) {
             return (array)$this->rules[$rule];
@@ -94,7 +94,7 @@ class Formatter
      * @param bool   $showSymbol
      * @return string
      */
-    public function text($value, $rule, $showSymbol = true): string
+    public function text(float $value, string $rule, bool $showSymbol = true): string
     {
         $data = $this->format($value, $rule);
         $rData = $this->get($rule);
@@ -202,7 +202,7 @@ class Formatter
      * @param array  $params
      * @return float
      */
-    public function round($value, $rule, array $params = []): float
+    public function round(float $value, string $rule, array $params = []): float
     {
         $format = $this->get($rule);
 
@@ -246,10 +246,9 @@ class Formatter
      * @param string $rule
      * @return array
      */
-    protected function format($value, $rule): array
+    protected function format(float $value, string $rule): array
     {
         $format = $this->get($rule);
-        $value = (float)$value;
 
         $roundedValue = $this->round($value, $rule);
         $isPositive = ($value >= 0);
@@ -273,7 +272,7 @@ class Formatter
      * @param string $rule
      * @param array  $newFormat
      */
-    public function changeRule($rule, array $newFormat): void
+    public function changeRule(string $rule, array $newFormat): void
     {
         $oldFormat = $this->get($rule);
 
@@ -284,7 +283,7 @@ class Formatter
      * @param string $rule
      * @param array  $newFormat
      */
-    public function addRule($rule, array $newFormat = []): void
+    public function addRule(string $rule, array $newFormat = []): void
     {
         if (!$rule) {
             throw new Exception('Empty rule name');
@@ -301,7 +300,7 @@ class Formatter
      * @param string $rule
      * @return bool
      */
-    public function removeRule($rule): bool
+    public function removeRule(string $rule): bool
     {
         if (array_key_exists($rule, $this->rules)) {
             unset($this->rules[$rule]);

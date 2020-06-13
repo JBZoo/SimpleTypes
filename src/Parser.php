@@ -35,7 +35,7 @@ class Parser
      * @param string $default
      * @param array  $ruleList
      */
-    public function __construct($default = '', array $ruleList = [])
+    public function __construct(string $default = '', array $ruleList = [])
     {
         /**
          * @param string $item1
@@ -53,11 +53,11 @@ class Parser
     }
 
     /**
-     * @param mixed  $data
-     * @param string $forceRule
+     * @param mixed       $data
+     * @param string|null $forceRule
      * @return array
      */
-    public function parse($data = null, $forceRule = null): array
+    public function parse($data = null, ?string $forceRule = null): array
     {
         $rule = null;
 
@@ -156,7 +156,7 @@ class Parser
      * @param string $rule
      * @return bool
      */
-    public function removeRule($rule): bool
+    public function removeRule(string $rule): bool
     {
         if (array_key_exists($rule, $this->rules)) {
             unset($this->rules[$rule]);

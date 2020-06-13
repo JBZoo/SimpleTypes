@@ -67,7 +67,7 @@ class Area extends Config
                 'rate'   => 4046.873,
             ],
             'ar'  => [
-                'symbol' => 'Ar', // "Sotka"
+                'symbol' => 'Ar',
                 'rate'   => 100,
             ],
             'ga'  => [
