@@ -3,17 +3,14 @@
 ### The universal PHP library to convert any values and measures
 
 [![License](https://poser.pugx.org/JBZoo/SimpleTypes/license)](https://packagist.org/packages/JBZoo/SimpleTypes)
-[![Latest Stable Version](https://poser.pugx.org/JBZoo/SimpleTypes/v/stable)](https://packagist.org/packages/JBZoo/SimpleTypes) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/JBZoo/SimpleTypes/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/JBZoo/SimpleTypes/?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/JBZoo/SimpleTypes/v/stable)](https://packagist.org/packages/JBZoo/SimpleTypes)   [![Codacy Badge](https://app.codacy.com/project/badge/Grade/dbd58313fd394ef3a09e4b4e025a483f)](https://www.codacy.com/gh/JBZoo/SimpleTypes?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=JBZoo/SimpleTypes&amp;utm_campaign=Badge_Grade)  ![Psalm coverage](https://shepherd.dev/github/JBZoo/SimpleTypes/coverage.svg)
+
 
 ## Installation
 Simply add a dependency on `jbzoo/simpletypes` to your project's `composer.json` file if you use [Composer](http://getcomposer.org/) to manage the dependencies of your project.
 Here is a minimal example of a `composer.json` file that just defines a dependency on SimpleTypes:
-```javascript
-    {
-        "require": {
-            "jbzoo/simpletypes": "^1.0"
-        }
-    }
+```
+composer require jbzoo/simpletypes
 ```
 
 ... or in a command line `composer require jbzoo/simpletypes`
@@ -24,9 +21,9 @@ Here is a minimal example of a `composer.json` file that just defines a dependen
 require_once './vendor/autoload.php'; // composer autoload.php
 
 // Get needed classes
-use JBZoo\SimpleTypes\Config,
-    JBZoo\SimpleTypes\Money,
-    JBZoo\SimpleTypes\ConfigMoney;
+use JBZoo\SimpleTypes\Config;
+use JBZoo\SimpleTypes\Money;
+use JBZoo\SimpleTypes\ConfigMoney;
 
 // Set config object for all Money objects as default
 Config::registerDefault('money', new ConfigMoney());
