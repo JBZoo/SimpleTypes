@@ -1,19 +1,15 @@
-# SimpleTypes  [![Build Status](https://travis-ci.org/JBZoo/SimpleTypes.svg?branch=master)](https://travis-ci.org/JBZoo/SimpleTypes)    [![Coverage Status](https://coveralls.io/repos/JBZoo/SimpleTypes/badge.svg?branch=master&service=github)](https://coveralls.io/github/JBZoo/SimpleTypes?branch=master)
+#JBZoo - SimpleTypes
 
-### The universal PHP library to convert any values and measures
+The universal PHP library to convert any values and measures
 
-[![License](https://poser.pugx.org/JBZoo/SimpleTypes/license)](https://packagist.org/packages/JBZoo/SimpleTypes)
-[![Latest Stable Version](https://poser.pugx.org/JBZoo/SimpleTypes/v/stable)](https://packagist.org/packages/JBZoo/SimpleTypes)   [![Codacy Badge](https://app.codacy.com/project/badge/Grade/dbd58313fd394ef3a09e4b4e025a483f)](https://www.codacy.com/gh/JBZoo/SimpleTypes?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=JBZoo/SimpleTypes&amp;utm_campaign=Badge_Grade)  ![Psalm coverage](https://shepherd.dev/github/JBZoo/SimpleTypes/coverage.svg)
+[![Build Status](https://travis-ci.org/JBZoo/SimpleTypes.svg?branch=master)](https://travis-ci.org/JBZoo/SimpleTypes)    [![Coverage Status](https://coveralls.io/repos/JBZoo/SimpleTypes/badge.svg)](https://coveralls.io/github/JBZoo/SimpleTypes?branch=master)    [![Psalm Coverage](https://shepherd.dev/github/JBZoo/SimpleTypes/coverage.svg)](https://shepherd.dev/github/JBZoo/SimpleTypes)    [![Codacy Badge](https://app.codacy.com/project/badge/Grade/dbd58313fd394ef3a09e4b4e025a483f)](https://www.codacy.com/gh/JBZoo/SimpleTypes)    
+[![Latest Stable Version](https://poser.pugx.org/JBZoo/SimpleTypes/v)](https://packagist.org/packages/JBZoo/SimpleTypes)    [![Latest Unstable Version](https://poser.pugx.org/JBZoo/SimpleTypes/v/unstable)](https://packagist.org/packages/JBZoo/SimpleTypes)    [![Dependents](https://poser.pugx.org/JBZoo/SimpleTypes/dependents)](https://packagist.org/packages/JBZoo/SimpleTypes/dependents?order_by=downloads)    [![GitHub Issues](https://img.shields.io/github/issues/JBZoo/SimpleTypes)](https://github.com/JBZoo/SimpleTypes/issues)    [![Total Downloads](https://poser.pugx.org/JBZoo/SimpleTypes/downloads)](https://packagist.org/packages/JBZoo/SimpleTypes/stats)    [![GitHub License](https://img.shields.io/github/license/JBZoo/SimpleTypes)](https://github.com/JBZoo/SimpleTypes/blob/master/LICENSE)
 
 
 ## Installation
-Simply add a dependency on `jbzoo/simpletypes` to your project's `composer.json` file if you use [Composer](http://getcomposer.org/) to manage the dependencies of your project.
-Here is a minimal example of a `composer.json` file that just defines a dependency on SimpleTypes:
 ```
 composer require jbzoo/simpletypes
 ```
-
-... or in a command line `composer require jbzoo/simpletypes`
 
 ## Examples
 

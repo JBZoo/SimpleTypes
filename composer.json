@@ -9,8 +9,8 @@
     ],
     "authors"           : [
         {
-            "name"  : "SmetDenis",
-            "email" : "denis@jbzoo.com",
+            "name"  : "Denis Smetannikov",
+            "email" : "admin@jbzoo.com",
             "role"  : "lead"
         }
     ],
@@ -20,7 +20,8 @@
     },
 
     "require-dev"       : {
-        "jbzoo/toolbox-dev" : "1.1.x-dev"
+        "jbzoo/toolbox-dev" : "1.1.x-dev",
+        "jbzoo/utils"       : "4.0.x-dev"
     },
 
     "autoload"          : {
