@@ -1,8 +1,8 @@
-#JBZoo - SimpleTypes
+# JBZoo / SimpleTypes
 
 The universal PHP library to convert any values and measures
 
-[![Build Status](https://travis-ci.org/JBZoo/SimpleTypes.svg?branch=master)](https://travis-ci.org/JBZoo/SimpleTypes)    [![Coverage Status](https://coveralls.io/repos/JBZoo/SimpleTypes/badge.svg)](https://coveralls.io/github/JBZoo/SimpleTypes?branch=master)    [![Psalm Coverage](https://shepherd.dev/github/JBZoo/SimpleTypes/coverage.svg)](https://shepherd.dev/github/JBZoo/SimpleTypes)    [![Codacy Badge](https://app.codacy.com/project/badge/Grade/dbd58313fd394ef3a09e4b4e025a483f)](https://www.codacy.com/gh/JBZoo/SimpleTypes)    
+[![Build Status](https://travis-ci.org/JBZoo/SimpleTypes.svg?branch=master)](https://travis-ci.org/JBZoo/SimpleTypes)    [![Coverage Status](https://coveralls.io/repos/JBZoo/SimpleTypes/badge.svg)](https://coveralls.io/github/JBZoo/SimpleTypes?branch=master)    [![Psalm Coverage](https://shepherd.dev/github/JBZoo/SimpleTypes/coverage.svg)](https://shepherd.dev/github/JBZoo/SimpleTypes)    
 [![Latest Stable Version](https://poser.pugx.org/JBZoo/SimpleTypes/v)](https://packagist.org/packages/JBZoo/SimpleTypes)    [![Latest Unstable Version](https://poser.pugx.org/JBZoo/SimpleTypes/v/unstable)](https://packagist.org/packages/JBZoo/SimpleTypes)    [![Dependents](https://poser.pugx.org/JBZoo/SimpleTypes/dependents)](https://packagist.org/packages/JBZoo/SimpleTypes/dependents?order_by=downloads)    [![GitHub Issues](https://img.shields.io/github/issues/JBZoo/SimpleTypes)](https://github.com/JBZoo/SimpleTypes/issues)    [![Total Downloads](https://poser.pugx.org/JBZoo/SimpleTypes/downloads)](https://packagist.org/packages/JBZoo/SimpleTypes/stats)    [![GitHub License](https://img.shields.io/github/license/JBZoo/SimpleTypes)](https://github.com/JBZoo/SimpleTypes/blob/master/LICENSE)
 
 
