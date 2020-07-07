@@ -21,7 +21,7 @@ use JBZoo\SimpleTypes\Formatter;
 use JBZoo\SimpleTypes\Parser;
 
 /**
- * Class Type
+ * Class AbstractType
  * @package JBZoo\SimpleTypes
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  * @SuppressWarnings(PHPMD.TooManyMethods)
@@ -31,7 +31,7 @@ use JBZoo\SimpleTypes\Parser;
  * @property string $value
  * @property string $rule
  */
-abstract class Type
+abstract class AbstractType
 {
     /**
      * @var int
@@ -148,7 +148,7 @@ abstract class Type
     /**
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->uniqueId;
     }
@@ -157,9 +157,9 @@ abstract class Type
      * @param string|null $rule
      * @return float
      */
-    public function val(?string $rule = null)
+    public function val(?string $rule = null): float
     {
-        $rule = $this->parser->cleanRule($rule);
+        $rule = Parser::cleanRule($rule);
 
         if ($rule && $rule !== $this->internalRule) {
             return $this->customConvert($rule);
@@ -172,7 +172,7 @@ abstract class Type
      * @param string|null $rule
      * @return string
      */
-    public function text(?string $rule = null)
+    public function text(?string $rule = null): string
     {
         $rule = $rule ? $this->parser->checkRule($rule) : $this->internalRule;
         $this->log("Formatted output in '{$rule}' as 'text'");
@@ -184,7 +184,7 @@ abstract class Type
      * @param string|null $rule
      * @return string
      */
-    public function noStyle(?string $rule = null)
+    public function noStyle(?string $rule = null): string
     {
         $rule = $rule ? $this->parser->checkRule($rule) : $this->internalRule;
         $this->log("Formatted output in '{$rule}' as 'noStyle'");
@@ -196,7 +196,7 @@ abstract class Type
      * @param string|null $rule
      * @return string
      */
-    public function html(?string $rule = null)
+    public function html(?string $rule = null): string
     {
         $rule = $rule ? $this->parser->checkRule($rule) : $this->internalRule;
         $this->log("Formatted output in '{$rule}' as 'html'");
@@ -214,7 +214,7 @@ abstract class Type
      * @param bool        $formatted
      * @return string
      */
-    public function htmlInput(?string $rule = null, ?string $name = null, bool $formatted = false)
+    public function htmlInput(?string $rule = null, ?string $name = null, bool $formatted = false): string
     {
         $rule = $rule ? $this->parser->checkRule($rule) : $this->internalRule;
         $this->log("Formatted output in '{$rule}' as 'input'");
@@ -230,7 +230,7 @@ abstract class Type
      * @param string $rule
      * @return bool
      */
-    public function isRule(string $rule)
+    public function isRule(string $rule): bool
     {
         $rule = $this->parser->checkRule($rule);
         return $rule === $this->internalRule;
@@ -239,7 +239,7 @@ abstract class Type
     /**
      * @return string
      */
-    public function getRule()
+    public function getRule(): string
     {
         return $this->internalRule;
     }
@@ -247,7 +247,7 @@ abstract class Type
     /**
      * @return bool
      */
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         return (float)$this->internalValue === 0.0;
     }
@@ -255,7 +255,7 @@ abstract class Type
     /**
      * @return bool
      */
-    public function isPositive()
+    public function isPositive(): bool
     {
         return $this->internalValue > 0;
     }
@@ -263,7 +263,7 @@ abstract class Type
     /**
      * @return bool
      */
-    public function isNegative()
+    public function isNegative(): bool
     {
         return $this->internalValue < 0;
     }
@@ -282,7 +282,7 @@ abstract class Type
      */
     public function data(bool $toString = false)
     {
-        $data = [(string)$this->val(), (string)$this->getRule()];
+        $data = [(string)$this->val(), $this->getRule()];
         return $toString ? implode(' ', $data) : $data;
     }
 
@@ -300,7 +300,7 @@ abstract class Type
      * @return float
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    protected function customConvert(string $rule, bool $addToLog = false)
+    protected function customConvert(string $rule, bool $addToLog = false): float
     {
         $from = $this->parser->checkRule($this->internalRule);
         $target = $this->parser->checkRule($rule);
@@ -349,13 +349,13 @@ abstract class Type
     }
 
     /**
-     * @param Type|string $value
-     * @param string      $mode
-     * @param int         $round
+     * @param AbstractType|string $value
+     * @param string              $mode
+     * @param int                 $round
      * @return bool
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    public function compare($value, string $mode = '==', int $round = Formatter::ROUND_DEFAULT)
+    public function compare($value, string $mode = '==', int $round = Formatter::ROUND_DEFAULT): bool
     {
         // prepare value
         $value = $this->getValidValue($value);
@@ -363,8 +363,8 @@ abstract class Type
         $mode = trim($mode);
         $mode = in_array($mode, ['=', '==', '==='], true) ? '==' : $mode;
 
-        $val1 = round((float)$this->val($this->internalRule), $round);
-        $val2 = round((float)$value->val($this->internalRule), $round);
+        $val1 = round($this->val($this->internalRule), $round);
+        $val2 = round($value->val($this->internalRule), $round);
 
         $this->log(
             "Compared '{$this->dump(false)}' {$mode} '{$value->dump(false)}' // {$val1} {$mode} {$val2}, r={$round}"
@@ -407,8 +407,8 @@ abstract class Type
     }
 
     /**
-     * @param Type|string|float|int|null $value
-     * @param bool                       $getClone
+     * @param AbstractType|string|float|int|null $value
+     * @param bool                               $getClone
      * @return $this
      */
     public function add($value, bool $getClone = false): self
@@ -417,8 +417,8 @@ abstract class Type
     }
 
     /**
-     * @param Type|string|float|int|null $value
-     * @param bool                       $getClone
+     * @param AbstractType|string|float|int|null $value
+     * @param bool                               $getClone
      * @return $this
      */
     public function subtract($value, bool $getClone = false): self
@@ -501,7 +501,7 @@ abstract class Type
      */
     public function multiply(float $number, bool $getClone = false): self
     {
-        $multiplier = $this->parser->cleanValue($number);
+        $multiplier = Parser::cleanValue($number);
         $newValue = $multiplier * $this->internalValue;
 
         return $this->modifier($newValue, "Multiply with '{$multiplier}'", $getClone);
@@ -514,17 +514,17 @@ abstract class Type
      */
     public function division(float $number, bool $getClone = false): self
     {
-        $divider = $this->parser->cleanValue($number);
+        $divider = Parser::cleanValue($number);
 
         return $this->modifier($this->internalValue / $divider, "Division with '{$divider}'", $getClone);
     }
 
     /**
-     * @param Type|string $value
-     * @param bool        $revert
-     * @return Type
+     * @param AbstractType|string $value
+     * @param bool                $revert
+     * @return AbstractType
      */
-    public function percent($value, bool $revert = false)
+    public function percent($value, bool $revert = false): self
     {
         $value = $this->getValidValue($value);
 
@@ -572,9 +572,9 @@ abstract class Type
     }
 
     /**
-     * @param Type|string|float|int|null $value
-     * @param bool                       $getClone
-     * @param bool                       $isSubtract
+     * @param AbstractType|string|float|int|null $value
+     * @param bool                               $getClone
+     * @param bool                               $isSubtract
      * @return $this
      */
     protected function customAdd($value, bool $getClone = false, bool $isSubtract = false): self
@@ -649,9 +649,9 @@ abstract class Type
 
     /**
      * @param mixed $value
-     * @return Type
+     * @return AbstractType
      */
-    public function getValidValue($value)
+    public function getValidValue($value): self
     {
         if ($value instanceof self) {
             $thisClass = strtolower(get_class($this));
@@ -680,7 +680,7 @@ abstract class Type
      * @param bool $showId
      * @return string
      */
-    public function dump(bool $showId = true)
+    public function dump(bool $showId = true): string
     {
         $uniqueId = $showId ? "; id={$this->uniqueId}" : '';
         return "{$this->internalValue} {$this->internalRule}{$uniqueId}";
@@ -710,7 +710,7 @@ abstract class Type
     public function __toString()
     {
         $this->log('__toString() called');
-        return (string)$this->text();
+        return $this->text();
     }
 
     /**
@@ -849,7 +849,7 @@ abstract class Type
      */
     public function changeRule(string $rule, array $newFormat): self
     {
-        $rule = $this->parser->cleanRule($rule);
+        $rule = Parser::cleanRule($rule);
         $this->formatter->changeRule($rule, $newFormat);
         $this->log("The rule '{$rule}' changed");
 
@@ -864,7 +864,7 @@ abstract class Type
     public function addRule(string $rule, array $newFormat = []): self
     {
         $form = $this->formatter;
-        $rule = $this->parser->cleanRule($rule);
+        $rule = Parser::cleanRule($rule);
         $form->addRule($rule, $newFormat);
         $this->parser->addRule($rule);
         $this->log("The rule '{$rule}' added");
@@ -878,7 +878,7 @@ abstract class Type
      */
     public function removeRule(string $rule): self
     {
-        $rule = $this->parser->cleanRule($rule);
+        $rule = Parser::cleanRule($rule);
         $this->formatter->removeRule($rule);
         $this->parser->removeRule($rule);
         $this->log("The rule '{$rule}' removed");
@@ -890,9 +890,9 @@ abstract class Type
      * @param string $rule
      * @return array
      */
-    public function getRuleData(string $rule)
+    public function getRuleData(string $rule): array
     {
-        $rule = $this->parser->cleanRule($rule);
+        $rule = Parser::cleanRule($rule);
         return $this->formatter->get($rule);
     }
 }

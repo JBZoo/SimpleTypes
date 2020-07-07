@@ -19,6 +19,6 @@ namespace JBZoo\SimpleTypes\Type;
  * Class Area
  * @package JBZoo\SimpleTypes
  */
-class Area extends Type
+class Area extends AbstractType
 {
 }

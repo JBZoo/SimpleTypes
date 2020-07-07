@@ -19,6 +19,6 @@ namespace JBZoo\SimpleTypes\Type;
  * Class Time
  * @package JBZoo\SimpleTypes
  */
-class Time extends Type
+class Time extends AbstractType
 {
 }

@@ -19,6 +19,6 @@ namespace JBZoo\SimpleTypes\Type;
  * Class Info
  * @package JBZoo\SimpleTypes
  */
-class Info extends Type
+class Info extends AbstractType
 {
 }

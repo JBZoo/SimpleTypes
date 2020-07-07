@@ -15,6 +15,9 @@
 
 namespace JBZoo\PHPUnit;
 
+use JBZoo\SimpleTypes\Config\Config;
+use JBZoo\SimpleTypes\Type\AbstractType;
+
 /**
  * Class InstancesTest
  * @package JBZoo\SimpleTypes
@@ -29,7 +32,7 @@ class InstancesTest extends PHPUnit
         $count = 0;
 
         foreach ($files as $file) {
-            if ($file == '.' || $file == '..' || strpos($file, '.php') === false || strtolower($file) === 'type.php') {
+            if ($file === '.' || $file === '..' || strpos($file, '.php') === false || $file === 'AbstractType.php') {
                 continue;
             }
 
@@ -37,7 +40,7 @@ class InstancesTest extends PHPUnit
 
             $obj = new $className('', $config);
 
-            isClass('\\JBZoo\\SimpleTypes\\Type\\Type', $obj);
+            isClass(AbstractType::class, $obj);
 
             $count++;
         }
@@ -55,7 +58,7 @@ class InstancesTest extends PHPUnit
         $count = 0;
 
         foreach ($files as $file) {
-            if ($file == '.' || $file == '..' || strpos($file,
+            if ($file === '.' || $file === '..' || strpos($file,
                     '.php') === false || strtolower($file) === 'config.php') {
                 continue;
             }
@@ -63,7 +66,7 @@ class InstancesTest extends PHPUnit
             $className = '\\JBZoo\\SimpleTypes\\Config\\' . ucfirst(str_replace('.php', '', $file));
 
             $obj = new $className();
-            isClass('\\JBZoo\\SimpleTypes\\Config\\Config', $obj);
+            isClass(Config::class, $obj);
 
             $count++;
         }

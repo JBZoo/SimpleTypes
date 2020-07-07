@@ -19,6 +19,6 @@ namespace JBZoo\SimpleTypes\Type;
  * Class Length
  * @package JBZoo\SimpleTypes
  */
-class Length extends Type
+class Length extends AbstractType
 {
 }

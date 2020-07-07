@@ -81,7 +81,7 @@ class Info extends Config
 
             'bit' => [
                 'symbol' => 'Bit',
-                'rate'   => function (int $value, string $ruleTo) {
+                'rate'   => static function (int $value, string $ruleTo) {
 
                     if ($ruleTo === 'bit') {
                         return $value * 8;

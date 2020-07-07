@@ -82,7 +82,8 @@ class Formatter
     {
         if ($keysOnly) {
             $keys = array_keys($this->rules);
-            return array_combine($keys, $keys) ?: [];
+            $values = array_keys($this->rules);
+            return array_combine($keys, $values) ?: [];
         }
 
         return $this->rules;
@@ -117,7 +118,7 @@ class Formatter
      * @param array $params
      * @return string
      */
-    public function html($current, $orig, $params): string
+    public function html(array $current, array $orig, array $params): string
     {
         $data = $this->format($current['value'], $current['rule']);
         $rData = $this->get($current['rule']);
@@ -131,7 +132,7 @@ class Formatter
             $data['template']
         );
 
-        return '<span ' . $this->htmlAttributes([
+        return '<span ' . self::htmlAttributes([
                 'class'                      => [
                     'simpleType',
                     'simpleType-block',
@@ -151,13 +152,13 @@ class Formatter
      * @param array $params
      * @return string
      */
-    public function htmlInput($current, $orig, $params): string
+    public function htmlInput(array $current, array $orig, array $params): string
     {
         $inputValue = $params['formatted']
             ? $this->text($current['value'], $current['rule'])
             : $this->text($current['value'], $current['rule'], false);
 
-        return '<input ' . $this->htmlAttributes([
+        return '<input ' . self::htmlAttributes([
                 'value'                      => $inputValue,
                 'name'                       => $params['name'],
                 'type'                       => 'text',
@@ -178,11 +179,9 @@ class Formatter
      * @param array $attributes
      * @return string
      */
-    public function htmlAttributes($attributes): string
+    public static function htmlAttributes(array $attributes): string
     {
         $result = '';
-
-        $attributes = (array)$attributes;
 
         if (count($attributes)) {
             foreach ($attributes as $key => $param) {

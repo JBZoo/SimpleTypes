@@ -27,7 +27,7 @@ abstract class TypeTest extends PHPUnit
 
     /**
      * @param null $arg
-     * @return \JBZoo\SimpleTypes\Type\Type
+     * @return \JBZoo\SimpleTypes\Type\AbstractType
      */
     public function val($arg = null)
     {

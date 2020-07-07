@@ -19,7 +19,7 @@ namespace JBZoo\SimpleTypes\Type;
  * Class Degree
  * @package JBZoo\SimpleTypes
  */
-class Degree extends Type
+class Degree extends AbstractType
 {
     /**
      * @return Degree

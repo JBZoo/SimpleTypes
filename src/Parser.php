@@ -42,7 +42,7 @@ class Parser
          * @param string $item2
          * @return int
          */
-        $sortFunction = function (string $item1, string $item2): int {
+        $sortFunction = static function (string $item1, string $item2): int {
             return strlen($item2) - strlen($item1);
         };
 
@@ -78,7 +78,7 @@ class Parser
             }
         }
 
-        $value = $this->cleanValue((string)$value);
+        $value = self::cleanValue((string)$value);
         $rule = $this->checkRule($rule);
 
         if ($forceRule) {
@@ -100,7 +100,7 @@ class Parser
      * @param string|float|int|null $value
      * @return float
      */
-    public function cleanValue($value): float
+    public static function cleanValue($value): float
     {
         $result = trim((string)$value);
 
@@ -120,7 +120,7 @@ class Parser
      * @param string|null $rule
      * @return string
      */
-    public function cleanRule(?string $rule): string
+    public static function cleanRule(?string $rule): string
     {
         return strtolower(trim((string)$rule));
     }
@@ -129,9 +129,9 @@ class Parser
      * @param string|null $rule
      * @return string
      */
-    public function checkRule(?string $rule)
+    public function checkRule(?string $rule): string
     {
-        $rule = $this->cleanRule($rule);
+        $rule = self::cleanRule($rule);
 
         if (!$rule) {
             return $this->default;
