@@ -1,9 +1,9 @@
 # JBZoo / SimpleTypes
 
-The universal PHP library to convert any values and measures
-
 [![Build Status](https://travis-ci.org/JBZoo/SimpleTypes.svg?branch=master)](https://travis-ci.org/JBZoo/SimpleTypes)    [![Coverage Status](https://coveralls.io/repos/JBZoo/SimpleTypes/badge.svg)](https://coveralls.io/github/JBZoo/SimpleTypes?branch=master)    [![Psalm Coverage](https://shepherd.dev/github/JBZoo/SimpleTypes/coverage.svg)](https://shepherd.dev/github/JBZoo/SimpleTypes)    
 [![Latest Stable Version](https://poser.pugx.org/JBZoo/SimpleTypes/v)](https://packagist.org/packages/JBZoo/SimpleTypes)    [![Latest Unstable Version](https://poser.pugx.org/JBZoo/SimpleTypes/v/unstable)](https://packagist.org/packages/JBZoo/SimpleTypes)    [![Dependents](https://poser.pugx.org/JBZoo/SimpleTypes/dependents)](https://packagist.org/packages/JBZoo/SimpleTypes/dependents?order_by=downloads)    [![GitHub Issues](https://img.shields.io/github/issues/JBZoo/SimpleTypes)](https://github.com/JBZoo/SimpleTypes/issues)    [![Total Downloads](https://poser.pugx.org/JBZoo/SimpleTypes/downloads)](https://packagist.org/packages/JBZoo/SimpleTypes/stats)    [![GitHub License](https://img.shields.io/github/license/JBZoo/SimpleTypes)](https://github.com/JBZoo/SimpleTypes/blob/master/LICENSE)
+
+The universal PHP library to convert any values and measures - money, weight, currency coverter, length and what ever you want ;)
 
 
 ## Installation
@@ -14,9 +14,6 @@ composer require jbzoo/simpletypes
 ## Examples
 
 ```php
-require_once './vendor/autoload.php'; // composer autoload.php
-
-// Get needed classes
 use JBZoo\SimpleTypes\Config;
 use JBZoo\SimpleTypes\Money;
 use JBZoo\SimpleTypes\ConfigMoney;
@@ -32,6 +29,7 @@ $money  = new Money('100500 usd', new ConfigMoney()); // my custom params only f
 ```
 
 ## A lot of types are ready to use
+
 SimpleTypes has such ready configurations like
   * [Area](https://github.com/JBZoo/SimpleTypes/blob/master/src/config/area.php)
   * [Degree](https://github.com/JBZoo/SimpleTypes/blob/master/src/config/degree.php) (geometry)
@@ -45,6 +43,7 @@ SimpleTypes has such ready configurations like
 You can add your own type. It's really easy. See this page below.
 
 ### Smart and useful parser
+
 SimpleTypes has really smart parser for all input values.
 It can find number, understand any decimal symbols, trim, letter cases, e.t.c...
 and it works really fast!
