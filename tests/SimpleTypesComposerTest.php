@@ -16,11 +16,10 @@
 namespace JBZoo\PHPUnit;
 
 /**
- * Class SimpleTypesReadmeTest
+ * Class SimpleTypesComposerTest
  *
  * @package JBZoo\PHPUnit
  */
-class SimpleTypesReadmeTest extends AbstractReadmeTest
+class SimpleTypesComposerTest extends AbstractComposerTest
 {
-    protected $packageName = 'SimpleTypes';
 }

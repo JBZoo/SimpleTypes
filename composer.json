@@ -16,11 +16,11 @@
     ],
 
     "require"           : {
-        "php" : ">=7.2"
+        "php" : "^7.2"
     },
 
     "require-dev"       : {
-        "jbzoo/toolbox-dev" : "^2.0.0",
+        "jbzoo/toolbox-dev" : "^2.1.0",
         "jbzoo/utils"       : "^4.0.0"
     },
 
@@ -44,7 +44,7 @@
 
     "extra"             : {
         "branch-alias" : {
-            "dev-master" : "2.0.x-dev"
+            "dev-master" : "2.x-dev"
         }
     }
 }
