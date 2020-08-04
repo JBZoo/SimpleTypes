@@ -16,8 +16,8 @@
 namespace JBZoo\SimpleTypes\Config;
 
 /**
- * class Length
- * @package JBZoo\SimpleTypes
+ * Class Length
+ * @package JBZoo\SimpleTypes\Config
  */
 class Length extends Config
 {

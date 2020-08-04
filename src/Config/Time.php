@@ -16,8 +16,8 @@
 namespace JBZoo\SimpleTypes\Config;
 
 /**
- * class Time
- * @package JBZoo\SimpleTypes
+ * Class Time
+ * @package JBZoo\SimpleTypes\Config
  */
 class Time extends Config
 {

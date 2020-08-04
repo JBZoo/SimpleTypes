@@ -17,7 +17,7 @@ namespace JBZoo\SimpleTypes\Type;
 
 /**
  * Class Volume
- * @package JBZoo\SimpleTypes
+ * @package JBZoo\SimpleTypes\Type
  */
 class Volume extends AbstractType
 {

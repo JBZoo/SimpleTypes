@@ -16,7 +16,7 @@
 namespace JBZoo\SimpleTypes;
 
 /**
- * Class Type
+ * Class Parser
  * @package JBZoo\SimpleTypes
  */
 class Parser

@@ -16,8 +16,8 @@
 namespace JBZoo\SimpleTypes\Config;
 
 /**
- * class Degree
- * @package JBZoo\SimpleTypes
+ * Class Degree
+ * @package JBZoo\SimpleTypes\Config
  */
 class Degree extends Config
 {

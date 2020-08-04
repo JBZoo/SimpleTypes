@@ -16,8 +16,8 @@
 namespace JBZoo\SimpleTypes\Config;
 
 /**
- * class Weight
- * @package JBZoo\SimpleTypes
+ * Class Weight
+ * @package JBZoo\SimpleTypes\Config
  */
 class Weight extends Config
 {

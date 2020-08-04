@@ -17,7 +17,7 @@ namespace JBZoo\SimpleTypes\Type;
 
 /**
  * Class Money
- * @package JBZoo\SimpleTypes
+ * @package JBZoo\SimpleTypes\Type
  */
 class Money extends AbstractType
 {

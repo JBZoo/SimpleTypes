@@ -20,7 +20,7 @@
     },
 
     "require-dev"       : {
-        "jbzoo/toolbox-dev" : "^2.4.0",
+        "jbzoo/toolbox-dev" : "^2.4.3",
         "jbzoo/utils"       : "^4.2.1"
     },
 

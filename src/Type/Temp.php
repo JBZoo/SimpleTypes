@@ -17,7 +17,7 @@ namespace JBZoo\SimpleTypes\Type;
 
 /**
  * Class Temp
- * @package JBZoo\SimpleTypes
+ * @package JBZoo\SimpleTypes\Type
  */
 class Temp extends AbstractType
 {

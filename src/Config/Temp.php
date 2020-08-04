@@ -16,8 +16,8 @@
 namespace JBZoo\SimpleTypes\Config;
 
 /**
- * class Temp
- * @package JBZoo\SimpleTypes
+ * Class Temp
+ * @package JBZoo\SimpleTypes\Config
  */
 class Temp extends Config
 {

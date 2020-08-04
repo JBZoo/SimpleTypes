@@ -17,7 +17,7 @@ namespace JBZoo\SimpleTypes\Type;
 
 /**
  * Class Weight
- * @package JBZoo\SimpleTypes
+ * @package JBZoo\SimpleTypes\Type
  */
 class Weight extends AbstractType
 {

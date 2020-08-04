@@ -22,7 +22,7 @@ use JBZoo\SimpleTypes\Parser;
 
 /**
  * Class AbstractType
- * @package JBZoo\SimpleTypes
+ *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
@@ -30,6 +30,8 @@ use JBZoo\SimpleTypes\Parser;
  *
  * @property string $value
  * @property string $rule
+ *
+ * @package JBZoo\SimpleTypes\Type
  */
 abstract class AbstractType
 {

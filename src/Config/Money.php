@@ -18,8 +18,8 @@ namespace JBZoo\SimpleTypes\Config;
 use JBZoo\SimpleTypes\Formatter;
 
 /**
- * class Money
- * @package JBZoo\SimpleTypes
+ * Class Money
+ * @package JBZoo\SimpleTypes\Config
  */
 class Money extends Config
 {

@@ -19,7 +19,7 @@ use JBZoo\SimpleTypes\Formatter;
 
 /**
  * Class Config
- * @package JBZoo\SimpleTypes
+ * @package JBZoo\SimpleTypes\Config
  */
 abstract class Config
 {

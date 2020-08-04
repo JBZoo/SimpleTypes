@@ -16,8 +16,8 @@
 namespace JBZoo\SimpleTypes\Config;
 
 /**
- * class Area
- * @package JBZoo\SimpleTypes
+ * Class Area
+ * @package JBZoo\SimpleTypes\Config
  */
 class Area extends Config
 {

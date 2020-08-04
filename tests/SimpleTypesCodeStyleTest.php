@@ -50,4 +50,3 @@ class SimpleTypesCodeStyleTest extends AbstractCodestyleTest
         isTrue(true); // One assert is a minimum for test complete
     }
 }
-

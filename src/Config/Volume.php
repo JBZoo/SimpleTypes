@@ -16,8 +16,8 @@
 namespace JBZoo\SimpleTypes\Config;
 
 /**
- * class Volume
- * @package JBZoo\SimpleTypes
+ * Class Volume
+ * @package JBZoo\SimpleTypes\Config
  */
 class Volume extends Config
 {
