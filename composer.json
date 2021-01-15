@@ -20,8 +20,8 @@
     },
 
     "require-dev"       : {
-        "jbzoo/toolbox-dev" : "^2.4.3",
-        "jbzoo/utils"       : "^4.2.1"
+        "jbzoo/toolbox-dev" : "^2.6.1",
+        "jbzoo/utils"       : "^4.2.3"
     },
 
     "autoload"          : {
