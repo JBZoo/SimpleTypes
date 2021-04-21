@@ -13,6 +13,8 @@
  * @link       https://github.com/JBZoo/SimpleTypes
  */
 
+declare(strict_types=1);
+
 namespace JBZoo\SimpleTypes\Config;
 
 use JBZoo\SimpleTypes\Formatter;
@@ -81,8 +83,7 @@ class Info extends Config
 
             'bit' => [
                 'symbol' => 'Bit',
-                'rate'   => static function (int $value, string $ruleTo) {
-
+                'rate'   => static function (float $value, string $ruleTo) {
                     if ($ruleTo === 'bit') {
                         return $value * 8;
                     }

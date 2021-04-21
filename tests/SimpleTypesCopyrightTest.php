@@ -13,6 +13,8 @@
  * @link       https://github.com/JBZoo/SimpleTypes
  */
 
+declare(strict_types=1);
+
 namespace JBZoo\PHPUnit;
 
 /**
@@ -26,4 +28,5 @@ class SimpleTypesCopyrightTest extends AbstractCopyrightTest
      * @var string
      */
     protected $packageName = 'SimpleTypes';
+    protected $isPhpStrictType = true;
 }

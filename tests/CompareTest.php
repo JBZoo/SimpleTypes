@@ -13,6 +13,8 @@
  * @link       https://github.com/JBZoo/SimpleTypes
  */
 
+declare(strict_types=1);
+
 namespace JBZoo\PHPUnit;
 
 /**
@@ -23,18 +25,18 @@ class CompareTest extends PHPUnit
 {
     public function testSimple()
     {
-        isBatch(array(
-            array(true, val(1)->compare(1, '=')),
-            array(true, val(1)->compare(1, '==')),
-            array(true, val(1)->compare(1, '===')),
-            array(true, val(1)->compare(1, '>=')),
-            array(true, val(1)->compare(1, '<=')),
+        isBatch([
+            [true, val(1)->compare(1, '=')],
+            [true, val(1)->compare(1, '==')],
+            [true, val(1)->compare(1, '===')],
+            [true, val(1)->compare(1, '>=')],
+            [true, val(1)->compare(1, '<=')],
 
-            array(false, val(1)->compare(1, '<')),
-            array(false, val(1)->compare(1, '!=')),
-            array(false, val(1)->compare(1, '!==')),
-            array(false, val(1)->compare(1, '>')),
-        ));
+            [false, val(1)->compare(1, '<')],
+            [false, val(1)->compare(1, '!=')],
+            [false, val(1)->compare(1, '!==')],
+            [false, val(1)->compare(1, '>')],
+        ]);
     }
 
     public function testComplex()
@@ -42,13 +44,13 @@ class CompareTest extends PHPUnit
         $v1 = val(1.5);
         $v2 = val('5.6');
 
-        isBatch(array(
-            array(false, $v1->compare($v2, ' =')),
-            array(true, $v1->compare($v2, '< ')),
-            array(true, $v1->compare($v2, ' <= ')),
-            array(false, $v1->compare($v2, ' >= ')),
-            array(false, $v1->compare($v2, '>')),
-        ));
+        isBatch([
+            [false, $v1->compare($v2, ' =')],
+            [true, $v1->compare($v2, '< ')],
+            [true, $v1->compare($v2, ' <= ')],
+            [false, $v1->compare($v2, ' >= ')],
+            [false, $v1->compare($v2, '>')],
+        ]);
     }
 
     public function testRules()
@@ -56,27 +58,27 @@ class CompareTest extends PHPUnit
         $usd = val('1 usd');
         $eur = val('1 eur');
 
-        isBatch(array(
-            array(false, $usd->compare($eur, '=')),
-            array(true, $usd->compare($eur, '!=')),
-            array(true, $usd->compare($eur, '<')),
-            array(true, $usd->compare($eur, '<=')),
-            array(false, $usd->compare($eur, '>')),
-            array(false, $usd->compare($eur, '>=')),
-        ));
+        isBatch([
+            [false, $usd->compare($eur, '=')],
+            [true, $usd->compare($eur, '!=')],
+            [true, $usd->compare($eur, '<')],
+            [true, $usd->compare($eur, '<=')],
+            [false, $usd->compare($eur, '>')],
+            [false, $usd->compare($eur, '>=')],
+        ]);
 
         // after convert
         $eur->convert('usd');
         $usd->convert('eur');
 
-        isBatch(array(
-            array(false, $usd->compare($eur, '==')),
-            array(true, $usd->compare($eur, '!==')),
-            array(true, $usd->compare($eur, '<')),
-            array(true, $usd->compare($eur, '<=')),
-            array(false, $usd->compare($eur, '>')),
-            array(false, $usd->compare($eur, '>=')),
-        ));
+        isBatch([
+            [false, $usd->compare($eur, '==')],
+            [true, $usd->compare($eur, '!==')],
+            [true, $usd->compare($eur, '<')],
+            [true, $usd->compare($eur, '<=')],
+            [false, $usd->compare($eur, '>')],
+            [false, $usd->compare($eur, '>=')],
+        ]);
     }
 
     public function testUndefined()

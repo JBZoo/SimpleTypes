@@ -13,6 +13,8 @@
  * @link       https://github.com/JBZoo/SimpleTypes
  */
 
+declare(strict_types=1);
+
 namespace JBZoo\PHPUnit;
 
 use JBZoo\SimpleTypes\Config\Config;
@@ -20,7 +22,7 @@ use JBZoo\SimpleTypes\Config\Money as ConfigMoney;
 use JBZoo\SimpleTypes\Type\Money;
 
 /**
- * @param null $arg
+ * @param mixed $arg
  * @return Money
  */
 function val($arg = null): Money
@@ -33,10 +35,8 @@ function val($arg = null): Money
 /**
  * @param array $testList
  */
-function batchEqualDumps($testList)
+function batchEqualDumps(array $testList)
 {
-    $testList = (array)$testList;
-
     foreach ($testList as $test) {
         $result = $test[0] ?? null;
         $arg = $test[1] ?? null;

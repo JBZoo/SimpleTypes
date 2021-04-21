@@ -13,6 +13,8 @@
  * @link       https://github.com/JBZoo/SimpleTypes
  */
 
+declare(strict_types=1);
+
 namespace JBZoo\SimpleTypes;
 
 /**
@@ -253,9 +255,9 @@ class Formatter
         $isPositive = ($value >= 0);
         $valueStr = number_format(
             abs($roundedValue),
-            $format['num_decimals'],
-            $format['decimal_sep'],
-            $format['thousands_sep']
+            (int)($format['num_decimals'] ?? 0),
+            (string)($format['decimal_sep'] ?? '.'),
+            (string)($format['thousands_sep'] ?? '')
         );
 
         $template = $isPositive ? $format['format_positive'] : $format['format_negative'];
