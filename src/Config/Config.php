@@ -78,7 +78,6 @@ abstract class Config
     public static function registerDefault(string $type, Config $config): void
     {
         $type = strtolower(trim($type));
-
         self::$configs[$type] = $config;
     }
 

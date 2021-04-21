@@ -21,7 +21,7 @@ namespace JBZoo\SimpleTypes;
  * Class Formatter
  * @package JBZoo\SimpleTypes
  */
-class Formatter
+final class Formatter
 {
     public const ROUND_DEFAULT = 8;
 
@@ -109,9 +109,7 @@ class Formatter
             $data['template']
         );
 
-        $result = trim($result);
-
-        return $result;
+        return trim($result);
     }
 
     /**

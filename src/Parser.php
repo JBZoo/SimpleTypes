@@ -21,7 +21,7 @@ namespace JBZoo\SimpleTypes;
  * Class Parser
  * @package JBZoo\SimpleTypes
  */
-class Parser
+final class Parser
 {
     /**
      * @var string
@@ -113,9 +113,7 @@ class Parser
         }
 
         $result = (float)str_replace(',', '.', $result);
-        $result = round($result, Formatter::ROUND_DEFAULT);
-
-        return $result;
+        return round($result, Formatter::ROUND_DEFAULT);
     }
 
     /**
@@ -133,17 +131,17 @@ class Parser
      */
     public function checkRule(?string $rule): string
     {
-        $rule = self::cleanRule($rule);
+        $cleanRule = self::cleanRule($rule);
 
-        if (!$rule) {
+        if (!$cleanRule) {
             return $this->default;
         }
 
-        if (array_key_exists($rule, $this->rules)) {
-            return $rule;
+        if (array_key_exists($cleanRule, $this->rules)) {
+            return $cleanRule;
         }
 
-        throw new Exception("Undefined rule: {$rule}");
+        throw new Exception("Undefined rule: {$cleanRule}");
     }
 
     /**
