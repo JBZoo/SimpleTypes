@@ -13,6 +13,8 @@
  * @link       https://github.com/JBZoo/SimpleTypes
  */
 
+declare(strict_types=1);
+
 namespace JBZoo\PHPUnit;
 
 /**
@@ -117,7 +119,6 @@ class FormatterTest extends PHPUnit
 
         $val->convert('RUB');
         is(false, $val->isRule('USD'));
-
     }
 
     public function testGetRules()

@@ -13,6 +13,8 @@
  * @link       https://github.com/JBZoo/SimpleTypes
  */
 
+declare(strict_types=1);
+
 namespace JBZoo\PHPUnit;
 
 /**
@@ -31,7 +33,6 @@ class ConverterTest extends PHPUnit
             ['1 uah', val('1 uah')->dump(false)],
             ['1 byr', val('1 byr')->dump(false)],
         ]);
-
     }
 
     public function testSimple()
