@@ -80,7 +80,8 @@ final class Parser
             }
         }
 
-        $value = self::cleanValue((string)$value);
+        /** @phan-suppress-next-line PhanPartialTypeMismatchArgument */
+        $value = self::cleanValue($value);
         $rule = $this->checkRule($rule);
 
         if ($forceRule) {

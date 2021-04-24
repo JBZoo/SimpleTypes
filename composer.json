@@ -20,8 +20,8 @@
     },
 
     "require-dev"       : {
-        "jbzoo/toolbox-dev" : "^2.10.0",
-        "jbzoo/utils"       : "^4.3.0"
+        "jbzoo/toolbox-dev" : "^2.11.0",
+        "jbzoo/utils"       : "^4.4.0"
     },
 
     "autoload"          : {
@@ -29,9 +29,6 @@
             "JBZoo\\SimpleTypes\\" : "src"
         }
     },
-
-    "minimum-stability" : "dev",
-    "prefer-stable"     : true,
 
     "autoload-dev"      : {
         "classmap" : ["tests"],

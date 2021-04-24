@@ -828,10 +828,12 @@ abstract class AbstractType
     {
         $args = func_get_args();
         $argsCount = count($args);
+        $shortArgList = 1;
+        $fullArgList = 2;
 
         if ($argsCount === 0) {
             $this->error('Undefined arguments');
-        } elseif ($argsCount === 1) {
+        } elseif ($argsCount === $shortArgList) {
             $rules = $this->formatter->getList();
 
             if (array_key_exists($args[0], $rules)) {
@@ -839,7 +841,7 @@ abstract class AbstractType
             }
 
             return $this->set($args[0]);
-        } elseif ($argsCount === 2) {
+        } elseif ($argsCount === $fullArgList) {
             return $this->set([$args[0], $args[1]]);
         }
 
