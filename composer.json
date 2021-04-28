@@ -1,13 +1,13 @@
 {
-    "name"              : "jbzoo/simpletypes",
-    "type"              : "library",
-    "description"       : "The universal PHP library to convert any values and measures",
-    "license"           : "MIT",
-    "keywords"          : [
+    "name"         : "jbzoo/simpletypes",
+    "type"         : "library",
+    "description"  : "The universal PHP library to convert any values and measures",
+    "license"      : "MIT",
+    "keywords"     : [
         "converter", "acceleration", "area", "degree", "info", "length", "money", "number", "pressure", "speed",
         "temperature", "time", "volume", "weight"
     ],
-    "authors"           : [
+    "authors"      : [
         {
             "name"  : "Denis Smetannikov",
             "email" : "admin@jbzoo.com",
@@ -15,31 +15,30 @@
         }
     ],
 
-    "require"           : {
+    "require"      : {
         "php" : ">=7.2"
     },
 
-    "require-dev"       : {
-        "jbzoo/toolbox-dev" : "^2.11.0",
-        "jbzoo/utils"       : "^4.4.0"
+    "require-dev"  : {
+        "jbzoo/toolbox-dev" : "^2.13.1"
     },
 
-    "autoload"          : {
+    "autoload"     : {
         "psr-4" : {
             "JBZoo\\SimpleTypes\\" : "src"
         }
     },
 
-    "autoload-dev"      : {
+    "autoload-dev" : {
         "classmap" : ["tests"],
         "files"    : ["tests/phpunit-functions.php"]
     },
 
-    "config"            : {
+    "config"       : {
         "optimize-autoloader" : true
     },
 
-    "extra"             : {
+    "extra"        : {
         "branch-alias" : {
             "dev-master" : "2.x-dev"
         }
