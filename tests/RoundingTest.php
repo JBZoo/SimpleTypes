@@ -20,7 +20,7 @@ namespace JBZoo\PHPUnit;
 use JBZoo\SimpleTypes\Formatter;
 
 /**
- * Class roundTest
+ * Class RoundTest
  * @package JBZoo\SimpleTypes
  */
 class RoundTest extends PHPUnit

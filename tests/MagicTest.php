@@ -18,7 +18,7 @@ declare(strict_types=1);
 namespace JBZoo\PHPUnit;
 
 /**
- * Class magicTest
+ * Class MagicTest
  * @package JBZoo\SimpleTypes
  */
 class MagicTest extends PHPUnit

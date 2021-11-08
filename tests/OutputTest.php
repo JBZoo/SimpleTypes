@@ -18,7 +18,7 @@ declare(strict_types=1);
 namespace JBZoo\PHPUnit;
 
 /**
- * Class outputTest
+ * Class OutputTest
  * @package JBZoo\SimpleTypes
  */
 class OutputTest extends PHPUnit

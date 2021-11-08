@@ -22,7 +22,7 @@ use JBZoo\SimpleTypes\Type\Money;
 use JBZoo\SimpleTypes\Type\Weight;
 
 /**
- * Class calcTest
+ * Class CalcTest
  * @package JBZoo\PHPUnit
  */
 class CalcTest extends PHPUnit

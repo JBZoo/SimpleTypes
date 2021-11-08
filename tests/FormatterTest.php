@@ -18,7 +18,7 @@ declare(strict_types=1);
 namespace JBZoo\PHPUnit;
 
 /**
- * Class formatterTest
+ * Class FormatterTest
  * @package JBZoo\SimpleTypes
  */
 class FormatterTest extends PHPUnit

@@ -18,7 +18,7 @@ declare(strict_types=1);
 namespace JBZoo\PHPUnit;
 
 /**
- * Class parserTest
+ * Class ParserTest
  * @package JBZoo\SimpleTypes
  */
 class ParserTest extends PHPUnit

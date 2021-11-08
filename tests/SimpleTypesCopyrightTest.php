@@ -27,6 +27,6 @@ class SimpleTypesCopyrightTest extends AbstractCopyrightTest
     /**
      * @var string
      */
-    protected $packageName = 'SimpleTypes';
+    protected $packageName     = 'SimpleTypes';
     protected $isPhpStrictType = true;
 }
