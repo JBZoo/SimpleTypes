@@ -23,5 +23,4 @@ namespace JBZoo\SimpleTypes;
  */
 class Exception extends \RuntimeException
 {
-
 }
