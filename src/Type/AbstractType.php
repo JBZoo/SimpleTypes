@@ -93,7 +93,7 @@ abstract class AbstractType
      */
     public function __construct($value = null, Config $config = null)
     {
-        $this->type = strtolower(str_replace(__NAMESPACE__ . '\\', '', get_class($this)));
+        $this->type = \strtolower(\str_replace(__NAMESPACE__ . '\\', '', \get_class($this)));
 
         // get custom or global config
         if ($config = $this->getConfig($config)) {
@@ -101,7 +101,7 @@ abstract class AbstractType
             $this->isDebug = $config->isDebug;
 
             // set default rule
-            $this->default = strtolower(trim($config->default));
+            $this->default = \strtolower(\trim($config->default));
             if (!$this->default) {
                 $this->error('Default rule cannot be empty!');
             }
@@ -114,7 +114,7 @@ abstract class AbstractType
 
         // check that default rule
         $rules = $this->formatter->getList(true);
-        if (!$rules || !array_key_exists($this->default, $rules)) {
+        if (!$rules || !\array_key_exists($this->default, $rules)) {
             throw new Exception("{$this->type}: Default rule not found!");
         }
 
@@ -287,7 +287,7 @@ abstract class AbstractType
     public function data(bool $toString = false)
     {
         $data = [(string)$this->val(), $this->getRule()];
-        return $toString ? implode(' ', $data) : $data;
+        return $toString ? \implode(' ', $data) : $data;
     }
 
     /**
@@ -317,16 +317,16 @@ abstract class AbstractType
 
         $result = $this->internalValue;
         if ($from !== $target) {
-            if (is_callable($ruleTo['rate']) || is_callable($ruleFrom['rate'])) {
+            if (\is_callable($ruleTo['rate']) || \is_callable($ruleFrom['rate'])) {
                 /** @noinspection NotOptimalIfConditionsInspection */
-                if (is_callable($ruleFrom['rate'])) {
+                if (\is_callable($ruleFrom['rate'])) {
                     $defNorm = $ruleFrom['rate']($this->internalValue, $this->default, $from);
                 } else {
                     $defNorm = $this->internalValue * $ruleFrom['rate'] * $ruleDef['rate'];
                 }
 
                 /** @noinspection NotOptimalIfConditionsInspection */
-                if (is_callable($ruleTo['rate'])) {
+                if (\is_callable($ruleTo['rate'])) {
                     $result = $ruleTo['rate']($defNorm, $target, $this->default);
                 } else {
                     $result = $defNorm / $ruleTo['rate'];
@@ -340,12 +340,12 @@ abstract class AbstractType
                 $message = [
                     "Converted {$log};",
                     "New value = {$result} {$target};",
-                    is_callable($ruleTo['rate']) ? "func({$from})" : "{$ruleTo['rate']} {$from}",
+                    \is_callable($ruleTo['rate']) ? "func({$from})" : "{$ruleTo['rate']} {$from}",
                     '=',
-                    is_callable($ruleFrom['rate']) ? "func({$target})" : "{$ruleFrom['rate']} {$target}",
+                    \is_callable($ruleFrom['rate']) ? "func({$target})" : "{$ruleFrom['rate']} {$target}",
                 ];
 
-                $this->log(implode(' ', $message));
+                $this->log(\implode(' ', $message));
             }
         }
 
@@ -364,11 +364,11 @@ abstract class AbstractType
         // prepare value
         $value = $this->getValidValue($value);
 
-        $mode = trim($mode);
-        $mode = in_array($mode, ['=', '==', '==='], true) ? '==' : $mode;
+        $mode = \trim($mode);
+        $mode = \in_array($mode, ['=', '==', '==='], true) ? '==' : $mode;
 
-        $val1 = round($this->val($this->internalRule), $round);
-        $val2 = round($value->val($this->internalRule), $round);
+        $val1 = \round($this->val($this->internalRule), $round);
+        $val2 = \round($value->val($this->internalRule), $round);
 
         $this->log(
             "Compared '{$this->dump(false)}' {$mode} '{$value->dump(false)}' // {$val1} {$mode} {$val2}, r={$round}"
@@ -463,7 +463,7 @@ abstract class AbstractType
         if ($this->internalValue > 0) {
             $newValue = -1 * $this->internalValue;
         } elseif ($this->internalValue < 0) {
-            $newValue = abs((float)$this->internalValue);
+            $newValue = \abs((float)$this->internalValue);
         } else {
             $newValue = $this->internalValue;
         }
@@ -477,7 +477,7 @@ abstract class AbstractType
      */
     public function positive(bool $getClone = false): self
     {
-        return $this->modifier(abs((float)$this->internalValue), 'Set positive/abs', $getClone);
+        return $this->modifier(\abs((float)$this->internalValue), 'Set positive/abs', $getClone);
     }
 
     /**
@@ -486,7 +486,7 @@ abstract class AbstractType
      */
     public function negative(bool $getClone = false): self
     {
-        return $this->modifier(-1 * abs((float)$this->internalValue), 'Set negative', $getClone);
+        return $this->modifier(-1 * \abs((float)$this->internalValue), 'Set negative', $getClone);
     }
 
     /**
@@ -658,13 +658,13 @@ abstract class AbstractType
     public function getValidValue($value): self
     {
         if ($value instanceof self) {
-            $thisClass = strtolower(get_class($this));
-            $valClass = strtolower(get_class($value));
+            $thisClass = \strtolower(\get_class($this));
+            $valClass = \strtolower(\get_class($value));
             if ($thisClass !== $valClass) {
                 throw new Exception("{$this->type}: No valid object type given: {$valClass}");
             }
         } else {
-            $className = get_class($this);
+            $className = \get_class($this);
             $value = new $className($value, $this->getConfig());
         }
 
@@ -768,7 +768,7 @@ abstract class AbstractType
      */
     public function __get(string $name)
     {
-        $name = strtolower($name);
+        $name = \strtolower($name);
 
         if ($name === 'value') {
             return $this->val();
@@ -805,17 +805,17 @@ abstract class AbstractType
      */
     public function __call(string $name, array $arguments)
     {
-        $name = strtolower($name);
+        $name = \strtolower($name);
         if ($name === 'value') {
-            return call_user_func_array([$this, 'val'], $arguments);
+            return \call_user_func_array([$this, 'val'], $arguments);
         }
 
         if ($name === 'plus') {
-            return call_user_func_array([$this, 'add'], $arguments);
+            return \call_user_func_array([$this, 'add'], $arguments);
         }
 
         if ($name === 'minus') {
-            return call_user_func_array([$this, 'subtract'], $arguments);
+            return \call_user_func_array([$this, 'subtract'], $arguments);
         }
 
         throw new Exception("{$this->type}: Called undefined method: '{$name}'");
@@ -826,8 +826,8 @@ abstract class AbstractType
      */
     public function __invoke(): self
     {
-        $args = func_get_args();
-        $argsCount = count($args);
+        $args = \func_get_args();
+        $argsCount = \count($args);
         $shortArgList = 1;
         $fullArgList = 2;
 
@@ -836,7 +836,7 @@ abstract class AbstractType
         } elseif ($argsCount === $shortArgList) {
             $rules = $this->formatter->getList();
 
-            if (array_key_exists($args[0], $rules)) {
+            if (\array_key_exists($args[0], $rules)) {
                 return $this->convert($args[0]);
             }
 

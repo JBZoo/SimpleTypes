@@ -56,10 +56,10 @@ final class Formatter
         $this->default = $default;
 
         // prepare rules
-        $this->rules = array_change_key_case($rules, CASE_LOWER);
+        $this->rules = \array_change_key_case($rules, \CASE_LOWER);
 
         foreach ($this->rules as $key => $item) {
-            $this->rules[$key] = array_merge($default, (array)$item);
+            $this->rules[$key] = \array_merge($default, (array)$item);
         }
     }
 
@@ -69,7 +69,7 @@ final class Formatter
      */
     public function get(string $rule): array
     {
-        if (array_key_exists($rule, $this->rules)) {
+        if (\array_key_exists($rule, $this->rules)) {
             return (array)$this->rules[$rule];
         }
 
@@ -83,9 +83,9 @@ final class Formatter
     public function getList(bool $keysOnly = false): array
     {
         if ($keysOnly) {
-            $keys = array_keys($this->rules);
-            $values = array_keys($this->rules);
-            return array_combine($keys, $values) ?: [];
+            $keys = \array_keys($this->rules);
+            $values = \array_keys($this->rules);
+            return \array_combine($keys, $values) ?: [];
         }
 
         return $this->rules;
@@ -103,13 +103,13 @@ final class Formatter
         $rData = $this->get($rule);
         $symbol = $showSymbol ? $rData['symbol'] : '';
 
-        $result = str_replace(
+        $result = \str_replace(
             ['%v', '%s'],
             [$data['value'], $symbol],
             $data['template']
         );
 
-        return trim($result);
+        return \trim($result);
     }
 
     /**
@@ -123,7 +123,7 @@ final class Formatter
         $data = $this->format($current['value'], $current['rule']);
         $rData = $this->get($current['rule']);
 
-        $result = str_replace(
+        $result = \str_replace(
             ['%v', '%s'],
             [
                 "<span class=\"simpleType-value\">{$data['value']}</span>",
@@ -183,16 +183,16 @@ final class Formatter
     {
         $result = '';
 
-        if (count($attributes)) {
+        if (\count($attributes)) {
             foreach ($attributes as $key => $param) {
-                $value = implode(' ', (array)$param);
-                $value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
-                $value = trim($value);
+                $value = \implode(' ', (array)$param);
+                $value = \htmlspecialchars($value, \ENT_QUOTES, 'UTF-8');
+                $value = \trim($value);
                 $result .= " {$key}=\"{$value}\"";
             }
         }
 
-        return trim($result);
+        return \trim($result);
     }
 
     /**
@@ -206,32 +206,32 @@ final class Formatter
         $format = $this->get($rule);
 
         // prepare params
-        $params = array_merge(['roundType' => null, 'roundValue' => null], $params);
+        $params = \array_merge(['roundType' => null, 'roundValue' => null], $params);
 
         // get vars
         $roundType = $params['roundType'];
         $roundValue = $params['roundValue'];
 
         if (!$roundType) {
-            $roundType = array_key_exists('round_type', $format) ? $format['round_type'] : self::ROUND_NONE;
+            $roundType = \array_key_exists('round_type', $format) ? $format['round_type'] : self::ROUND_NONE;
         }
 
         if (null === $roundValue) {
-            $roundValue = array_key_exists('round_value', $format) ? $format['round_value'] : self::ROUND_DEFAULT;
+            $roundValue = \array_key_exists('round_value', $format) ? $format['round_value'] : self::ROUND_DEFAULT;
         }
 
         $roundValue = (int)$roundValue;
 
         if (self::ROUND_CEIL === $roundType) {
             $base = 10 ** $roundValue;
-            $value = ceil($value * $base) / $base;
+            $value = \ceil($value * $base) / $base;
         } elseif (self::ROUND_CLASSIC === $roundType) {
-            $value = round($value, $roundValue);
+            $value = \round($value, $roundValue);
         } elseif (self::ROUND_FLOOR === $roundType) {
             $base = 10 ** $roundValue;
-            $value = floor($value * $base) / $base;
+            $value = \floor($value * $base) / $base;
         } elseif (self::ROUND_NONE === $roundType) {
-            $value = round($value, self::ROUND_DEFAULT); // hack, because 123.400000001 !== 123.4
+            $value = \round($value, self::ROUND_DEFAULT); // hack, because 123.400000001 !== 123.4
         } else {
             throw new Exception("Undefined round mode: '{$roundType}'");
         }
@@ -251,8 +251,8 @@ final class Formatter
 
         $roundedValue = $this->round($value, $rule);
         $isPositive = ($value >= 0);
-        $valueStr = number_format(
-            abs($roundedValue),
+        $valueStr = \number_format(
+            \abs($roundedValue),
             (int)($format['num_decimals'] ?? 0),
             (string)($format['decimal_sep'] ?? '.'),
             (string)($format['thousands_sep'] ?? '')
@@ -275,7 +275,7 @@ final class Formatter
     {
         $oldFormat = $this->get($rule);
 
-        $this->rules[$rule] = array_merge($oldFormat, $newFormat);
+        $this->rules[$rule] = \array_merge($oldFormat, $newFormat);
     }
 
     /**
@@ -288,11 +288,11 @@ final class Formatter
             throw new Exception('Empty rule name');
         }
 
-        if (array_key_exists($rule, $this->rules)) {
+        if (\array_key_exists($rule, $this->rules)) {
             throw new Exception("Format '{$rule}' already exists");
         }
 
-        $this->rules[$rule] = array_merge($this->default, $newFormat);
+        $this->rules[$rule] = \array_merge($this->default, $newFormat);
     }
 
     /**
@@ -301,7 +301,7 @@ final class Formatter
      */
     public function removeRule(string $rule): bool
     {
-        if (array_key_exists($rule, $this->rules)) {
+        if (\array_key_exists($rule, $this->rules)) {
             unset($this->rules[$rule]);
             return true;
         }

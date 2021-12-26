@@ -41,9 +41,9 @@ class Degree extends AbstractType
 
         if ($divider > 0) {
             if ($this->internalValue <= (-1 * $divider)) {
-                $this->internalValue = fmod($this->internalValue, $divider);
+                $this->internalValue = \fmod($this->internalValue, $divider);
             } elseif ($this->internalValue >= $divider) {
-                $this->internalValue = fmod($this->internalValue, $divider);
+                $this->internalValue = \fmod($this->internalValue, $divider);
             }
 
             $this->log("Remove circles: {$this->dump(false)}");

@@ -45,10 +45,10 @@ final class Parser
          * @return int
          */
         $sortFunction = static function (string $item1, string $item2): int {
-            return strlen($item2) - strlen($item1);
+            return \strlen($item2) - \strlen($item1);
         };
 
-        uksort($ruleList, $sortFunction);
+        \uksort($ruleList, $sortFunction);
 
         $this->rules = $ruleList;
         $this->default = $default;
@@ -63,19 +63,19 @@ final class Parser
     {
         $rule = null;
 
-        if (is_array($data)) {
+        if (\is_array($data)) {
             $value = $data[0] ?? null;
             $rule = $data[1] ?? null;
             return $this->parse($value, $rule);
         }
 
-        $value = strtolower(trim((string)$data));
+        $value = \strtolower(\trim((string)$data));
         $aliases = $this->getCodeList();
 
         foreach ($aliases as $alias) {
-            if (strpos($value, $alias) !== false) {
+            if (\strpos($value, $alias) !== false) {
                 $rule = $alias;
-                $value = str_ireplace($rule, '', $value);
+                $value = \str_ireplace($rule, '', $value);
                 break;
             }
         }
@@ -96,7 +96,7 @@ final class Parser
      */
     public function getCodeList(): array
     {
-        return array_keys($this->rules);
+        return \array_keys($this->rules);
     }
 
     /**
@@ -105,16 +105,16 @@ final class Parser
      */
     public static function cleanValue($value): float
     {
-        $result = trim((string)$value);
+        $result = \trim((string)$value);
 
-        $result = (string)preg_replace('#[^0-9-+eE,.]#', '', $result);
+        $result = (string)\preg_replace('#[^0-9-+eE,.]#', '', $result);
 
-        if (!preg_match('#\d[eE][-+]\d#', $result)) { // remove exponential format
-            $result = str_replace(['e', 'E'], '', $result);
+        if (!\preg_match('#\d[eE][-+]\d#', $result)) { // remove exponential format
+            $result = \str_replace(['e', 'E'], '', $result);
         }
 
-        $result = (float)str_replace(',', '.', $result);
-        return round($result, Formatter::ROUND_DEFAULT);
+        $result = (float)\str_replace(',', '.', $result);
+        return \round($result, Formatter::ROUND_DEFAULT);
     }
 
     /**
@@ -123,7 +123,7 @@ final class Parser
      */
     public static function cleanRule(?string $rule): string
     {
-        return strtolower(trim((string)$rule));
+        return \strtolower(\trim((string)$rule));
     }
 
     /**
@@ -138,7 +138,7 @@ final class Parser
             return $this->default;
         }
 
-        if (array_key_exists($cleanRule, $this->rules)) {
+        if (\array_key_exists($cleanRule, $this->rules)) {
             return $cleanRule;
         }
 
@@ -159,7 +159,7 @@ final class Parser
      */
     public function removeRule(string $rule): bool
     {
-        if (array_key_exists($rule, $this->rules)) {
+        if (\array_key_exists($rule, $this->rules)) {
             unset($this->rules[$rule]);
             return true;
         }
