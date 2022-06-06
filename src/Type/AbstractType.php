@@ -726,7 +726,7 @@ abstract class AbstractType
         $propList = $reflect->getProperties();
 
         foreach ($propList as $prop) {
-            if ($prop->isStatic() === true) {
+            if ($prop->isStatic()) {
                 continue;
             }
             $result[] = $prop->name;
