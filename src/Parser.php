@@ -26,12 +26,12 @@ final class Parser
     /**
      * @var string
      */
-    protected $default = '';
+    protected string $default = '';
 
     /**
      * @var array
      */
-    protected $rules = [];
+    protected array $rules = [];
 
     /**
      * @param string $default

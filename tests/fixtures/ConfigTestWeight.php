@@ -32,8 +32,7 @@ class ConfigTestWeight extends Config
         return [
             'kg' => [
                 'rate' => function ($value, $to) {
-
-                    if ($to == 'gram') {
+                    if ($to === 'gram') {
                         return $value * 1000;
                     }
 

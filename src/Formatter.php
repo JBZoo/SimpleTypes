@@ -33,17 +33,17 @@ final class Formatter
     /**
      * @var array
      */
-    protected $rules = [];
+    protected array $rules = [];
 
     /**
      * @var string|null
      */
-    protected $type = '';
+    protected ?string $type = '';
 
     /**
      * @var array
      */
-    protected $default = [];
+    protected array $default = [];
 
     /**
      * @param array       $rules
@@ -56,7 +56,7 @@ final class Formatter
         $this->default = $default;
 
         // prepare rules
-        $this->rules = \array_change_key_case($rules, \CASE_LOWER);
+        $this->rules = \array_change_key_case($rules);
 
         foreach ($this->rules as $key => $item) {
             $this->rules[$key] = \array_merge($default, (array)$item);
