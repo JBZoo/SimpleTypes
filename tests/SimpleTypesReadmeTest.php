@@ -24,12 +24,5 @@ namespace JBZoo\PHPUnit;
  */
 class SimpleTypesReadmeTest extends AbstractReadmeTest
 {
-    protected $packageName = 'SimpleTypes';
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->params['strict_types'] = true;
-        $this->params['travis'] = false;
-    }
+    protected string $packageName = 'SimpleTypes';
 }

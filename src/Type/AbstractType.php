@@ -40,12 +40,12 @@ abstract class AbstractType
     /**
      * @var int
      */
-    protected $uniqueId = 0;
+    protected int $uniqueId = 0;
 
     /**
      * @var string
      */
-    protected $type = '';
+    protected string $type = '';
 
     /**
      * @var float|int
@@ -60,32 +60,32 @@ abstract class AbstractType
     /**
      * @var string
      */
-    protected $default = '';
+    protected string $default = '';
 
     /**
      * @var Parser
      */
-    protected $parser;
+    protected Parser $parser;
 
     /**
      * @var Formatter
      */
-    protected $formatter;
+    protected Formatter $formatter;
 
     /**
      * @var array
      */
-    protected $logs = [];
+    protected array $logs = [];
 
     /**
      * @var bool
      */
-    protected $isDebug = false;
+    protected bool $isDebug = false;
 
     /**
      * @var int
      */
-    protected static $counter = 0;
+    protected static int $counter = 0;
 
     /**
      * @param string|float|int|null $value
@@ -318,14 +318,12 @@ abstract class AbstractType
         $result = $this->internalValue;
         if ($from !== $target) {
             if (\is_callable($ruleTo['rate']) || \is_callable($ruleFrom['rate'])) {
-                /** @noinspection NotOptimalIfConditionsInspection */
                 if (\is_callable($ruleFrom['rate'])) {
                     $defNorm = $ruleFrom['rate']($this->internalValue, $this->default, $from);
                 } else {
                     $defNorm = $this->internalValue * $ruleFrom['rate'] * $ruleDef['rate'];
                 }
 
-                /** @noinspection NotOptimalIfConditionsInspection */
                 if (\is_callable($ruleTo['rate'])) {
                     $result = $ruleTo['rate']($defNorm, $target, $this->default);
                 } else {
