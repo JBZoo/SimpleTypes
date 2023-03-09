@@ -1,38 +1,30 @@
 <?php
 
 /**
- * JBZoo Toolbox - SimpleTypes
+ * JBZoo Toolbox - SimpleTypes.
  *
  * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package    SimpleTypes
  * @license    MIT
  * @copyright  Copyright (C) JBZoo.com, All rights reserved.
- * @link       https://github.com/JBZoo/SimpleTypes
+ * @see        https://github.com/JBZoo/SimpleTypes
  */
 
 declare(strict_types=1);
 
 namespace JBZoo\SimpleTypes\Config;
 
-/**
- * Class Length
- * @package JBZoo\SimpleTypes\Config
- */
-class Length extends Config
+final class Length extends AbstractConfig
 {
-    /**
-     * Set default
-     */
     public function __construct()
     {
         $this->default = 'm';
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getRules(): array
     {
@@ -50,7 +42,7 @@ class Length extends Config
                 'symbol' => 'dm',
                 'rate'   => 0.1,
             ],
-            'm'  => [
+            'm' => [
                 'symbol' => 'm',
                 'rate'   => 1,
             ],
@@ -60,7 +52,7 @@ class Length extends Config
             ],
 
             // others
-            'p'  => [
+            'p' => [
                 'symbol' => 'Point',
                 'rate'   => 0.000352777778,
             ],

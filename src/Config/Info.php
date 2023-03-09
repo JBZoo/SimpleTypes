@@ -1,16 +1,15 @@
 <?php
 
 /**
- * JBZoo Toolbox - SimpleTypes
+ * JBZoo Toolbox - SimpleTypes.
  *
  * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package    SimpleTypes
  * @license    MIT
  * @copyright  Copyright (C) JBZoo.com, All rights reserved.
- * @link       https://github.com/JBZoo/SimpleTypes
+ * @see        https://github.com/JBZoo/SimpleTypes
  */
 
 declare(strict_types=1);
@@ -19,64 +18,57 @@ namespace JBZoo\SimpleTypes\Config;
 
 use JBZoo\SimpleTypes\Formatter;
 
-/**
- * Class Info
- * @package JBZoo\SimpleTypes\Config
- */
-class Info extends Config
+final class Info extends AbstractConfig
 {
-    /**
-     * Set default
-     */
     public function __construct()
     {
         $this->default = 'byte';
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getRules(): array
     {
         $base = 1024;
 
         $this->defaultParams['num_decimals'] = 0;
-        $this->defaultParams['round_type'] = Formatter::ROUND_NONE;
+        $this->defaultParams['round_type']   = Formatter::ROUND_NONE;
 
         return [
             'byte' => [
                 'symbol' => 'B',
                 'rate'   => 1,
             ],
-            'kb'   => [
+            'kb' => [
                 'symbol' => 'KB',
                 'rate'   => $base ** 1,
             ],
-            'mb'   => [
+            'mb' => [
                 'symbol' => 'MB',
                 'rate'   => $base ** 2,
             ],
-            'gb'   => [
+            'gb' => [
                 'symbol' => 'GB',
                 'rate'   => $base ** 3,
             ],
-            'tb'   => [
+            'tb' => [
                 'symbol' => 'TB',
                 'rate'   => $base ** 4,
             ],
-            'pb'   => [
+            'pb' => [
                 'symbol' => 'PB',
                 'rate'   => $base ** 5,
             ],
-            'eb'   => [
+            'eb' => [
                 'symbol' => 'EB',
                 'rate'   => $base ** 6,
             ],
-            'zb'   => [
+            'zb' => [
                 'symbol' => 'ZB',
                 'rate'   => $base ** 7,
             ],
-            'yb'   => [
+            'yb' => [
                 'symbol' => 'YB',
                 'rate'   => $base ** 8,
             ],

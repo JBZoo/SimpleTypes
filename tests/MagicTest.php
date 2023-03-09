@@ -1,76 +1,63 @@
 <?php
 
 /**
- * JBZoo Toolbox - SimpleTypes
+ * JBZoo Toolbox - SimpleTypes.
  *
  * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package    SimpleTypes
  * @license    MIT
  * @copyright  Copyright (C) JBZoo.com, All rights reserved.
- * @link       https://github.com/JBZoo/SimpleTypes
+ * @see        https://github.com/JBZoo/SimpleTypes
  */
 
 declare(strict_types=1);
 
 namespace JBZoo\PHPUnit;
 
-/**
- * Class MagicTest
- * @package JBZoo\SimpleTypes
- */
-class MagicTest extends PHPUnit
+final class MagicTest extends PHPUnit
 {
-    public function testSerializing()
+    public function testSerializing(): void
     {
         $valBefore = val('500 usd');
-        $valString = serialize($valBefore);
-        $valAfter = unserialize($valString)->convert('eur');
+        $valString = \serialize($valBefore);
+        $valAfter  = \unserialize($valString)->convert('eur');
 
-        isBatch([
-            ['500 usd', $valBefore->dump(false)],
-            ['250 eur', $valAfter->dump(false)],
-            [true, $valBefore->compare($valAfter)],
-        ]);
+        isSame('500 usd', $valBefore->dump(false));
+        isSame('250 eur', $valAfter->dump(false));
+        isSame(true, $valBefore->compare($valAfter));
     }
 
-    public function testClone()
+    public function testClone(): void
     {
         $original = val('500 usd');
-        $clone = clone $original;
+        $clone    = clone $original;
         $clone->convert('eur');
 
-        isBatch([
-            ['500 usd', $original->dump(false)],
-            ['250 eur', $clone->dump(false)],
-            [true, $original->compare($clone)],
-        ]);
+        isSame('500 usd', $original->dump(false));
+        isSame('250 eur', $clone->dump(false));
+        isSame(true, $original->compare($clone));
     }
 
-    public function testString()
+    public function testString(): void
     {
         $val = val('500 usd');
 
-        isBatch([
-            ['$500.00', (string)$val],
-            ['$500.00', '' . $val],
-            ['$500.00', $val->__toString()],
-        ]);
+        isSame('$500.00', (string)$val);
+        isSame('$500.00', '' . $val);
+        isSame('$500.00', $val->__toString());
     }
 
-    public function testGet()
+    public function testGet(): void
     {
         $val = val('500 usd');
 
-        isBatch([
-            [500.0, $val->value],
-            ['usd', $val->rule],
-        ]);
+        isSame(500.0, $val->value);
+        isSame('usd', $val->rule);
     }
 
-    public function testSet()
+    public function testSet(): void
     {
         $val = val('500 usd');
 
@@ -87,7 +74,7 @@ class MagicTest extends PHPUnit
         is('2 eur', $val->dump(false));
     }
 
-    public function testSetUndefined()
+    public function testSetUndefined(): void
     {
         $this->expectException(\JBZoo\SimpleTypes\Exception::class);
         $val = val('500 usd');
@@ -96,64 +83,62 @@ class MagicTest extends PHPUnit
         is('500 usd', $val->dump(false));
     }
 
-    public function testGetUndefined()
+    public function testGetUndefined(): void
     {
         $this->expectException(\JBZoo\SimpleTypes\Exception::class);
         $val = val('500 usd');
         $val->someUndefined;
     }
 
-    public function testCall()
+    public function testCall(): void
     {
         $val = val('1 eur');
         is($val->val('rub'), $val->value('rub'));
     }
 
-    public function testCallAddAlias()
+    public function testCallAddAlias(): void
     {
         $val = val('1 eur')->plus('2 eur');
         is('3 eur', $val->dump(false));
     }
 
-    public function testCallSubtractAlias()
+    public function testCallSubtractAlias(): void
     {
         $val = val('1 eur')->minus('2 eur');
         is('-1 eur', $val->dump(false));
     }
 
-    public function testCallUndefined()
+    public function testCallUndefined(): void
     {
         $this->expectException(\JBZoo\SimpleTypes\Exception::class);
         val('1 eur')->undefined();
     }
 
-    public function testInvoke()
+    public function testInvoke(): void
     {
         $val = val('1 eur');
 
-        isBatch([
-            ['2 usd', $val('usd')->dump(false)],
-            ['50 eur', $val('50')->dump(false)],
-            ['100 rub', $val('100 rub')->dump(false)],
-            ['100 uah', $val('100', 'uah')->dump(false)],
-        ]);
+        isSame('2 usd', $val('usd')->dump(false));
+        isSame('50 eur', $val('50')->dump(false));
+        isSame('100 rub', $val('100 rub')->dump(false));
+        isSame('100 uah', $val('100', 'uah')->dump(false));
     }
 
-    public function testInvokeErrorNoArgs()
+    public function testInvokeErrorNoArgs(): void
     {
         $this->expectException(\JBZoo\SimpleTypes\Exception::class);
         $val = val('1 eur');
         $val();
     }
 
-    public function testInvokeErrorTooManyArgs()
+    public function testInvokeErrorTooManyArgs(): void
     {
         $this->expectException(\JBZoo\SimpleTypes\Exception::class);
         $val = val('1 eur');
         $val(1, 2, 3);
     }
 
-    public function testGetCloneAfterCalc()
+    public function testGetCloneAfterCalc(): void
     {
         $val1 = val(1);
         $val2 = $val1->add(2, true);

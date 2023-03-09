@@ -1,33 +1,29 @@
 <?php
 
 /**
- * JBZoo Toolbox - SimpleTypes
+ * JBZoo Toolbox - SimpleTypes.
  *
  * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package    SimpleTypes
  * @license    MIT
  * @copyright  Copyright (C) JBZoo.com, All rights reserved.
- * @link       https://github.com/JBZoo/SimpleTypes
+ * @see        https://github.com/JBZoo/SimpleTypes
  */
 
-namespace JBZoo\PHPUnit;
+declare(strict_types=1);
 
-use JBZoo\SimpleTypes\Config\Config;
+namespace JBZoo\PHPUnit\Fixture;
 
-/**
- * Class ConfigTestWrong
- * @package JBZoo\PHPUnit
- * @codeCoverageIgnore
- */
-class ConfigTestWrong extends Config
+use JBZoo\SimpleTypes\Config\AbstractConfig;
+
+class AbstractConfigTestWrong extends AbstractConfig
 {
     public $default = 'undefined';
     public $isDebug = true;
 
-    public function getRules()
+    public function getRules(): array
     {
         return [
             'byte' => ['rate' => 1],
