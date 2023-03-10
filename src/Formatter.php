@@ -57,7 +57,7 @@ final class Formatter
             $keys   = \array_keys($this->rules);
             $values = \array_keys($this->rules);
 
-            return \array_combine($keys, $values) ?: [];
+            return \array_combine($keys, $values);
         }
 
         return $this->rules;
@@ -176,7 +176,7 @@ final class Formatter
 
     public function addRule(string $rule, array $newFormat = []): void
     {
-        if (!$rule) {
+        if ($rule === '') {
             throw new Exception('Empty rule name');
         }
 
@@ -202,13 +202,11 @@ final class Formatter
     {
         $result = '';
 
-        if (\count($attributes)) {
-            foreach ($attributes as $key => $param) {
-                $value = \implode(' ', (array)$param);
-                $value = \htmlspecialchars($value, \ENT_QUOTES, 'UTF-8');
-                $value = \trim($value);
-                $result .= " {$key}=\"{$value}\"";
-            }
+        foreach ($attributes as $key => $param) {
+            $value = \implode(' ', (array)$param);
+            $value = \htmlspecialchars($value, \ENT_QUOTES, 'UTF-8');
+            $value = \trim($value);
+            $result .= " {$key}=\"{$value}\"";
         }
 
         return \trim($result);

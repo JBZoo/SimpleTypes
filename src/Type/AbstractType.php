@@ -20,6 +20,9 @@ use JBZoo\SimpleTypes\Config\AbstractConfig;
 use JBZoo\SimpleTypes\Exception;
 use JBZoo\SimpleTypes\Formatter;
 use JBZoo\SimpleTypes\Parser;
+use JBZoo\Utils\Str;
+
+use function JBZoo\Utils\isStrEmpty;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
@@ -46,47 +49,11 @@ abstract class AbstractType
 
     public function __construct(float|int|string|array $value = null, ?AbstractConfig $config = null)
     {
-        $this->type = \strtolower(\str_replace(__NAMESPACE__ . '\\', '', static::class));
-
-        // get custom or global config
-        if ($config = $this->getConfig($config)) {
-            // debug flag (for logging)
-            $this->isDebug = $config->isDebug;
-
-            // set default rule
-            $this->default = \strtolower(\trim($config->default));
-            if (!$this->default) {
-                $this->error('Default rule cannot be empty!');
-            }
-
-            // create formatter helper
-            $this->formatter = new Formatter($config->getRules(), $config->defaultParams, $this->type);
-        } else {
-            $this->formatter = new Formatter();
-        }
-
-        // check that default rule
-        $rules = $this->formatter->getList(true);
-        if (!$rules || !\array_key_exists($this->default, $rules)) {
-            throw new Exception("{$this->type}: Default rule not found!");
-        }
-
-        // create parser helper
-        $this->parser = new Parser($this->default, $rules);
-
-        // parse data
-        [$this->internalValue, $this->internalRule] = $this->parser->parse($value);
-
-        // count unique id
-        self::$counter++;
-        $this->uniqueId = self::$counter;
-
-        // success log
-        $this->log("Id={$this->uniqueId} has just created; dump='{$this->dump(false)}'");
+        $this->prepareObject($value, $config);
     }
 
     /**
-     * @return string
+     * @psalm-suppress MethodSignatureMustProvideReturnType
      */
     public function __toString()
     {
@@ -101,8 +68,8 @@ abstract class AbstractType
      */
     public function __sleep()
     {
-        $result   = [];
-        $reflect  = new \ReflectionClass($this);
+        $result = [];
+        $reflect = new \ReflectionClass($this);
         $propList = $reflect->getProperties();
 
         foreach ($propList as $prop) {
@@ -123,7 +90,7 @@ abstract class AbstractType
     public function __wakeup(): void
     {
         $this->log('--> wakeup start');
-        $this->__construct($this->dump(false));
+        $this->prepareObject($this->dump(false));
         $this->log('<-- Wakeup finish');
     }
 
@@ -133,11 +100,12 @@ abstract class AbstractType
     public function __clone()
     {
         self::$counter++;
-
-        $oldId          = $this->uniqueId;
+        $recentId = $this->uniqueId;
         $this->uniqueId = self::$counter;
 
-        $this->log("Cloned from id='{$oldId}' and created new with id='{$this->uniqueId}'; dump=" . $this->dump(false));
+        $this->log(
+            "Cloned from id='{$recentId}' and created new with id='{$this->uniqueId}'; dump=" . $this->dump(false),
+        );
     }
 
     /**
@@ -159,10 +127,9 @@ abstract class AbstractType
     }
 
     /**
-     * @param string $value
      * @noinspection MagicMethodsValidityInspection
      */
-    public function __set(string $name, $value): void
+    public function __set(string $name, mixed $value): void
     {
         if ($name === 'value') {
             $this->set([$value]);
@@ -175,9 +142,9 @@ abstract class AbstractType
 
     /**
      * Experimental! Methods aliases.
-     * @return $this|float
+     * @deprecated
      */
-    public function __call(string $name, array $arguments)
+    public function __call(string $name, array $arguments): mixed
     {
         $name = \strtolower($name);
         if ($name === 'value') {
@@ -195,15 +162,12 @@ abstract class AbstractType
         throw new Exception("{$this->type}: Called undefined method: '{$name}'");
     }
 
-    /**
-     * @return $this
-     */
     public function __invoke(): self
     {
-        $args         = \func_get_args();
-        $argsCount    = \count($args);
+        $args = \func_get_args();
+        $argsCount = \count($args);
         $shortArgList = 1;
-        $fullArgList  = 2;
+        $fullArgList = 2;
 
         if ($argsCount === 0) {
             $this->error('Undefined arguments');
@@ -231,7 +195,7 @@ abstract class AbstractType
     {
         $rule = Parser::cleanRule($rule);
 
-        if ($rule && $rule !== $this->internalRule) {
+        if ($rule !== $this->internalRule && !isStrEmpty($rule)) {
             return $this->customConvert($rule);
         }
 
@@ -240,7 +204,7 @@ abstract class AbstractType
 
     public function text(?string $rule = null): string
     {
-        $rule = $rule ? $this->parser->checkRule($rule) : $this->internalRule;
+        $rule = !isStrEmpty($rule) ? $this->parser->checkRule($rule) : $this->internalRule;
         $this->log("Formatted output in '{$rule}' as 'text'");
 
         return $this->formatter->text($this->val($rule), $rule);
@@ -248,7 +212,7 @@ abstract class AbstractType
 
     public function noStyle(?string $rule = null): string
     {
-        $rule = $rule ? $this->parser->checkRule($rule) : $this->internalRule;
+        $rule = !isStrEmpty($rule) ? $this->parser->checkRule($rule) : $this->internalRule;
         $this->log("Formatted output in '{$rule}' as 'noStyle'");
 
         return $this->formatter->text($this->val($rule), $rule, false);
@@ -256,25 +220,25 @@ abstract class AbstractType
 
     public function html(?string $rule = null): string
     {
-        $rule = $rule ? $this->parser->checkRule($rule) : $this->internalRule;
+        $rule = !isStrEmpty($rule) ? $this->parser->checkRule($rule) : $this->internalRule;
         $this->log("Formatted output in '{$rule}' as 'html'");
 
         return $this->formatter->html(
             ['value' => $this->val($rule), 'rule' => $rule],
             ['value' => $this->internalValue, 'rule' => $this->internalRule],
-            ['id'    => $this->uniqueId],
+            ['id' => $this->uniqueId],
         );
     }
 
     public function htmlInput(?string $rule = null, ?string $name = null, bool $formatted = false): string
     {
-        $rule = $rule ? $this->parser->checkRule($rule) : $this->internalRule;
+        $rule = !isStrEmpty($rule) ? $this->parser->checkRule($rule) : $this->internalRule;
         $this->log("Formatted output in '{$rule}' as 'input'");
 
         return $this->formatter->htmlInput(
             ['value' => $this->val($rule), 'rule' => $rule],
             ['value' => $this->internalValue, 'rule' => $this->internalRule],
-            ['id'    => $this->uniqueId, 'name' => $name, 'formatted' => $formatted],
+            ['id' => $this->uniqueId, 'name' => $name, 'formatted' => $formatted],
         );
     }
 
@@ -310,30 +274,26 @@ abstract class AbstractType
         return $this->formatter->getList();
     }
 
-    /**
-     * @return array|string
-     */
-    public function data(bool $toString = false)
+    public function data(bool $toString = false): array|string
     {
         $data = [(string)$this->val(), $this->getRule()];
 
         return $toString ? \implode(' ', $data) : $data;
     }
 
-    /**
-     * @return $this
-     */
     public function getClone(): self
     {
         return clone $this;
     }
 
     /**
-     * @param AbstractType|string $value
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    public function compare($value, string $mode = '==', int $round = Formatter::ROUND_DEFAULT): bool
-    {
+    public function compare(
+        self|float|int|string|null|array $value,
+        string $mode = '==',
+        int $round = Formatter::ROUND_DEFAULT,
+    ): bool {
         // prepare value
         $value = $this->getValidValue($value);
 
@@ -374,38 +334,24 @@ abstract class AbstractType
         throw new Exception("{$this->type}: Undefined compare mode: {$mode}");
     }
 
-    /**
-     * @return $this
-     */
     public function setEmpty(bool $getClone = false): self
     {
         return $this->modifier(0.0, 'Set empty', $getClone);
     }
 
-    /**
-     * @param  null|AbstractType|float|int|string $value
-     * @return $this
-     */
-    public function add($value, bool $getClone = false): self
+    public function add(self|float|int|string|null|array $value, bool $getClone = false): self
     {
         return $this->customAdd($value, $getClone);
     }
 
-    /**
-     * @param  null|AbstractType|float|int|string $value
-     * @return $this
-     */
-    public function subtract($value, bool $getClone = false): self
+    public function subtract(self|float|int|string|null|array $value, bool $getClone = false): self
     {
         return $this->customAdd($value, $getClone, true);
     }
 
-    /**
-     * @return $this
-     */
     public function convert(string $newRule, bool $getClone = false): self
     {
-        if (!$newRule) {
+        if ($newRule === '') {
             $newRule = $this->internalRule;
         }
 
@@ -415,15 +361,12 @@ abstract class AbstractType
 
         if ($newRule !== $obj->internalRule) {
             $obj->internalValue = $obj->customConvert($newRule, true);
-            $obj->internalRule  = $newRule;
+            $obj->internalRule = $newRule;
         }
 
         return $obj;
     }
 
-    /**
-     * @return $this
-     */
     public function invert(bool $getClone = false): self
     {
         $logMess = 'Invert sign';
@@ -438,44 +381,29 @@ abstract class AbstractType
         return $this->modifier($newValue, $logMess, $getClone);
     }
 
-    /**
-     * @return $this
-     */
     public function positive(bool $getClone = false): self
     {
         return $this->modifier(\abs((float)$this->internalValue), 'Set positive/abs', $getClone);
     }
 
-    /**
-     * @return $this
-     */
     public function negative(bool $getClone = false): self
     {
         return $this->modifier(-1 * \abs((float)$this->internalValue), 'Set negative', $getClone);
     }
 
-    /**
-     * @return $this
-     */
     public function abs(bool $getClone = false): self
     {
         return $this->positive($getClone);
     }
 
-    /**
-     * @return $this
-     */
     public function multiply(float $number, bool $getClone = false): self
     {
         $multiplier = Parser::cleanValue($number);
-        $newValue   = $multiplier * $this->internalValue;
+        $newValue = $multiplier * $this->internalValue;
 
         return $this->modifier($newValue, "Multiply with '{$multiplier}'", $getClone);
     }
 
-    /**
-     * @return $this
-     */
     public function division(float $number, bool $getClone = false): self
     {
         $divider = Parser::cleanValue($number);
@@ -483,10 +411,7 @@ abstract class AbstractType
         return $this->modifier($this->internalValue / $divider, "Division with '{$divider}'", $getClone);
     }
 
-    /**
-     * @param AbstractType|string $value
-     */
-    public function percent($value, bool $revert = false): self
+    public function percent(self|string $value, bool $revert = false): self
     {
         $value = $this->getValidValue($value);
 
@@ -505,9 +430,6 @@ abstract class AbstractType
         return $result;
     }
 
-    /**
-     * @return $this
-     */
     public function customFunc(\Closure $function, bool $getClone = false): self
     {
         $this->log('--> Function start');
@@ -516,23 +438,16 @@ abstract class AbstractType
         return $this->modifier($this->internalValue, '<-- Function finished', $getClone);
     }
 
-    /**
-     * @param  array|float|int|string $value
-     * @return $this
-     */
-    public function set($value, bool $getClone = false): self
+    public function set(self|float|int|string|null|array $value, bool $getClone = false): self
     {
         $value = $this->getValidValue($value);
 
         $this->internalValue = $value->val();
-        $this->internalRule  = $value->getRule();
+        $this->internalRule = $value->getRule();
 
         return $this->modifier($this->internalValue, "Set new value = '{$this->dump(false)}'", $getClone);
     }
 
-    /**
-     * @return $this
-     */
     public function round(int $roundValue, string $mode = Formatter::ROUND_CLASSIC): self
     {
         $oldValue = $this->internalValue;
@@ -548,17 +463,20 @@ abstract class AbstractType
         return $this;
     }
 
-    public function getValidValue(mixed $value): self
+    public function getValidValue(self|float|int|string|null|array $value): self
     {
         if ($value instanceof self) {
             $thisClass = \strtolower(static::class);
-            $valClass  = \strtolower($value::class);
+            $valClass = \strtolower($value::class);
             if ($thisClass !== $valClass) {
                 throw new Exception("{$this->type}: No valid object type given: {$valClass}");
             }
         } else {
-            $className = static::class;
-            $value     = new $className($value, $this->getConfig());
+            /**
+             * @psalm-suppress UnsafeInstantiation
+             * @phpstan-ignore-next-line
+             */
+            $value = new static($value, $this->getConfig());
         }
 
         return $value;
@@ -577,9 +495,6 @@ abstract class AbstractType
         return "{$this->internalValue} {$this->internalRule}{$uniqueId}";
     }
 
-    /**
-     * @param string $message Some message for debugging
-     */
     public function log(string $message): void
     {
         if ($this->isDebug) {
@@ -592,9 +507,6 @@ abstract class AbstractType
         return $this->logs;
     }
 
-    /**
-     * @return $this
-     */
     public function changeRule(string $rule, array $newFormat): self
     {
         $rule = Parser::cleanRule($rule);
@@ -604,9 +516,6 @@ abstract class AbstractType
         return $this;
     }
 
-    /**
-     * @return $this
-     */
     public function addRule(string $rule, array $newFormat = []): self
     {
         $form = $this->formatter;
@@ -618,9 +527,6 @@ abstract class AbstractType
         return $this;
     }
 
-    /**
-     * @return $this
-     */
     public function removeRule(string $rule): self
     {
         $rule = Parser::cleanRule($rule);
@@ -641,10 +547,11 @@ abstract class AbstractType
     protected function getConfig(?AbstractConfig $config = null): ?AbstractConfig
     {
         $defaultConfig = AbstractConfig::getDefault($this->type);
-        $config        = $config ?: $defaultConfig;
+
+        $config ??= $defaultConfig;
 
         // Hack for getValidValue method
-        if (!$defaultConfig && $config) {
+        if ($defaultConfig === null && $config !== null) {
             AbstractConfig::registerDefault($this->type, $config);
         }
 
@@ -656,12 +563,12 @@ abstract class AbstractType
      */
     protected function customConvert(string $rule, bool $addToLog = false): float
     {
-        $from   = $this->parser->checkRule($this->internalRule);
+        $from = $this->parser->checkRule($this->internalRule);
         $target = $this->parser->checkRule($rule);
 
-        $ruleTo   = $this->formatter->get($target);
+        $ruleTo = $this->formatter->get($target);
         $ruleFrom = $this->formatter->get($from);
-        $ruleDef  = $this->formatter->get($this->default);
+        $ruleDef = $this->formatter->get($this->default);
 
         $log = "'{$from}'=>'{$target}'";
 
@@ -681,7 +588,7 @@ abstract class AbstractType
                 }
             } else {
                 $defNorm = $this->internalValue * $ruleFrom['rate'] * $ruleDef['rate'];
-                $result  = $defNorm / $ruleTo['rate'];
+                $result = $defNorm / $ruleTo['rate'];
             }
 
             if ($this->isDebug && $addToLog) {
@@ -700,12 +607,11 @@ abstract class AbstractType
         return $result;
     }
 
-    /**
-     * @param  null|AbstractType|float|int|string $value
-     * @return $this
-     */
-    protected function customAdd($value, bool $getClone = false, bool $isSubtract = false): self
-    {
+    protected function customAdd(
+        self|float|int|string|null|array $value,
+        bool $getClone = false,
+        bool $isSubtract = false,
+    ): self {
         $value = $this->getValidValue($value);
 
         $addValue = 0;
@@ -727,19 +633,16 @@ abstract class AbstractType
         }
 
         $newValue = $this->internalValue + $addValue;
-        $logMess  = ($isSubtract ? 'Subtract' : 'Add') . " '{$value->dump(false)}'";
+        $logMess = ($isSubtract ? 'Subtract' : 'Add') . " '{$value->dump(false)}'";
 
         return $this->modifier($newValue, $logMess, $getClone);
     }
 
-    /**
-     * @return $this
-     */
     protected function modifier(float $newValue, ?string $logMessage = null, bool $getClone = false): self
     {
-        // create new object
         if ($getClone) {
-            $clone                = $this->getClone();
+            $clone = $this->getClone();
+
             $clone->internalValue = $newValue;
             $clone->log("{$logMessage}; New value = '{$clone->dump(false)}'");
 
@@ -750,5 +653,48 @@ abstract class AbstractType
         $this->log("{$logMessage}; New value = '{$this->dump(false)}'");
 
         return $this;
+    }
+
+    private function prepareObject(float|int|string|array $value = null, ?AbstractConfig $config = null): void
+    {
+        // $this->type = Str::class \strtolower(\str_replace(__NAMESPACE__ . '\\', '', static::class));
+        $this->type = Str::getClassName(static::class, true) ?? 'UndefinedType';
+
+        // get custom or global config
+        $config = $this->getConfig($config);
+        if ($config !== null) {
+            // debug flag (for logging)
+            $this->isDebug = $config->isDebug;
+
+            // set default rule
+            $this->default = \strtolower(\trim($config->default));
+            if (isStrEmpty($this->default)) {
+                $this->error('Default rule cannot be empty!');
+            }
+
+            // create formatter helper
+            $this->formatter = new Formatter($config->getRules(), $config->defaultParams, $this->type);
+        } else {
+            $this->formatter = new Formatter();
+        }
+
+        // check that default rule
+        $rules = $this->formatter->getList(true);
+        if (!\array_key_exists($this->default, $rules) || \count($rules) === 0) {
+            throw new Exception("{$this->type}: Default rule not found!");
+        }
+
+        // create parser helper
+        $this->parser = new Parser($this->default, $rules);
+
+        // parse data
+        [$this->internalValue, $this->internalRule] = $this->parser->parse($value);
+
+        // count unique id
+        self::$counter++;
+        $this->uniqueId = self::$counter;
+
+        // success log
+        $this->log("Id={$this->uniqueId} has just created; dump='{$this->dump(false)}'");
     }
 }

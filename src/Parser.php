@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace JBZoo\SimpleTypes;
 
+use function JBZoo\Utils\isStrEmpty;
+
 final class Parser
 {
     private string $default = '';
@@ -57,7 +59,7 @@ final class Parser
         $value = self::cleanValue($value);
         $rule  = $this->checkRule($rule);
 
-        if ($forceRule) {
+        if (!isStrEmpty($forceRule)) {
             $rule = $forceRule;
         }
 
@@ -73,7 +75,7 @@ final class Parser
     {
         $cleanRule = self::cleanRule($rule);
 
-        if (!$cleanRule) {
+        if (isStrEmpty($cleanRule)) {
             return $this->default;
         }
 
@@ -106,7 +108,7 @@ final class Parser
 
         $result = (string)\preg_replace('#[^0-9-+eE,.]#', '', $result);
 
-        if (!\preg_match('#\d[eE][-+]\d#', $result)) { // remove exponential format
+        if (\preg_match('#\d[eE][-+]\d#', $result) === 0) { // TODO: Remove exponential format
             $result = \str_replace(['e', 'E'], '', $result);
         }
 
