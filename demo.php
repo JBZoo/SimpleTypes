@@ -1,23 +1,22 @@
 <?php
 
 /**
- * JBZoo Toolbox - SimpleTypes
+ * JBZoo Toolbox - SimpleTypes.
  *
  * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package    SimpleTypes
  * @license    MIT
  * @copyright  Copyright (C) JBZoo.com, All rights reserved.
- * @link       https://github.com/JBZoo/SimpleTypes
+ * @see        https://github.com/JBZoo/SimpleTypes
  */
 
 declare(strict_types=1);
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-use JBZoo\SimpleTypes\Config\Config;
+use JBZoo\SimpleTypes\Config\AbstractConfig;
 use JBZoo\SimpleTypes\Config\Length as ConfigLength;
 use JBZoo\SimpleTypes\Config\Money as ConfigMoney;
 use JBZoo\SimpleTypes\Config\Weight as ConfigWeight;
@@ -26,9 +25,9 @@ use JBZoo\SimpleTypes\Type\Money;
 use JBZoo\SimpleTypes\Type\Weight;
 
 // Set config object for all Money objects as default
-Config::registerDefault('money', new ConfigMoney());
-Config::registerDefault('weight', new ConfigWeight());
-Config::registerDefault('length', new ConfigLength());
+AbstractConfig::registerDefault('money', new ConfigMoney());
+AbstractConfig::registerDefault('weight', new ConfigWeight());
+AbstractConfig::registerDefault('length', new ConfigLength());
 
 // Create Money object that represents 1 EUR
 // Some different ways
@@ -69,7 +68,7 @@ $money = (new Money('4.95 usd'))
     ->division(5)                           // -$2.19
     ->multiply(10)                          // -$21.90
     ->convert('eur')                        // -10.95€ (For easy understanding we use 1 EUR = 2 USD)
-    ->customFunc(function (Money $value) {  // custom handler
+    ->customFunc(static function (Money $value): void {  // custom handler
         $value
             ->add(new Money('600 rub'))     // 1.05€ (1 EUR = 50 RUB)
             ->add('-500%');                 // -4.2€
@@ -81,7 +80,7 @@ $history = $money->logs();
 echo $money->dump();
 
 /**
- * You will see something like that
+ * You will see something like that.
  *
  * Array
  * (

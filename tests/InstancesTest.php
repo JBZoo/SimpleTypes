@@ -1,44 +1,44 @@
 <?php
 
 /**
- * JBZoo Toolbox - SimpleTypes
+ * JBZoo Toolbox - SimpleTypes.
  *
  * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package    SimpleTypes
  * @license    MIT
  * @copyright  Copyright (C) JBZoo.com, All rights reserved.
- * @link       https://github.com/JBZoo/SimpleTypes
+ * @see        https://github.com/JBZoo/SimpleTypes
  */
 
 declare(strict_types=1);
 
 namespace JBZoo\PHPUnit;
 
-use JBZoo\SimpleTypes\Config\Config;
+use JBZoo\PHPUnit\Fixture\AbstractConfigTestEmpty;
+use JBZoo\SimpleTypes\Config\AbstractConfig;
 use JBZoo\SimpleTypes\Type\AbstractType;
 
-/**
- * Class InstancesTest
- * @package JBZoo\SimpleTypes
- */
-class InstancesTest extends PHPUnit
+final class InstancesTest extends PHPUnit
 {
-    public function testCreateTypes()
+    public function testCreateTypes(): int
     {
-        $config = new ConfigTestEmpty();
-        $files = scandir(realpath(__DIR__ . '/../src/Type'));
+        $config = new AbstractConfigTestEmpty();
+        $files  = \scandir(\realpath(__DIR__ . '/../src/Type'));
 
         $count = 0;
 
         foreach ($files as $file) {
-            if ($file === '.' || $file === '..' || strpos($file, '.php') === false || $file === 'AbstractType.php') {
+            if ($file === '.'
+                || $file === '..'
+                || $file === 'AbstractType.php'
+                || !\str_contains($file, '.php')
+            ) {
                 continue;
             }
 
-            $className = '\\JBZoo\\SimpleTypes\\Type\\' . ucfirst(str_replace('.php', '', $file));
+            $className = '\\JBZoo\\SimpleTypes\\Type\\' . \str_replace('.php', '', $file);
 
             $obj = new $className('', $config);
 
@@ -53,22 +53,25 @@ class InstancesTest extends PHPUnit
     /**
      * @depends testCreateTypes
      */
-    public function testCreateConfigs($typeCount)
+    public function testCreateConfigs(int $typeCount): void
     {
-        $files = scandir(realpath(__DIR__ . '/../src/Config'));
+        $files = \scandir(\realpath(__DIR__ . '/../src/Config'));
 
         $count = 0;
 
         foreach ($files as $file) {
-            if ($file === '.' || $file === '..' || strpos($file,
-                    '.php') === false || strtolower($file) === 'config.php') {
+            if ($file === '.'
+                || $file === '..'
+                || $file === 'AbstractConfig.php'
+                || !\str_contains($file, '.php')
+            ) {
                 continue;
             }
 
-            $className = '\\JBZoo\\SimpleTypes\\Config\\' . ucfirst(str_replace('.php', '', $file));
+            $className = '\\JBZoo\\SimpleTypes\\Config\\' . \str_replace('.php', '', $file);
 
             $obj = new $className();
-            isClass(Config::class, $obj);
+            isClass(AbstractConfig::class, $obj);
 
             $count++;
         }

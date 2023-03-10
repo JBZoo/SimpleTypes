@@ -1,29 +1,24 @@
 <?php
 
 /**
- * JBZoo Toolbox - SimpleTypes
+ * JBZoo Toolbox - SimpleTypes.
  *
  * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package    SimpleTypes
  * @license    MIT
  * @copyright  Copyright (C) JBZoo.com, All rights reserved.
- * @link       https://github.com/JBZoo/SimpleTypes
+ * @see        https://github.com/JBZoo/SimpleTypes
  */
 
 declare(strict_types=1);
 
 namespace JBZoo\PHPUnit;
 
-/**
- * Class ConverterTest
- * @package JBZoo\PHPUnit
- */
-class ConverterTest extends PHPUnit
+final class ConverterTest extends PHPUnit
 {
-    public function testCheckExists()
+    public function testCheckExists(): void
     {
         batchEqualDumps([
             ['1 eur', val('1')->dump(false)], // eur is default
@@ -35,35 +30,33 @@ class ConverterTest extends PHPUnit
         ]);
     }
 
-    public function testSimple()
+    public function testSimple(): void
     {
         $val = val('1.25 usd');
 
-        isBatch([
-            [0.625, $val->val('eur')],
-            [1.25, $val->val('usd')],
-            ['0.625 eur', $val->convert('eur')->dump(false)],
-            ['1.25 usd', $val->convert('usd')->dump(false)],
-            ['12500 byr', $val->convert('byr')->dump(false)],
-            ['31.25 rub', $val->convert('rub')->dump(false)],
-            ['0.625 eur', $val->convert('eur')->dump(false)],
-            ['1.25 usd', $val->convert('usd')->dump(false)],
-            ['1.25 usd', $val->convert('usd')->dump(false)],
-        ]);
+        isSame(0.625, $val->val('eur'));
+        isSame(1.25, $val->val('usd'));
+        isSame('0.625 eur', $val->convert('eur')->dump(false));
+        isSame('1.25 usd', $val->convert('usd')->dump(false));
+        isSame('12500 byr', $val->convert('byr')->dump(false));
+        isSame('31.25 rub', $val->convert('rub')->dump(false));
+        isSame('0.625 eur', $val->convert('eur')->dump(false));
+        isSame('1.25 usd', $val->convert('usd')->dump(false));
+        isSame('1.25 usd', $val->convert('usd')->dump(false));
     }
 
-    public function testUndefinedRuleSilent()
+    public function testUndefinedRuleSilent(): void
     {
-        is('1.25 eur', val('1.25 qwe')->dump(false));
+        isSame('1.25 eur', val('1.25 qwe')->dump(false));
     }
 
-    public function testUndefinedRuleFatal()
+    public function testUndefinedRuleFatal(): void
     {
         $this->expectException(\JBZoo\SimpleTypes\Exception::class);
         val('1.25 usd')->convert('qwerty');
     }
 
-    public function testEmptyRule()
+    public function testEmptyRule(): void
     {
         is(true, val('1.25 usd')->convert('')->isRule('usd'));
         is(true, val('1.25 usd')->convert('', true)->isRule('usd'));

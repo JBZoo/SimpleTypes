@@ -1,29 +1,24 @@
 <?php
 
 /**
- * JBZoo Toolbox - SimpleTypes
+ * JBZoo Toolbox - SimpleTypes.
  *
  * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package    SimpleTypes
  * @license    MIT
  * @copyright  Copyright (C) JBZoo.com, All rights reserved.
- * @link       https://github.com/JBZoo/SimpleTypes
+ * @see        https://github.com/JBZoo/SimpleTypes
  */
 
 declare(strict_types=1);
 
 namespace JBZoo\PHPUnit;
 
-/**
- * Class ParserTest
- * @package JBZoo\SimpleTypes
- */
-class ParserTest extends PHPUnit
+final class ParserTest extends PHPUnit
 {
-    public function testEmpty()
+    public function testEmpty(): void
     {
         $empty = '0 eur';
 
@@ -49,11 +44,11 @@ class ParserTest extends PHPUnit
             [$empty, [null, null]],
             [$empty, [0]],
             [$empty, [0, '']],
-            [$empty, [0, ""]],
+            [$empty, [0, '']],
         ]);
     }
 
-    public function testSimple()
+    public function testSimple(): void
     {
         batchEqualDumps([
             // int
@@ -76,7 +71,7 @@ class ParserTest extends PHPUnit
         ]);
     }
 
-    public function testRule()
+    public function testRule(): void
     {
         batchEqualDumps([
             ['0 eur', 'eur'],
@@ -99,7 +94,7 @@ class ParserTest extends PHPUnit
         ]);
     }
 
-    public function testRound()
+    public function testRound(): void
     {
         batchEqualDumps([
             ['0.1 eur', '.1'],
@@ -118,7 +113,7 @@ class ParserTest extends PHPUnit
         ]);
     }
 
-    public function testComplex()
+    public function testComplex(): void
     {
         batchEqualDumps([
             ['-123.456 usd', ' - 1 2 3 . 4 5 6 usd '],
@@ -130,7 +125,7 @@ class ParserTest extends PHPUnit
         ]);
     }
 
-    public function testUndefinedRule()
+    public function testUndefinedRule(): void
     {
         isTrue(val('1 undefined')->isRule('eur'));
     }

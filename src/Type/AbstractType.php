@@ -1,30 +1,30 @@
 <?php
 
 /**
- * JBZoo Toolbox - SimpleTypes
+ * JBZoo Toolbox - SimpleTypes.
  *
  * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package    SimpleTypes
  * @license    MIT
  * @copyright  Copyright (C) JBZoo.com, All rights reserved.
- * @link       https://github.com/JBZoo/SimpleTypes
+ * @see        https://github.com/JBZoo/SimpleTypes
  */
 
 declare(strict_types=1);
 
 namespace JBZoo\SimpleTypes\Type;
 
-use JBZoo\SimpleTypes\Config\Config;
+use JBZoo\SimpleTypes\Config\AbstractConfig;
 use JBZoo\SimpleTypes\Exception;
 use JBZoo\SimpleTypes\Formatter;
 use JBZoo\SimpleTypes\Parser;
+use JBZoo\Utils\Str;
+
+use function JBZoo\Utils\isStrEmpty;
 
 /**
- * Class AbstractType
- *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  * @SuppressWarnings(PHPMD.TooManyMethods)
  * @SuppressWarnings(PHPMD.ExcessivePublicCount)
@@ -32,333 +32,268 @@ use JBZoo\SimpleTypes\Parser;
  *
  * @property string $value
  * @property string $rule
- *
- * @package JBZoo\SimpleTypes\Type
  */
 abstract class AbstractType
 {
-    /**
-     * @var int
-     */
-    protected int $uniqueId = 0;
-
-    /**
-     * @var string
-     */
-    protected string $type = '';
-
-    /**
-     * @var float|int
-     */
-    protected $internalValue = 0;
-
-    /**
-     * @var string
-     */
-    protected $internalRule = '';
-
-    /**
-     * @var string
-     */
-    protected string $default = '';
-
-    /**
-     * @var Parser
-     */
-    protected Parser $parser;
-
-    /**
-     * @var Formatter
-     */
-    protected Formatter $formatter;
-
-    /**
-     * @var array
-     */
-    protected array $logs = [];
-
-    /**
-     * @var bool
-     */
-    protected bool $isDebug = false;
-
-    /**
-     * @var int
-     */
     protected static int $counter = 0;
 
-    /**
-     * @param string|float|int|null $value
-     * @param Config|null           $config
-     */
-    public function __construct($value = null, Config $config = null)
+    protected int       $uniqueId      = 0;
+    protected string    $type          = '';
+    protected float|int $internalValue = 0;
+    protected string    $internalRule  = '';
+    protected string    $default       = '';
+    protected array     $logs          = [];
+    protected bool      $isDebug       = false;
+    protected Parser    $parser;
+    protected Formatter $formatter;
+
+    public function __construct(float|int|string|array $value = null, ?AbstractConfig $config = null)
     {
-        $this->type = \strtolower(\str_replace(__NAMESPACE__ . '\\', '', \get_class($this)));
+        $this->prepareObject($value, $config);
+    }
 
-        // get custom or global config
-        if ($config = $this->getConfig($config)) {
-            // debug flag (for logging)
-            $this->isDebug = $config->isDebug;
+    /**
+     * @psalm-suppress MethodSignatureMustProvideReturnType
+     */
+    public function __toString()
+    {
+        $this->log('__toString() called');
 
-            // set default rule
-            $this->default = \strtolower(\trim($config->default));
-            if (!$this->default) {
-                $this->error('Default rule cannot be empty!');
+        return $this->text();
+    }
+
+    /**
+     * Serialize.
+     * @return array
+     */
+    public function __sleep()
+    {
+        $result   = [];
+        $reflect  = new \ReflectionClass($this);
+        $propList = $reflect->getProperties();
+
+        foreach ($propList as $prop) {
+            if ($prop->isStatic()) {
+                continue;
             }
-
-            // create formatter helper
-            $this->formatter = new Formatter($config->getRules(), $config->defaultParams, $this->type);
-        } else {
-            $this->formatter = new Formatter();
+            $result[] = $prop->name;
         }
 
-        // check that default rule
-        $rules = $this->formatter->getList(true);
-        if (!$rules || !\array_key_exists($this->default, $rules)) {
-            throw new Exception("{$this->type}: Default rule not found!");
-        }
+        $this->log('Serialized');
 
-        // create parser helper
-        $this->parser = new Parser($this->default, $rules);
+        return $result;
+    }
 
-        // parse data
-        [$this->internalValue, $this->internalRule] = $this->parser->parse($value);
+    /**
+     * Wake up after serialize.
+     */
+    public function __wakeup(): void
+    {
+        $this->log('--> wakeup start');
+        $this->prepareObject($this->dump(false));
+        $this->log('<-- Wakeup finish');
+    }
 
-        // count unique id
+    /**
+     * Clone object.
+     */
+    public function __clone()
+    {
         self::$counter++;
+        $recentId       = $this->uniqueId;
         $this->uniqueId = self::$counter;
 
-        // success log
-        $this->log("Id={$this->uniqueId} has just created; dump='{$this->dump(false)}'");
+        $this->log(
+            "Cloned from id='{$recentId}' and created new with id='{$this->uniqueId}'; dump=" . $this->dump(false),
+        );
     }
 
     /**
-     * @param Config|null $config
-     * @return Config|null
+     * @return float|string
      */
-    protected function getConfig(?Config $config = null): ?Config
+    public function __get(string $name)
     {
-        $defaultConfig = Config::getDefault($this->type);
-        $config = $config ?: $defaultConfig;
+        $name = \strtolower($name);
 
-        // Hack for getValidValue method
-        if (!$defaultConfig && $config) {
-            Config::registerDefault($this->type, $config);
+        if ($name === 'value') {
+            return $this->val();
         }
 
-        return $config;
+        if ($name === 'rule') {
+            return $this->getRule();
+        }
+
+        throw new Exception("{$this->type}: Undefined __get() called: '{$name}'");
     }
 
     /**
-     * @return int
+     * @noinspection MagicMethodsValidityInspection
      */
+    public function __set(string $name, mixed $value): void
+    {
+        if ($name === 'value') {
+            $this->set([$value]);
+        } elseif ($name === 'rule') {
+            $this->convert($value);
+        } else {
+            throw new Exception("{$this->type}: Undefined __set() called: '{$name}' = '{$value}'");
+        }
+    }
+
+    /**
+     * Experimental! Methods aliases.
+     * @deprecated
+     */
+    public function __call(string $name, array $arguments): mixed
+    {
+        $name = \strtolower($name);
+        if ($name === 'value') {
+            return \call_user_func_array([$this, 'val'], $arguments);
+        }
+
+        if ($name === 'plus') {
+            return \call_user_func_array([$this, 'add'], $arguments);
+        }
+
+        if ($name === 'minus') {
+            return \call_user_func_array([$this, 'subtract'], $arguments);
+        }
+
+        throw new Exception("{$this->type}: Called undefined method: '{$name}'");
+    }
+
+    public function __invoke(): self
+    {
+        $args         = \func_get_args();
+        $argsCount    = \count($args);
+        $shortArgList = 1;
+        $fullArgList  = 2;
+
+        if ($argsCount === 0) {
+            $this->error('Undefined arguments');
+        } elseif ($argsCount === $shortArgList) {
+            $rules = $this->formatter->getList();
+
+            if (\array_key_exists($args[0], $rules)) {
+                return $this->convert($args[0]);
+            }
+
+            return $this->set($args[0]);
+        } elseif ($argsCount === $fullArgList) {
+            return $this->set([$args[0], $args[1]]);
+        }
+
+        throw new Exception("{$this->type}: Too many arguments");
+    }
+
     public function getId(): int
     {
         return $this->uniqueId;
     }
 
-    /**
-     * @param string|null $rule
-     * @return float
-     */
     public function val(?string $rule = null): float
     {
         $rule = Parser::cleanRule($rule);
 
-        if ($rule && $rule !== $this->internalRule) {
+        if ($rule !== $this->internalRule && !isStrEmpty($rule)) {
             return $this->customConvert($rule);
         }
 
         return $this->internalValue;
     }
 
-    /**
-     * @param string|null $rule
-     * @return string
-     */
     public function text(?string $rule = null): string
     {
-        $rule = $rule ? $this->parser->checkRule($rule) : $this->internalRule;
+        $rule = !isStrEmpty($rule) ? $this->parser->checkRule($rule) : $this->internalRule;
         $this->log("Formatted output in '{$rule}' as 'text'");
 
         return $this->formatter->text($this->val($rule), $rule);
     }
 
-    /**
-     * @param string|null $rule
-     * @return string
-     */
     public function noStyle(?string $rule = null): string
     {
-        $rule = $rule ? $this->parser->checkRule($rule) : $this->internalRule;
+        $rule = !isStrEmpty($rule) ? $this->parser->checkRule($rule) : $this->internalRule;
         $this->log("Formatted output in '{$rule}' as 'noStyle'");
 
         return $this->formatter->text($this->val($rule), $rule, false);
     }
 
-    /**
-     * @param string|null $rule
-     * @return string
-     */
     public function html(?string $rule = null): string
     {
-        $rule = $rule ? $this->parser->checkRule($rule) : $this->internalRule;
+        $rule = !isStrEmpty($rule) ? $this->parser->checkRule($rule) : $this->internalRule;
         $this->log("Formatted output in '{$rule}' as 'html'");
 
         return $this->formatter->html(
             ['value' => $this->val($rule), 'rule' => $rule],
             ['value' => $this->internalValue, 'rule' => $this->internalRule],
-            ['id' => $this->uniqueId]
+            ['id'    => $this->uniqueId],
         );
     }
 
-    /**
-     * @param string|null $rule
-     * @param string|null $name
-     * @param bool        $formatted
-     * @return string
-     */
     public function htmlInput(?string $rule = null, ?string $name = null, bool $formatted = false): string
     {
-        $rule = $rule ? $this->parser->checkRule($rule) : $this->internalRule;
+        $rule = !isStrEmpty($rule) ? $this->parser->checkRule($rule) : $this->internalRule;
         $this->log("Formatted output in '{$rule}' as 'input'");
 
         return $this->formatter->htmlInput(
             ['value' => $this->val($rule), 'rule' => $rule],
             ['value' => $this->internalValue, 'rule' => $this->internalRule],
-            ['id' => $this->uniqueId, 'name' => $name, 'formatted' => $formatted]
+            ['id'    => $this->uniqueId, 'name' => $name, 'formatted' => $formatted],
         );
     }
 
-    /**
-     * @param string $rule
-     * @return bool
-     */
     public function isRule(string $rule): bool
     {
         $rule = $this->parser->checkRule($rule);
+
         return $rule === $this->internalRule;
     }
 
-    /**
-     * @return string
-     */
     public function getRule(): string
     {
         return $this->internalRule;
     }
 
-    /**
-     * @return bool
-     */
     public function isEmpty(): bool
     {
         return (float)$this->internalValue === 0.0;
     }
 
-    /**
-     * @return bool
-     */
     public function isPositive(): bool
     {
         return $this->internalValue > 0;
     }
 
-    /**
-     * @return bool
-     */
     public function isNegative(): bool
     {
         return $this->internalValue < 0;
     }
 
-    /**
-     * @return array
-     */
     public function getRules(): array
     {
         return $this->formatter->getList();
     }
 
-    /**
-     * @param bool $toString
-     * @return array|string
-     */
-    public function data(bool $toString = false)
+    public function data(bool $toString = false): array|string
     {
         $data = [(string)$this->val(), $this->getRule()];
+
         return $toString ? \implode(' ', $data) : $data;
     }
 
-    /**
-     * @return $this
-     */
     public function getClone(): self
     {
-        return clone($this);
+        return clone $this;
     }
 
     /**
-     * @param string $rule
-     * @param bool   $addToLog
-     * @return float
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
-    protected function customConvert(string $rule, bool $addToLog = false): float
-    {
-        $from = $this->parser->checkRule($this->internalRule);
-        $target = $this->parser->checkRule($rule);
-
-        $ruleTo = $this->formatter->get($target);
-        $ruleFrom = $this->formatter->get($from);
-        $ruleDef = $this->formatter->get($this->default);
-
-        $log = "'{$from}'=>'{$target}'";
-
-        $result = $this->internalValue;
-        if ($from !== $target) {
-            if (\is_callable($ruleTo['rate']) || \is_callable($ruleFrom['rate'])) {
-                if (\is_callable($ruleFrom['rate'])) {
-                    $defNorm = $ruleFrom['rate']($this->internalValue, $this->default, $from);
-                } else {
-                    $defNorm = $this->internalValue * $ruleFrom['rate'] * $ruleDef['rate'];
-                }
-
-                if (\is_callable($ruleTo['rate'])) {
-                    $result = $ruleTo['rate']($defNorm, $target, $this->default);
-                } else {
-                    $result = $defNorm / $ruleTo['rate'];
-                }
-            } else {
-                $defNorm = $this->internalValue * $ruleFrom['rate'] * $ruleDef['rate'];
-                $result = $defNorm / $ruleTo['rate'];
-            }
-
-            if ($this->isDebug && $addToLog) {
-                $message = [
-                    "Converted {$log};",
-                    "New value = {$result} {$target};",
-                    \is_callable($ruleTo['rate']) ? "func({$from})" : "{$ruleTo['rate']} {$from}",
-                    '=',
-                    \is_callable($ruleFrom['rate']) ? "func({$target})" : "{$ruleFrom['rate']} {$target}",
-                ];
-
-                $this->log(\implode(' ', $message));
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * @param AbstractType|string $value
-     * @param string              $mode
-     * @param int                 $round
-     * @return bool
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     */
-    public function compare($value, string $mode = '==', int $round = Formatter::ROUND_DEFAULT): bool
-    {
+    public function compare(
+        self|float|int|string|null|array $value,
+        string $mode = '==',
+        int $round = Formatter::ROUND_DEFAULT,
+    ): bool {
         // prepare value
         $value = $this->getValidValue($value);
 
@@ -369,7 +304,7 @@ abstract class AbstractType
         $val2 = \round($value->val($this->internalRule), $round);
 
         $this->log(
-            "Compared '{$this->dump(false)}' {$mode} '{$value->dump(false)}' // {$val1} {$mode} {$val2}, r={$round}"
+            "Compared '{$this->dump(false)}' {$mode} '{$value->dump(false)}' // {$val1} {$mode} {$val2}, r={$round}",
         );
 
         if ($mode === '==') {
@@ -399,62 +334,39 @@ abstract class AbstractType
         throw new Exception("{$this->type}: Undefined compare mode: {$mode}");
     }
 
-    /**
-     * @param bool $getClone
-     * @return $this
-     */
     public function setEmpty(bool $getClone = false): self
     {
         return $this->modifier(0.0, 'Set empty', $getClone);
     }
 
-    /**
-     * @param AbstractType|string|float|int|null $value
-     * @param bool                               $getClone
-     * @return $this
-     */
-    public function add($value, bool $getClone = false): self
+    public function add(self|float|int|string|null|array $value, bool $getClone = false): self
     {
         return $this->customAdd($value, $getClone);
     }
 
-    /**
-     * @param AbstractType|string|float|int|null $value
-     * @param bool                               $getClone
-     * @return $this
-     */
-    public function subtract($value, bool $getClone = false): self
+    public function subtract(self|float|int|string|null|array $value, bool $getClone = false): self
     {
         return $this->customAdd($value, $getClone, true);
     }
 
-    /**
-     * @param string $newRule
-     * @param bool   $getClone
-     * @return $this
-     */
     public function convert(string $newRule, bool $getClone = false): self
     {
-        if (!$newRule) {
+        if ($newRule === '') {
             $newRule = $this->internalRule;
         }
 
         $newRule = $this->parser->checkRule($newRule);
 
-        $obj = $getClone ? clone($this) : $this;
+        $obj = $getClone ? clone $this : $this;
 
         if ($newRule !== $obj->internalRule) {
             $obj->internalValue = $obj->customConvert($newRule, true);
-            $obj->internalRule = $newRule;
+            $obj->internalRule  = $newRule;
         }
 
         return $obj;
     }
 
-    /**
-     * @param bool $getClone
-     * @return $this
-     */
     public function invert(bool $getClone = false): self
     {
         $logMess = 'Invert sign';
@@ -469,51 +381,29 @@ abstract class AbstractType
         return $this->modifier($newValue, $logMess, $getClone);
     }
 
-    /**
-     * @param bool $getClone
-     * @return $this
-     */
     public function positive(bool $getClone = false): self
     {
         return $this->modifier(\abs((float)$this->internalValue), 'Set positive/abs', $getClone);
     }
 
-    /**
-     * @param bool $getClone
-     * @return $this
-     */
     public function negative(bool $getClone = false): self
     {
         return $this->modifier(-1 * \abs((float)$this->internalValue), 'Set negative', $getClone);
     }
 
-    /**
-     * @param bool $getClone
-     * @return $this
-     */
     public function abs(bool $getClone = false): self
     {
         return $this->positive($getClone);
     }
 
-    /**
-     * @param float $number
-     * @param bool  $getClone
-     * @return $this
-     */
     public function multiply(float $number, bool $getClone = false): self
     {
         $multiplier = Parser::cleanValue($number);
-        $newValue = $multiplier * $this->internalValue;
+        $newValue   = $multiplier * $this->internalValue;
 
         return $this->modifier($newValue, "Multiply with '{$multiplier}'", $getClone);
     }
 
-    /**
-     * @param float $number
-     * @param bool  $getClone
-     * @return $this
-     */
     public function division(float $number, bool $getClone = false): self
     {
         $divider = Parser::cleanValue($number);
@@ -521,12 +411,7 @@ abstract class AbstractType
         return $this->modifier($this->internalValue / $divider, "Division with '{$divider}'", $getClone);
     }
 
-    /**
-     * @param AbstractType|string $value
-     * @param bool                $revert
-     * @return AbstractType
-     */
-    public function percent($value, bool $revert = false): self
+    public function percent(self|string $value, bool $revert = false): self
     {
         $value = $this->getValidValue($value);
 
@@ -545,11 +430,6 @@ abstract class AbstractType
         return $result;
     }
 
-    /**
-     * @param \Closure $function
-     * @param bool     $getClone
-     * @return $this
-     */
     public function customFunc(\Closure $function, bool $getClone = false): self
     {
         $this->log('--> Function start');
@@ -558,29 +438,180 @@ abstract class AbstractType
         return $this->modifier($this->internalValue, '<-- Function finished', $getClone);
     }
 
-    /**
-     * @param array|string|float|int $value
-     * @param bool                   $getClone
-     * @return $this
-     */
-    public function set($value, bool $getClone = false): self
+    public function set(self|float|int|string|null|array $value, bool $getClone = false): self
     {
         $value = $this->getValidValue($value);
 
         $this->internalValue = $value->val();
-        $this->internalRule = $value->getRule();
+        $this->internalRule  = $value->getRule();
 
         return $this->modifier($this->internalValue, "Set new value = '{$this->dump(false)}'", $getClone);
     }
 
-    /**
-     * @param AbstractType|string|float|int|null $value
-     * @param bool                               $getClone
-     * @param bool                               $isSubtract
-     * @return $this
-     */
-    protected function customAdd($value, bool $getClone = false, bool $isSubtract = false): self
+    public function round(int $roundValue, string $mode = Formatter::ROUND_CLASSIC): self
     {
+        $oldValue = $this->internalValue;
+        $newValue = $this->formatter->round($this->internalValue, $this->internalRule, [
+            'roundValue' => $roundValue,
+            'roundType'  => $mode,
+        ]);
+
+        $this->log("Rounded (size={$roundValue}; type={$mode}) '{$oldValue}' => {$newValue}");
+
+        $this->internalValue = $newValue;
+
+        return $this;
+    }
+
+    public function getValidValue(self|float|int|string|null|array $value): self
+    {
+        if ($value instanceof self) {
+            $thisClass = \strtolower(static::class);
+            $valClass  = \strtolower($value::class);
+            if ($thisClass !== $valClass) {
+                throw new Exception("{$this->type}: No valid object type given: {$valClass}");
+            }
+        } else {
+            /**
+             * @psalm-suppress UnsafeInstantiation
+             * @phpstan-ignore-next-line
+             */
+            $value = new static($value, $this->getConfig());
+        }
+
+        return $value;
+    }
+
+    public function error(string $message): void
+    {
+        $this->log($message);
+        throw new Exception("{$this->type}: {$message}");
+    }
+
+    public function dump(bool $showId = true): string
+    {
+        $uniqueId = $showId ? "; id={$this->uniqueId}" : '';
+
+        return "{$this->internalValue} {$this->internalRule}{$uniqueId}";
+    }
+
+    public function log(string $message): void
+    {
+        if ($this->isDebug) {
+            $this->logs[] = $message;
+        }
+    }
+
+    public function logs(): array
+    {
+        return $this->logs;
+    }
+
+    public function changeRule(string $rule, array $newFormat): self
+    {
+        $rule = Parser::cleanRule($rule);
+        $this->formatter->changeRule($rule, $newFormat);
+        $this->log("The rule '{$rule}' changed");
+
+        return $this;
+    }
+
+    public function addRule(string $rule, array $newFormat = []): self
+    {
+        $form = $this->formatter;
+        $rule = Parser::cleanRule($rule);
+        $form->addRule($rule, $newFormat);
+        $this->parser->addRule($rule);
+        $this->log("The rule '{$rule}' added");
+
+        return $this;
+    }
+
+    public function removeRule(string $rule): self
+    {
+        $rule = Parser::cleanRule($rule);
+        $this->formatter->removeRule($rule);
+        $this->parser->removeRule($rule);
+        $this->log("The rule '{$rule}' removed");
+
+        return $this;
+    }
+
+    public function getRuleData(string $rule): array
+    {
+        $rule = Parser::cleanRule($rule);
+
+        return $this->formatter->get($rule);
+    }
+
+    protected function getConfig(?AbstractConfig $config = null): ?AbstractConfig
+    {
+        $defaultConfig = AbstractConfig::getDefault($this->type);
+
+        $config ??= $defaultConfig;
+
+        // Hack for getValidValue method
+        if ($defaultConfig === null && $config !== null) {
+            AbstractConfig::registerDefault($this->type, $config);
+        }
+
+        return $config;
+    }
+
+    /**
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     */
+    protected function customConvert(string $rule, bool $addToLog = false): float
+    {
+        $from   = $this->parser->checkRule($this->internalRule);
+        $target = $this->parser->checkRule($rule);
+
+        $ruleTo   = $this->formatter->get($target);
+        $ruleFrom = $this->formatter->get($from);
+        $ruleDef  = $this->formatter->get($this->default);
+
+        $log = "'{$from}'=>'{$target}'";
+
+        $result = $this->internalValue;
+        if ($from !== $target) {
+            if (\is_callable($ruleTo['rate']) || \is_callable($ruleFrom['rate'])) {
+                if (\is_callable($ruleFrom['rate'])) {
+                    $defNorm = $ruleFrom['rate']($this->internalValue, $this->default, $from);
+                } else {
+                    $defNorm = $this->internalValue * $ruleFrom['rate'] * $ruleDef['rate'];
+                }
+
+                if (\is_callable($ruleTo['rate'])) {
+                    $result = $ruleTo['rate']($defNorm, $target, $this->default);
+                } else {
+                    $result = $defNorm / $ruleTo['rate'];
+                }
+            } else {
+                $defNorm = $this->internalValue * $ruleFrom['rate'] * $ruleDef['rate'];
+                $result  = $defNorm / $ruleTo['rate'];
+            }
+
+            if ($this->isDebug && $addToLog) {
+                $message = [
+                    "Converted {$log};",
+                    "New value = {$result} {$target};",
+                    \is_callable($ruleTo['rate']) ? "func({$from})" : "{$ruleTo['rate']} {$from}",
+                    '=',
+                    \is_callable($ruleFrom['rate']) ? "func({$target})" : "{$ruleFrom['rate']} {$target}",
+                ];
+
+                $this->log(\implode(' ', $message));
+            }
+        }
+
+        return $result;
+    }
+
+    protected function customAdd(
+        self|float|int|string|null|array $value,
+        bool $getClone = false,
+        bool $isSubtract = false,
+    ): self {
         $value = $this->getValidValue($value);
 
         $addValue = 0;
@@ -602,24 +633,19 @@ abstract class AbstractType
         }
 
         $newValue = $this->internalValue + $addValue;
-        $logMess = ($isSubtract ? 'Subtract' : 'Add') . " '{$value->dump(false)}'";
+        $logMess  = ($isSubtract ? 'Subtract' : 'Add') . " '{$value->dump(false)}'";
 
         return $this->modifier($newValue, $logMess, $getClone);
     }
 
-    /**
-     * @param float       $newValue
-     * @param string|null $logMessage
-     * @param bool        $getClone
-     * @return $this
-     */
     protected function modifier(float $newValue, ?string $logMessage = null, bool $getClone = false): self
     {
-        // create new object
         if ($getClone) {
             $clone = $this->getClone();
+
             $clone->internalValue = $newValue;
             $clone->log("{$logMessage}; New value = '{$clone->dump(false)}'");
+
             return $clone;
         }
 
@@ -629,274 +655,46 @@ abstract class AbstractType
         return $this;
     }
 
-    /**
-     * @param int    $roundValue
-     * @param string $mode
-     * @return $this
-     */
-    public function round(int $roundValue, string $mode = Formatter::ROUND_CLASSIC): self
+    private function prepareObject(float|int|string|array $value = null, ?AbstractConfig $config = null): void
     {
-        $oldValue = $this->internalValue;
-        $newValue = $this->formatter->round($this->internalValue, $this->internalRule, [
-            'roundValue' => $roundValue,
-            'roundType'  => $mode,
-        ]);
+        // $this->type = Str::class \strtolower(\str_replace(__NAMESPACE__ . '\\', '', static::class));
+        $this->type = Str::getClassName(static::class, true) ?? 'UndefinedType';
 
-        $this->log("Rounded (size={$roundValue}; type={$mode}) '{$oldValue}' => {$newValue}");
+        // get custom or global config
+        $config = $this->getConfig($config);
+        if ($config !== null) {
+            // debug flag (for logging)
+            $this->isDebug = $config->isDebug;
 
-        $this->internalValue = $newValue;
-
-        return $this;
-    }
-
-    /**
-     * @param mixed $value
-     * @return AbstractType
-     */
-    public function getValidValue($value): self
-    {
-        if ($value instanceof self) {
-            $thisClass = \strtolower(\get_class($this));
-            $valClass = \strtolower(\get_class($value));
-            if ($thisClass !== $valClass) {
-                throw new Exception("{$this->type}: No valid object type given: {$valClass}");
+            // set default rule
+            $this->default = \strtolower(\trim($config->default));
+            if (isStrEmpty($this->default)) {
+                $this->error('Default rule cannot be empty!');
             }
+
+            // create formatter helper
+            $this->formatter = new Formatter($config->getRules(), $config->defaultParams, $this->type);
         } else {
-            $className = \get_class($this);
-            $value = new $className($value, $this->getConfig());
+            $this->formatter = new Formatter();
         }
 
-        return $value;
-    }
-
-    /**
-     * @param string $message
-     */
-    public function error(string $message): void
-    {
-        $this->log($message);
-        throw new Exception("{$this->type}: {$message}");
-    }
-
-    /**
-     * @param bool $showId
-     * @return string
-     */
-    public function dump(bool $showId = true): string
-    {
-        $uniqueId = $showId ? "; id={$this->uniqueId}" : '';
-        return "{$this->internalValue} {$this->internalRule}{$uniqueId}";
-    }
-
-    /**
-     * @param string $message Some message for debugging
-     */
-    public function log(string $message): void
-    {
-        if ($this->isDebug) {
-            $this->logs[] = $message;
-        }
-    }
-
-    /**
-     * @return array
-     */
-    public function logs(): array
-    {
-        return $this->logs;
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        $this->log('__toString() called');
-        return $this->text();
-    }
-
-    /**
-     * Serialize
-     * @return array
-     */
-    public function __sleep()
-    {
-        $result = [];
-        $reflect = new \ReflectionClass($this);
-        $propList = $reflect->getProperties();
-
-        foreach ($propList as $prop) {
-            if ($prop->isStatic()) {
-                continue;
-            }
-            $result[] = $prop->name;
+        // check that default rule
+        $rules = $this->formatter->getList(true);
+        if (!\array_key_exists($this->default, $rules) || \count($rules) === 0) {
+            throw new Exception("{$this->type}: Default rule not found!");
         }
 
-        $this->log('Serialized');
+        // create parser helper
+        $this->parser = new Parser($this->default, $rules);
 
-        return $result;
-    }
+        // parse data
+        [$this->internalValue, $this->internalRule] = $this->parser->parse($value);
 
-    /**
-     * Wake up after serialize
-     */
-    public function __wakeup()
-    {
-        $this->log('--> wakeup start');
-        $this->__construct($this->dump(false));
-        $this->log('<-- Wakeup finish');
-    }
-
-    /**
-     * Clone object
-     */
-    public function __clone()
-    {
+        // count unique id
         self::$counter++;
-
-        $oldId = $this->uniqueId;
         $this->uniqueId = self::$counter;
 
-        $this->log("Cloned from id='{$oldId}' and created new with id='{$this->uniqueId}'; dump=" . $this->dump(false));
-    }
-
-    /**
-     * @param string $name
-     * @return float|string
-     */
-    public function __get(string $name)
-    {
-        $name = \strtolower($name);
-
-        if ($name === 'value') {
-            return $this->val();
-        }
-
-        if ($name === 'rule') {
-            return $this->getRule();
-        }
-
-        throw new Exception("{$this->type}: Undefined __get() called: '{$name}'");
-    }
-
-    /**
-     * @param string $name
-     * @param string $value
-     * @noinspection MagicMethodsValidityInspection
-     */
-    public function __set(string $name, $value): void
-    {
-        if ($name === 'value') {
-            $this->set([$value]);
-        } elseif ($name === 'rule') {
-            $this->convert($value);
-        } else {
-            throw new Exception("{$this->type}: Undefined __set() called: '{$name}' = '{$value}'");
-        }
-    }
-
-    /**
-     * Experimental! Methods aliases
-     * @param string $name
-     * @param array  $arguments
-     * @return $this|float
-     */
-    public function __call(string $name, array $arguments)
-    {
-        $name = \strtolower($name);
-        if ($name === 'value') {
-            return \call_user_func_array([$this, 'val'], $arguments);
-        }
-
-        if ($name === 'plus') {
-            return \call_user_func_array([$this, 'add'], $arguments);
-        }
-
-        if ($name === 'minus') {
-            return \call_user_func_array([$this, 'subtract'], $arguments);
-        }
-
-        throw new Exception("{$this->type}: Called undefined method: '{$name}'");
-    }
-
-    /**
-     * @return $this
-     */
-    public function __invoke(): self
-    {
-        $args = \func_get_args();
-        $argsCount = \count($args);
-        $shortArgList = 1;
-        $fullArgList = 2;
-
-        if ($argsCount === 0) {
-            $this->error('Undefined arguments');
-        } elseif ($argsCount === $shortArgList) {
-            $rules = $this->formatter->getList();
-
-            if (\array_key_exists($args[0], $rules)) {
-                return $this->convert($args[0]);
-            }
-
-            return $this->set($args[0]);
-        } elseif ($argsCount === $fullArgList) {
-            return $this->set([$args[0], $args[1]]);
-        }
-
-        throw new Exception("{$this->type}: Too many arguments");
-    }
-
-    /**
-     * @param string $rule
-     * @param array  $newFormat
-     * @return $this
-     */
-    public function changeRule(string $rule, array $newFormat): self
-    {
-        $rule = Parser::cleanRule($rule);
-        $this->formatter->changeRule($rule, $newFormat);
-        $this->log("The rule '{$rule}' changed");
-
-        return $this;
-    }
-
-    /**
-     * @param string $rule
-     * @param array  $newFormat
-     * @return $this
-     */
-    public function addRule(string $rule, array $newFormat = []): self
-    {
-        $form = $this->formatter;
-        $rule = Parser::cleanRule($rule);
-        $form->addRule($rule, $newFormat);
-        $this->parser->addRule($rule);
-        $this->log("The rule '{$rule}' added");
-
-        return $this;
-    }
-
-    /**
-     * @param string $rule
-     * @return $this
-     */
-    public function removeRule(string $rule): self
-    {
-        $rule = Parser::cleanRule($rule);
-        $this->formatter->removeRule($rule);
-        $this->parser->removeRule($rule);
-        $this->log("The rule '{$rule}' removed");
-
-        return $this;
-    }
-
-    /**
-     * @param string $rule
-     * @return array
-     */
-    public function getRuleData(string $rule): array
-    {
-        $rule = Parser::cleanRule($rule);
-        return $this->formatter->get($rule);
+        // success log
+        $this->log("Id={$this->uniqueId} has just created; dump='{$this->dump(false)}'");
     }
 }

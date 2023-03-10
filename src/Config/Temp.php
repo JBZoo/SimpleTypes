@@ -1,38 +1,30 @@
 <?php
 
 /**
- * JBZoo Toolbox - SimpleTypes
+ * JBZoo Toolbox - SimpleTypes.
  *
  * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package    SimpleTypes
  * @license    MIT
  * @copyright  Copyright (C) JBZoo.com, All rights reserved.
- * @link       https://github.com/JBZoo/SimpleTypes
+ * @see        https://github.com/JBZoo/SimpleTypes
  */
 
 declare(strict_types=1);
 
 namespace JBZoo\SimpleTypes\Config;
 
-/**
- * Class Temp
- * @package JBZoo\SimpleTypes\Config
- */
-class Temp extends Config
+final class Temp extends AbstractConfig
 {
-    /**
-     * Set default
-     */
     public function __construct()
     {
         $this->default = 'k';
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function getRules(): array
     {
@@ -85,9 +77,7 @@ class Temp extends Config
             // Kelvin
             'K' => [
                 'symbol' => 'K',
-                'rate'   => static function (float $value): float {
-                    return $value;
-                },
+                'rate'   => static fn (float $value): float => $value,
             ],
         ];
     }

@@ -1,13 +1,25 @@
 {
-    "name"         : "jbzoo/simpletypes",
-    "type"         : "library",
-    "description"  : "The universal PHP library to convert any values and measures",
-    "license"      : "MIT",
-    "keywords"     : [
-        "converter", "acceleration", "area", "degree", "info", "length", "money", "number", "pressure", "speed",
-        "temperature", "time", "volume", "weight"
+    "name"              : "jbzoo/simpletypes",
+    "type"              : "library",
+    "description"       : "The universal PHP library to convert any values and measures",
+    "license"           : "MIT",
+    "keywords"          : [
+        "converter",
+        "acceleration",
+        "area",
+        "degree",
+        "info",
+        "length",
+        "money",
+        "number",
+        "pressure",
+        "speed",
+        "temperature",
+        "time",
+        "volume",
+        "weight"
     ],
-    "authors"      : [
+    "authors"           : [
         {
             "name"  : "Denis Smetannikov",
             "email" : "admin@jbzoo.com",
@@ -15,35 +27,37 @@
         }
     ],
 
-    "require"      : {
-        "php" : ">=7.4"
+    "minimum-stability" : "dev",
+    "prefer-stable"     : true,
+
+    "require"           : {
+        "php"         : "^8.1",
+        "jbzoo/utils" : "7.x-dev"
     },
 
-    "require-dev"  : {
-        "jbzoo/toolbox-dev" : "^4.0.1"
+    "require-dev"       : {
+        "jbzoo/toolbox-dev" : "7.x-dev"
     },
 
-    "autoload"     : {
-        "psr-4" : {
-            "JBZoo\\SimpleTypes\\" : "src"
-        }
+    "autoload"          : {
+        "psr-4" : {"JBZoo\\SimpleTypes\\" : "src"}
     },
 
-    "autoload-dev" : {
-        "classmap" : ["tests"],
-        "files"    : ["tests/phpunit-functions.php"]
+    "autoload-dev"      : {
+        "psr-4" : {"JBZoo\\PHPUnit\\" : "tests"},
+        "files" : [
+            "tests/phpunit-functions.php"
+        ]
     },
 
-    "config"       : {
+    "config"            : {
         "optimize-autoloader" : true,
-        "allow-plugins"       : {
-            "composer/package-versions-deprecated" : true
-        }
+        "allow-plugins"       : {"composer/package-versions-deprecated" : true}
     },
 
-    "extra"        : {
+    "extra"             : {
         "branch-alias" : {
-            "dev-master" : "2.x-dev"
+            "dev-master" : "7.x-dev"
         }
     }
 }

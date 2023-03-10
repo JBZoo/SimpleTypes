@@ -1,33 +1,29 @@
 <?php
 
 /**
- * JBZoo Toolbox - SimpleTypes
+ * JBZoo Toolbox - SimpleTypes.
  *
  * This file is part of the JBZoo Toolbox project.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package    SimpleTypes
  * @license    MIT
  * @copyright  Copyright (C) JBZoo.com, All rights reserved.
- * @link       https://github.com/JBZoo/SimpleTypes
+ * @see        https://github.com/JBZoo/SimpleTypes
  */
 
 declare(strict_types=1);
 
 namespace JBZoo\PHPUnit;
 
+use JBZoo\PHPUnit\Fixture\AbstractConfigTestWeight;
 use JBZoo\SimpleTypes\Config\Money as ConfigMoney;
 use JBZoo\SimpleTypes\Type\Money;
 use JBZoo\SimpleTypes\Type\Weight;
 
-/**
- * Class CalcTest
- * @package JBZoo\PHPUnit
- */
-class CalcTest extends PHPUnit
+final class CalcTest extends PHPUnit
 {
-    public function testAdd()
+    public function testAdd(): void
     {
         $val = val();
 
@@ -44,7 +40,7 @@ class CalcTest extends PHPUnit
         ]);
     }
 
-    public function testSubtract()
+    public function testSubtract(): void
     {
         $val = val();
 
@@ -61,7 +57,7 @@ class CalcTest extends PHPUnit
         ]);
     }
 
-    public function testPercentAddAndSubtract()
+    public function testPercentAddAndSubtract(): void
     {
         $val = val(100);
 
@@ -79,7 +75,7 @@ class CalcTest extends PHPUnit
         ]);
     }
 
-    public function testAddAndSubtract()
+    public function testAddAndSubtract(): void
     {
         $val = val('100 eur');
 
@@ -96,8 +92,7 @@ class CalcTest extends PHPUnit
         is('3 %', val('1%')->add('2%')->dump(false));
     }
 
-
-    public function testInvert()
+    public function testInvert(): void
     {
         $val = val('1 eur');
 
@@ -114,7 +109,7 @@ class CalcTest extends PHPUnit
         ]);
     }
 
-    public function testPositiveAndNegative()
+    public function testPositiveAndNegative(): void
     {
         $val = val('1 eur');
 
@@ -126,7 +121,7 @@ class CalcTest extends PHPUnit
         ]);
     }
 
-    public function testMultiply()
+    public function testMultiply(): void
     {
         $val = val('1 eur');
 
@@ -138,7 +133,7 @@ class CalcTest extends PHPUnit
         ]);
     }
 
-    public function testDivision()
+    public function testDivision(): void
     {
         $val = val('360 eur');
 
@@ -148,10 +143,10 @@ class CalcTest extends PHPUnit
         ]);
     }
 
-    public function testPercent()
+    public function testPercent(): void
     {
         $discountSave = val('20 eur');
-        $itemPrice = val('100 eur');
+        $itemPrice    = val('100 eur');
 
         batchEqualDumps([
             ['20 %', $discountSave->percent($itemPrice)->dump(false)],
@@ -160,18 +155,18 @@ class CalcTest extends PHPUnit
         ]);
     }
 
-    public function testFunction()
+    public function testFunction(): void
     {
         $val = val('100 eur');
 
         $val
-            ->customFunc(function ($value) {
+            ->customFunc(static function ($value): void {
                 $value
                     ->multiply(6.5)
                     ->add('55%')
                     ->negative(true);
             })
-            ->customFunc(function ($value) {
+            ->customFunc(static function ($value): void {
                 $value
                     ->add([50, 'usd'])
                     ->convert('byr');
@@ -180,7 +175,7 @@ class CalcTest extends PHPUnit
         is('20650000 byr', $val->dump(false));
     }
 
-    public function testChecks()
+    public function testChecks(): void
     {
         $val = val('-1 usd');
 
@@ -199,26 +194,26 @@ class CalcTest extends PHPUnit
         is(true, $val->isEmpty());
     }
 
-    public function testAbs()
+    public function testAbs(): void
     {
         is('1 eur', val('-1 eur')->abs()->dump(false));
         is('1 eur', val('1 eur')->abs()->dump(false));
         is('0 eur', val('0 eur')->abs()->dump(false));
     }
 
-    public function testImpossibleAdd1()
+    public function testImpossibleAdd1(): void
     {
         $this->expectException(\JBZoo\SimpleTypes\Exception::class);
 
         val('1 %')->add('1 usd');
     }
 
-    public function testNoValidTypes()
+    public function testNoValidTypes(): void
     {
         $this->expectException(\JBZoo\SimpleTypes\Exception::class);
 
-        $money = new Money('1 usd', new ConfigMoney());
-        $weight = new Weight('1 kg', new ConfigTestWeight());
+        $money  = new Money('1 usd', new ConfigMoney());
+        $weight = new Weight('1 kg', new AbstractConfigTestWeight());
         $money->add($weight);
     }
 }
