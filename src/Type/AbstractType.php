@@ -68,8 +68,8 @@ abstract class AbstractType
      */
     public function __sleep()
     {
-        $result = [];
-        $reflect = new \ReflectionClass($this);
+        $result   = [];
+        $reflect  = new \ReflectionClass($this);
         $propList = $reflect->getProperties();
 
         foreach ($propList as $prop) {
@@ -100,7 +100,7 @@ abstract class AbstractType
     public function __clone()
     {
         self::$counter++;
-        $recentId = $this->uniqueId;
+        $recentId       = $this->uniqueId;
         $this->uniqueId = self::$counter;
 
         $this->log(
@@ -164,10 +164,10 @@ abstract class AbstractType
 
     public function __invoke(): self
     {
-        $args = \func_get_args();
-        $argsCount = \count($args);
+        $args         = \func_get_args();
+        $argsCount    = \count($args);
         $shortArgList = 1;
-        $fullArgList = 2;
+        $fullArgList  = 2;
 
         if ($argsCount === 0) {
             $this->error('Undefined arguments');
@@ -226,7 +226,7 @@ abstract class AbstractType
         return $this->formatter->html(
             ['value' => $this->val($rule), 'rule' => $rule],
             ['value' => $this->internalValue, 'rule' => $this->internalRule],
-            ['id' => $this->uniqueId],
+            ['id'    => $this->uniqueId],
         );
     }
 
@@ -238,7 +238,7 @@ abstract class AbstractType
         return $this->formatter->htmlInput(
             ['value' => $this->val($rule), 'rule' => $rule],
             ['value' => $this->internalValue, 'rule' => $this->internalRule],
-            ['id' => $this->uniqueId, 'name' => $name, 'formatted' => $formatted],
+            ['id'    => $this->uniqueId, 'name' => $name, 'formatted' => $formatted],
         );
     }
 
@@ -361,7 +361,7 @@ abstract class AbstractType
 
         if ($newRule !== $obj->internalRule) {
             $obj->internalValue = $obj->customConvert($newRule, true);
-            $obj->internalRule = $newRule;
+            $obj->internalRule  = $newRule;
         }
 
         return $obj;
@@ -399,7 +399,7 @@ abstract class AbstractType
     public function multiply(float $number, bool $getClone = false): self
     {
         $multiplier = Parser::cleanValue($number);
-        $newValue = $multiplier * $this->internalValue;
+        $newValue   = $multiplier * $this->internalValue;
 
         return $this->modifier($newValue, "Multiply with '{$multiplier}'", $getClone);
     }
@@ -443,7 +443,7 @@ abstract class AbstractType
         $value = $this->getValidValue($value);
 
         $this->internalValue = $value->val();
-        $this->internalRule = $value->getRule();
+        $this->internalRule  = $value->getRule();
 
         return $this->modifier($this->internalValue, "Set new value = '{$this->dump(false)}'", $getClone);
     }
@@ -467,7 +467,7 @@ abstract class AbstractType
     {
         if ($value instanceof self) {
             $thisClass = \strtolower(static::class);
-            $valClass = \strtolower($value::class);
+            $valClass  = \strtolower($value::class);
             if ($thisClass !== $valClass) {
                 throw new Exception("{$this->type}: No valid object type given: {$valClass}");
             }
@@ -563,12 +563,12 @@ abstract class AbstractType
      */
     protected function customConvert(string $rule, bool $addToLog = false): float
     {
-        $from = $this->parser->checkRule($this->internalRule);
+        $from   = $this->parser->checkRule($this->internalRule);
         $target = $this->parser->checkRule($rule);
 
-        $ruleTo = $this->formatter->get($target);
+        $ruleTo   = $this->formatter->get($target);
         $ruleFrom = $this->formatter->get($from);
-        $ruleDef = $this->formatter->get($this->default);
+        $ruleDef  = $this->formatter->get($this->default);
 
         $log = "'{$from}'=>'{$target}'";
 
@@ -588,7 +588,7 @@ abstract class AbstractType
                 }
             } else {
                 $defNorm = $this->internalValue * $ruleFrom['rate'] * $ruleDef['rate'];
-                $result = $defNorm / $ruleTo['rate'];
+                $result  = $defNorm / $ruleTo['rate'];
             }
 
             if ($this->isDebug && $addToLog) {
@@ -633,7 +633,7 @@ abstract class AbstractType
         }
 
         $newValue = $this->internalValue + $addValue;
-        $logMess = ($isSubtract ? 'Subtract' : 'Add') . " '{$value->dump(false)}'";
+        $logMess  = ($isSubtract ? 'Subtract' : 'Add') . " '{$value->dump(false)}'";
 
         return $this->modifier($newValue, $logMess, $getClone);
     }
