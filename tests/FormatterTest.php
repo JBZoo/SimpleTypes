@@ -22,10 +22,8 @@ final class FormatterTest extends PHPUnit
     {
         $val1 = val('50000.789 usd');
 
-        isBatch([
-            ['$50 000.79', $val1->text()],
-            ['50 000.79$', $val1->changeRule('usd', ['format_positive' => '%v%s'])->text()],
-        ]);
+        isSame('$50 000.79', $val1->text());
+        isSame('50 000.79$', $val1->changeRule('usd', ['format_positive' => '%v%s'])->text());
     }
 
     public function testAdd(): void
