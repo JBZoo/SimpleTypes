@@ -47,7 +47,7 @@ abstract class AbstractType
     protected Parser    $parser;
     protected Formatter $formatter;
 
-    public function __construct(float|int|string|array $value = null, ?AbstractConfig $config = null)
+    public function __construct(float|int|string|array|null $value = null, ?AbstractConfig $config = null)
     {
         $this->prepareObject($value, $config);
     }
@@ -655,7 +655,7 @@ abstract class AbstractType
         return $this;
     }
 
-    private function prepareObject(float|int|string|array $value = null, ?AbstractConfig $config = null): void
+    private function prepareObject(float|int|string|array|null $value = null, ?AbstractConfig $config = null): void
     {
         // $this->type = Str::class \strtolower(\str_replace(__NAMESPACE__ . '\\', '', static::class));
         $this->type = Str::getClassName(static::class, true) ?? 'UndefinedType';
