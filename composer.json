@@ -32,11 +32,11 @@
 
     "require"           : {
         "php"         : "^8.1",
-        "jbzoo/utils" : "7.x-dev"
+        "jbzoo/utils" : "^7.0"
     },
 
     "require-dev"       : {
-        "jbzoo/toolbox-dev" : "7.x-dev"
+        "jbzoo/toolbox-dev" : "^7.0"
     },
 
     "autoload"          : {
@@ -45,9 +45,7 @@
 
     "autoload-dev"      : {
         "psr-4" : {"JBZoo\\PHPUnit\\" : "tests"},
-        "files" : [
-            "tests/phpunit-functions.php"
-        ]
+        "files" : ["tests/phpunit-functions.php"]
     },
 
     "config"            : {
