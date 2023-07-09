@@ -10,22 +10,7 @@
     @copyright  Copyright (C) JBZoo.com, All rights reserved.
     @see        https://github.com/JBZoo/SimpleTypes
 -->
-<phpunit bootstrap="tests/autoload.php"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         convertDeprecationsToExceptions="true"
-         executionOrder="random"
-         processIsolation="false"
-         stopOnError="false"
-         stopOnFailure="false"
-         stopOnIncomplete="false"
-         stopOnSkipped="false"
-         stopOnRisky="false"
-         verbose="true"
-         colors="true"
->
-
+<phpunit bootstrap="tests/autoload.php" colors="true">
     <testsuites>
         <testsuite name="All">
             <directory suffix="Test.php">tests</directory>
