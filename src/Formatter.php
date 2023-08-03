@@ -72,7 +72,7 @@ final class Formatter
         $result = \str_replace(
             ['%v', '%s'],
             [$data['value'], $symbol],
-            $data['template'],
+            (string)$data['template'],
         );
 
         return \trim($result);
@@ -89,7 +89,7 @@ final class Formatter
                 "<span class=\"simpleType-value\">{$data['value']}</span>",
                 "<span class=\"simpleType-symbol\">{$rData['symbol']}</span>",
             ],
-            $data['template'],
+            (string)$data['template'],
         );
 
         return '<span ' . self::htmlAttributes([
