@@ -102,7 +102,7 @@ final class Parser
         return false;
     }
 
-    public static function cleanValue(float|int|string|null $value): float
+    public static function cleanValue(null|float|int|string $value): float
     {
         $result = \trim((string)$value);
 

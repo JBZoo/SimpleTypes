@@ -140,7 +140,7 @@ final class Formatter
         $roundType  = $params['roundType'];
         $roundValue = $params['roundValue'];
 
-        if (!$roundType) {
+        if ($roundType === null) {
             $roundType = \array_key_exists('round_type', $format) ? $format['round_type'] : self::ROUND_NONE;
         }
 
