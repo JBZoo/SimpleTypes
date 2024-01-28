@@ -52,9 +52,6 @@ abstract class AbstractType
         $this->prepareObject($value, $config);
     }
 
-    /**
-     * @psalm-suppress MethodSignatureMustProvideReturnType
-     */
     public function __toString()
     {
         $this->log('__toString() called');

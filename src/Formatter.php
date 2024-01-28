@@ -16,6 +16,8 @@ declare(strict_types=1);
 
 namespace JBZoo\SimpleTypes;
 
+use function JBZoo\Utils\bool;
+
 final class Formatter
 {
     public const ROUND_DEFAULT = 8;
@@ -140,7 +142,7 @@ final class Formatter
         $roundType  = $params['roundType'];
         $roundValue = $params['roundValue'];
 
-        if (!$roundType) {
+        if (!bool($roundType)) {
             $roundType = \array_key_exists('round_type', $format) ? $format['round_type'] : self::ROUND_NONE;
         }
 
