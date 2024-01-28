@@ -47,7 +47,7 @@ abstract class AbstractType
     protected Parser    $parser;
     protected Formatter $formatter;
 
-    public function __construct(float|int|string|array|null $value = null, ?AbstractConfig $config = null)
+    public function __construct(null|array|float|int|string $value = null, ?AbstractConfig $config = null)
     {
         $this->prepareObject($value, $config);
     }
@@ -290,7 +290,7 @@ abstract class AbstractType
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      */
     public function compare(
-        self|float|int|string|null|array $value,
+        null|array|float|int|self|string $value,
         string $mode = '==',
         int $round = Formatter::ROUND_DEFAULT,
     ): bool {
@@ -339,12 +339,12 @@ abstract class AbstractType
         return $this->modifier(0.0, 'Set empty', $getClone);
     }
 
-    public function add(self|float|int|string|null|array $value, bool $getClone = false): self
+    public function add(null|array|float|int|self|string $value, bool $getClone = false): self
     {
         return $this->customAdd($value, $getClone);
     }
 
-    public function subtract(self|float|int|string|null|array $value, bool $getClone = false): self
+    public function subtract(null|array|float|int|self|string $value, bool $getClone = false): self
     {
         return $this->customAdd($value, $getClone, true);
     }
@@ -438,7 +438,7 @@ abstract class AbstractType
         return $this->modifier($this->internalValue, '<-- Function finished', $getClone);
     }
 
-    public function set(self|float|int|string|null|array $value, bool $getClone = false): self
+    public function set(null|array|float|int|self|string $value, bool $getClone = false): self
     {
         $value = $this->getValidValue($value);
 
@@ -463,7 +463,7 @@ abstract class AbstractType
         return $this;
     }
 
-    public function getValidValue(self|float|int|string|null|array $value): self
+    public function getValidValue(null|array|float|int|self|string $value): self
     {
         if ($value instanceof self) {
             $thisClass = \strtolower(static::class);
@@ -608,7 +608,7 @@ abstract class AbstractType
     }
 
     protected function customAdd(
-        self|float|int|string|null|array $value,
+        null|array|float|int|self|string $value,
         bool $getClone = false,
         bool $isSubtract = false,
     ): self {
@@ -655,7 +655,7 @@ abstract class AbstractType
         return $this;
     }
 
-    private function prepareObject(float|int|string|array|null $value = null, ?AbstractConfig $config = null): void
+    private function prepareObject(null|array|float|int|string $value = null, ?AbstractConfig $config = null): void
     {
         // $this->type = Str::class \strtolower(\str_replace(__NAMESPACE__ . '\\', '', static::class));
         $this->type = Str::getClassName(static::class, true) ?? 'UndefinedType';
