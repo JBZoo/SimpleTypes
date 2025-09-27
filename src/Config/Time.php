@@ -16,6 +16,9 @@ declare(strict_types=1);
 
 namespace JBZoo\SimpleTypes\Config;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 final class Time extends AbstractConfig
 {
     public function __construct()

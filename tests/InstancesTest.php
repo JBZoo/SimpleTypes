@@ -38,7 +38,7 @@ final class InstancesTest extends PHPUnit
                 continue;
             }
 
-            $className = '\\JBZoo\\SimpleTypes\\Type\\' . \str_replace('.php', '', $file);
+            $className = '\JBZoo\SimpleTypes\Type\\' . \str_replace('.php', '', $file);
 
             $obj = new $className('', $config);
 
@@ -68,7 +68,7 @@ final class InstancesTest extends PHPUnit
                 continue;
             }
 
-            $className = '\\JBZoo\\SimpleTypes\\Config\\' . \str_replace('.php', '', $file);
+            $className = '\JBZoo\SimpleTypes\Config\\' . \str_replace('.php', '', $file);
 
             $obj = new $className();
             isClass(AbstractConfig::class, $obj);

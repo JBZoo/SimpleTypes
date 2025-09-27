@@ -26,8 +26,8 @@ abstract class AbstractTypeTest extends PHPUnit
 
     public function val(mixed $arg = null): AbstractType
     {
-        $configName = '\\JBZoo\\SimpleTypes\\Config\\' . \ucfirst($this->type);
-        $className  = '\\JBZoo\\SimpleTypes\\Type\\' . $this->type;
+        $configName = '\JBZoo\SimpleTypes\Config\\' . \ucfirst($this->type);
+        $className  = '\JBZoo\SimpleTypes\Type\\' . $this->type;
 
         AbstractConfig::registerDefault($this->type, new $configName());
 

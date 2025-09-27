@@ -187,15 +187,11 @@ final class Formatter
         $this->rules[$rule] = \array_merge($this->default, $newFormat);
     }
 
-    public function removeRule(string $rule): bool
+    public function removeRule(string $rule): void
     {
         if (\array_key_exists($rule, $this->rules)) {
             unset($this->rules[$rule]);
-
-            return true;
         }
-
-        return false;
     }
 
     public static function htmlAttributes(array $attributes): string
