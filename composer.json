@@ -31,12 +31,12 @@
     "prefer-stable"     : true,
 
     "require"           : {
-        "php"         : "^8.1",
-        "jbzoo/utils" : "^7.1"
+        "php"         : "^8.2",
+        "jbzoo/utils" : "^7.3"
     },
 
     "require-dev"       : {
-        "jbzoo/toolbox-dev" : "^7.1"
+        "jbzoo/toolbox-dev" : "^7.2"
     },
 
     "autoload"          : {

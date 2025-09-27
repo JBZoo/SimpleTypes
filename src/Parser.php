@@ -91,18 +91,14 @@ final class Parser
         $this->rules[$newRule] = $newRule;
     }
 
-    public function removeRule(string $rule): bool
+    public function removeRule(string $rule): void
     {
         if (\array_key_exists($rule, $this->rules)) {
             unset($this->rules[$rule]);
-
-            return true;
         }
-
-        return false;
     }
 
-    public static function cleanValue(null|float|int|string $value): float
+    public static function cleanValue(float|int|string|null $value): float
     {
         $result = \trim((string)$value);
 

@@ -16,6 +16,10 @@ declare(strict_types=1);
 
 namespace JBZoo\SimpleTypes\Type;
 
+/**
+ * @psalm-suppress UnusedClass
+ * @psalm-suppress PropertyNotSetInConstructor
+ */
 final class Degree extends AbstractType
 {
     public function removeCircles(): self

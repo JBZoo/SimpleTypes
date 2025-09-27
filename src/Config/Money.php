@@ -18,6 +18,9 @@ namespace JBZoo\SimpleTypes\Config;
 
 use JBZoo\SimpleTypes\Formatter;
 
+/**
+ * @psalm-suppress UnusedClass
+ */
 final class Money extends AbstractConfig
 {
     public function __construct()
