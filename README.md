@@ -1,18 +1,36 @@
 # JBZoo / SimpleTypes
 
-[![CI](https://github.com/JBZoo/SimpleTypes/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/JBZoo/SimpleTypes/actions/workflows/main.yml?query=branch%3Amaster)    [![Coverage Status](https://coveralls.io/repos/github/JBZoo/SimpleTypes/badge.svg?branch=master)](https://coveralls.io/github/JBZoo/SimpleTypes?branch=master)    [![Psalm Coverage](https://shepherd.dev/github/JBZoo/SimpleTypes/coverage.svg)](https://shepherd.dev/github/JBZoo/SimpleTypes)    [![Psalm Level](https://shepherd.dev/github/JBZoo/SimpleTypes/level.svg)](https://shepherd.dev/github/JBZoo/SimpleTypes)    [![CodeFactor](https://www.codefactor.io/repository/github/jbzoo/simpletypes/badge)](https://www.codefactor.io/repository/github/jbzoo/simpletypes/issues)
-[![Stable Version](https://poser.pugx.org/jbzoo/simpletypes/version)](https://packagist.org/packages/jbzoo/simpletypes/)    [![Total Downloads](https://poser.pugx.org/jbzoo/simpletypes/downloads)](https://packagist.org/packages/jbzoo/simpletypes/stats)    [![Dependents](https://poser.pugx.org/jbzoo/simpletypes/dependents)](https://packagist.org/packages/jbzoo/simpletypes/dependents?order_by=downloads)    [![GitHub License](https://img.shields.io/github/license/jbzoo/simpletypes)](https://github.com/JBZoo/SimpleTypes/blob/master/LICENSE)
+[![CI](https://github.com/JBZoo/SimpleTypes/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/JBZoo/SimpleTypes/actions/workflows/main.yml?query=branch%3Amaster)
+[![Coverage Status](https://coveralls.io/repos/github/JBZoo/SimpleTypes/badge.svg?branch=master)](https://coveralls.io/github/JBZoo/SimpleTypes?branch=master)
+[![Psalm Coverage](https://shepherd.dev/github/JBZoo/SimpleTypes/coverage.svg)](https://shepherd.dev/github/JBZoo/SimpleTypes)
+[![Psalm Level](https://shepherd.dev/github/JBZoo/SimpleTypes/level.svg)](https://shepherd.dev/github/JBZoo/SimpleTypes)
+[![CodeFactor](https://www.codefactor.io/repository/github/jbzoo/simpletypes/badge)](https://www.codefactor.io/repository/github/jbzoo/simpletypes/issues)
 
+[![Stable Version](https://poser.pugx.org/jbzoo/simpletypes/version)](https://packagist.org/packages/jbzoo/simpletypes/)
+[![Total Downloads](https://poser.pugx.org/jbzoo/simpletypes/downloads)](https://packagist.org/packages/jbzoo/simpletypes/stats)
+[![Dependents](https://poser.pugx.org/jbzoo/simpletypes/dependents)](https://packagist.org/packages/jbzoo/simpletypes/dependents?order_by=downloads)
+[![GitHub License](https://img.shields.io/github/license/jbzoo/simpletypes)](LICENSE)
 
-The universal PHP library to convert any values and measures - money, weight, currency coverter, length and what ever you want ;)
+A universal PHP library for converting and manipulating values with units of measurement including money, weight, length, temperature, volume, area, and more. Features smart parsing, arithmetic operations, unit conversion, and flexible output formatting.
 
 
 ## Installation
-```
+
+```bash
 composer require jbzoo/simpletypes
 ```
 
-## Examples
+## Features
+
+- **Smart Parser**: Handles various input formats, decimal symbols, whitespace, and case variations
+- **Type System**: Built-in support for Money, Weight, Length, Temperature, Volume, Area, Time, Info, and Degree
+- **Arithmetic Operations**: Add, subtract, multiply, divide with automatic unit conversion
+- **Method Chaining**: Fluent interface for complex calculations
+- **Flexible Output**: Text, HTML, and input field rendering with customizable formatting
+- **Configuration**: Extensible configuration system for custom types and conversion rules
+- **Debug Support**: Built-in logging and debugging capabilities
+
+## Quick Start
 
 ```php
 use JBZoo\SimpleTypes\Config;
@@ -22,41 +40,43 @@ use JBZoo\SimpleTypes\ConfigMoney;
 // Set config object for all Money objects as default
 Config::registerDefault('money', new ConfigMoney());
 
-// Create any object, some different ways
+// Create objects with automatic parsing
 $money  = new Money('10 eur');
-$weight = new Weight('1000'); // Gram is default in the ConfigWeight class
+$weight = new Weight('1000'); // Gram is default unit
 $length = new Length('500 km');
-$money  = new Money('100500 usd', new ConfigMoney()); // my custom params only for that object
+$money  = new Money('100500 usd', new ConfigMoney()); // Custom configuration
 ```
 
-## A lot of types are ready to use
+## Built-in Types
 
-SimpleTypes has such ready configurations like
-  * [Area](https://github.com/JBZoo/SimpleTypes/blob/master/src/config/area.php)
-  * [Degree](https://github.com/JBZoo/SimpleTypes/blob/master/src/config/degree.php) (geometry)
-  * [Info](https://github.com/JBZoo/SimpleTypes/blob/master/src/config/info.php) (bytes, bits...)
-  * [Length](https://github.com/JBZoo/SimpleTypes/blob/master/src/config/length.php)
-  * [Money](https://github.com/JBZoo/SimpleTypes/blob/master/src/config/money.php) (Currency converter)
-  * [Temperature](https://github.com/JBZoo/SimpleTypes/blob/master/src/config/temp.php) (Kelvin, Fahrenheit, Celsius and etc)
-  * [Volume](https://github.com/JBZoo/SimpleTypes/blob/master/src/config/volume.php)
-  * [Weight](https://github.com/JBZoo/SimpleTypes/blob/master/src/config/weight.php)
+SimpleTypes comes with comprehensive configurations for common measurement types:
 
-You can add your own type. It's really easy. See this page below.
+- **[Area](src/config/area.php)** - Square meters, feet, acres, hectares, etc.
+- **[Degree](src/config/degree.php)** - Angular measurements (degrees, radians)
+- **[Info](src/config/info.php)** - Digital storage (bytes, KB, MB, GB, TB)
+- **[Length](src/config/length.php)** - Meters, feet, miles, kilometers, etc.
+- **[Money](src/config/money.php)** - Currency conversion and formatting
+- **[Temperature](src/config/temp.php)** - Celsius, Fahrenheit, Kelvin, Rankine
+- **[Time](src/config/time.php)** - Seconds, minutes, hours, days, etc.
+- **[Volume](src/config/volume.php)** - Liters, gallons, cubic meters, etc.
+- **[Weight](src/config/weight.php)** - Grams, kilograms, pounds, ounces, etc.
 
-### Smart and useful parser
+Custom types can be easily created by extending the base configuration classes.
 
-SimpleTypes has really smart parser for all input values.
-It can find number, understand any decimal symbols, trim, letter cases, e.t.c...
-and it works really fast!
+## Smart Parser
+
+The parser automatically handles various input formats and edge cases:
 
 ```php
-$money = new Money(' - 1 2 3 , 4 5 6 rub ');    // Equals -123.456 rubles
-$money = new Money('1.0e+18 EUR ');             // Really huge number. I'm rich! =)
-$money = new Money('  EuR 3,50   ');
-$money = new Money('usd');                      // Just object with usd rule
+$money = new Money(' - 1 2 3 , 4 5 6 rub ');    // Parses to -123.456 rubles
+$money = new Money('1.0e+18 EUR ');             // Scientific notation support
+$money = new Money('  EuR 3,50   ');            // Case insensitive, handles whitespace
+$money = new Money('usd');                      // Creates zero-value USD object
 ```
 
-### Chaining method calls
+## Method Chaining
+
+Perform complex calculations with fluent interface:
 ```php
 $value = (new Money('4.95 usd'))
     ->add('10 usd')                         // $14.95
@@ -74,43 +94,43 @@ $value = (new Money('4.95 usd'))
     ->abs();                                // 4.2€
 ```
 
-## Basic arithmetic
-Different ways to use basic arithmetic
+## Arithmetic Operations
+
+Multiple ways to perform calculations:
 ```php
-// example #1
+// Using objects
 $usd = new Money('10 usd');
 $usd->add(new Money('10 eur'));
 
-// example #2
+// Method chaining
 $usd = (new Money('10 usd'))->add(new Money('10 eur'));
 
-// example #3
+// String input with automatic parsing
 $usd->add('10 eur');
 
-// example #4
-$usd->add('10'); // eur is default in the ConfigMoney
+// Using default unit from configuration
+$usd->add('10');
 
-// example #5
+// Array format
 $usd->add(['10', 'eur']);
 ```
 
-SimpleTypes can
- * add
- * subtract
- * division
- * multiply
- * use custom functions (Closure)
- * negative / positibe / invert sign / abs
- * use percent
- * setting empty value
- * setting another value and rule
- * create clone
- * converting to any rules (currencies, units)
- * rounding
- * comparing
- * ... and others
+**Supported Operations:**
+- Addition and subtraction with automatic unit conversion
+- Multiplication and division
+- Custom functions via closures
+- Sign operations (negative, positive, absolute value)
+- Percentage calculations
+- Value and unit modifications
+- Object cloning
+- Unit/currency conversion
+- Rounding and formatting
+- Comparison operations
+- Serialization support
 
-## Compare values
+## Value Comparison
+
+Compare values with automatic unit conversion:
 
 ```php
 $kg = new Weight('1 kg'); // one kilogram
@@ -124,7 +144,7 @@ var_dump($kg->compare($lb, '>'));       // true
 var_dump($kg->compare($lb, '>='));      // true
 ```
 
-And same examples but we will use smart parser
+Using string input with smart parsing:
 ```php
 $kg = new Weight('1 kg');
 $lb = new Weight('2 lb');
@@ -137,8 +157,9 @@ var_dump($kg->compare('2 lb', '>'));    // true
 var_dump($kg->compare('2 lb', '>='));   // true
 ```
 
-## Percent method
-Simple way for count difference between two values
+## Percentage Calculations
+
+Calculate percentage differences between values:
 ```php
 $origPrice = new Money('100 usd');
 $realPrice = new Money('40 eur');
@@ -150,9 +171,9 @@ $discount = $realPrice->percent($origPrice, true); // revert flag added
 echo $discount->text(); // 20%
 ```
 
-## PHP magic methods
+## Magic Methods
 
-Safe serialize/unserialize
+**Serialization Support:**
 ```php
 $valBefore = $this->val('500 usd');
 $valString = serialize($valBefore);
@@ -160,37 +181,38 @@ $valAfter  = unserialize($valString)->convert('eur');
 $valBefore->compare($valAfter);// true
 ```
 
-__toString() works like text() method
+**String Conversion:**
 ```php
 $val = $this->val('500 usd');
 echo $val; // "$500.00"
 ```
 
-__invoke()
+**Object Invocation:**
 ```php
 $val = $this->val('10 eur');
-// it's converting
-$val('usd'); // so object now contains "20 usd" (1 eur = 2 usd)
-// set new value and rule
+// Convert to different currency
+$val('usd'); // Converts to USD using exchange rates
+// Set new value and currency
 $val('100 rub');
 $val('100', 'uah');
 ```
 
-## Different ways for output and rendering
-### Only text
+## Output Formatting
+
+### Text Output
 
 ```php
 $value = new Money('-50.666666 usd');
 echo $value->text();            // "-$50.67"
-echo $value->text('rub');       // "-1 266,67 руб." (output without changing inner state)
-echo $value->noStyle('rub');    // "-1 266,67" (without symbol)
+echo $value->text('rub');       // "-1 266,67 руб." (convert for display only)
+echo $value->noStyle('rub');    // "-1 266,67" (number without currency symbol)
 ```
 
-### Simple HTML rendering
+### HTML Output
 ```php
-echo (new Money('-50.666666 usd'))->html('rub'); // render HTML, useful for JavaScript
+echo (new Money('-50.666666 usd'))->html('rub'); // HTML with data attributes for JavaScript
 ```
-Output (warping added just for clarity)
+Generated HTML (formatted for readability):
 ```php
 <span
     class="simpleType simpleType-block simpleType-money"
@@ -204,11 +226,11 @@ Output (warping added just for clarity)
 </span>
 ```
 
-### HTML Input type[text]
+### HTML Input Fields
 ```php
 echo $value->htmlInput('rub', 'input-name-attr');
 ```
-Output (warping added just for clarity)
+Generated HTML (formatted for readability):
 ```html
 <input
     value="-1 266,67"
@@ -223,101 +245,86 @@ Output (warping added just for clarity)
 />
 ```
 
-**Notice:** Yes, we added a lot of data-attributes in the HTML code. It will be useful for JavaScript and converting without reload a page.
+**Note:** The HTML output includes extensive data attributes to enable client-side JavaScript operations without server round-trips.
 
 
-## Configuration of type
+## Custom Configuration
 
-All configuration classes should be extended from Config class
-For example, config for information
+Create custom types by extending the base configuration class. Here's an example for digital storage:
 ```php
 /**
- * Class ConfigInfo
- * @package JBZoo\SimpleTypes
+ * Example: Digital storage configuration
  */
 class ConfigInfo extends Config
 {
-    /**
-     * SimpleTypes uses it for converting and while parsing undefined values
-     * @var string
-     */
+    // Default unit for parsing
     public $default = 'byte';
 
-    /**
-     * To collect or not to collect logs for each object (need additional memory a little bit)
-     * @var bool
-     */
+    // Enable debug logging
     public $isDebug = true;
 
-    /**
-     * Array of converting rules and output format
-     * return array
-     */
+    // Define conversion rules and formatting
     public function getRules()
     {
-        // key of array is alias for parser
-        return array(
-            'byte' => array(
-                'rate' => 1 // Because 1 byte to byte is 1 =)))
-            ),
+        return [
+            'byte' => [
+                'rate' => 1 // Base unit
+            ],
 
-            'kb'   => array(
-                'symbol'          => 'KB',                     // symbol for output (->text(), ->html(), ...)
-                'round_type'      => Formatter::ROUND_CLASSIC, // classic, float, ceil, none
-                'round_value'     => Formatter::ROUND_DEFAULT, // Count of valuable number after decimal point for any arithmetic actions
-                'num_decimals'    => '2',       // Sets the number of decimal points
-                'decimal_sep'     => '.',       // Sets the separator for the decimal point.
-                'thousands_sep'   => ' ',       // Sets the thousands separator.
-                'format_positive' => '%v %s',   // %v - replace to rounded and formated (number_format()) value
-                'format_negative' => '-%v %s',  // %s - replace to symbol
-                'rate'            => 1024,      // How many bytes (default measure) in the 1 KB ?
-            ),
+            'kb' => [
+                'symbol'          => 'KB',                     // Display symbol
+                'round_type'      => Formatter::ROUND_CLASSIC, // Rounding method
+                'round_value'     => Formatter::ROUND_DEFAULT, // Decimal precision
+                'num_decimals'    => '2',                      // Decimal places
+                'decimal_sep'     => '.',                      // Decimal separator
+                'thousands_sep'   => ' ',                      // Thousands separator
+                'format_positive' => '%v %s',                  // Positive format (%v=value, %s=symbol)
+                'format_negative' => '-%v %s',                 // Negative format
+                'rate'            => 1024,                     // Conversion rate from base unit
+            ],
 
-            'mb'   => array( // Other params gets from $this->defaultParams variable
+            'mb' => [
                 'symbol' => 'MB',
                 'rate'   => 1024 * 1024,
-            ),
+            ],
 
-            'gb'   => array( // Other params gets from $this->defaultParams variable
+            'gb' => [
                 'symbol' => 'GB',
                 'rate'   => 1024 * 1024 * 1024,
-            ),
+            ],
 
-            'bit'  => array(
+            'bit' => [
                 'symbol' => 'Bit',
-                'rate'   => function ($value, $to) { // Custom callback function for difficult conversion
-                    if ($to == 'bit') {
-                         return $value * 8;
-                    }
-                    return $value / 8;
+                'rate'   => function ($value, $to) { // Custom conversion function
+                    return ($to === 'bit') ? $value * 8 : $value / 8;
                 },
-            ),
-        );
+            ],
+        ];
     }
 }
 ```
 
-Usage example for our information type
+### Using Custom Configuration
 ```php
-// create config object
+// Create configuration instance
 $config = new ConfigInfo();
 
-// you can register default config for all info-objects,
+// Register as default for all Info objects
 Config::registerDefault('info', $config);
 $info1 = new Info('700 MB');
 $info2 = new Info('1.4 GB');
 
-// or add config object manually
+// Or pass configuration directly
 $info1 = new Info('700 MB', $config);
 $info2 = new Info('1.4 GB', $config);
 
-// Well... some calculations
+// Perform calculations
 echo $info2->subtract($info1)->dump() . PHP_EOL;
 echo $info2->convert('mb')->dump() . PHP_EOL;
 print_r($info2->logs());
 ```
 
-Output
+**Output:**
 ```
 0.71640625 gb; id=4
 733.6 mb; id=4
@@ -329,8 +336,11 @@ Array
 )
 ```
 
-### Debug information
-Show list of all actions with object. For example, this is history for chaining code
+## Debug and Introspection
+
+### Operation History
+
+Track all operations performed on an object:
 ```php
 print_r($value->logs());
 
@@ -354,24 +364,32 @@ print_r($value->logs());
  */
 ```
 
-Show real inner data without any formating and rounding. ID is unique number for SimpleType objects.
+### Internal State
+
+Access raw internal data without formatting:
 ```php
 echo $value->dump(); // "4.2 eur; id=19"
 ```
 
-Get object id
+### Object Identification
 ```php
 echo $value->getId(); // "19"
 ```
-Show current value
+### Value Access
 ```php
 echo $value->val(); // "4.2"
 ```
 
-Show current rule
+### Unit Access
 ```php
 echo $value->rule(); // "eur"
 ```
 
+## Requirements
+
+- PHP 8.2 or higher
+- jbzoo/utils ^7.3
+
 ## License
-MIT
+
+MIT License. See [LICENSE](LICENSE) file for details.
