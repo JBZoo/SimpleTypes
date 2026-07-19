@@ -50,9 +50,7 @@ final class InstancesTest extends PHPUnit
         return $count;
     }
 
-    /**
-     * @depends testCreateTypes
-     */
+    #[\PHPUnit\Framework\Attributes\Depends('testCreateTypes')]
     public function testCreateConfigs(int $typeCount): void
     {
         $files = \scandir(\realpath(__DIR__ . '/../src/Config'));

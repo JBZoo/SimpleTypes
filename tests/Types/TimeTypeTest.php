@@ -18,7 +18,7 @@ namespace JBZoo\PHPUnit\Types;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class TimeTypeTest extends AbstractTypeTest
+final class TimeTypeTest extends AbstractTypeTestCase
 {
     protected string $type = 'Time';
 

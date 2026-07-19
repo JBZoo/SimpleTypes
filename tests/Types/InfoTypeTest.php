@@ -19,7 +19,7 @@ namespace JBZoo\PHPUnit\Types;
 use function JBZoo\PHPUnit\isSame;
 use function JBZoo\PHPUnit\isTrue;
 
-final class InfoTypeTest extends AbstractTypeTest
+final class InfoTypeTest extends AbstractTypeTestCase
 {
     protected string $type = 'Info';
 

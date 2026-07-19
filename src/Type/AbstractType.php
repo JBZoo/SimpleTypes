@@ -60,34 +60,30 @@ abstract class AbstractType
     }
 
     /**
-     * Serialize.
-     * @return array
+     * Serialize the object state (modern replacement for __sleep()).
+     *
+     * The whole object graph (config, formatter, parser, ids) is rebuilt from the scalar dump
+     * on wake-up via prepareObject() - exactly as the previous __sleep()/__wakeup() pair did -
+     * so only that dump has to be stored.
+     *
+     * @return array<string, string>
      */
-    public function __sleep()
+    public function __serialize(): array
     {
-        $result   = [];
-        $reflect  = new \ReflectionClass($this);
-        $propList = $reflect->getProperties();
-
-        foreach ($propList as $prop) {
-            if ($prop->isStatic()) {
-                continue;
-            }
-            $result[] = $prop->name;
-        }
-
         $this->log('Serialized');
 
-        return $result;
+        return ['dump' => $this->dump(false)];
     }
 
     /**
-     * Wake up after serialize.
+     * Wake up after serialize (modern replacement for __wakeup()).
+     *
+     * @param array<string, string> $data
      */
-    public function __wakeup(): void
+    public function __unserialize(array $data): void
     {
         $this->log('--> wakeup start');
-        $this->prepareObject($this->dump(false));
+        $this->prepareObject($data['dump'] ?? '');
         $this->log('<-- Wakeup finish');
     }
 
@@ -140,7 +136,6 @@ abstract class AbstractType
     /**
      * Experimental! Methods aliases.
      * @deprecated
-     * @psalm-suppress PossiblyUnusedReturnValue
      */
     public function __call(string $name, array $arguments): mixed
     {
@@ -337,17 +332,11 @@ abstract class AbstractType
         return $this->modifier(0.0, 'Set empty', $getClone);
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedReturnValue
-     */
     public function add(array|float|int|self|string|null $value, bool $getClone = false): self
     {
         return $this->customAdd($value, $getClone);
     }
 
-    /**
-     * @psalm-suppress PossiblyUnusedReturnValue
-     */
     public function subtract(array|float|int|self|string|null $value, bool $getClone = false): self
     {
         return $this->customAdd($value, $getClone, true);
@@ -684,7 +673,7 @@ abstract class AbstractType
 
         // check that default rule
         $rules = $this->formatter->getList(true);
-        if (!\array_key_exists($this->default, $rules) || \count($rules) === 0) {
+        if (!\array_key_exists($this->default, $rules)) {
             throw new Exception("{$this->type}: Default rule not found!");
         }
 
