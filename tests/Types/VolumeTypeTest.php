@@ -18,7 +18,7 @@ namespace JBZoo\PHPUnit\Types;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class VolumeTypeTest extends AbstractTypeTest
+final class VolumeTypeTest extends AbstractTypeTestCase
 {
     protected string $type = 'Volume';
 

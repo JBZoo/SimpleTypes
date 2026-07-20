@@ -1,7 +1,15 @@
 # JBZoo / SimpleTypes
 
-[![CI](https://github.com/JBZoo/SimpleTypes/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/JBZoo/SimpleTypes/actions/workflows/main.yml?query=branch%3Amaster)    [![Coverage Status](https://coveralls.io/repos/github/JBZoo/SimpleTypes/badge.svg?branch=master)](https://coveralls.io/github/JBZoo/SimpleTypes?branch=master)    [![Psalm Coverage](https://shepherd.dev/github/JBZoo/SimpleTypes/coverage.svg)](https://shepherd.dev/github/JBZoo/SimpleTypes)    [![Psalm Level](https://shepherd.dev/github/JBZoo/SimpleTypes/level.svg)](https://shepherd.dev/github/JBZoo/SimpleTypes)    [![CodeFactor](https://www.codefactor.io/repository/github/jbzoo/simpletypes/badge)](https://www.codefactor.io/repository/github/jbzoo/simpletypes/issues)
-[![Stable Version](https://poser.pugx.org/jbzoo/simpletypes/version)](https://packagist.org/packages/jbzoo/simpletypes/)    [![Total Downloads](https://poser.pugx.org/jbzoo/simpletypes/downloads)](https://packagist.org/packages/jbzoo/simpletypes/stats)    [![Dependents](https://poser.pugx.org/jbzoo/simpletypes/dependents)](https://packagist.org/packages/jbzoo/simpletypes/dependents?order_by=downloads)    [![GitHub License](https://img.shields.io/github/license/jbzoo/simpletypes)](https://github.com/JBZoo/SimpleTypes/blob/master/LICENSE)
+[![CI](https://github.com/JBZoo/SimpleTypes/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/JBZoo/SimpleTypes/actions/workflows/main.yml?query=branch%3Amaster)
+[![Coverage Status](https://coveralls.io/repos/github/JBZoo/SimpleTypes/badge.svg?branch=master)](https://coveralls.io/github/JBZoo/SimpleTypes?branch=master)
+[![Psalm Coverage](https://shepherd.dev/github/JBZoo/SimpleTypes/coverage.svg)](https://shepherd.dev/github/JBZoo/SimpleTypes)
+[![Psalm Level](https://shepherd.dev/github/JBZoo/SimpleTypes/level.svg)](https://shepherd.dev/github/JBZoo/SimpleTypes)
+[![CodeFactor](https://www.codefactor.io/repository/github/jbzoo/simpletypes/badge)](https://www.codefactor.io/repository/github/jbzoo/simpletypes/issues)
+
+[![Stable Version](https://poser.pugx.org/jbzoo/simpletypes/version)](https://packagist.org/packages/jbzoo/simpletypes/)
+[![Total Downloads](https://poser.pugx.org/jbzoo/simpletypes/downloads)](https://packagist.org/packages/jbzoo/simpletypes/stats)
+[![Dependents](https://poser.pugx.org/jbzoo/simpletypes/dependents)](https://packagist.org/packages/jbzoo/simpletypes/dependents?order_by=downloads)
+[![GitHub License](https://img.shields.io/github/license/jbzoo/simpletypes)](https://github.com/JBZoo/SimpleTypes/blob/master/LICENSE)
 
 
 
@@ -380,8 +388,8 @@ echo $value->rule(); // "eur"
 
 ## Requirements
 
-- PHP 8.2 or higher
-- jbzoo/utils ^7.3
+- PHP 8.3 or higher
+- jbzoo/utils ^8.0
 
 ## License
 

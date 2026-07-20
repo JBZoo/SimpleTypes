@@ -19,7 +19,7 @@ namespace JBZoo\PHPUnit\Types;
 use function JBZoo\PHPUnit\is;
 use function JBZoo\PHPUnit\isSame;
 
-final class DegreeTypeTest extends AbstractTypeTest
+final class DegreeTypeTest extends AbstractTypeTestCase
 {
     protected string $type = 'Degree';
 

@@ -18,7 +18,7 @@ namespace JBZoo\PHPUnit\Types;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class WeightTypeTest extends AbstractTypeTest
+final class WeightTypeTest extends AbstractTypeTestCase
 {
     protected string $type = 'Weight';
 

@@ -20,7 +20,7 @@ use JBZoo\PHPUnit\PHPUnit;
 use JBZoo\SimpleTypes\Config\AbstractConfig;
 use JBZoo\SimpleTypes\Type\AbstractType;
 
-abstract class AbstractTypeTest extends PHPUnit
+abstract class AbstractTypeTestCase extends PHPUnit
 {
     protected string $type;
 

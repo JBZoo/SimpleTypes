@@ -18,7 +18,7 @@ namespace JBZoo\PHPUnit\Types;
 
 use function JBZoo\PHPUnit\isSame;
 
-final class AreaTypeTest extends AbstractTypeTest
+final class AreaTypeTest extends AbstractTypeTestCase
 {
     protected string $type = 'Area';
 
