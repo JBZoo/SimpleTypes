@@ -388,8 +388,8 @@ echo $value->rule(); // "eur"
 
 ## Requirements
 
-- PHP 8.2 or higher
-- jbzoo/utils ^7.3
+- PHP 8.3 or higher
+- jbzoo/utils ^8.0
 
 ## License
 
